@@ -1,57 +1,100 @@
-<<<<<<< HEAD
-# WHY Landing Site – React
+# WHY Landing Site — React
 
-This is the React conversion of the WHY landing page.
+A modern React conversion of the WHY landing page, built with Vite and Tailwind CSS.
 
-## Getting Started
+## 🚀 Getting Started
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open http://localhost:5173
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-## Build for Production
+## 📦 Build for Production
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Project Structure
+## 🗂️ Project Structure
 
-```
 src/
-├── main.jsx                  # App entry point
-├── App.jsx                   # Root component — assembles all sections
-├── index.css                 # Global styles (from original style.css)
+
+├── main.jsx                        # App entry point
+
+├── App.jsx                         # Root component
+
+├── index.css                       # Global styles
+
 ├── hooks/
-│   └── useSectionFade.js     # Shared IntersectionObserver fade hook
-└── components/
-    ├── Navbar.jsx             # Sticky navbar + mobile menu
-    ├── Hero.jsx               # Hero section
-    ├── ChooseExperience.jsx   # 3-card experience section
-    ├── TrustSignals.jsx       # 4 trust signal icons
-    ├── TrustedBy.jsx          # Animated stat counters
-    ├── ParentSection.jsx      # "When parents need help" grid
-    ├── WhatIsWhy.jsx          # 3-card "What is WHY" section
-    ├── HowWhyWorks.jsx        # 5-step timeline
-    ├── WaitingSection.jsx     # Phone mockup + feature list
-    ├── Services.jsx           # 6-card services grid
-    ├── TrustSafety.jsx        # Alternating timeline safety section
-    ├── WhyDifferent.jsx       # WHY vs Others tab toggle
-    ├── CTA.jsx                # Call to action section
-    ├── StickyDownload.jsx     # Fixed right-side download widget
-    ├── Footer.jsx             # Footer with links and social icons
-    └── CookieBanner.jsx       # Cookie consent banner
-```
 
-## Notes
+│   └── useSectionFade.js           # IntersectionObserver fade hook
 
-- All Tailwind classes and CSS are preserved exactly from the original.
-- Assets live in `public/Assests/` (matching original path).
-- JavaScript logic (scroll observer, counter, tab toggle, cookie) is converted to React hooks and state.
-=======
-# why-website-front-end
->>>>>>> c5c30f496d5b7e7a7cf8f30770ea88e407f7d91e
+├── components/
+
+│   ├── Navbar.jsx                  # Sticky navbar + mobile menu
+
+│   ├── Hero.jsx                    # Hero section
+
+│   ├── ChooseExperience.jsx        # Experience selector cards
+
+│   ├── TrustSignals.jsx            # Trust signal icons
+
+│   ├── TrustedBy.jsx               # Animated stat counters
+
+│   ├── ParentSection.jsx           # Parent help grid
+
+│   ├── WhatIsWhy.jsx               # What is WHY section
+
+│   ├── HowWhyWorks.jsx             # 5-step timeline
+
+│   ├── WaitingSection.jsx          # Phone mockup + features
+
+│   ├── Services.jsx                # Services grid
+
+│   ├── TrustSafety.jsx             # Safety timeline
+
+│   ├── WhyDifferent.jsx            # WHY vs Others toggle
+
+│   ├── CTA.jsx                     # Call to action
+
+│   ├── StickyDownload.jsx          # Fixed download widget
+
+│   ├── Footer.jsx                  # Footer
+
+│   └── CookieBanner.jsx            # Cookie consent
+
+├── pages/
+
+│   └── careers/                    # Careers section pages
+
+├── services/
+
+│   ├── api.js                      # Centralized axios instance
+
+│   ├── authService.js              # Auth API calls
+
+│   ├── jobService.js               # Jobs API calls
+
+│   ├── adminService.js             # Admin API calls
+
+│   └── uploadService.js            # Resume upload API calls
+
+└── contexts/
+
+└── AuthContext.jsx             # Auth state management
+
+## 🛠️ Tech Stack
+
+- ⚛️ React + Vite
+- 🎨 Tailwind CSS
+- 🔗 Axios
+- 🔐 JWT Authentication
+
+## 📝 Notes
+
+- All assets live in `public/Assests/`
+- API base URL is configured via `.env` using `VITE_API_BASE_URL`
+- Never commit `.env` to version control
