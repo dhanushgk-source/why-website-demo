@@ -1,0 +1,704 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================
+   GOOGLE FONTS
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Work Sans', sans-serif;
+}
+
+/* =========================
+   GLOBAL UTILITIES
+========================= */
+
+.white-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* =========================
+   FADE ANIMATION
+========================= */
+
+.fade-inner {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-inner.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   LOGO BLINK
+========================= */
+
+@keyframes blinkSoft {
+  0% { opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.logo-blink {
+  animation: blinkSoft 1.2s ease-in-out;
+}
+
+/* =========================
+   FLOAT ANIMATION
+========================= */
+
+@keyframes floatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+  100% { transform: translateY(0); }
+}
+
+.scroll-float {
+  animation: floatY 2s ease-in-out infinite;
+}
+
+/* =========================
+   CARD HOVER
+========================= */
+
+.card {
+  transition: all 0.5s ease;
+}
+
+.card:hover {
+  transform: translateY(-18px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   MOVING CIRCLE
+========================= */
+
+@keyframes bounceMove {
+  0% { top: 10%; left: 10%; }
+  25% { top: 10%; left: 70%; }
+  50% { top: 60%; left: 70%; }
+  75% { top: 60%; left: 10%; }
+  100% { top: 10%; left: 10%; }
+}
+
+.moving-circle {
+  animation: bounceMove 14s linear infinite;
+}
+
+/* =========================
+   ICON SPIN
+========================= */
+
+@keyframes spiralSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(720deg); }
+}
+
+.icon-box.spin {
+  animation: spiralSpin 0.5s linear;
+}
+
+/* =========================
+   TWIST POP
+========================= */
+
+@keyframes twistPop {
+  0% { transform: rotate(0deg) scale(1); }
+  70% { transform: rotate(360deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.twist-pop:hover,
+.spiral1:hover {
+  animation: twistPop 0.7s ease;
+}
+
+/* =========================
+   FEATURE HOVER
+========================= */
+
+.feature {
+  transition: all 0.4s ease;
+}
+
+.feature:hover .icon-box {
+  transform: translateY(-10px) rotate(3deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  background: white;
+}
+
+.feature:hover .icon {
+  transform: scale(1.15);
+}
+
+/* =========================
+   PHONE ANIMATION
+========================= */
+
+.phone-animate,
+.content-animate {
+  opacity: 0;
+  transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.phone-animate {
+  transform: translateX(-80px);
+}
+
+.content-animate {
+  transform: translateX(80px);
+}
+
+.phone-animate.show,
+.content-animate.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* =========================
+   LOADING BAR
+========================= */
+
+.loading-bar {
+  width: 0%;
+  height: 8px;
+  border-radius: 9999px;
+  background: #33b5a5;
+  animation: loadRepeat 3s linear infinite;
+}
+
+@keyframes loadRepeat {
+  0% { width: 0%; }
+  60% { width: 65%; }
+  90% { width: 65%; }
+  91% { width: 0%; }
+  100% { width: 0%; }
+}
+
+/* =========================
+   STICKY DOWNLOAD WIDGET
+========================= */
+
+.sticky-download {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+}
+
+/* Widget Container */
+.download-widget {
+  width: 70px;
+  height: 260px;
+  background: linear-gradient(135deg, #27b3a6, #1e8f9d);
+  border-radius: 30px 0 0 30px;
+  box-shadow: -10px 15px 40px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  transition: width 0.45s ease;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Expand on hover (desktop) */
+.sticky-download:hover .download-widget {
+  width: 320px;
+}
+
+/* =========================
+   COLLAPSED LABEL
+========================= */
+
+.vertical-label {
+  width: 70px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  padding-left: 25%;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 2px;
+  font-size: 13px;
+}
+
+/* Hide vertical label on expand */
+.sticky-download:hover .vertical-label {
+  display: none;
+}
+
+/* =========================
+   EXPANDED CONTENT
+========================= */
+
+.expanded-content {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s ease;
+  pointer-events: none;
+  color: white;
+}
+
+.sticky-download:hover .expanded-content {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Header */
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  font-weight: 500;
+}
+
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-text h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-text span {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* Download Button */
+.download-btn {
+  width: 100%;
+  background: #ffffff;
+  color: #1e8f9d;
+  padding: 14px;
+  border-radius: 40px;
+  font-weight: 600;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Platforms */
+.platforms {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.platforms button {
+  flex: 1;
+  background: rgba(255,255,255,0.22);
+  border: none;
+  padding: 10px;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.platforms button:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+/* Trust Text */
+.trust-text {
+  font-size: 13px;
+  opacity: 0.9;
+  text-align: center;
+}
+
+/* =========================
+   MOBILE VERSION
+========================= */
+@media (max-width: 768px) {
+  .sticky-download {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .sticky-download {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    z-index: 999;
+  }
+
+  .download-widget {
+    width: 100%;
+    max-width: 480px;
+    height: 75px;
+    border-radius: 25px 25px 0 0;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    transition: height 0.4s ease;
+  }
+
+  .vertical-label {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .vertical-text {
+    writing-mode: horizontal-tb;
+    transform: none;
+    letter-spacing: 1px;
+  }
+
+  .expanded-content {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+
+  .download-widget.active {
+    height: 340px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .download-widget.active .vertical-label {
+    display: none;
+  }
+
+  .download-widget.active .expanded-content {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+/* Make cookie banner smaller on mobile */
+@media (max-width: 768px) {
+  #cookieBanner .max-w-7xl {
+    padding-top: 7px !important;
+    padding-bottom: 10px !important;
+  }
+
+  #cookieBanner strong {
+    margin-bottom: 4px !important;
+  }
+
+  #cookieBanner .flex {
+    gap: 8px !important;
+  }
+
+  #cookieBanner button {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* =========================
+   HEADER MOBILE GET APP BUTTON
+========================= */
+
+.mobile-get-app {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-get-app {
+    display: block;
+  }
+
+  .mobile-get-app-btn {
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+}
+
+/* Desktop Get App Button */
+.desktop-get-app-btn {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-get-app-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #009689, #00bfa6);
+    color: white;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 150, 137, 0.25);
+  }
+
+  .desktop-get-app-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 150, 137, 0.35);
+  }
+}
+
+
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.hero{
+  height:100vh;
+  background:#f5fbff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+.hero h1{
+  font-size:3rem;
+  color:#0d6efd;
+  margin-bottom:80px;
+}
+
+.road{
+  width:100%;
+  height:250px;
+  position:relative;
+}
+
+.scene{
+  position:absolute;
+  display:flex;
+  align-items:flex-end;
+  animation:moveAcross 12s linear infinite;
+}
+
+.nurse{
+  position:relative;
+  width:70px;
+  height:150px;
+}
+
+.head{
+  width:28px;
+  height:28px;
+  background:#ffcf9d;
+  border-radius:50%;
+  position:absolute;
+  top:0;
+  left:20px;
+}
+
+.body{
+  width:35px;
+  height:55px;
+  background:#4dabf7;
+  position:absolute;
+  top:28px;
+  left:17px;
+  border-radius:8px;
+}
+
+.arm{
+  width:55px;
+  height:8px;
+  background:#ffcf9d;
+  position:absolute;
+  top:55px;
+  left:35px;
+  transform:rotate(-10deg);
+  transform-origin:left center;
+}
+
+.leg{
+  width:8px;
+  height:55px;
+  background:#222;
+  position:absolute;
+  top:80px;
+}
+
+.left{
+  left:22px;
+  animation:walk1 .6s infinite alternate;
+}
+
+.right{
+  left:40px;
+  animation:walk2 .6s infinite alternate;
+}
+
+.wheelchair{
+  position:relative;
+  width:150px;
+  height:120px;
+}
+
+.seat{
+  width:55px;
+  height:10px;
+  background:#444;
+  position:absolute;
+  top:45px;
+  left:25px;
+}
+
+.handle{
+  width:8px;
+  height:55px;
+  background:#444;
+  position:absolute;
+  left:75px;
+  top:10px;
+}
+
+.old-person{
+  position:absolute;
+  left:18px;
+  top:0;
+}
+
+.old-head{
+  width:24px;
+  height:24px;
+  background:#ffcf9d;
+  border-radius:50%;
+}
+
+.old-body{
+  width:28px;
+  height:35px;
+  background:#999;
+  margin-top:3px;
+  border-radius:6px;
+}
+
+.wheel{
+  border:5px solid #333;
+  border-radius:50%;
+  position:absolute;
+  animation:spin .8s linear infinite;
+}
+
+.big{
+  width:60px;
+  height:60px;
+  bottom:0;
+  left:15px;
+}
+
+.small{
+  width:25px;
+  height:25px;
+  bottom:0;
+  right:10px;
+}
+
+@keyframes moveAcross{
+  from{
+    transform:translateX(-250px);
+  }
+  to{
+    transform:translateX(calc(100vw + 250px));
+  }
+}
+
+@keyframes spin{
+  from{
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes walk1{
+  from{
+    transform:rotate(-15deg);
+  }
+  to{
+    transform:rotate(15deg);
+  }
+}
+
+@keyframes walk2{
+  from{
+    transform:rotate(15deg);
+  }
+  to{
+    transform:rotate(-15deg);
+  }
+}
+
+
+.travel-animation {
+  animation: travelMove 12s linear infinite;
+}
+
+@keyframes travelMove {
+  from {
+    transform: translateX(-300px);
+  }
+  to {
+    transform: translateX(calc(100vw + 300px));
+  }
+}
+
