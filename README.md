@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # WHY Landing Site – React
 
 This is the React conversion of the WHY landing page.
@@ -51,3 +52,6 @@ src/
 - All Tailwind classes and CSS are preserved exactly from the original.
 - Assets live in `public/Assests/` (matching original path).
 - JavaScript logic (scroll observer, counter, tab toggle, cookie) is converted to React hooks and state.
+=======
+# why-website-front-end
+>>>>>>> c5c30f496d5b7e7a7cf8f30770ea88e407f7d91e
