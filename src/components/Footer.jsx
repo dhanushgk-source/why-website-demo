@@ -102,42 +102,42 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/contact" target="_blank" rel="noopener noreferrer">
+              <Link to="/contact">
                 Contact Us
               </Link>
             </li>
 
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/terms-pro" target="_blank" rel="noopener noreferrer">
+              <Link to="/terms-pro" >
                 PRO Terms & Conditions
               </Link>
             </li>
 
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/terms-user" target="_blank" rel="noopener noreferrer">
+              <Link to="/terms-user" >
                 Terms & Conditions
               </Link>
             </li>
 
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/privacy-policy-pro" target="_blank" rel="noopener noreferrer">
+              <Link to="/privacy-policy-pro">
                 Privacy Policy - PRO
               </Link>
             </li>
 
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/privacy-policy-user" target="_blank" rel="noopener noreferrer">
+              <Link to="/privacy-policy-user" >
                 Privacy Policy - USER
               </Link>
             </li>
 
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/data-deletion" target="_blank" rel="noopener noreferrer">
+              <Link to="/data-deletion" >
                 Data Deletion Policy
               </Link>
             </li>
