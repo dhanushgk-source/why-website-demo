@@ -32,7 +32,7 @@ export default function Footer() {
                   <img src="/Assests/icons/phone.svg" width="24" height="24" className="white-icon" alt="" />
                 </span>
               </div>
-              <span className="transition duration-300 group-hover:text-teal-400">+91 9148329385</span>
+              <span className="transition duration-300 group-hover:text-teal-400">+91 9036599439</span>
             </div>
 
             {/* Email */}
