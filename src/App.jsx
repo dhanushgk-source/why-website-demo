@@ -20,7 +20,7 @@ import ParentSection from "./components/ParentSection";
 import WhatIsWhy from "./components/WhatIsWhy";
 import HowWhyWorks from "./components/HowWhyWorks";
 import WaitingSection from "./components/WaitingSection";
-import Services from "./components/Services";
+import BookAnywhereInWorld from "./components/BookAnywhereInWorld"
 import TrustSafety from "./components/TrustSafety";
 import WhyDifferent from "./components/WhyDifferent";
 import CTA from "./components/CTA";
@@ -58,11 +58,11 @@ function Home() {
       <TrustSignals />
       <TrustedBy />
       <ParentSection />
-      <ProNurseCare />
+      {/*<ProNurseCare />*/}
       <TravelCompanionServices />
       <HowWhyWorks />
       <WaitingSection />
-      <Services />
+      <BookAnywhereInWorld/>
       <TrustSafety />
       <WhyDifferent />
       <CTA />

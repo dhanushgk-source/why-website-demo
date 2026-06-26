@@ -8,6 +8,13 @@ const cards = [
     title: 'For Elders & Families',
     marker: 'marker:text-[#2F4A7D]',
     items: ['Peace of mind', 'Independence', 'Dignity', 'Real humans, not apps'],
+  },{
+    bg: 'bg-teal-400',
+    shadow: 'hover:shadow-[0_0_20px_#2dd4bf]',
+    icon: '/Assests/icons/shield.svg',
+    title: "WHY's Role",
+    marker: 'marker:text-teal-400',
+    items: ['Trusted platform', 'Quality assurance', 'Admin supervision', 'Emergency ownership'],
   },
   {
     bg: 'bg-[#52B5BD]',
@@ -17,14 +24,7 @@ const cards = [
     marker: 'marker:text-[#2F4A7D]',
     items: ['Flexible income', 'Meaningful work', 'Verified experience', 'Skill growth'],
   },
-  {
-    bg: 'bg-teal-400',
-    shadow: 'hover:shadow-[0_0_20px_#2dd4bf]',
-    icon: '/Assests/icons/shield.svg',
-    title: "WHY's Role",
-    marker: 'marker:text-teal-400',
-    items: ['Trusted platform', 'Quality assurance', 'Admin supervision', 'Emergency ownership'],
-  },
+  
 ]
 
 export default function WhatIsWhy() {

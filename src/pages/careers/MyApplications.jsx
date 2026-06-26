@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { MapPin, Inbox } from "lucide-react";
 import API from "../../services/api";
 
 const statusConfig = {
@@ -38,6 +39,8 @@ export default function MyApplications() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f0f9fa] to-white">
+
+      {/* Header */}
       <div className="bg-[#2F4A7D] py-14 px-6">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-white">My Applications</h1>
@@ -48,7 +51,9 @@ export default function MyApplications() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         {applications.length === 0 ? (
           <div className="text-center py-20 text-gray-400">
-            <div className="text-5xl mb-4">📭</div>
+            <div className="flex justify-center mb-4">
+              <Inbox size={52} strokeWidth={1.5} className="text-gray-300" />
+            </div>
             <p className="text-xl font-medium text-gray-600">No applications yet</p>
             <p className="text-sm mt-2">Start applying to open positions!</p>
           </div>
@@ -57,11 +62,18 @@ export default function MyApplications() {
             {applications.map((app) => {
               const sc = statusConfig[app.status] || statusConfig.Pending;
               return (
-                <div key={app.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300">
+                <div
+                  key={app.id}
+                  className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300"
+                >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <h2 className="text-lg font-semibold text-[#2F4A7D]">{app.title}</h2>
-                      {app.location && <p className="text-gray-500 text-sm mt-1">📍 {app.location}</p>}
+                      {app.location && (
+                        <p className="text-gray-500 text-sm mt-1 flex items-center gap-1.5">
+                          <MapPin size={13} /> {app.location}
+                        </p>
+                      )}
                     </div>
                     <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold ${sc.bg} ${sc.text}`}>
                       <span className={`w-2 h-2 rounded-full ${sc.dot}`} />
@@ -74,6 +86,7 @@ export default function MyApplications() {
           </div>
         )}
       </div>
+
     </div>
   );
 }
