@@ -57,7 +57,7 @@ export default function Footer() {
                 </span>
               </div>
               <span className="transition duration-300 group-hover:text-teal-400">
-                Available in 120+ cities
+                Available in 1+ cities
               </span>
             </div>
 
