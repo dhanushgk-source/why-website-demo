@@ -2,14 +2,13 @@ import { useEffect, useRef } from 'react'
 import { useSectionFade } from '../hooks/useSectionFade'
 
 const coveredCities = [
-  'Chennai',
-  'Coimbatore',
+  'Bangalore',
 ]
 
 const statsData = [
   {
     icon: '/Assests/icons/contact.svg',
-    target: 100,
+    target: 1,
     suffix: '+',
     label: 'Verified PRO',
     shadow: 'hover:shadow-[0_0_20px_#52B5BD]',
@@ -30,7 +29,7 @@ const statsData = [
   },
   {
     icon: '/Assests/icons/heart.svg',
-    target: 500,
+    target: 0,
     suffix: '+',
     label: 'Happy Clients',
     shadow: 'hover:shadow-[0_0_20px_#E07A5F]',
@@ -38,12 +37,11 @@ const statsData = [
   },
   {
     icon: '/Assests/icons/star.svg',
-    target: 4.8,
+    target: 0,
     suffix: '/5',
     label: 'Average Rating',
     shadow: 'hover:shadow-[0_0_20px_#A6EACB]',
     bg: 'bg-brandMint',
-    static: '4.8/5',
   },
 ]
 

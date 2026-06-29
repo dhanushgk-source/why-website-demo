@@ -22,7 +22,6 @@ import HowWhyWorks from "./components/HowWhyWorks";
 import WaitingSection from "./components/WaitingSection";
 import BookAnywhereInWorld from "./components/BookAnywhereInWorld"
 import TrustSafety from "./components/TrustSafety";
-import WhyDifferent from "./components/WhyDifferent";
 import CTA from "./components/CTA";
 import ProNurseCare from "./components/ProNurseCare";
 import TravelCompanionServices from "./components/TravelCompanion";
@@ -53,8 +52,8 @@ function Home() {
   return (
     <>
       <Hero />
-      <ChooseExperience />
       <WhatIsWhy />
+      <ChooseExperience />
       <TrustSignals />
       <TrustedBy />
       <ParentSection />
@@ -64,7 +63,6 @@ function Home() {
       <WaitingSection />
       <BookAnywhereInWorld/>
       <TrustSafety />
-      <WhyDifferent />
       <CTA />
     </>
   );

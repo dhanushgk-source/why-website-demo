@@ -27,9 +27,9 @@ export default function CareWithoutBorders() {
     ];
 
     const stats = [
-        { value: "500+", label: "Caregivers" },
-        { value: "4.9★", label: "Avg rating" },
-        { value: "<15 min", label: "Booking time" },
+        { value: "1+", label: "Caregivers" },
+        { value: "4★", label: "Avg rating" },
+        { value: "<10 min", label: "Booking time" },
     ];
 
     const toPercent = (lon, lat) => ({
@@ -57,7 +57,7 @@ export default function CareWithoutBorders() {
 
                         {/* World Map */}
                         <img
-                            src="/Assests/WorldMap.png"
+                            src="/Assests/WorldMap1.png"
                             alt="World map showing caregiver connection between London and India"
                             draggable={false}
                             className="w-full h-full object-cover lg:object-contain select-none pointer-events-none"
@@ -200,11 +200,18 @@ export default function CareWithoutBorders() {
                                 <polyline points="12 5 19 12 12 19" />
                             </svg>
                         </button>
-                        <button className="inline-flex items-center justify-center gap-2
-                                           px-6 py-3.5 sm:px-8 sm:py-4
-                                           rounded-full border border-gray-200 text-gray-600
-                                           font-semibold hover:border-teal-300 hover:text-teal-700
-                                           transition-all duration-200 text-sm sm:text-base">
+                        <button
+                            onClick={() => {
+                                document
+                                    .getElementById("WHY-Works-section")
+                                    ?.scrollIntoView({ behavior: "smooth" });
+                            }}
+                            className="inline-flex items-center justify-center gap-2
+             px-6 py-3.5 sm:px-8 sm:py-4
+             rounded-full border border-gray-200 text-gray-600
+             font-semibold hover:border-teal-300 hover:text-teal-700
+             transition-all duration-200 text-sm sm:text-base"
+                        >
                             How it works
                         </button>
                     </div>
