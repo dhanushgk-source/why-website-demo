@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 
+const scrollTo = (id) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+};
+
+const scrollIds = {
+  'How it Works': 'WHY-Works-section',
+  'Safety & Trust': 'savefty-section',
+};
+
 export default function Footer() {
-  const navMap = {
-    'About Us': '/about',
-    'How it Works': '/how-it-works',
-    'Safety & Trust': '/safety',
-    'Careers': '/careers',
-    'Press': '/press',
-  };
   return (
     <footer id="footer-section" className="bg-gradient-to-b from-blue-950 to-blue-700 text-white pt-20 pb-8">
 
@@ -66,7 +68,7 @@ export default function Footer() {
         <div>
           <h4 className="text-xl font-semibold mb-6">Services</h4>
           <ul className="space-y-4 text-blue-100 text-base">
-            {['Entertainment Companions', 'Daily Companionship','Hospital Assistance',"Travel Companionship"].map((s) => (
+            {['Entertainment Companions', 'Daily Companionship', 'Hospital Assistance', 'Travel Companionship'].map((s) => (
               <li key={s} className="flex items-start gap-3 hover:text-teal-400 transition">
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
                 <span>{s}</span>
@@ -76,17 +78,27 @@ export default function Footer() {
         </div>
 
         {/* Company */}
-
-
         <div>
           <h4 className="text-xl font-semibold mb-6">Company</h4>
           <ul className="space-y-4 text-blue-100 text-base">
-            {['About Us', 'How it Works', 'Safety & Trust', 'Careers', 'Press'].map((s) => (
+            {['About Us', 'How it Works', 'Safety & Trust', 'Careers'].map((s) => (
               <li key={s} className="flex items-start gap-3 hover:text-teal-400 transition">
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-                <Link to={navMap[s]} className="hover:text-teal-400 transition">
-                  {s}
-                </Link>
+                {scrollIds[s] ? (
+                  <button
+                    onClick={() => scrollTo(scrollIds[s])}
+                    className="hover:text-teal-400 transition text-left"
+                  >
+                    {s}
+                  </button>
+                ) : (
+                  <Link
+                    to={s === 'Careers' ? '/careers' : '/'}
+                    className="hover:text-teal-400 transition"
+                  >
+                    {s}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -98,48 +110,31 @@ export default function Footer() {
           <ul className="space-y-4 text-blue-100 text-base">
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <a href="https://static.zdassets.com/ekr/snippet.js?key=452548ba-3a98-4a87-9c38-eec085354c0d" className="hover:text-teal-400 transition">Help Center</a>
+              <a href="" className="hover:text-teal-400 transition">Help Center</a>
             </li>
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/contact">
-                Contact Us
-              </Link>
+              <Link to="/contact" className="hover:text-teal-400 transition">Contact Us</Link>
             </li>
-
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/terms-pro" >
-                PRO Terms & Conditions
-              </Link>
+              <Link to="/terms-pro" className="hover:text-teal-400 transition">PRO Terms & Conditions</Link>
             </li>
-
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/terms-user" >
-                Terms & Conditions
-              </Link>
+              <Link to="/terms-user" className="hover:text-teal-400 transition">Terms & Conditions</Link>
             </li>
-
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/privacy-policy-pro">
-                Privacy Policy - PRO
-              </Link>
+              <Link to="/privacy-policy-pro" className="hover:text-teal-400 transition">Privacy Policy - PRO</Link>
             </li>
-
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/privacy-policy-user" >
-                Privacy Policy - USER
-              </Link>
+              <Link to="/privacy-policy-user" className="hover:text-teal-400 transition">Privacy Policy - USER</Link>
             </li>
-
             <li className="flex items-start gap-3 hover:text-teal-400 transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#6ED3C8]"></span>
-              <Link to="/data-deletion" >
-                Data Deletion Policy
-              </Link>
+              <Link to="/data-deletion" className="hover:text-teal-400 transition">Data Deletion Policy</Link>
             </li>
           </ul>
         </div>
@@ -150,7 +145,6 @@ export default function Footer() {
       <div className="border-t border-blue-500/30 mt-14 pt-6">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
 
-          {/* Left Text */}
           <p className="text-blue-200 text-sm text-center md:text-left">
             © 2026 WHY – We Help You. All rights reserved.
             Made with{' '}
@@ -158,45 +152,23 @@ export default function Footer() {
             for everyone.
           </p>
 
-          {/* Social Icons */}
           <div className="flex items-center gap-5">
-
-            <a
-              href="https://www.facebook.com/share/1Dij6aGamA/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer"
-            >
+            <a href="https://www.facebook.com/share/1Dij6aGamA/" target="_blank" rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-facebook-f"></i>
             </a>
-
-            <a
-              href="https://x.com/thewhyservices"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer"
-            >
+            <a href="https://x.com/thewhyservices" target="_blank" rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-x-twitter"></i>
             </a>
-
-            <a
-              href="https://www.instagram.com/why.services?igsh=czR0eDViMnhtN2dw"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer"
-            >
+            <a href="https://www.instagram.com/why.services?igsh=czR0eDViMnhtN2dw" target="_blank" rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-instagram"></i>
             </a>
-
-            <a
-              href="https://www.linkedin.com/company/why-companion-services/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer"
-            >
+            <a href="https://www.linkedin.com/company/why-companion-services/" target="_blank" rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-linkedin-in"></i>
             </a>
-
           </div>
 
         </div>

@@ -1,0 +1,16 @@
+.leaflet-container {
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.leaflet-popup-content {
+    font-size: 14px;
+}
+
+.leaflet-popup-content strong {
+    color: #00A19C;
+}

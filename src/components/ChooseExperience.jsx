@@ -2,22 +2,28 @@ import { useSectionFade } from '../hooks/useSectionFade'
 
 const cards = [
   {
-    gradient: 'from-[#4DBAB8] to-[#00A19C]',
-    btnGradient: 'bg-gradient-to-r from-[#4DBAB8] to-[#00A19C]',
-    title: 'TRAVEL',
-    subtitle: 'TRAVEL ASSISTANCE',
-    cta: 'BOOK NOW',
-    desc: 'Comfortable transportation with trusted companions for safe and stress-free journeys.',
-  },
-  {
     gradient: 'from-[#84D2C4] to-[#5EBFAE]',
     btnGradient: 'bg-gradient-to-r from-[#84D2C4] to-[#5EBFAE]',
     title: 'HOSPITAL',
     subtitle: 'MEDICAL ASSISTANCE',
     cta: 'GET STARTED',
+    sectionId: 'Hospital-companion-section',
     desc: 'Compassionate support for consultations, hospital admissions, follow-up visits, and patient care.',
   },
+  {
+    gradient: 'from-[#4DBAB8] to-[#00A19C]',
+    btnGradient: 'bg-gradient-to-r from-[#4DBAB8] to-[#00A19C]',
+    title: 'TRAVEL',
+    subtitle: 'TRAVEL ASSISTANCE',
+    cta: 'BOOK NOW',
+    sectionId: 'travel-companion-section',
+    desc: 'Comfortable transportation with trusted companions for safe and stress-free journeys.',
+  },
 ]
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
 
 export default function ChooseExperience() {
   const sectionRef = useSectionFade()
@@ -33,7 +39,6 @@ export default function ChooseExperience() {
           Choose Your Experience
         </h2>
 
-        {/* Centered Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {cards.map((card) => (
             <div
@@ -52,7 +57,10 @@ export default function ChooseExperience() {
                   {card.subtitle}
                 </p>
 
-                <button className="font-Manrope mt-6 px-6 py-2 bg-white/30 backdrop-blur-md rounded-full text-sm font-semibold relative z-10">
+                <button
+                  onClick={() => scrollTo(card.sectionId)}
+                  className="font-Manrope mt-6 px-6 py-2 bg-white/30 backdrop-blur-md rounded-full text-sm font-semibold relative z-10 hover:bg-white/50 transition-colors duration-200"
+                >
                   {card.cta}
                 </button>
 
@@ -66,6 +74,7 @@ export default function ChooseExperience() {
                 </p>
 
                 <button
+                  onClick={() => scrollTo(card.sectionId)}
                   className={`w-full py-4 rounded-full ${card.btnGradient} text-white font-bold shadow-lg transition-transform duration-300 hover:scale-105`}
                 >
                   Learn More

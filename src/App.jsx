@@ -20,11 +20,12 @@ import ParentSection from "./components/ParentSection";
 import WhatIsWhy from "./components/WhatIsWhy";
 import HowWhyWorks from "./components/HowWhyWorks";
 import WaitingSection from "./components/WaitingSection";
-import BookAnywhereInWorld from "./components/BookAnywhereInWorld"
+import WorldMap from "./components/WorldMap"
 import TrustSafety from "./components/TrustSafety";
 import CTA from "./components/CTA";
 import ProNurseCare from "./components/ProNurseCare";
 import TravelCompanionServices from "./components/TravelCompanion";
+import HospitalAssistance from "./components/HospitalAssistance"
 
 import Contact from "./pages/Contact";
 import DataDeletion from "./pages/DataDeletion";
@@ -53,15 +54,16 @@ function Home() {
     <>
       <Hero />
       <WhatIsWhy />
-      <ChooseExperience />
       <TrustSignals />
+      <ChooseExperience />
       <TrustedBy />
       <ParentSection />
       {/*<ProNurseCare />*/}
+      <HospitalAssistance/>
       <TravelCompanionServices />
       <HowWhyWorks />
       <WaitingSection />
-      <BookAnywhereInWorld/>
+      <WorldMap/>
       <TrustSafety />
       <CTA />
     </>
