@@ -142,7 +142,7 @@ function AppLayout() {
         {/* Only show home-page widgets on non-career/admin routes */}
         {!isCareerOrAdmin && !hideGlobalLayout && (
           <>
-            <StickyDownload />
+           {/* <StickyDownload /> */}
             <Footer />
             <CookieBanner />
           </>
