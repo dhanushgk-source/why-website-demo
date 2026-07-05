@@ -144,7 +144,7 @@ export default function ChooseExperience() {
 
                 {/* Title overlay on image (mobile only) */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white md:hidden">
-                  <h3 className="font-serif text-3xl font-semibold mb-1 tracking-normal">{card.title}</h3>
+                  <h3 className="font-Manrope text-3xl font-semibold mb-1 tracking-normal">{card.title}</h3>
                   <p className="font-Manrope opacity-90 text-sm italic tracking-normal">{card.subtitle}</p>
                 </div>
 
@@ -167,10 +167,10 @@ export default function ChooseExperience() {
 
                 {/* Title - Desktop */}
                 <div className="relative z-10 hidden md:block mb-4">
-                  <h3 className={`font-serif text-4xl font-semibold ${card.accent} tracking-normal`}>
+                  <h3 className={`font-Manrope text-4xl font-extrabold ${card.accent} tracking-normal`}>
                     {card.title}
                   </h3>
-                  <p className="font-Manrope text-gray-500 text-base italic mt-1">
+                  <p className="font-Manrope text-gray-500 text-base  mt-1">
                     {card.subtitle}
                   </p>
                   <span className={`block w-10 h-[3px] mx-auto rounded-full mt-3 ${card.underline}`} />

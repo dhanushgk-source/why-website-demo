@@ -7,7 +7,7 @@ const coveredCities = ['Bangalore','Chennai']
 const statsData = [
   {
     Icon: Users,
-    target: 1,
+    target: 15,
     suffix: '+',
     label: 'Verified PRO',
     bg: 'bg-[#3FBFB0]',
@@ -31,7 +31,7 @@ const statsData = [
   },
   {
     Icon: Heart,
-    target: 0,
+    target: 20,
     suffix: '+',
     label: 'Happy Clients',
     bg: 'bg-[#E07A5F]',
@@ -42,7 +42,7 @@ const statsData = [
   },
   {
     Icon: Star,
-    target: 0,
+    target: 4.5,
     suffix: '/5',
     label: 'Average Rating',
     bg: 'bg-[#4CAE7F]',

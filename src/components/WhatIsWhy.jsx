@@ -37,7 +37,7 @@ const cards = [
     BulletIcon: CheckCircle2,
     HeaderIcon: ShieldCheck,
     imageType: 'logo',
-    imageBg: 'bg-gradient-to-br from-[#22C7A9] to-[#0E9C8B]',
+    imageBg: 'bg-gradient-to-b from-white via-[#CFF3EA] to-[#0D9488]',
     image: '/Assests/WHY_logo.png',
     imageAlt: 'WHY logo mark',
     title: "WHY's Role",
@@ -195,7 +195,7 @@ export default function WhatIsWhy() {
         </div>
 
         <p className="fade-inner mx-auto mb-16 max-w-3xl text-lg text-[#0A1F44]/60">
-          A place where seniors find companionship, families find peace of mind, and companions find meaningful work.  
+          A place where seniors find companionship, families find peace of mind, and companions find meaningful work.
         </p>
 
         {/* Cards */}
@@ -222,16 +222,14 @@ export default function WhatIsWhy() {
                   />
                 ) : (
                   <div
-                    className={`relative flex h-full w-full items-center justify-center ${card.imageBg}`}
+                    className={`relative flex h-full w-full items-center justify-center p-10 ${card.imageBg}`}
                   >
-                    <div className="flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-xl">
-                      <img
-                        src={card.image}
-                        alt={card.imageAlt}
-                        loading="lazy"
-                        className="h-24 w-24 object-contain transition-all duration-700 ease-out group-hover:scale-110"
-                      />
-                    </div>
+                    <img
+                      src={card.image}
+                      alt={card.imageAlt}
+                      loading="lazy"
+                      className="h-full w-full object-contain drop-shadow-lg transition-all duration-700 ease-out group-hover:scale-110"
+                    />
                   </div>
                 )}
 

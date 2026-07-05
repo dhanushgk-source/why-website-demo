@@ -128,17 +128,20 @@ const features = [
     {
         title: "Trusted Caregiver Network",
         desc: "Verified caregivers across all major cities in India.",
-        color: "bg-[#E8F8F9] text-[#52B5BD]",
+        iconBg: "#E8F8F9",
+        iconColor: "#52B5BD",
     },
     {
         title: "Real-Time Tracking",
         desc: "Know exactly when your caregiver arrives and leaves.",
-        color: "bg-blue-50 text-blue-600",
+        iconBg: "#EAF0FA",
+        iconColor: "#2F4A7D",
     },
     {
         title: "Hospital & Travel Assistance",
         desc: "Escort services for appointments, travel, and errands.",
-        color: "bg-indigo-50 text-indigo-600",
+        iconBg: "#FDF0EC",
+        iconColor: "#E07A5F",
     },
 ];
 
@@ -223,12 +226,44 @@ export default function WorldMap() {
     const innerMapHeight = mapHeight - 24; // subtract 12px padding top + bottom
 
     return (
-        <section className="w-full px-3 sm:px-6 lg:px-8 py-8 sm:py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+        <section className="relative w-full px-3 sm:px-6 lg:px-8 py-16 sm:py-20 overflow-hidden bg-[#F8F3EA]">
+
+            {/* Decorative blobs */}
+            <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-[#F2C89F]/30 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[#F2C89F]/25 -translate-x-1/4 translate-y-1/4 pointer-events-none" />
+
+            {/* Decorative dot grid - top left */}
+            <div className="hidden md:grid absolute top-10 left-10 grid-cols-6 gap-2 opacity-40 pointer-events-none">
+                {Array.from({ length: 24 }).map((_, i) => (
+                    <span key={i} className="w-1 h-1 rounded-full bg-[#C9A96A]" />
+                ))}
+            </div>
+
+            {/* Decorative dot grid - bottom right */}
+            <div className="hidden md:grid absolute bottom-10 right-10 grid-cols-6 gap-2 opacity-40 pointer-events-none">
+                {Array.from({ length: 24 }).map((_, i) => (
+                    <span key={i} className="w-1 h-1 rounded-full bg-[#C9A96A]" />
+                ))}
+            </div>
+
+            {/* Decorative leaf branch - bottom left */}
+            <svg
+                className="hidden lg:block absolute -bottom-8 left-0 w-56 h-64 text-[#BFDAD4] opacity-70 pointer-events-none"
+                viewBox="0 0 200 220"
+                fill="none"
+            >
+                <path d="M10 210 C 40 160, 60 120, 100 60" stroke="currentColor" strokeWidth="2" />
+                <ellipse cx="30" cy="180" rx="18" ry="10" fill="currentColor" opacity="0.6" transform="rotate(-35 30 180)" />
+                <ellipse cx="55" cy="150" rx="20" ry="11" fill="currentColor" opacity="0.6" transform="rotate(-30 55 150)" />
+                <ellipse cx="80" cy="110" rx="18" ry="10" fill="currentColor" opacity="0.6" transform="rotate(-25 80 110)" />
+                <ellipse cx="95" cy="75" rx="16" ry="9" fill="currentColor" opacity="0.6" transform="rotate(-20 95 75)" />
+            </svg>
+
+            <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center z-10">
 
                 {/* LEFT — Map */}
                 <div
-                    className="relative rounded-[24px] sm:rounded-[35px] overflow-hidden"
+                    className="relative rounded-[24px] sm:rounded-[35px] overflow-hidden shadow-xl"
                     style={{
                         padding: "12px",
                         height: `${mapHeight}px`,
@@ -297,16 +332,16 @@ export default function WorldMap() {
                         <div className="flex items-center gap-2 sm:gap-3">
                             <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 animate-pulse flex-shrink-0"></span>
                             <div>
-                                <p className="font-semibold text-xs sm:text-sm leading-tight">Live Tracking</p>
-                                <p className="text-[10px] sm:text-xs text-gray-500">Caregiver route active</p>
+                                <p className="font-semibold text-xs sm:text-sm leading-tight" style={{ color: "#1a2a3a" }}>Live Tracking</p>
+                                <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>Caregiver route active</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Parents Info Badge */}
                     <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl p-2.5 sm:p-4">
-                        <h3 className="font-bold text-[#52B5BD] text-xs sm:text-sm">Parents</h3>
-                        <p className="text-[10px] sm:text-xs text-gray-500">India</p>
+                        <h3 className="font-bold text-xs sm:text-sm" style={{ color: "#52B5BD" }}>Parents</h3>
+                        <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>India</p>
                         <span className="text-green-600 font-semibold text-[10px] sm:text-xs">Caregiver Assigned ✓</span>
                     </div>
                 </div>
@@ -321,27 +356,32 @@ export default function WorldMap() {
                     }}
                     className="flex flex-col justify-center px-1 sm:px-4 lg:px-8 xl:px-14 py-6 sm:py-8 lg:py-0"
                 >
-                    <span className="inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5
-                                     rounded-full text-[#52B5BD]
-                                     text-xs sm:text-sm font-semibold mb-4 sm:mb-6
-                                     border border-[#c2eaed] w-fit">
-                        🌍 Distance doesn't matter
+                    <span
+                        className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 bg-white shadow-sm w-fit"
+                        style={{ color: "#2F8F8A" }}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M2 12h20" />
+                            <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9z" />
+                        </svg>
+                        Distance doesn't matter
                     </span>
 
-                    <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3 sm:mb-5 text-gray-900">
+                    <h1 className="font-display text-xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3 sm:mb-5 tracking-tight" style={{ color: "#1B2A4A" }}>
                         Care for your parents in India,
                         <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#52B5BD] to-[#2F4A7D]">
+                        <span style={{ color: "#52B5BD" }}>
                             from {user.country}.
                         </span>
                     </h1>
 
-                    <p className="text-sm sm:text-base text-gray-500 leading-relaxed mb-5 sm:mb-8">
-                        <span className="bg-yellow-200/70 text-gray-700 font-semibold px-1 rounded-sm box-decoration-clone">
+                    <p className="text-sm sm:text-base leading-relaxed mb-5 sm:mb-8" style={{ color: "#6a7f96" }}>
+                        <span className="bg-[#F2C89F]/40 font-semibold px-1 rounded-sm box-decoration-clone" style={{ color: "#1a2a3a" }}>
                             Distance may separate families, but it should never separate care.
                         </span>{" "}
                         Whether you're currently living in{" "}
-                        <strong className="text-gray-700">{user.city}, {user.country}</strong>,
+                        <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>,
                         our trusted caregivers are always ready to support your parents across India.
                     </p>
 
@@ -356,26 +396,31 @@ export default function WorldMap() {
                                     transition: `opacity 0.5s ease ${0.2 + i * 0.1}s, transform 0.5s ease ${0.2 + i * 0.1}s`,
                                 }}
                             >
-                                <div className={`w-8 h-8 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${f.color}`}>
+                                <div
+                                    className="w-8 h-8 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                                    style={{ background: f.iconBg, color: f.iconColor }}
+                                >
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-gray-800 text-sm">{f.title}</p>
-                                    <p className="text-gray-400 text-xs sm:text-sm mt-0.5">{f.desc}</p>
+                                    <p className="font-semibold text-sm" style={{ color: "#1a2a3a" }}>{f.title}</p>
+                                    <p className="text-xs sm:text-sm mt-0.5" style={{ color: "#8a9ab0" }}>{f.desc}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                        <button className="inline-flex items-center justify-center gap-2
-                                           px-5 py-3 sm:px-8 sm:py-4
-                                           rounded-full bg-gradient-to-r from-[#52B5BD] to-[#2F4A7D]
-                                           text-white font-semibold shadow-lg
-                                           hover:shadow-xl hover:scale-[1.03] active:scale-[0.98]
-                                           transition-all duration-200 text-sm sm:text-base w-full sm:w-auto">
+                        <button
+                            className="inline-flex items-center justify-center gap-2
+                                       px-5 py-3 sm:px-8 sm:py-4
+                                       rounded-full text-white font-semibold shadow-lg
+                                       hover:shadow-xl hover:scale-[1.03] active:scale-[0.98]
+                                       transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
+                            style={{ background: "#0D5A55" }}
+                        >
                             Find a Trusted Caregiver
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -386,9 +431,9 @@ export default function WorldMap() {
                             onClick={() => document.getElementById("WHY-Works-section")?.scrollIntoView({ behavior: "smooth" })}
                             className="inline-flex items-center justify-center gap-2
                                        px-5 py-3 sm:px-8 sm:py-4
-                                       rounded-full border border-gray-200 text-gray-600
-                                       font-semibold hover:border-[#52B5BD] hover:text-[#52B5BD]
-                                       transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
+                                       rounded-full border border-gray-200 bg-white font-semibold
+                                       hover:border-[#52B5BD] transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
+                            style={{ color: "#6a7f96" }}
                         >
                             How it works
                         </button>
@@ -398,4 +443,4 @@ export default function WorldMap() {
             </div>
         </section>
     );
-}       
+}

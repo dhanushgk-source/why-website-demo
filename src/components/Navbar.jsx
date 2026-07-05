@@ -38,12 +38,13 @@ export default function Navbar() {
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 -translate-y-10'
             }
-            ${
-              scrolled
-                ? 'bg-white shadow-lg'
-                : 'bg-white/80 backdrop-blur-md'
-            }
           `}
+          style={{
+            background: scrolled ? '#F7F3EA' : 'rgba(247, 243, 234, 0.8)',
+            backdropFilter: scrolled ? 'none' : 'blur(12px)',
+            WebkitBackdropFilter: scrolled ? 'none' : 'blur(12px)',
+            boxShadow: scrolled ? '0 4px 20px rgba(27,42,74,0.08)' : 'none',
+          }}
         >
           {/* LOGO */}
           <div className="flex justify-start">
@@ -66,11 +67,14 @@ export default function Navbar() {
             ].map((item) => (
               <li
                 key={item.label}
-                className="relative group text-[#0b2642]"
+                className="relative group"
+                style={{ color: '#1B2A4A' }}
               >
                 <a
                   href={item.href}
-                  className="hover:text-[#4DBAB8] transition-colors duration-300"
+                  className="transition-colors duration-300"
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                 >
                   {item.label}
                 </a>
@@ -79,13 +83,13 @@ export default function Navbar() {
                   className="
                     absolute left-0 -bottom-1
                     h-[2px] w-full
-                    bg-[#4DBAB8]
                     scale-x-0
                     origin-left
                     transition-transform
                     duration-300
                     group-hover:scale-x-100
                   "
+                  style={{ background: '#52B5BD' }}
                 />
               </li>
             ))}
@@ -94,17 +98,8 @@ export default function Navbar() {
           {/* DESKTOP BUTTON */}
           <div className="hidden lg:flex justify-end">
             <button
-              className="
-                px-8 py-3
-                rounded-full
-                text-white
-                bg-gradient-to-r
-                from-[#2F4A7D]
-                to-[#2DD4BF]
-                shadow-md
-                hover:scale-105
-                transition
-              "
+              className="px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition"
+              style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
             >
               Get the App
             </button>
@@ -114,6 +109,7 @@ export default function Navbar() {
           <div
             className="lg:hidden absolute right-6 cursor-pointer"
             onClick={toggleMenu}
+            style={{ color: '#1B2A4A' }}
           >
             <i
               className={`fa-solid ${
@@ -129,30 +125,34 @@ export default function Navbar() {
             lg:hidden
             overflow-hidden
             transition-all duration-300
-            bg-white shadow-lg
+            shadow-lg
             ${menuOpen ? 'max-h-96' : 'max-h-0'}
           `}
+          style={{ background: '#F7F3EA' }}
         >
-          <ul className="text-center font-medium">
-            <li className="py-4 border-b">
+          <ul className="text-center font-medium" style={{ color: '#1B2A4A' }}>
+            <li className="py-4 border-b border-[#F2C89F]/40">
               <a href="#parent-section">Services</a>
             </li>
 
-            <li className="py-4 border-b">
+            <li className="py-4 border-b border-[#F2C89F]/40">
               <a href="#WHY-Works-section">How it Works</a>
             </li>
 
-            <li className="py-4 border-b">
+            <li className="py-4 border-b border-[#F2C89F]/40">
               <a href="#savefty-section">Safety</a>
             </li>
 
-            <li className="py-4 border-b">
+            <li className="py-4 border-b border-[#F2C89F]/40">
               <a href="#footer-section">About</a>
             </li>
           </ul>
 
           <div className="p-6">
-            <button className="w-full py-3 rounded-full bg-[#009689] text-white">
+            <button
+              className="w-full py-3 rounded-full text-white"
+              style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
+            >
               Get the App
             </button>
           </div>

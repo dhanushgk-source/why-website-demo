@@ -129,7 +129,7 @@ export default function Hero() {
       <div className="fade-inner relative w-full min-h-[75vh] min-h-[75svh] flex flex-col md:flex-row">
 
         {/* Left Side - Image with organic curved edge */}
-        <div className="relative w-full md:w-[46%] min-h-[45vh] md:min-h-[75vh] flex-shrink-0">
+        <div className="relative w-full md:w-[60%] min-h-[45vh] md:min-h-[75vh] flex-shrink-0">
           {/* SVG clipPath definition — an S-curve on the right edge (objectBoundingBox scales with the element) */}
           <svg width="0" height="0" className="absolute">
             <defs>
@@ -178,7 +178,7 @@ export default function Hero() {
         </div>
 
         {/* Right Side - Content */}
-        <div className="relative w-full md:w-[54%] flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-12 md:py-10">
+        <div className="relative w-full md:w-[40%] flex flex-col justify-center px-6 sm:px-10 md:px-10 lg:px-12 py-12 md:py-10">
 
           {/* Decorative shapes */}
           <div className="hidden md:block absolute top-0 right-10 w-28 h-28 rounded-full bg-[#7FC8C0]/40 -translate-y-1/3" />
@@ -194,17 +194,17 @@ export default function Hero() {
           </svg>
 
           {/* Content column */}
-          <div className="relative w-full max-w-xl mx-auto md:mx-0 z-10">
+          <div className="relative w-full max-w-2xl mx-auto md:mx-0 z-10">
 
             {/* Title - 3 stacked words */}
             <div className="mb-2">
               {/* Word 1: "We" */}
               <div className="flex items-baseline justify-start gap-0">
-                <span className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
+                <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word1_first}
                   {isActive('word1_first') && <Cursor color="bg-[#1B2A4A]" size="h-[0.9em]" />}
                 </span>
-                <span className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
+                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
                   {texts.word1_rest}
                   {isActive('word1_rest') && <Cursor color="bg-[#0D9488]" size="h-[0.7em]" />}
                 </span>
@@ -212,11 +212,11 @@ export default function Hero() {
 
               {/* Word 2: "Help" */}
               <div className="flex items-baseline justify-start gap-0">
-                <span className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
+                <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word2_first}
                   {isActive('word2_first') && <Cursor color="bg-[#1B2A4A]" size="h-[0.9em]" />}
                 </span>
-                <span className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
+                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
                   {texts.word2_rest}
                   {isActive('word2_rest') && <Cursor color="bg-[#0D9488]" size="h-[0.7em]" />}
                 </span>
@@ -224,25 +224,25 @@ export default function Hero() {
 
               {/* Word 3: "You" */}
               <div className="flex items-baseline justify-start gap-0">
-                <span className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
+                <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word3_first}
                   {isActive('word3_first') && <Cursor color="bg-[#1B2A4A]" size="h-[0.9em]" />}
                 </span>
-                <span className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
+                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
                   {texts.word3_rest}
                   {isActive('word3_rest') && <Cursor color="bg-[#0D9488]" size="h-[0.7em]" />}
                 </span>
               </div>
-            </div>
 
-            {/* Divider */}
-            <div className="flex items-center gap-2 my-5">
-              <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
-              <HeartHandshake className="w-4 h-4 text-[#0D9488]" strokeWidth={2} />
+              {/* Divider */}
+              <div className="flex items-center gap-2 my-5">
+                <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
+                <HeartHandshake className="w-4 h-4 text-[#0D9488]" strokeWidth={2} />
+              </div>
             </div>
 
             {/* Tagline */}
-            <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl text-[#1B2A4A] font-extrabold mb-4 min-h-[1.2em] tracking-tight leading-snug text-left max-w-[22ch]">
+            <h2 className="text-2xl sm:text-3xl md:text-2xl lg:text-3xl text-[#1B2A4A] font-extrabold mb-4 min-h-[1.2em] tracking-tight leading-snug text-left max-w-[22ch]">
               {activeKey === 'tag' && <Cursor color="bg-[#1B2A4A]" size="h-[0.8em]" />}
               {texts.tag}
             </h2>
