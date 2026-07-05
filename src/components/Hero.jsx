@@ -134,7 +134,7 @@ export default function Hero() {
           <svg width="0" height="0" className="absolute">
             <defs>
               <clipPath id="heroImageClip" clipPathUnits="objectBoundingBox">
-                <path d="M0,0 L0.86,0 C0.97,0.12 1,0.22 0.93,0.34 C0.86,0.44 0.86,0.56 0.93,0.66 C1,0.78 0.97,0.88 0.86,1 L0,1 Z" />
+                <path d="M0,0 L0.95,0 C0.99,0.12 1,0.22 0.97,0.34 C0.95,0.44 0.95,0.56 0.97,0.66 C1,0.78 0.99,0.88 0.95,1 L0,1 Z" />
               </clipPath>
             </defs>
           </svg>
@@ -188,7 +188,7 @@ export default function Hero() {
               <span key={i} className="w-1 h-1 rounded-full bg-[#0D9488]" />
             ))}
           </div>
-          <svg className="hidden md:block absolute bottom-10 right-6 w-24 h-40 text-[#BFDAD4] opacity-70" viewBox="0 0 100 200" fill="none">
+          <svg className="hidden md:block absolute bottom-10 right-0 w-24 h-40 text-[#BFDAD4] opacity-70" viewBox="0 0 100 200" fill="none">
             <path d="M50 200 C 20 150, 20 100, 50 40 C 80 100, 80 150, 50 200 Z" fill="currentColor" opacity="0.5" />
             <path d="M50 40 C 50 90, 50 150, 50 200" stroke="currentColor" strokeWidth="2" />
           </svg>

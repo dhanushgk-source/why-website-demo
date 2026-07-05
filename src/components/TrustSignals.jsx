@@ -143,10 +143,11 @@ export default function TrustSignals() {
           </div>
 
           <h2 className="fade-inner text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-[#0A1F44]">
-            Why Trust{' '}
+            What Makes {' '}
             <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
               WHY
-            </span>
+            </span> {' '}
+            Different
           </h2>
 
           <div className="fade-inner flex items-center justify-center gap-3 mb-4">
