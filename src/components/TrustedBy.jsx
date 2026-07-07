@@ -2,12 +2,12 @@ import { useEffect, useRef } from 'react'
 import { useSectionFade } from '../hooks/useSectionFade'
 import { ShieldCheck, Users, MapPin, Heart, Star, Leaf } from 'lucide-react'
 
-const coveredCities = ['Bangalore','Chennai']
+const coveredCities = ['Bangalore']
 
 const statsData = [
   {
     Icon: Users,
-    target: 15,
+    target: 0,
     suffix: '+',
     label: 'Verified PRO',
     bg: 'bg-[#3FBFB0]',
@@ -31,7 +31,7 @@ const statsData = [
   },
   {
     Icon: Heart,
-    target: 20,
+    target: 0,
     suffix: '+',
     label: 'Happy Clients',
     bg: 'bg-[#E07A5F]',
@@ -42,7 +42,7 @@ const statsData = [
   },
   {
     Icon: Star,
-    target: 4.5,
+    target: 0,
     suffix: '/5',
     label: 'Average Rating',
     bg: 'bg-[#4CAE7F]',
@@ -169,9 +169,9 @@ export default function TrustedBy() {
         </div>
 
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 fade-inner text-[#0A1F44]">
-          Trusted by{' '}
+          On a Journey of {' '}
           <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-            thousands
+            Earning Trust 
           </span>
         </h2>
 
