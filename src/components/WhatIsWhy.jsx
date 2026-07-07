@@ -21,12 +21,12 @@ const cards = [
     image: '/Assests/elder .jpg',
     imageAlt:
       'An elderly couple smiling, representing the elders and families WHY supports',
-    title: 'For Elders & Families',
+    title: 'For Seniors & Families',
     items: [
       'Peace of mind',
       'Independence',
-      'Dignity',
-      'Real humans, not apps',
+      'Dignity & Respect',
+      'Trusted Human Companionship',
     ],
   },
   {
@@ -42,10 +42,10 @@ const cards = [
     imageAlt: 'WHY logo mark',
     title: "WHY's Role",
     items: [
-      'Trusted platform',
-      'Quality assurance',
-      'Admin supervision',
-      'Emergency ownership',
+      'Trusted & Verified Platform',
+      'Quality Assurance',
+      'Dedicated Support Team',
+      'Emergency Assistance',
     ],
   },
   {
@@ -59,12 +59,12 @@ const cards = [
     image: '/Assests/pro.jpg',
     imageAlt:
       'A caregiver in scrubs smiling, representing the PROs on the WHY platform',
-    title: 'For PRO',
+    title: 'For WHY PROs',
     items: [
-      'Flexible income',
-      'Meaningful work',
-      'Verified experience',
-      'Skill growth',
+      'Flexible Earnings',
+      'Meaningful Work',
+      'Verified Opportunities',
+      'Professional Growth',
     ],
   },
 ]
@@ -195,8 +195,7 @@ export default function WhatIsWhy() {
         </div>
 
         <p className="fade-inner mx-auto mb-16 max-w-3xl text-lg text-[#0A1F44]/60">
-          A place where seniors find companionship, families find peace of mind, and companions find meaningful work.
-        </p>
+          One platform for seniors seeking companionship, families seeking reassurance, and companions seeking meaningful work.        </p>
 
         {/* Cards */}
         <div className="grid gap-8 md:grid-cols-3">

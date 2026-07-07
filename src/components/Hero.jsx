@@ -2,9 +2,8 @@ import { useSectionFade } from '../hooks/useSectionFade'
 import { useEffect, useState } from 'react'
 import { Users, HeartHandshake, User, ArrowRight, PlayCircle } from 'lucide-react'
 
-const TAGLINE = 'Companionship that feels like a family.'
-const SUBTEXT = 'Connecting seniors, supporting families, and empowering companions through trust and care.'
-
+const TAGLINE = 'Companionship That Feels Like a Family.'
+const SUBTEXT = 'Connecting Seniors With Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
 // Split into words with their first letters highlighted
 const WORD_PARTS = {
   word1: { full: 'We', first: 'W', rest: 'e' },
@@ -25,9 +24,9 @@ const SEGMENTS = [
 const ORDER = SEGMENTS.map((s) => s.key).concat('done')
 
 const INFO_ITEMS = [
-  { icon: Users, title: 'Seniors', subtitle: 'Feel at Home' },
+  { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
   { icon: HeartHandshake, title: 'Families', subtitle: 'Peace of Mind' },
-  { icon: User, title: 'Companions', subtitle: 'Meaningful Work' },
+  { icon: User, title: 'Companions', subtitle: 'Build Meaningful Connections' },
 ]
 
 export default function Hero() {
@@ -270,7 +269,7 @@ export default function Hero() {
               <span className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center">
                 <ArrowRight className="w-4 h-4" />
               </span>
-              Explore WHY
+              Find a Companion
             </button>
 
             <button
