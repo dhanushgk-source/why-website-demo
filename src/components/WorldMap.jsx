@@ -147,14 +147,14 @@ function GeoJSONLayer({ userCountry }) {
 
 const features = [
     {
-        title: "Trusted Caregiver Network",
-        desc: "Verified caregivers across all major cities in India.",
+        title: "Trusted PRO Network",
+        desc: "Verified PRO across all major cities in India.",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
     },
     {
         title: "Real-Time Tracking",
-        desc: "Know exactly when your caregiver arrives and leaves.",
+        desc: "Know exactly when your PRO arrives and leaves.",
         iconBg: "#EAF0FA",
         iconColor: "#2F4A7D",
     },
@@ -330,7 +330,7 @@ export default function WorldMap() {
                                 <div className="text-center">
                                     <h3 className="font-bold text-green-600">Parents</h3>
                                     <p>India</p>
-                                    <p className="text-green-600 font-semibold">Caregiver Assigned ✓</p>
+                                    <p className="text-green-600 font-semibold">PRO Assigned ✓</p>
                                 </div>
                             </Popup>
                         </Marker>
@@ -354,7 +354,7 @@ export default function WorldMap() {
                             <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 animate-pulse flex-shrink-0"></span>
                             <div>
                                 <p className="font-semibold text-xs sm:text-sm leading-tight" style={{ color: "#1a2a3a" }}>Live Tracking</p>
-                                <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>Caregiver route active</p>
+                                <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>PRO route active</p>
                             </div>
                         </div>
                     </div>
@@ -363,7 +363,7 @@ export default function WorldMap() {
                     <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl p-2.5 sm:p-4">
                         <h3 className="font-bold text-xs sm:text-sm" style={{ color: "#52B5BD" }}>Parents</h3>
                         <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>India</p>
-                        <span className="text-green-600 font-semibold text-[10px] sm:text-xs">Caregiver Assigned ✓</span>
+                        <span className="text-green-600 font-semibold text-[10px] sm:text-xs">PRO Assigned ✓</span>
                     </div>
                 </div>
 
@@ -408,12 +408,12 @@ export default function WorldMap() {
                             Distance may separate families, but it should never separate care.
                         </span>{" "}
                         {isIndiaVisitor ? (
-                            <>Wherever your family is spread across the globe, our trusted caregivers are always ready to support your parents across India.</>
+                            <>Wherever your family is spread across the globe, our trusted PRO are always ready to support your parents across India.</>
                         ) : (
                             <>
                                 Whether you're currently living in{" "}
                                 <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>,
-                                our trusted caregivers are always ready to support your parents across India.
+                                our trusted PRO are always ready to support your parents across India.
                             </>
                         )}
                     </p>
@@ -454,7 +454,7 @@ export default function WorldMap() {
                                        transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
                             style={{ background: "#0D5A55" }}
                         >
-                            Find a Trusted Caregiver
+                            Find a Trusted PRO
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12" />
                                 <polyline points="12 5 19 12 12 19" />
