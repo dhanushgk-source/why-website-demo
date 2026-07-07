@@ -348,8 +348,8 @@ export default function WorldMap() {
                         </div>
                     </div>
 
-                    {/* Live Tracking Badge */}
-                    <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl px-3 py-2 sm:px-5 sm:py-3">
+                    {/* Live Tracking Badge — hidden on mobile, shown from sm breakpoint up */}
+                    <div className="hidden sm:block absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl px-3 py-2 sm:px-5 sm:py-3">
                         <div className="flex items-center gap-2 sm:gap-3">
                             <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 animate-pulse flex-shrink-0"></span>
                             <div>
@@ -359,8 +359,8 @@ export default function WorldMap() {
                         </div>
                     </div>
 
-                    {/* Parents Info Badge */}
-                    <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl p-2.5 sm:p-4">
+                    {/* Parents Info Badge — hidden on mobile, shown from sm breakpoint up */}
+                    <div className="hidden sm:block absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl p-2.5 sm:p-4">
                         <h3 className="font-bold text-xs sm:text-sm" style={{ color: "#52B5BD" }}>Parents</h3>
                         <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>India</p>
                         <span className="text-green-600 font-semibold text-[10px] sm:text-xs">PRO Assigned ✓</span>

@@ -255,7 +255,7 @@ export default function TravelCompanion() {
                     </span>
 
                     <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight" style={{ color: "#1B2A4A" }}>
-                        What our <span style={{ color: "#52B5BD" }}>Pro Can Do</span>
+                        What our <span style={{ color: "#52B5BD" }}>Pro Can Do {" "}</span>
                         <br className="hidden sm:block" />
                         <span style={{ color: "#2F4A7D" }}>for Your Elders</span>
                     </h2>

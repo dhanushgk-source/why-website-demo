@@ -95,6 +95,16 @@ export default function Navbar() {
             ))}
           </ul>
 
+          {/* MOBILE CENTER BRAND */}
+          <div className="flex lg:hidden justify-center">
+            <span
+              className="font-display font-bold text-xl tracking-wide"
+              style={{ color: '#1B2A4A' }}
+            >
+              WHY
+            </span>
+          </div>
+
           {/* DESKTOP BUTTON */}
           <div className="hidden lg:flex justify-end">
             <button
