@@ -18,7 +18,7 @@ const serviceCards = [
             'Escort to hospitals & clinics',
             'Wait & assist during consultations',
             'Coordinate with doctors & staff',
-            'Safe transportation back home',
+            'Accompany elders safely back home',
         ],
     },
     {
@@ -33,6 +33,21 @@ const serviceCards = [
             'Medication reminders & tracking',
             'Pharmacy visits & bill payments',
             'Coordinate with local chemists',
+            'Share medicine collection updates with family',
+        ],
+    },
+    {
+        icon: "clipboard",
+        iconBg: "#F4F8EC",
+        iconColor: "#4A9D6E",
+        accentBar: "#4A9D6E",
+        title: "Visit Summary & Family Updates",
+        desc: "After every visit, your Pro shares a detailed summary with your family, helping them stay informed and confident.",
+        points: [
+            "Doctor consultation summary",
+            "Services completed during the visit",
+            "Medication & prescription updates",
+            "Important observations shared with family"
         ],
     },
 ]
@@ -66,6 +81,15 @@ function CardIcon({ name, color }) {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+        ),
+        clipboard: (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="4" width="16" height="18" rx="2" />
+                <path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z" />
+                <line x1="8" y1="11" x2="16" y2="11" />
+                <line x1="8" y1="15" x2="16" y2="15" />
+                <line x1="8" y1="19" x2="12" y2="19" />
             </svg>
         ),
     }
@@ -227,11 +251,11 @@ export default function TravelCompanion() {
                             <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z" />
                             <polyline points="9 12 11 14 15 10" />
                         </svg>
-                        Elder Care by Verified Pros
+                        Keeping Families Informed
                     </span>
 
                     <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight" style={{ color: "#1B2A4A" }}>
-                        What Your <span style={{ color: "#52B5BD" }}>Pro Can Do</span>
+                        What our <span style={{ color: "#52B5BD" }}>Pro Can Do</span>
                         <br className="hidden sm:block" />
                         <span style={{ color: "#2F4A7D" }}>for Your Elders</span>
                     </h2>
@@ -248,11 +272,12 @@ export default function TravelCompanion() {
                     <p className="text-lg max-w-2xl mx-auto mb-14 leading-relaxed" style={{ color: "#6a7f96" }}>
                         Your assigned Pro is trained to support elders with medical visits,
                         medicines, nursing care, and everyday tasks — with compassion and reliability.
+                        After every visit, families receive a clear summary of the care provided, ensuring complete peace of mind.
                     </p>
                 </div>
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left max-w-3xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-5xl mx-auto">
                     {serviceCards.map((card, i) => (
                         <ServiceCard key={card.title} card={card} index={i} />
                     ))}
@@ -276,7 +301,7 @@ export default function TravelCompanion() {
                         </svg>
                     </button>
                     <p className="text-sm" style={{ color: "#8a9ab0" }}>
-                        Background-verified · Available 24/7 · Across India
+                        Background-verified · Visit summaries shared with families · Available 24/7
                     </p>
                 </div>
 
