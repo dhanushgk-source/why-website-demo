@@ -72,7 +72,7 @@ export default function Footer() {
         <div>
           <h4 className="text-xl font-semibold mb-6">Services</h4>
           <ul className="space-y-4 text-white/70 text-base">
-            {['Entertainment Companions', 'Daily Companionship', 'Hospital Assistance', 'Travel Companionship'].map((s) => (
+            {['Hospital Assistance', 'Travel Companionship'].map((s) => (
               <li key={s} className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
                 <span>{s}</span>
