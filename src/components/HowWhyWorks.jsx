@@ -3,28 +3,28 @@ import { useSectionFade } from '../hooks/useSectionFade'
 const steps = [
   {
     icon: '/Assests/icons/profile.svg',
-    title: 'PRO receiver profile',
-    desc: 'Share needs, preferences,\nand location',
-  },
-  {
-    icon: '/Assests/icons/location.svg',
-    title: 'Location + service defined',
-    desc: 'Specify task and exact\nlocation',
+    title: 'Book a Pro',
+    desc: 'Choose your Pro and share\ncare needs & location',
   },
   {
     icon: '/Assests/icons/VUser.svg',
-    title: 'System + admin match PRO',
-    desc: 'AI-assisted, human-verified\nmatching',
+    title: 'Pro Accepts the Booking',
+    desc: 'Your Pro confirms and\ngets ready to help',
+  },
+  {
+    icon: '/Assests/icons/location.svg',
+    title: 'Pro Reaches Pickup Location',
+    desc: 'Trip begins as your Pro\narrives to accompany',
   },
   {
     icon: '/Assests/icons/heart_rate.svg',
-    title: 'Physical care delivered',
-    desc: 'Real-time tracking and\nupdates',
+    title: 'Companion Care Delivered',
+    desc: 'Your Pro stays by their side\nthrough the visit',
   },
   {
     icon: '/Assests/icons/VDocs.svg',
-    title: 'Live updates & reports',
-    desc: 'Complete transparency and\naccountability',
+    title: 'Trip & Health Summary Shared',
+    desc: 'Complete trip report and\nhospital health summary',
   },
 ]
 

@@ -43,6 +43,27 @@ function getCountryColor(name) {
     return COUNTRY_COLORS[Math.abs(hash) % COUNTRY_COLORS.length];
 }
 
+// Pool of world locations used when the visitor is browsing from India —
+// a random one is picked so the map points somewhere different each time.
+const RANDOM_WORLD_LOCATIONS = [
+    { city: "New York", country: "United States", lat: 40.7128, lon: -74.006 },
+    { city: "London", country: "United Kingdom", lat: 51.5072, lon: -0.1276 },
+    { city: "Toronto", country: "Canada", lat: 43.6532, lon: -79.3832 },
+    { city: "Sydney", country: "Australia", lat: -33.8688, lon: 151.2093 },
+    { city: "Dubai", country: "United Arab Emirates", lat: 25.2048, lon: 55.2708 },
+    { city: "Singapore", country: "Singapore", lat: 1.3521, lon: 103.8198 },
+    { city: "Berlin", country: "Germany", lat: 52.52, lon: 13.405 },
+    { city: "Auckland", country: "New Zealand", lat: -36.8485, lon: 174.7633 },
+    { city: "Tokyo", country: "Japan", lat: 35.6762, lon: 139.6503 },
+    { city: "Paris", country: "France", lat: 48.8566, lon: 2.3522 },
+    { city: "San Francisco", country: "United States", lat: 37.7749, lon: -122.4194 },
+    { city: "Muscat", country: "Oman", lat: 23.588, lon: 58.3829 },
+];
+
+function getRandomWorldLocation() {
+    return RANDOM_WORLD_LOCATIONS[Math.floor(Math.random() * RANDOM_WORLD_LOCATIONS.length)];
+}
+
 function FitBounds({ user, india }) {
     const map = useMap();
     useEffect(() => {
@@ -152,6 +173,7 @@ export default function WorldMap() {
         lat: 40.7128,
         lon: -74.006,
     });
+    const [isIndiaVisitor, setIsIndiaVisitor] = useState(false);
 
     const [mapHeight, setMapHeight] = useState(500);
     const [isVisible, setIsVisible] = useState(false);
@@ -184,13 +206,12 @@ export default function WorldMap() {
                         data.country?.toLowerCase() === "india";
 
                     if (isIndia) {
-                        setUser({
-                            city: "New York",
-                            country: "United States",
-                            lat: 40.7128,
-                            lon: -74.006,
-                        });
+                        // Visitor is already in India — point to a random
+                        // location anywhere else in the world instead.
+                        setIsIndiaVisitor(true);
+                        setUser(getRandomWorldLocation());
                     } else {
+                        setIsIndiaVisitor(false);
                         setUser({
                             city: data.city,
                             country: data.country,
@@ -371,18 +392,30 @@ export default function WorldMap() {
                     <h1 className="font-display text-xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3 sm:mb-5 tracking-tight" style={{ color: "#1B2A4A" }}>
                         Care for your parents in India,
                         <br />
-                        <span style={{ color: "#52B5BD" }}>
-                            from {user.country}.
-                        </span>
+                        {isIndiaVisitor ? (
+                            <span style={{ color: "#52B5BD" }}>
+                                from anywhere in the world.
+                            </span>
+                        ) : (
+                            <span style={{ color: "#52B5BD" }}>
+                                from {user.country}.
+                            </span>
+                        )}
                     </h1>
 
                     <p className="text-sm sm:text-base leading-relaxed mb-5 sm:mb-8" style={{ color: "#6a7f96" }}>
                         <span className="bg-[#F2C89F]/40 font-semibold px-1 rounded-sm box-decoration-clone" style={{ color: "#1a2a3a" }}>
                             Distance may separate families, but it should never separate care.
                         </span>{" "}
-                        Whether you're currently living in{" "}
-                        <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>,
-                        our trusted caregivers are always ready to support your parents across India.
+                        {isIndiaVisitor ? (
+                            <>Wherever your family is spread across the globe, our trusted caregivers are always ready to support your parents across India.</>
+                        ) : (
+                            <>
+                                Whether you're currently living in{" "}
+                                <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>,
+                                our trusted caregivers are always ready to support your parents across India.
+                            </>
+                        )}
                     </p>
 
                     <div className="space-y-3 sm:space-y-5 mb-6 sm:mb-10">

@@ -32,19 +32,6 @@ const serviceCards = [
         ],
     },
     {
-        icon: "cart",
-        iconBg: "#FDF0EC",
-        iconColor: "#E07A5F",
-        accentBar: "#E07A5F",
-        title: 'Shopping & Daily Errands',
-        points: [
-            'Grocery shopping',
-            'Pharmacy visits',
-            'Bill payments',
-            'Daily task assistance',
-        ],
-    },
-    {
         icon: "clock",
         iconBg: "#EEF8F1",
         iconColor: "#4A9D6E",
@@ -55,6 +42,20 @@ const serviceCards = [
             'Personal assistance',
             'Safety monitoring',
             'Peace of mind',
+        ],
+    },
+    {
+        icon: "cart",
+        iconBg: "#FDF0EC",
+        iconColor: "#E07A5F",
+        accentBar: "#E07A5F",
+        title: 'Shopping & Daily Errands',
+        comingSoon: true,
+        points: [
+            'Grocery shopping',
+            'Pharmacy visits',
+            'Bill payments',
+            'Daily task assistance',
         ],
     },
 ]
@@ -118,13 +119,22 @@ function ServiceCard({ card, index }) {
         <div
             ref={ref}
             style={{
-                opacity: visible ? 1 : 0,
+                opacity: visible ? (card.comingSoon ? 0.85 : 1) : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(32px)',
                 transition: 'opacity 0.55s ease, transform 0.55s ease',
                 borderTop: `4px solid ${card.accentBar}`,
             }}
-            className="bg-white rounded-3xl p-7 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-4"
+            className="relative bg-white rounded-3xl p-7 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-4"
         >
+            {card.comingSoon && (
+                <span
+                    className="absolute top-5 right-5 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full"
+                    style={{ background: card.iconBg, color: card.iconColor }}
+                >
+                    Coming Soon
+                </span>
+            )}
+
             {/* Icon badge */}
             <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center"
@@ -151,7 +161,7 @@ function ServiceCard({ card, index }) {
 
             <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${card.iconBg}` }}>
                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
-                    Handled by your Pro
+                    {card.comingSoon ? 'Launching Soon' : 'Handled by your Pro'}
                 </span>
             </div>
         </div>
@@ -273,7 +283,7 @@ export default function TravelCompanion() {
                 </div>
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left max-w-6xl mx-auto">
                     {serviceCards.map((card, i) => (
                         <ServiceCard key={card.title} card={card} index={i} />
                     ))}
