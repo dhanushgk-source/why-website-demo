@@ -7,6 +7,8 @@ const scrollTo = (id) => {
 const scrollIds = {
   'How it Works': 'WHY-Works-section',
   'Safety & Trust': 'savefty-section',
+  'Hospital Assistance': 'Hospital-companion-section',
+  'Travel Companionship': 'travel-companion-section',
 };
 
 export default function Footer() {
@@ -75,7 +77,16 @@ export default function Footer() {
             {['Hospital Assistance', 'Travel Companionship'].map((s) => (
               <li key={s} className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
-                <span>{s}</span>
+                {scrollIds[s] ? (
+                  <button
+                    onClick={() => scrollTo(scrollIds[s])}
+                    className="hover:text-[#6ED3C8] transition text-left"
+                  >
+                    {s}
+                  </button>
+                ) : (
+                  <span>{s}</span>
+                )}
               </li>
             ))}
           </ul>

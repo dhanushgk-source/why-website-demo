@@ -160,13 +160,20 @@ export default function Hero() {
           />
 
           {/* Info card overlapping bottom of image */}
-          <div className="absolute left-4 right-4 sm:left-8 sm:right-auto bottom-4 sm:bottom-8 bg-white rounded-2xl shadow-xl px-4 sm:px-6 py-4 flex items-center gap-4 sm:gap-6 max-w-[95%] sm:max-w-none">
+          <div className="absolute left-4 right-4 sm:left-8 sm:right-auto bottom-4 sm:bottom-8 bg-white rounded-2xl shadow-xl px-3 sm:px-6 py-3 sm:py-4 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-6 max-w-[95%] sm:max-w-none">
             {INFO_ITEMS.map((item, idx) => (
-              <div key={item.title} className="flex items-center gap-2">
-                <item.icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#F2711F] flex-shrink-0" strokeWidth={1.75} />
-                <div className="leading-tight">
-                  <p className="text-[#1B2A4A] font-bold text-xs sm:text-sm whitespace-nowrap">{item.title}</p>
-                  <p className="text-gray-500 text-[10px] sm:text-xs whitespace-nowrap">{item.subtitle}</p>
+              <div
+                key={item.title}
+                className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1 sm:gap-2 min-w-0"
+              >
+                <item.icon className="w-5 h-5 sm:w-7 sm:h-7 text-[#F2711F] flex-shrink-0" strokeWidth={1.75} />
+                <div className="leading-tight min-w-0 w-full">
+                  <p className="text-[#1B2A4A] font-bold text-[10px] sm:text-sm whitespace-normal sm:whitespace-nowrap break-words">
+                    {item.title}
+                  </p>
+                  <p className="text-gray-500 text-[8px] sm:text-xs whitespace-normal sm:whitespace-nowrap break-words leading-tight">
+                    {item.subtitle}
+                  </p>
                 </div>
                 {idx < INFO_ITEMS.length - 1 && (
                   <span className="hidden sm:block w-px h-8 bg-gray-200 ml-2 sm:ml-4" />
@@ -248,9 +255,8 @@ export default function Hero() {
 
             {/* Subtext */}
             <p
-              className={`text-gray-500 text-base sm:text-lg max-w-md mb-8 transition-all duration-500 ${
-                reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-              }`}
+              className={`text-gray-500 text-base sm:text-lg max-w-md mb-8 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                }`}
             >
               {SUBTEXT}
             </p>
