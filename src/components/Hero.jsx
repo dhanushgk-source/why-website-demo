@@ -1,6 +1,7 @@
 import { useSectionFade } from '../hooks/useSectionFade'
 import { useEffect, useState } from 'react'
-import { Users, HeartHandshake, User, ArrowRight, PlayCircle } from 'lucide-react'
+import { Users, HeartHandshake, User, ArrowRight, PlayCircle, Phone } from 'lucide-react'
+import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink } from '../config/contact'
 
 const TAGLINE = 'Companionship That Feels Like a Family.'
 const SUBTEXT = 'Connecting Seniors With Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
@@ -272,6 +273,31 @@ export default function Hero() {
               <PlayCircle className="w-5 h-5 text-[#0D9488]" />
               How It Works
             </button>
+          </div>
+
+          <div
+            className={`relative z-10 flex flex-col sm:flex-row items-center sm:items-center justify-start gap-3 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 mt-5 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
+              }`}
+          >
+            <a
+              href={getWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm sm:text-base font-semibold text-[#1B2A4A] hover:text-[#0D9488] transition-colors"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.15-4.94-4.34-.14-.19-1.19-1.58-1.19-3.01 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.15.07.15.12.32.02.51-.1.19-.15.3-.29.47-.15.16-.31.36-.44.48-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.45.29.15.46.13.63-.08.17-.2.72-.84.92-1.13.19-.29.39-.24.65-.14.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.13.07.75-.17 1.42z"/>
+              </svg>
+              Book on WhatsApp
+            </a>
+            <span className="hidden sm:block w-px h-5 bg-gray-300" />
+            <a
+              href={PHONE_LINK}
+              className="flex items-center gap-2 text-sm sm:text-base font-semibold text-[#1B2A4A] hover:text-[#0D9488] transition-colors"
+            >
+              <Phone className="w-[18px] h-[18px] text-[#0D9488]" />
+              Call 24/7: {PHONE_DISPLAY}
+            </a>
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useSectionFade } from '../hooks/useSectionFade'
+import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink } from '../config/contact'
 
 export default function CTA() {
   const sectionRef = useSectionFade()
@@ -95,10 +96,15 @@ export default function CTA() {
             Download the App
           </button>
 
-          <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20">
+          <a
+            href={getWhatsAppLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20"
+          >
             <img src="/Assests/icons/msg.svg" className="white-icon" width="20" alt="" />
             Talk to WHY Support
-          </button>
+          </a>
 
           <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20">
             <img src="/Assests/icons/user_Plus.svg" className="white-icon" width="20" alt="" />
@@ -109,7 +115,11 @@ export default function CTA() {
 
         {/* Subtext */}
         <div className="fade-inner mt-10 text-white/70 text-sm">
-          Available on iOS and Android
+          Available on iOS and Android · 24/7 Support:{' '}
+          <a href={PHONE_LINK} className="text-white font-semibold hover:underline">
+            {PHONE_DISPLAY}
+          </a>{' '}
+          · Serving Bengaluru
         </div>
 
       </div>

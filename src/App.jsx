@@ -10,6 +10,7 @@ import CareerNavbar from "./components/CareerNavbar";
 import Footer from "./components/Footer";
 import StickyDownload from "./components/StickyDownload";
 import CookieBanner from "./components/CookieBanner";
+import WhatsAppFloat from "./components/WhatsAppFloat";
 
 // Home Sections
 import Hero from "./components/Hero";
@@ -26,8 +27,10 @@ import CTA from "./components/CTA";
 import ProNurseCare from "./components/ProNurseCare";
 import TravelCompanionServices from "./components/TravelCompanion";
 import HospitalAssistance from "./components/HospitalAssistance"
+import TestimonialsSlideshow from "./components/TestimonialsSlideshow";
 
 import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
 import DataDeletion from "./pages/DataDeletion";
 import PrivacyPolicyUser from "./pages/PrivacyPolicyUser";
 import PrivacyPolicyPro from "./pages/PrivacyPolicyPro";
@@ -65,6 +68,7 @@ function Home() {
       <WaitingSection />
       <WorldMap/>
       <TrustSafety />
+      <TestimonialsSlideshow />
       <CTA />
     </>
   );
@@ -77,6 +81,7 @@ function AppLayout() {
 
   const hideGlobalLayout = [
     "/contact",
+    "/faq",
     "/data-deletion",
     "/privacy-policy-user",
     "/privacy-policy-pro",
@@ -93,6 +98,7 @@ function AppLayout() {
         <Routes>
 
           <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="/data-deletion" element={<DataDeletion />} />
           <Route path="/privacy-policy-user" element={<PrivacyPolicyUser />} />
           <Route path="/privacy-policy-pro" element={<PrivacyPolicyPro />} />
@@ -145,6 +151,7 @@ function AppLayout() {
            {/* <StickyDownload /> */}
             <Footer />
             <CookieBanner />
+            <WhatsAppFloat />
           </>
         )}
       </div>

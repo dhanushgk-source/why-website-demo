@@ -56,7 +56,7 @@ const signals = [
     number: '04',
     title: 'Emergency Support',
     subtitle: 'Assistance',
-    description: 'Local support teams ready to help, anytime you need us.',
+    description: '24/7 support on WhatsApp or call at +91 90365 99439 — local teams ready to help, anytime you need us.',
     Icon: Users,
     theme: 'indigo',
     titleColor: 'text-indigo-600',

@@ -28,7 +28,7 @@ const safetyItems = [
   {
     icon: '/Assests/icons/phone.svg',
     title: 'Emergency protocols',
-    desc: '24/7 emergency line, rapid response, incident management',
+    desc: '24/7 emergency line at +91 90365 99439, rapid response, incident management',
     align: 'left',
   },
 ]

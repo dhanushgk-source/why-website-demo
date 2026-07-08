@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from "../config/contact";
 
 const scrollTo = (id) => {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -33,15 +34,36 @@ export default function Footer() {
 
           <div className="space-y-5 text-white/70 text-base">
 
-            {/* Phone */}
-            <div className="group flex items-center gap-4 cursor-pointer transition">
+            {/* Phone / 24x7 Support */}
+            <a href={PHONE_LINK} className="group flex items-center gap-4 cursor-pointer transition">
               <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
                 <span className="text-xl transition duration-300 group-hover:text-[#6ED3C8]">
                   <img src="/Assests/icons/phone.svg" width="24" height="24" className="white-icon" alt="" />
                 </span>
               </div>
-              <span className="transition duration-300 group-hover:text-[#6ED3C8]">+91 9036599439</span>
-            </div>
+              <span className="transition duration-300 group-hover:text-[#6ED3C8]">
+                {PHONE_DISPLAY}
+                <span className="block text-xs text-white/50">24/7 Support</span>
+              </span>
+            </a>
+
+            {/* WhatsApp */}
+            <a
+              href={getWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-4 cursor-pointer transition"
+            >
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
+                <span className="text-xl transition duration-300 group-hover:text-[#6ED3C8]">
+                  <img src="/Assests/icons/msg.svg" width="24" height="24" className="white-icon" alt="" />
+                </span>
+              </div>
+              <span className="transition duration-300 group-hover:text-[#6ED3C8]">
+                Book on WhatsApp
+                <span className="block text-xs text-white/50">{PHONE_DISPLAY}</span>
+              </span>
+            </a>
 
             {/* Email */}
             <div className="group flex items-center gap-4 cursor-pointer transition">
@@ -63,7 +85,8 @@ export default function Footer() {
                 </span>
               </div>
               <span className="transition duration-300 group-hover:text-[#6ED3C8]">
-                Available in 1+ cities
+                {LOCATIONS.join(', ')}
+                <span className="block text-xs text-white/50">{LOCATIONS_NOTE}</span>
               </span>
             </div>
 
@@ -126,6 +149,10 @@ export default function Footer() {
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
               <a href="" className="hover:text-[#6ED3C8] transition">Help Center</a>
+            </li>
+            <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
+              <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
+              <Link to="/faq" className="hover:text-[#6ED3C8] transition">FAQ</Link>
             </li>
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
