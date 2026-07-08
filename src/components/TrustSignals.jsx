@@ -54,7 +54,7 @@ const signals = [
   {
     id: 'assistance',
     number: '04',
-    title: 'On-Ground',
+    title: 'Emergency Support',
     subtitle: 'Assistance',
     description: 'Local support teams ready to help, anytime you need us.',
     Icon: Users,
@@ -160,18 +160,19 @@ export default function TrustSignals() {
           </div>
 
           <p className="fade-inner text-[#0A1F44]/60 text-lg max-w-2xl mx-auto">
-            Compassion is at the heart of everything we do. From carefully verified companions to personalized support, every experience is designed to make seniors feel valued, connected, and cared for.          </p>
+            Every interaction is built on compassion, trust, and dignity—so seniors feel cared for and families feel reassured          </p>
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-stretch">
           {signals.map((signal, index) => (
             <div
               key={signal.id}
               ref={(el) => (cardsRef.current[index] = el)}
               className="card-hidden group relative bg-white rounded-3xl overflow-hidden text-center
                 shadow-lg transition-all duration-500 ease-out
-                hover:-translate-y-2 hover:shadow-2xl"
+                hover:-translate-y-2 hover:shadow-2xl
+                h-full flex flex-col"
               style={{
                 transform: 'translateY(30px)',
                 opacity: 0,
@@ -179,13 +180,13 @@ export default function TrustSignals() {
                 transitionDelay: `${index * 100}ms`
               }}
             >
-              <div className="relative px-5 pt-7 pb-12">
+              <div className="relative px-5 pt-7 pb-12 flex-1 flex flex-col">
                 {/* Sparkle decorations */}
                 <Sparkle className={`absolute top-5 left-5 w-3 h-3 ${signal.iconColor} opacity-60`} fill="currentColor" />
                 <Sparkle className={`absolute top-8 right-6 w-2 h-2 ${signal.iconColor} opacity-40`} fill="currentColor" />
 
                 {/* Icon with layered rings */}
-                <div className="relative w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                <div className="relative w-16 h-16 mx-auto mb-3 flex items-center justify-center flex-shrink-0">
                   <div className={`absolute inset-0 rounded-full ${signal.ringBg}`} />
                   <div className={`absolute inset-1.5 rounded-full ${signal.ringInner}`} />
                   <div className="absolute inset-3 rounded-full bg-white shadow-sm" />
@@ -193,13 +194,13 @@ export default function TrustSignals() {
                 </div>
 
                 {/* Title */}
-                <h3 className={`text-lg font-bold ${signal.titleColor}`}>
+                <h3 className={`text-lg font-bold ${signal.titleColor} flex-shrink-0`}>
                   {signal.title}
                 </h3>
-                <p className="text-base font-semibold text-slate-400 mb-2">
+                <p className="text-base font-semibold text-slate-400 mb-2 flex-shrink-0">
                   {signal.subtitle}
                 </p>
-                <span className={`block w-8 h-[3px] mx-auto rounded-full mb-3 ${signal.underline}`} />
+                <span className={`block w-8 h-[3px] mx-auto rounded-full mb-3 flex-shrink-0 ${signal.underline}`} />
 
                 {/* Description */}
                 <p className="text-xs text-slate-500 leading-relaxed max-w-[20ch] mx-auto">
@@ -207,8 +208,8 @@ export default function TrustSignals() {
                 </p>
               </div>
 
-              {/* Wavy bottom with number badge */}
-              <div className="relative h-12">
+              {/* Wavy bottom with number badge — pinned to the true bottom of the card via flex */}
+              <div className="relative h-12 flex-shrink-0">
                 <svg
                   className={`absolute inset-0 w-full h-full ${signal.waveColor}`}
                   viewBox="0 0 300 60"

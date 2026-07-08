@@ -4,14 +4,12 @@ import { Users, HeartHandshake, User, ArrowRight, PlayCircle } from 'lucide-reac
 
 const TAGLINE = 'Companionship That Feels Like a Family.'
 const SUBTEXT = 'Connecting Seniors With Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
-// Split into words with their first letters highlighted
 const WORD_PARTS = {
   word1: { full: 'We', first: 'W', rest: 'e' },
   word2: { full: 'Help', first: 'H', rest: 'elp' },
   word3: { full: 'You', first: 'Y', rest: 'ou' }
 }
 
-// Ordered typing queue with split word typing
 const SEGMENTS = [
   { key: 'word1_first', text: WORD_PARTS.word1.first, speed: 100, pause: 100 },
   { key: 'word1_rest', text: WORD_PARTS.word1.rest, speed: 60, pause: 150 },
@@ -131,50 +129,11 @@ export default function Hero() {
 
       <div className="fade-inner relative w-full min-h-[75vh] min-h-[75svh] flex flex-col md:flex-row">
 
-        {/* Left Side - Image with gradient background and organic shapes */}
-        <div className="relative w-full md:w-[60%] flex-shrink-0">
+        {/* Left Side - Image with organic curved edge */}
+        <div className="relative w-full md:w-[60%] flex-shrink-0 md:min-h-[75vh]">
 
-          {/* Image block — its own height, no card overlapping on mobile */}
-          <div className="relative w-full h-[50vh] min-h-[320px] md:h-auto md:min-h-[75vh] overflow-hidden">
-
-            {/* Gradient background */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background: 'radial-gradient(120% 100% at 20% 20%, #FBE3C7 0%, #F7D9B8 35%, #F7F3EA 75%)'
-              }}
-            />
-
-            {/* Soft organic blob shape (adds depth behind the photo) */}
-            <div
-              className="absolute -top-10 -left-10 w-[70%] h-[70%] rounded-[45%_55%_60%_40%/50%_45%_55%_50%] opacity-60"
-              style={{ background: 'linear-gradient(135deg, #F6C89F 0%, #FBE3C7 100%)' }}
-            />
-
-            {/* Dot grid pattern */}
-            <div className="hidden sm:grid absolute top-10 right-16 grid-cols-6 gap-2 opacity-50">
-              {Array.from({ length: 24 }).map((_, i) => (
-                <span key={i} className="w-1 h-1 rounded-full bg-[#D98A4A]" />
-              ))}
-            </div>
-
-            {/* Leaf branch illustration */}
-            <svg
-              className="hidden sm:block absolute top-4 right-10 w-16 h-40 text-[#A8C7A1] opacity-70"
-              viewBox="0 0 100 260"
-              fill="none"
-            >
-              <path d="M50 260 L50 20" stroke="currentColor" strokeWidth="2" />
-              <ellipse cx="50" cy="40" rx="22" ry="12" fill="currentColor" transform="rotate(-30 50 40)" />
-              <ellipse cx="50" cy="80" rx="20" ry="11" fill="currentColor" transform="rotate(25 50 80)" />
-              <ellipse cx="50" cy="120" rx="18" ry="10" fill="currentColor" transform="rotate(-25 50 120)" />
-              <ellipse cx="50" cy="160" rx="16" ry="9" fill="currentColor" transform="rotate(20 50 160)" />
-            </svg>
-
-            {/* Small rotated square accent icon */}
-            <div className="hidden sm:block absolute top-6 left-14 w-3 h-3 border-2 border-[#D98A4A]/60 rotate-45" />
-
-            {/* SVG clipPath definition — an S-curve on the right edge (objectBoundingBox scales with the element) */}
+          {/* Image block — fixed height on mobile; fills the full stretched column height on desktop (no gap) */}
+          <div className="relative w-full h-[50vh] min-h-[320px] sm:min-h-[45vh] md:absolute md:inset-0 md:h-auto overflow-hidden">
             <svg width="0" height="0" className="absolute">
               <defs>
                 <clipPath id="heroImageClip" clipPathUnits="objectBoundingBox">
@@ -183,37 +142,38 @@ export default function Hero() {
               </defs>
             </svg>
 
-            {/* The photo — inset on desktop so gradient/shapes show around its edges, full-bleed on mobile */}
             <div
-              className="absolute inset-0 md:left-6 md:top-6 md:bottom-6"
+              className="absolute inset-0"
               style={{
-                backgroundImage: "url('/Assests/elder.jpg')",
+                backgroundImage: "url('/Assests/elder.png')",
                 backgroundSize: 'cover',
-                backgroundPosition: 'center 25%',
+                backgroundPosition: 'center top',
                 clipPath: 'url(#heroImageClip)',
                 WebkitClipPath: 'url(#heroImageClip)'
               }}
             />
+
+            {/* Drop-shadow / outline div removed — was causing the visible curved line (arrow 3) */}
           </div>
 
-          {/* Info card — stacked below the image on mobile, overlapping on desktop */}
-          <div className="relative md:absolute md:left-8 md:bottom-8 -mt-6 md:mt-0 mx-4 md:mx-0 bg-white rounded-2xl shadow-xl px-3 sm:px-6 py-3 sm:py-4 grid grid-cols-3 md:flex md:items-center gap-2 md:gap-6 z-10">
+          {/* Info card — stacked below the image on mobile (no overlap), overlapping bottom-left on sm+ as before */}
+          <div className="relative sm:absolute sm:left-8 sm:bottom-8 -mt-6 sm:mt-0 mx-4 sm:mx-0 bg-white rounded-2xl shadow-xl px-3 sm:px-6 py-3 sm:py-4 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-6 sm:max-w-none z-10">
             {INFO_ITEMS.map((item, idx) => (
               <div
                 key={item.title}
-                className="flex flex-col md:flex-row items-center md:items-center text-center md:text-left gap-1 md:gap-2 min-w-0"
+                className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1 sm:gap-2 min-w-0"
               >
                 <item.icon className="w-5 h-5 sm:w-7 sm:h-7 text-[#F2711F] flex-shrink-0" strokeWidth={1.75} />
                 <div className="leading-tight min-w-0 w-full">
-                  <p className="text-[#1B2A4A] font-bold text-[10px] sm:text-sm whitespace-normal md:whitespace-nowrap break-words">
+                  <p className="text-[#1B2A4A] font-bold text-[10px] sm:text-sm whitespace-normal sm:whitespace-nowrap break-words">
                     {item.title}
                   </p>
-                  <p className="text-gray-500 text-[8px] sm:text-xs whitespace-normal md:whitespace-nowrap break-words leading-tight">
+                  <p className="text-gray-500 text-[8px] sm:text-xs whitespace-normal sm:whitespace-nowrap break-words leading-tight">
                     {item.subtitle}
                   </p>
                 </div>
                 {idx < INFO_ITEMS.length - 1 && (
-                  <span className="hidden md:block w-px h-8 bg-gray-200 ml-2 md:ml-4" />
+                  <span className="hidden sm:block w-px h-8 bg-gray-200 ml-2 sm:ml-4" />
                 )}
               </div>
             ))}
@@ -231,13 +191,12 @@ export default function Hero() {
               <span key={i} className="w-1 h-1 rounded-full bg-[#0D9488]" />
             ))}
           </div>
+          {/* Leaf SVG (arrow 2) removed */}
 
           {/* Content column */}
           <div className="relative w-full max-w-2xl mx-auto md:mx-0 z-10">
 
-            {/* Title - 3 stacked words */}
             <div className="mb-2">
-              {/* Word 1: "We" */}
               <div className="flex items-baseline justify-start gap-0">
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word1_first}
@@ -249,7 +208,6 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Word 2: "Help" */}
               <div className="flex items-baseline justify-start gap-0">
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word2_first}
@@ -261,7 +219,6 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Word 3: "You" */}
               <div className="flex items-baseline justify-start gap-0">
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word3_first}
@@ -273,20 +230,17 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Divider */}
               <div className="flex items-center gap-2 my-5">
                 <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
                 <HeartHandshake className="w-4 h-4 text-[#0D9488]" strokeWidth={2} />
               </div>
             </div>
 
-            {/* Tagline */}
             <h2 className="text-2xl sm:text-3xl md:text-2xl lg:text-3xl text-[#1B2A4A] font-extrabold mb-4 min-h-[1.2em] tracking-tight leading-snug text-left max-w-[22ch]">
               {activeKey === 'tag' && <Cursor color="bg-[#1B2A4A]" size="h-[0.8em]" />}
               {texts.tag}
             </h2>
 
-            {/* Subtext */}
             <p
               className={`text-gray-500 text-base sm:text-lg max-w-md mb-8 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                 }`}
@@ -295,7 +249,6 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* CTAs */}
           <div
             className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
               }`}
