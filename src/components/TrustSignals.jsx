@@ -8,7 +8,7 @@ const signals = [
     number: '01',
     title: 'Verified',
     subtitle: 'Companions',
-    description: 'Background-checked and trained for your safety and peace of mind.',
+    description: 'Every companion is thoroughly background-verified and professionally trained, ensuring trusted care and complete peace of mind.',
     Icon: CheckCircle2,
     theme: 'emerald',
     titleColor: 'text-emerald-600',
@@ -24,7 +24,7 @@ const signals = [
     number: '02',
     title: 'Supervised',
     subtitle: 'Visits',
-    description: 'Regular supervision and monitoring to ensure quality every time.',
+    description: 'Every visit is monitored through regular quality checks to ensure a safe, consistent, and reliable experience.',
     Icon: Eye,
     theme: 'teal',
     titleColor: 'text-teal-600',
@@ -40,7 +40,7 @@ const signals = [
     number: '03',
     title: 'Real-Time',
     subtitle: 'Updates',
-    description: 'Stay informed with real-time updates and instant notifications.',
+    description: "Receive real-time visit updates and instant notifications, so you're always informed and reassured.",
     Icon: Clock,
     theme: 'blue',
     titleColor: 'text-blue-600',
@@ -139,15 +139,18 @@ export default function TrustSignals() {
         <div className="text-center mb-16">
           <div className="fade-inner inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 font-semibold text-sm px-4 py-2 rounded-full mb-6 shadow-sm">
             <ShieldCheck className="w-4 h-4" />
-            Our Promise
+            The WHY Promise
           </div>
 
           <h2 className="fade-inner text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-[#0A1F44]">
-            What Makes {' '}
+            Why{' '}
+            <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
+              Families
+            </span>{' '} Choose {' '}
             <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
               WHY
-            </span> {' '}
-            Different
+            </span>
+
           </h2>
 
           <div className="fade-inner flex items-center justify-center gap-3 mb-4">
@@ -157,8 +160,7 @@ export default function TrustSignals() {
           </div>
 
           <p className="fade-inner text-[#0A1F44]/60 text-lg max-w-2xl mx-auto">
-            Our commitment to safety, transparency, and quality care drives everything we do.
-          </p>
+            Compassion is at the heart of everything we do. From carefully verified companions to personalized support, every experience is designed to make seniors feel valued, connected, and cared for.          </p>
         </div>
 
         {/* Features Grid */}
@@ -230,15 +232,17 @@ export default function TrustSignals() {
               <ShieldCheck className="w-5 h-5 text-white" />
             </div>
             <div className="text-left">
-              <p className="text-[#0A1F44] font-bold text-base sm:text-lg leading-tight">100% Verified &amp; Trusted Platform</p>
-              <p className="text-slate-400 text-sm">Your trust is our greatest responsibility</p>
+              <p className="text-[#0A1F44] font-bold text-base sm:text-lg leading-tight">Built on Trust & Safety</p>
+              <p className="text-slate-400 text-sm">Because your loved ones deserve nothing less than trusted companionship.</p>
             </div>
+            {/*
             <span className="hidden sm:block w-px h-10 bg-slate-200" />
             <div className="hidden sm:flex gap-1">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className="w-5 h-5 text-amber-400" fill="currentColor" />
               ))}
             </div>
+            */}
           </div>
         </div>
 

@@ -2,10 +2,10 @@ import { useSectionFade } from '../hooks/useSectionFade'
 import { AlertCircle, HeartHandshake, ShieldCheck, Leaf, Heart } from 'lucide-react'
 
 const problems = [
-  { text: 'Hospital visits without support', theme: 'orange' },
-  { text: 'Emergencies at night', theme: 'teal' },
-  { text: 'No trusted local help', theme: 'indigo' },
-  { text: 'Living far from parents', theme: 'coral' },
+  { text: 'Seniors attending hospital visits alone', theme: 'orange' },
+  { text: ' Unexpected situations without immediate support', theme: 'teal' },
+  { text: 'Difficulty finding verified and reliable companions', theme: 'indigo' },
+  { text: 'Families living away from their loved ones', theme: 'coral' },
 ]
 
 const THEME = {
@@ -76,15 +76,15 @@ export default function ParentSection() {
         {/* Eyebrow */}
         <div className="fade-inner mx-auto mb-6 flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-[#0D9488] shadow-sm">
           <AlertCircle className="h-4 w-4" aria-hidden="true" />
-          The Challenge We Solve
+          Why Families Choose WHY
         </div>
 
         {/* Heading */}
         <h2 className="fade-inner text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-[#0A1F44]">
-          When parents need help –{' '}
+          When Seniors Need Support, {' '}
           <br className="hidden sm:block" />
           <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-            families need certainty
+             Families Need Peace of Mind
           </span>
         </h2>
 
@@ -127,8 +127,10 @@ export default function ParentSection() {
             <HeartHandshake className="w-5 h-5 text-[#0D9488]" />
           </span>
           <p className="text-base sm:text-xl font-semibold text-[#0A1F44]">
-            WHY exists to remove{' '}
-            <span className="text-[#F2711F]">uncertainty</span> from care
+           WHY provides  {' '}
+            <span className="text-[#F2883B]">trusted companionship, </span> {' '}
+            <span className="text-[#5D5DEE]">reliable support,</span> {' '}
+            <span className="text-[#11AD9D]">comfort for every family</span>
           </p>
         </div>
 

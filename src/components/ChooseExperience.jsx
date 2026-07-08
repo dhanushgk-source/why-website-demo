@@ -103,15 +103,16 @@ export default function ChooseExperience() {
         {/* Eyebrow */}
         <div className="fade-inner mx-auto mb-6 flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-[#0D9488] shadow-sm">
           <Heart className="h-4 w-4 fill-[#0D9488]" strokeWidth={0} aria-hidden="true" />
-          Your Care, Your Way
+          Our Services
         </div>
 
         {/* Heading */}
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl fade-inner font-Manrope font-extrabold text-center mb-4 text-[#0A1F44]">
-          Choose Your{' '}
+          Choose the {' '}
           <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-            Experience
-          </span>
+            Support
+          </span>{' '}
+          You Need
         </h2>
 
         {/* Divider */}
@@ -122,7 +123,7 @@ export default function ChooseExperience() {
         </div>
 
         <p className="fade-inner text-center text-[#0A1F44]/60 text-lg mb-16">
-          Personalized support for every journey, every need.
+          Compassionate companionship and personalized assistance designed to support seniors through hospital visits, travel, and everyday moments giving families peace of mind and seniors the confidence to live independently.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">

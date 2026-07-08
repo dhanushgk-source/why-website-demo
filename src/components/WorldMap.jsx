@@ -147,20 +147,20 @@ function GeoJSONLayer({ userCountry }) {
 
 const features = [
     {
-        title: "Trusted PRO Network",
-        desc: "Verified PRO across all major cities in India.",
+        title: "Verified Companion Network",
+        desc: "Background-verified companions available across major cities in India.",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
     },
     {
-        title: "Real-Time Tracking",
-        desc: "Know exactly when your PRO arrives and leaves.",
+        title: "Live Visit Tracking",
+        desc: "Receive live updates from arrival to visit completion.",
         iconBg: "#EAF0FA",
         iconColor: "#2F4A7D",
     },
     {
-        title: "Hospital & Travel Assistance",
-        desc: "Escort services for appointments, travel, and errands.",
+        title: "Hospital, Travel & Daily Support",
+        desc: "Reliable companionship for appointments, travel, errands, and everyday assistance.",
         iconBg: "#FDF0EC",
         iconColor: "#E07A5F",
     },
@@ -328,9 +328,9 @@ export default function WorldMap() {
                         <Marker position={[india.lat, india.lon]} icon={greenIcon}>
                             <Popup>
                                 <div className="text-center">
-                                    <h3 className="font-bold text-green-600">Parents</h3>
+                                    <h3 className="font-bold text-green-600">Your Family</h3>
                                     <p>India</p>
-                                    <p className="text-green-600 font-semibold">PRO Assigned ✓</p>
+                                    <p className="text-green-600 font-semibold">Companion Assigned ✓</p>
                                 </div>
                             </Popup>
                         </Marker>
@@ -353,17 +353,17 @@ export default function WorldMap() {
                         <div className="flex items-center gap-2 sm:gap-3">
                             <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 animate-pulse flex-shrink-0"></span>
                             <div>
-                                <p className="font-semibold text-xs sm:text-sm leading-tight" style={{ color: "#1a2a3a" }}>Live Tracking</p>
-                                <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>PRO route active</p>
+                                <p className="font-semibold text-xs sm:text-sm leading-tight" style={{ color: "#1a2a3a" }}> Live Visit Tracking</p>
+                                <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>Companion en route</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Parents Info Badge — hidden on mobile, shown from sm breakpoint up */}
                     <div className="hidden sm:block absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl p-2.5 sm:p-4">
-                        <h3 className="font-bold text-xs sm:text-sm" style={{ color: "#52B5BD" }}>Parents</h3>
+                        <h3 className="font-bold text-xs sm:text-sm" style={{ color: "#52B5BD" }}>Your Family</h3>
                         <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>India</p>
-                        <span className="text-green-600 font-semibold text-[10px] sm:text-xs">PRO Assigned ✓</span>
+                        <span className="text-green-600 font-semibold text-[10px] sm:text-xs">Companion Assigned ✓</span>
                     </div>
                 </div>
 
@@ -386,19 +386,19 @@ export default function WorldMap() {
                             <path d="M2 12h20" />
                             <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9z" />
                         </svg>
-                        Distance doesn't matter
+                        Care Beyond Borders
                     </span>
 
                     <h1 className="font-display text-xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3 sm:mb-5 tracking-tight" style={{ color: "#1B2A4A" }}>
-                        Care for your parents in India,
+                        Stay Close to Your Parents,
                         <br />
                         {isIndiaVisitor ? (
                             <span style={{ color: "#52B5BD" }}>
-                                from anywhere in the world.
+                                Wherever You Are.
                             </span>
                         ) : (
                             <span style={{ color: "#52B5BD" }}>
-                                from {user.country}.
+                               Even from {user.country}.
                             </span>
                         )}
                     </h1>
@@ -408,12 +408,13 @@ export default function WorldMap() {
                             Distance may separate families, but it should never separate care.
                         </span>{" "}
                         {isIndiaVisitor ? (
-                            <>Wherever your family is spread across the globe, our trusted PRO are always ready to support your parents across India.</>
+                            <>
+                                Whether you're living abroad or in another city, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified companions across India—keeping you informed, reassured, and connected every step of the way.
+                            </>
                         ) : (
                             <>
                                 Whether you're currently living in{" "}
-                                <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>,
-                                our trusted PRO are always ready to support your parents across India.
+                                <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified companions across India—keeping you informed, reassured, and connected every step of the way.
                             </>
                         )}
                     </p>
@@ -454,7 +455,7 @@ export default function WorldMap() {
                                        transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
                             style={{ background: "#0D5A55" }}
                         >
-                            Find a Trusted PRO
+                            Find Your Companion
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12" />
                                 <polyline points="12 5 19 12 12 19" />
@@ -468,7 +469,7 @@ export default function WorldMap() {
                                        hover:border-[#52B5BD] transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
                             style={{ color: "#6a7f96" }}
                         >
-                            How it works
+                             See
                         </button>
                     </div>
                 </div>

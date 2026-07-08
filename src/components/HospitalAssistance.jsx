@@ -13,12 +13,12 @@ const serviceCards = [
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
         title: 'Hospital & Medical Support',
-        desc: "Your Pro accompanies elders to every hospital visit — so no one faces it alone.",
+        desc: "Your WHY Companion accompanies seniors to every hospital visit, ensuring they feel supported, safe, and never alone.",
         points: [
             'Escort to hospitals & clinics',
             'Wait & assist during consultations',
             'Coordinate with doctors & staff',
-            'Accompany elders safely back home',
+            'Ensure a safe return home after every visit',
         ],
     },
     {
@@ -27,7 +27,7 @@ const serviceCards = [
         iconColor: "#2F4A7D",
         accentBar: "#2F4A7D",
         title: 'Medicine & Pharmacy Care',
-        desc: "Never miss a dose. Your Pro handles prescriptions and timely refills.",
+        desc: "Your WHY Companion helps manage medications, prescriptions, and timely refills, so nothing is overlooked.",
         points: [
             'Pick up prescribed medicines',
             'Medication reminders & tracking',
@@ -156,7 +156,7 @@ function ServiceCard({ card, index }) {
 
             <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${card.iconBg}` }}>
                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
-                    Handled by your Pro
+                    SUPPORTED BY YOUR WHY COMPANION
                 </span>
             </div>
         </div>
@@ -295,13 +295,13 @@ export default function TravelCompanion() {
                         className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 text-sm"
                         style={{ background: "#0D5A55" }}
                     >
-                        Book a Pro Now
+                        Book a Companion Now
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                         </svg>
                     </button>
                     <p className="text-sm" style={{ color: "#8a9ab0" }}>
-                        Background-verified · Visit summaries shared with families · Available 24/7
+                        Background-verified companions · Real-time family updates · Available whenever you need support
                     </p>
                 </div>
 

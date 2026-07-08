@@ -4,14 +4,12 @@ import { Users, HeartHandshake, User, ArrowRight, PlayCircle } from 'lucide-reac
 
 const TAGLINE = 'Companionship That Feels Like a Family.'
 const SUBTEXT = 'Connecting Seniors With Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
-// Split into words with their first letters highlighted
 const WORD_PARTS = {
   word1: { full: 'We', first: 'W', rest: 'e' },
   word2: { full: 'Help', first: 'H', rest: 'elp' },
   word3: { full: 'You', first: 'Y', rest: 'ou' }
 }
 
-// Ordered typing queue with split word typing
 const SEGMENTS = [
   { key: 'word1_first', text: WORD_PARTS.word1.first, speed: 100, pause: 100 },
   { key: 'word1_rest', text: WORD_PARTS.word1.rest, speed: 60, pause: 150 },
@@ -123,13 +121,16 @@ export default function Hero() {
   }
 
   return (
-    <section ref={sectionRef} className="w-full relative overflow-hidden bg-[#F7F3EA]" id="hero-section">
+    <section
+      ref={sectionRef}
+      className="w-full relative overflow-hidden bg-[#F7F3EA] rounded-b-[40px] md:rounded-b-[60px]"
+      id="hero-section"
+    >
 
       <div className="fade-inner relative w-full min-h-[75vh] min-h-[75svh] flex flex-col md:flex-row">
 
         {/* Left Side - Image with organic curved edge */}
         <div className="relative w-full md:w-[60%] min-h-[45vh] md:min-h-[75vh] flex-shrink-0">
-          {/* SVG clipPath definition — an S-curve on the right edge (objectBoundingBox scales with the element) */}
           <svg width="0" height="0" className="absolute">
             <defs>
               <clipPath id="heroImageClip" clipPathUnits="objectBoundingBox">
@@ -141,23 +142,15 @@ export default function Hero() {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: "url('/Assests/elder.jpg')",
+              backgroundImage: "url('/Assests/elder.png')",
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundPosition: 'center top',
               clipPath: 'url(#heroImageClip)',
               WebkitClipPath: 'url(#heroImageClip)'
             }}
           />
 
-          {/* Soft drop shadow tracing the same curve, sits just behind the image for depth */}
-          <div
-            className="absolute inset-0 -z-10 translate-x-2 translate-y-2"
-            style={{
-              background: 'rgba(27,42,74,0.12)',
-              clipPath: 'url(#heroImageClip)',
-              WebkitClipPath: 'url(#heroImageClip)'
-            }}
-          />
+          {/* Drop-shadow / outline div removed — was causing the visible curved line (arrow 3) */}
 
           {/* Info card overlapping bottom of image */}
           <div className="absolute left-4 right-4 sm:left-8 sm:right-auto bottom-4 sm:bottom-8 bg-white rounded-2xl shadow-xl px-3 sm:px-6 py-3 sm:py-4 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-6 max-w-[95%] sm:max-w-none">
@@ -194,17 +187,12 @@ export default function Hero() {
               <span key={i} className="w-1 h-1 rounded-full bg-[#0D9488]" />
             ))}
           </div>
-          <svg className="hidden md:block absolute bottom-10 right-0 w-24 h-40 text-[#BFDAD4] opacity-70" viewBox="0 0 100 200" fill="none">
-            <path d="M50 200 C 20 150, 20 100, 50 40 C 80 100, 80 150, 50 200 Z" fill="currentColor" opacity="0.5" />
-            <path d="M50 40 C 50 90, 50 150, 50 200" stroke="currentColor" strokeWidth="2" />
-          </svg>
+          {/* Leaf SVG (arrow 2) removed */}
 
           {/* Content column */}
           <div className="relative w-full max-w-2xl mx-auto md:mx-0 z-10">
 
-            {/* Title - 3 stacked words */}
             <div className="mb-2">
-              {/* Word 1: "We" */}
               <div className="flex items-baseline justify-start gap-0">
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word1_first}
@@ -216,7 +204,6 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Word 2: "Help" */}
               <div className="flex items-baseline justify-start gap-0">
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word2_first}
@@ -228,7 +215,6 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Word 3: "You" */}
               <div className="flex items-baseline justify-start gap-0">
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   {texts.word3_first}
@@ -240,20 +226,17 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Divider */}
               <div className="flex items-center gap-2 my-5">
                 <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
                 <HeartHandshake className="w-4 h-4 text-[#0D9488]" strokeWidth={2} />
               </div>
             </div>
 
-            {/* Tagline */}
             <h2 className="text-2xl sm:text-3xl md:text-2xl lg:text-3xl text-[#1B2A4A] font-extrabold mb-4 min-h-[1.2em] tracking-tight leading-snug text-left max-w-[22ch]">
               {activeKey === 'tag' && <Cursor color="bg-[#1B2A4A]" size="h-[0.8em]" />}
               {texts.tag}
             </h2>
 
-            {/* Subtext */}
             <p
               className={`text-gray-500 text-base sm:text-lg max-w-md mb-8 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                 }`}
@@ -262,7 +245,6 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* CTAs */}
           <div
             className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
               }`}
@@ -290,18 +272,11 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Bottom teal wave */}
-      <svg
-        className="absolute bottom-0 left-0 w-full text-[#0D9488]"
-        viewBox="0 0 1440 100"
-        preserveAspectRatio="none"
-        style={{ height: '60px' }}
-      >
-        <path
-          d="M0,40 C240,90 480,10 720,30 C960,50 1200,90 1440,40 L1440,100 L0,100 Z"
-          fill="currentColor"
-        />
-      </svg>
+      {/* Bottom teal wave removed. If you want a subtle accent instead of nothing, 
+          uncomment below for a soft rounded corner tab instead of a full-width wave: */}
+      {/*
+      <div className="absolute -bottom-1 left-8 w-24 h-6 bg-[#0D9488]/30 rounded-t-full" />
+      */}
     </section>
   )
 }

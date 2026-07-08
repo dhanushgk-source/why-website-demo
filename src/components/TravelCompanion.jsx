@@ -10,12 +10,12 @@ const serviceCards = [
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
-        title: 'Emergency Travel Assistance',
+        title: 'Emergency Companion Support',
         points: [
             'Hospital & medical visits',
             'Urgent travel support',
             'Safe transportation',
-            'Immediate companion help',
+            ' Immediate assistance when you need it',
         ],
     },
     {
@@ -23,11 +23,11 @@ const serviceCards = [
         iconBg: "#EAF0FA",
         iconColor: "#2F4A7D",
         accentBar: "#2F4A7D",
-        title: 'Differently Abled Travel Support',
+        title: 'Assisted Mobility Support',
         points: [
             'Mobility assistance',
             'Wheelchair support',
-            'Accessible travel guidance',
+            'Accessible mobility assistance',
             'Comfortable journeys',
         ],
     },
@@ -36,12 +36,12 @@ const serviceCards = [
         iconBg: "#EEF8F1",
         iconColor: "#4A9D6E",
         accentBar: "#4A9D6E",
-        title: '24/7 Companion Support',
+        title: '24/7 Care & Companion Support',
         points: [
             'Day & night availability',
             'Personal assistance',
             'Safety monitoring',
-            'Peace of mind',
+            'Continuous peace of mind',
         ],
     },
     {
@@ -49,7 +49,7 @@ const serviceCards = [
         iconBg: "#FDF0EC",
         iconColor: "#E07A5F",
         accentBar: "#E07A5F",
-        title: 'Shopping & Daily Errands',
+        title: 'Daily Errands & Essential Support',
         comingSoon: true,
         points: [
             'Grocery shopping',
@@ -161,7 +161,7 @@ function ServiceCard({ card, index }) {
 
             <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${card.iconBg}` }}>
                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
-                    {card.comingSoon ? 'Launching Soon' : 'Handled by your Pro'}
+                    {card.comingSoon ? 'COMING SOON' : 'SUPPORTED BY YOUR WHY COMPANION'}
                 </span>
             </div>
         </div>
@@ -258,13 +258,13 @@ export default function TravelCompanion() {
                             <circle cx="12" cy="12" r="9" />
                             <path d="M8 12l3 3 5-6" />
                         </svg>
-                        Trusted Travel Companions
+                        Trusted Companion Services
                     </span>
 
                     <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight" style={{ color: "#1B2A4A" }}>
                         Choose Your
-                        <br className="hidden sm:block" />
-                        <span style={{ color: "#52B5BD" }}>Travel Companion Service</span>
+                        <br className="hidden sm:block" />{' '}
+                        <span style={{ color: "#52B5BD" }}>Companion Service</span>
                     </h2>
 
                     {/* Divider with heart */}
@@ -277,8 +277,7 @@ export default function TravelCompanion() {
                     </div>
 
                     <p className="text-lg max-w-3xl mx-auto mb-14 leading-relaxed" style={{ color: "#6a7f96" }}>
-                        Trusted companions to support your travel, errands, emergencies,
-                        and daily activities with care, comfort, and reliability.
+                        Trusted companions who provide personalized support for travel, medical visits, daily errands, emergencies, and everyday assistance—ensuring comfort, safety, and peace of mind for seniors and their families.
                     </p>
                 </div>
 
@@ -307,7 +306,7 @@ export default function TravelCompanion() {
                         </svg>
                     </button>
                     <p className="text-sm" style={{ color: "#8a9ab0" }}>
-                        Background-verified · Available 24/7 · Across India
+                        Background-verified companions · Available 24/7 · Trusted support across India
                     </p>
                 </div>
 

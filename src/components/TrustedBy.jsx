@@ -9,7 +9,7 @@ const statsData = [
     Icon: Users,
     target: 0,
     suffix: '+',
-    label: 'Verified PRO',
+    label: 'Verified Companions',
     bg: 'bg-[#3FBFB0]',
     numberColor: 'text-[#0D9488]',
     underline: 'bg-[#0D9488]',
@@ -21,7 +21,7 @@ const statsData = [
     // Automatically gets the number of cities
     target: coveredCities.length,
     suffix: '+',
-    label: 'Cities Covered',
+    label: ' Cities Served',
     bg: 'bg-[#2F4A7D]',
     numberColor: 'text-[#2F4A7D]',
     underline: 'bg-[#2F4A7D]',
@@ -33,7 +33,7 @@ const statsData = [
     Icon: Heart,
     target: 0,
     suffix: '+',
-    label: 'Happy Clients',
+    label: 'Families Supported',
     bg: 'bg-[#E07A5F]',
     numberColor: 'text-[#E07A5F]',
     underline: 'bg-[#E07A5F]',
@@ -44,7 +44,7 @@ const statsData = [
     Icon: Star,
     target: 0,
     suffix: '/5',
-    label: 'Average Rating',
+    label: ' Family Satisfaction',
     bg: 'bg-[#4CAE7F]',
     numberColor: 'text-[#2F8F5B]',
     underline: 'bg-[#2F8F5B]',
@@ -165,13 +165,13 @@ export default function TrustedBy() {
         {/* Eyebrow */}
         <div className="fade-inner mx-auto mb-6 flex w-fit items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#0D9488] shadow-sm border border-teal-100">
           <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-          Our Impact
+           WHY in Numbers
         </div>
 
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 fade-inner text-[#0A1F44]">
-          On a Journey of {' '}
+          Trusted by Families,{' '}
           <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-            Earning Trust 
+            Driven by Care
           </span>
         </h2>
 
@@ -185,7 +185,7 @@ export default function TrustedBy() {
         </div>
 
         <p className="text-[#0A1F44]/60 text-lg mb-16 fade-inner">
-          Our numbers speak for themselves
+           Every connection we create reflects our commitment to trust, compassion, and exceptional care.
         </p>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 lg:gap-10">
