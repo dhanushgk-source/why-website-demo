@@ -113,8 +113,14 @@ export default function CTA() {
 
         </div>
 
+        {/* Payment note */}
+        <div className="fade-inner mt-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-white/15 backdrop-blur-sm border border-white/25 text-white">
+          <span style={{ color: '#FFE8D1' }}>●</span>
+          Secure your booking with only <strong>30% upfront</strong> — pay the rest only after a safe and successful journey.
+        </div>
+
         {/* Subtext */}
-        <div className="fade-inner mt-10 text-white/70 text-sm">
+        <div className="fade-inner mt-6 text-white/70 text-sm">
           Available on iOS and Android · 24/7 Support:{' '}
           <a href={PHONE_LINK} className="text-white font-semibold hover:underline">
             {PHONE_DISPLAY}

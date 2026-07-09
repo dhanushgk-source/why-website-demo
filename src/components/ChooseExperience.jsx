@@ -1,8 +1,8 @@
 import { useSectionFade } from '../hooks/useSectionFade'
 import {
   Heart,
-  Plane,
-  Plus,
+  CarTaxiFront,
+  Hospital,
   ChevronRight,
   ShieldCheck,
   Users,
@@ -20,7 +20,7 @@ const cards = [
     btnGradient: 'bg-gradient-to-r from-[#4DBAB8] to-[#00A19C]',
     panelWash: 'from-teal-50/70 to-white',
     waveColor: 'text-teal-100',
-    Icon: Plus,
+    Icon: Hospital,
     title: 'Hospital',
     subtitle: 'Medical Assistance',
     cta: 'BOOK NOW',
@@ -39,7 +39,7 @@ const cards = [
     btnGradient: 'bg-gradient-to-r from-[#F2954A] to-[#F2711F]',
     panelWash: 'from-orange-50/70 to-white',
     waveColor: 'text-orange-100',
-    Icon: Plane,
+    Icon: CarTaxiFront,
     title: 'Travel',
     subtitle: 'Travel Assistance',
     cta: 'BOOK NOW',

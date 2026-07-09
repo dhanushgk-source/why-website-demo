@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { getJobById, applyJob } from "../../services/jobService";
 import { useAuth } from "../../contexts/AuthContext";
 import { uploadResume } from "../../services/uploadService";
-import { MapPin, Briefcase, Code2, DollarSign, ArrowLeft, CheckCircle2, FileText } from "lucide-react";
+import { MapPin, Briefcase, Code2, IndianRupee , ArrowLeft, CheckCircle2, FileText } from "lucide-react";
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -107,7 +107,7 @@ export default function JobDetails() {
             )}
             {job.salary && (
               <span className="bg-[#52B5BD]/40 text-white px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-1.5">
-                <DollarSign size={13} /> {job.salary}
+                <IndianRupee  size={13} /> {job.salary}
               </span>
             )}
           </div>

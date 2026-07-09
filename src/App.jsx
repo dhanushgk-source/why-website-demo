@@ -1,4 +1,6 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { scrollToId } from "./utils/scrollNav";
 
 // Auth
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -17,12 +19,15 @@ import Hero from "./components/Hero";
 import ChooseExperience from "./components/ChooseExperience";
 import TrustSignals from "./components/TrustSignals";
 import TrustedBy from "./components/TrustedBy";
+import BlogSection from "./components/Blog";
+import BlogPost from "./components/BlogPost";
 import ParentSection from "./components/ParentSection";
 import WhatIsWhy from "./components/WhatIsWhy";
 import HowWhyWorks from "./components/HowWhyWorks";
 import WaitingSection from "./components/WaitingSection";
 import WorldMap from "./components/WorldMap"
 import TrustSafety from "./components/TrustSafety";
+import WhyUnique from "./components/WhyUnique"
 import CTA from "./components/CTA";
 import ProNurseCare from "./components/ProNurseCare";
 import TravelCompanionServices from "./components/TravelCompanion";
@@ -31,6 +36,7 @@ import TestimonialsSlideshow from "./components/TestimonialsSlideshow";
 
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
+import About from "./pages/About";
 import DataDeletion from "./pages/DataDeletion";
 import PrivacyPolicyUser from "./pages/PrivacyPolicyUser";
 import PrivacyPolicyPro from "./pages/PrivacyPolicyPro";
@@ -53,6 +59,26 @@ import Applications from "./pages/admin/Applications";
 import EditJob from "./pages/admin/EditJob";
 
 function Home() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // When a Navbar/Footer link on another page (e.g. About, FAQ) sends the
+  // user here to reach a homepage section, finish the job once we've
+  // mounted: scroll to that section, then clear the state so a later
+  // refresh/back-navigation doesn't re-trigger it.
+  useEffect(() => {
+    const target = location.state?.scrollTo;
+    if (!target) return;
+
+    const timer = setTimeout(() => {
+      scrollToId(target);
+    }, 120);
+
+    navigate(location.pathname, { replace: true, state: {} });
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key]);
+
   return (
     <>
       <Hero />
@@ -62,20 +88,23 @@ function Home() {
       <TrustedBy />
       <ParentSection />
       {/*<ProNurseCare />*/}
-      <HospitalAssistance/>
+      <HospitalAssistance />
       <TravelCompanionServices />
       <HowWhyWorks />
       <WaitingSection />
-      <WorldMap/>
+      <WorldMap />
       <TrustSafety />
-      <TestimonialsSlideshow />
+      <WhyUnique/>
+      {/*<BlogSection /> */}
+      {/*<TestimonialsSlideshow />*/}
       <CTA />
     </>
   );
 }
 
 function AppLayout() {
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { pathname } = location;
   const isCareerOrAdmin =
     pathname.startsWith("/careers") || pathname.startsWith("/admin");
 
@@ -89,6 +118,16 @@ function AppLayout() {
     "/terms-pro",
   ].includes(pathname);
 
+  // Every route change should land at the top of the new page — unless
+  // we're on our way to "/" with a pending section scroll (handled by
+  // Home itself), in which case jumping to 0 first would just cause a
+  // visible flash before the smooth-scroll to the section kicks in.
+  useEffect(() => {
+    if (!location.state?.scrollTo) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
+  }, [pathname]);
+
   return (
     <div className="bg-white text-gray-800 overflow-x-hidden">
       {!hideGlobalLayout &&
@@ -99,6 +138,7 @@ function AppLayout() {
 
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/about" element={<About />} />
           <Route path="/data-deletion" element={<DataDeletion />} />
           <Route path="/privacy-policy-user" element={<PrivacyPolicyUser />} />
           <Route path="/privacy-policy-pro" element={<PrivacyPolicyPro />} />
@@ -108,6 +148,15 @@ function AppLayout() {
 
           {/* Home */}
           <Route path="/" element={<Home />} />
+
+          {/* Blog */}
+          {
+            /*
+            <Route path="/blog" element={<BlogSection />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            */
+          }
+
 
           {/* Careers */}
           <Route path="/careers" element={<CareersLanding />} />
@@ -148,7 +197,7 @@ function AppLayout() {
         {/* Only show home-page widgets on non-career/admin routes */}
         {!isCareerOrAdmin && !hideGlobalLayout && (
           <>
-           {/* <StickyDownload /> */}
+            {/* <StickyDownload /> */}
             <Footer />
             <CookieBanner />
             <WhatsAppFloat />

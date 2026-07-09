@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from "../config/contact";
-
-const scrollTo = (id) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-};
+import { useSectionNav } from "../hooks/useSectionNav";
 
 const scrollIds = {
   'How it Works': 'WHY-Works-section',
@@ -13,6 +10,7 @@ const scrollIds = {
 };
 
 export default function Footer() {
+  const goToSection = useSectionNav();
   return (
     <footer
       id="footer-section"
@@ -102,7 +100,7 @@ export default function Footer() {
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
                 {scrollIds[s] ? (
                   <button
-                    onClick={() => scrollTo(scrollIds[s])}
+                    onClick={() => goToSection(scrollIds[s])}
                     className="hover:text-[#6ED3C8] transition text-left"
                   >
                     {s}
@@ -124,14 +122,14 @@ export default function Footer() {
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
                 {scrollIds[s] ? (
                   <button
-                    onClick={() => scrollTo(scrollIds[s])}
+                    onClick={() => goToSection(scrollIds[s])}
                     className="hover:text-[#6ED3C8] transition text-left"
                   >
                     {s}
                   </button>
                 ) : (
                   <Link
-                    to={s === 'Careers' ? '/careers' : '/'}
+                    to={s === 'Careers' ? '/careers' : s === 'About Us' ? '/about' : '/'}
                     className="hover:text-[#6ED3C8] transition"
                   >
                     {s}
@@ -148,7 +146,14 @@ export default function Footer() {
           <ul className="space-y-4 text-white/70 text-base">
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
-              <a href="" className="hover:text-[#6ED3C8] transition">Help Center</a>
+              <a
+                href={getWhatsAppLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#6ED3C8] transition"
+              >
+                Help Center
+              </a>
             </li>
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>

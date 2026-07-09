@@ -103,7 +103,7 @@ export default function Hero() {
   }
 
   const scrollToNextSection = () => {
-    const targetSection = document.getElementById('how-why-works')
+    const targetSection = document.getElementById("experience-section")
     if (targetSection) {
       const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - 80
       window.scrollTo({ top: targetPosition, behavior: 'smooth' })
@@ -158,26 +158,25 @@ export default function Hero() {
           </div>
 
           {/* Info card — stacked below the image on mobile (no overlap), overlapping bottom-left on sm+ as before */}
-          <div className="relative sm:absolute sm:left-8 sm:bottom-8 -mt-6 sm:mt-0 mx-4 sm:mx-0 bg-white rounded-2xl shadow-xl px-3 sm:px-6 py-3 sm:py-4 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-6 sm:max-w-none z-10">
-            {INFO_ITEMS.map((item, idx) => (
-              <div
-                key={item.title}
-                className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1 sm:gap-2 min-w-0"
-              >
-                <item.icon className="w-5 h-5 sm:w-7 sm:h-7 text-[#F2711F] flex-shrink-0" strokeWidth={1.75} />
-                <div className="leading-tight min-w-0 w-full">
-                  <p className="text-[#1B2A4A] font-bold text-[10px] sm:text-sm whitespace-normal sm:whitespace-nowrap break-words">
-                    {item.title}
-                  </p>
-                  <p className="text-gray-500 text-[8px] sm:text-xs whitespace-normal sm:whitespace-nowrap break-words leading-tight">
-                    {item.subtitle}
-                  </p>
-                </div>
-                {idx < INFO_ITEMS.length - 1 && (
-                  <span className="hidden sm:block w-px h-8 bg-gray-200 ml-2 sm:ml-4" />
-                )}
+          <div className="relative sm:absolute sm:left-8 sm:bottom-8 -mt-6 sm:mt-0 mx-4 sm:mx-0 bg-white rounded-2xl shadow-xl border-2 border-teal-500 px-3 sm:px-6 py-3 sm:py-4 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-6 sm:max-w-none z-10">            {INFO_ITEMS.map((item, idx) => (
+            <div
+              key={item.title}
+              className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1 sm:gap-2 min-w-0"
+            >
+              <item.icon className="w-5 h-5 sm:w-7 sm:h-7 text-[#F2711F] flex-shrink-0" strokeWidth={1.75} />
+              <div className="leading-tight min-w-0 w-full">
+                <p className="text-[#1B2A4A] font-bold text-[10px] sm:text-sm whitespace-normal sm:whitespace-nowrap break-words">
+                  {item.title}
+                </p>
+                <p className="text-gray-500 text-[8px] sm:text-xs whitespace-normal sm:whitespace-nowrap break-words leading-tight">
+                  {item.subtitle}
+                </p>
               </div>
-            ))}
+              {idx < INFO_ITEMS.length - 1 && (
+                <span className="hidden sm:block w-px h-8 bg-gray-200 ml-2 sm:ml-4" />
+              )}
+            </div>
+          ))}
           </div>
         </div>
 
@@ -267,11 +266,11 @@ export default function Hero() {
 
             <button
               style={{ transitionDelay: reached('done') ? '180ms' : '0ms' }}
-              onClick={() => scrollToSection('WHY-Works-section')}
+              onClick={() => scrollToSection('waiting-section')}
               className="flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-base sm:text-lg hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
             >
               <PlayCircle className="w-5 h-5 text-[#0D9488]" />
-              How It Works
+              What's Included
             </button>
           </div>
 
@@ -286,7 +285,7 @@ export default function Hero() {
               className="flex items-center gap-2 text-sm sm:text-base font-semibold text-[#1B2A4A] hover:text-[#0D9488] transition-colors"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366">
-                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.15-4.94-4.34-.14-.19-1.19-1.58-1.19-3.01 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.15.07.15.12.32.02.51-.1.19-.15.3-.29.47-.15.16-.31.36-.44.48-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.45.29.15.46.13.63-.08.17-.2.72-.84.92-1.13.19-.29.39-.24.65-.14.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.13.07.75-.17 1.42z"/>
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.15-4.94-4.34-.14-.19-1.19-1.58-1.19-3.01 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.15.07.15.12.32.02.51-.1.19-.15.3-.29.47-.15.16-.31.36-.44.48-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.45.29.15.46.13.63-.08.17-.2.72-.84.92-1.13.19-.29.39-.24.65-.14.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.13.07.75-.17 1.42z" />
               </svg>
               Book on WhatsApp
             </a>

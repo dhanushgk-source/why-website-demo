@@ -38,7 +38,7 @@ const TESTIMONIALS = [
     role: 'Son · Toronto',
     parentCity: 'Parent in Bengaluru',
     quote:
-      "No subscriptions, no pressure — I pay only when I book, and only after the visit is done. For someone managing this from another time zone, that simplicity matters more than people realize.",
+      "No subscriptions, no pressure — just 30% upfront to secure the booking, and the rest only once the visit is safely done. For someone managing this from another time zone, that simplicity matters more than people realize.",
     seed: 'Rahul-Iyer',
     rating: 5,
   },
@@ -116,7 +116,7 @@ export default function TestimonialsSlideshow() {
     <section
       ref={sectionRef}
       id="testimonials-section"
-      className="relative py-20 lg:py-28 bg-[#F7F3EA]"
+      className="relative py-20 lg:py-28 overflow-hidden bg-[#F7F3EA]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -233,84 +233,36 @@ export default function TestimonialsSlideshow() {
             })}
 
             {/* Controls */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={prev}
-                aria-label="Previous testimonial"
-                className="
-      relative
-      z-20
-      w-12
-      h-12
-      rounded-full
-      flex
-      items-center
-      justify-center
-      bg-white
-      text-[#1B2A4A]
-      border border-[#ECE7DD]
-      shadow-md
-      transition-all
-      duration-300
-      ease-out
-      hover:bg-[#F2711F]
-      hover:text-white
-      hover:border-[#F2711F]
-      hover:shadow-2xl
-      hover:-translate-y-1
-      active:scale-95
-      focus:outline-none
-      focus:ring-4
-      focus:ring-[#F2711F]/20
-      overflow-hidden
-    "
-              >
-                <span className="absolute inset-0 rounded-full bg-[#F2711F] scale-0 transition-transform duration-300 ease-out hover:scale-100"></span>
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                {TESTIMONIALS.map((t, i) => (
+                  <button
+                    key={t.seed}
+                    onClick={() => goTo(i, i > active ? 1 : -1)}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === active ? 'w-7 bg-[#F2711F]' : 'w-2 bg-[#1B2A4A]/15 hover:bg-[#1B2A4A]/30'
+                    }`}
+                  />
+                ))}
+              </div>
 
-                <ChevronLeft
-                  className="relative z-10 w-5 h-5"
-                  strokeWidth={2.5}
-                />
-              </button>
-
-              <button
-                onClick={next}
-                aria-label="Next testimonial"
-                className="
-      relative
-      z-20
-      w-12
-      h-12
-      rounded-full
-      flex
-      items-center
-      justify-center
-      bg-white
-      text-[#1B2A4A]
-      border border-[#ECE7DD]
-      shadow-md
-      transition-all
-      duration-300
-      ease-out
-      hover:bg-[#F2711F]
-      hover:text-white
-      hover:border-[#F2711F]
-      hover:shadow-2xl
-      hover:-translate-y-1
-      active:scale-95
-      focus:outline-none
-      focus:ring-4
-      focus:ring-[#F2711F]/20
-      overflow-hidden
-    "
-              >
-                <span className="absolute inset-0 rounded-full bg-[#F2711F] scale-0 transition-transform duration-300 ease-out group-hover:scale-100"></span>
-
-                <ChevronRight
-                  className="relative z-10 w-5 h-5"
-                  strokeWidth={2.5}
-                />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prev}
+                  aria-label="Previous testimonial"
+                  className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-[#F2711F] hover:text-white text-[#1B2A4A] transition-colors duration-300"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={next}
+                  aria-label="Next testimonial"
+                  className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-[#F2711F] hover:text-white text-[#1B2A4A] transition-colors duration-300"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

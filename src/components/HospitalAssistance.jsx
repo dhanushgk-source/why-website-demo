@@ -13,7 +13,7 @@ const serviceCards = [
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
         title: 'Hospital & Medical Support',
-        desc: "Your WHY Companion accompanies seniors to every hospital visit, ensuring they feel supported, safe, and never alone.",
+        desc: "Your WHY Companion accompanies Seniors,Individuals,families and anyone who needs assistance to every hospital visit, ensuring they feel supported, safe, and never alone.",
         points: [
             'Escort to hospitals & clinics',
             'Wait & assist during consultations',
@@ -304,6 +304,20 @@ export default function TravelCompanion() {
                         Background-verified companions · Real-time family updates · Available whenever you need support
                     </p>
                 </div>
+
+                {/* Payment note */}
+                <p
+                    style={{
+                        opacity: headerVisible ? 1 : 0,
+                        transition: 'opacity 0.6s ease 0.6s',
+                    }}
+                    className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-white shadow-sm"
+                >
+                    <span style={{ color: "#F2711F" }}>●</span>
+                    <span style={{ color: "#1B2A4A" }}>
+                        Secure your booking with only <strong>30% upfront</strong> — pay the remaining amount only after a safe and successful journey.
+                    </span>
+                </p>
 
             </div>
         </section>

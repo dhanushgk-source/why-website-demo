@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useSectionNav } from '../hooks/useSectionNav'
+
+// Each item is either a same-page section (`section`) which needs to work
+// from any route, or a real route (`path`) handled by react-router.
+const NAV_ITEMS = [
+  { label: 'Services', section: 'parent-section' },
+  { label: 'How it Works', section: 'WHY-Works-section' },
+  { label: 'Safety', section: 'savefty-section' },
+  { label: 'About', path: '/about' },
+]
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [visible, setVisible] = useState(false)
+  const goToSection = useSectionNav()
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 100)
@@ -22,6 +34,11 @@ export default function Navbar() {
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
+  }
+
+  const handleNavClick = (item) => {
+    setMenuOpen(false)
+    if (item.section) goToSection(item.section)
   }
 
   return (
@@ -48,36 +65,42 @@ export default function Navbar() {
         >
           {/* LOGO */}
           <div className="flex justify-start">
-            <a href="#">
+            <Link to="/" onClick={() => setMenuOpen(false)}>
               <img
                 src="/Assests/WHY_logo.png"
                 alt="WHY Logo"
                 className="h-14 transition duration-300 hover:scale-105"
               />
-            </a>
+            </Link>
           </div>
 
           {/* DESKTOP MENU */}
           <ul className="hidden lg:flex justify-center gap-10 font-medium">
-            {[
-              { label: 'Services', href: '#parent-section' },
-              { label: 'How it Works', href: '#WHY-Works-section' },
-              { label: 'Safety', href: '#savefty-section' },
-              { label: 'About', href: '#footer-section' },
-            ].map((item) => (
+            {NAV_ITEMS.map((item) => (
               <li
                 key={item.label}
                 className="relative group"
                 style={{ color: '#1B2A4A' }}
               >
-                <a
-                  href={item.href}
-                  className="transition-colors duration-300"
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-                >
-                  {item.label}
-                </a>
+                {item.path ? (
+                  <Link
+                    to={item.path}
+                    className="transition-colors duration-300"
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '')}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => handleNavClick(item)}
+                    className="transition-colors duration-300"
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '')}
+                  >
+                    {item.label}
+                  </button>
+                )}
 
                 <span
                   className="
@@ -105,8 +128,19 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* DESKTOP BUTTON */}
-          <div className="hidden lg:flex justify-end">
+          {/* DESKTOP BUTTONS */}
+          <div className="hidden lg:flex justify-end items-center gap-3">
+            <button
+              onClick={() => goToSection('cta-section')}
+              className="px-6 py-3 rounded-full font-semibold shadow-sm hover:scale-105 transition"
+              style={{
+                color: '#2F4A7D',
+                border: '2px solid #2F4A7D',
+                background: 'transparent',
+              }}
+            >
+              Book a PRO
+            </button>
             <button
               className="px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition"
               style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
@@ -141,25 +175,38 @@ export default function Navbar() {
           style={{ background: '#F7F3EA' }}
         >
           <ul className="text-center font-medium" style={{ color: '#1B2A4A' }}>
-            <li className="py-4 border-b border-[#F2C89F]/40">
-              <a href="#parent-section">Services</a>
-            </li>
-
-            <li className="py-4 border-b border-[#F2C89F]/40">
-              <a href="#WHY-Works-section">How it Works</a>
-            </li>
-
-            <li className="py-4 border-b border-[#F2C89F]/40">
-              <a href="#savefty-section">Safety</a>
-            </li>
-
-            <li className="py-4 border-b border-[#F2C89F]/40">
-              <a href="#footer-section">About</a>
-            </li>
+            {NAV_ITEMS.map((item) => (
+              <li key={item.label} className="py-4 border-b border-[#F2C89F]/40">
+                {item.path ? (
+                  <Link to={item.path} onClick={() => setMenuOpen(false)}>
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button onClick={() => handleNavClick(item)}>
+                    {item.label}
+                  </button>
+                )}
+              </li>
+            ))}
           </ul>
 
-          <div className="p-6">
+          <div className="p-6 space-y-3">
             <button
+              onClick={() => {
+                setMenuOpen(false)
+                goToSection('cta-section')
+              }}
+              className="block w-full py-3 rounded-full font-semibold text-center"
+              style={{
+                color: '#2F4A7D',
+                border: '2px solid #2F4A7D',
+                background: 'transparent',
+              }}
+            >
+              Book a PRO
+            </button>
+            <button
+              onClick={() => setMenuOpen(false)}
               className="w-full py-3 rounded-full text-white"
               style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
             >

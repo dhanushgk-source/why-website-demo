@@ -17,7 +17,7 @@ const FAQS = [
   },
   {
     q: "How do I pay?",
-    a: "Securely, after the service — card or UPI, international cards welcome. Money flows only through WHY, never directly to the companion.",
+    a: "Secure your booking with only 30% upfront — pay the remaining amount only after a safe and successful journey. Pay securely by card or UPI, international cards welcome. Money flows only through WHY, never directly to the companion.",
   },
   {
     q: "Are companions verified?",
