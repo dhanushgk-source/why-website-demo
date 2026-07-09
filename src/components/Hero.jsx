@@ -5,22 +5,6 @@ import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink } from '../config/contact'
 
 const TAGLINE = 'Companionship That Feels Like a Family.'
 const SUBTEXT = 'Connecting Seniors With Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
-const WORD_PARTS = {
-  word1: { full: 'We', first: 'W', rest: 'e' },
-  word2: { full: 'Help', first: 'H', rest: 'elp' },
-  word3: { full: 'You', first: 'Y', rest: 'ou' }
-}
-
-const SEGMENTS = [
-  { key: 'word1_first', text: WORD_PARTS.word1.first, speed: 100, pause: 100 },
-  { key: 'word1_rest', text: WORD_PARTS.word1.rest, speed: 60, pause: 150 },
-  { key: 'word2_first', text: WORD_PARTS.word2.first, speed: 100, pause: 100 },
-  { key: 'word2_rest', text: WORD_PARTS.word2.rest, speed: 60, pause: 150 },
-  { key: 'word3_first', text: WORD_PARTS.word3.first, speed: 100, pause: 100 },
-  { key: 'word3_rest', text: WORD_PARTS.word3.rest, speed: 60, pause: 300 },
-  { key: 'tag', text: TAGLINE, speed: 32, pause: 0 },
-]
-const ORDER = SEGMENTS.map((s) => s.key).concat('done')
 
 const INFO_ITEMS = [
   { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
@@ -28,64 +12,32 @@ const INFO_ITEMS = [
   { icon: User, title: 'Companions', subtitle: 'Build Meaningful Connections' },
 ]
 
+const REVEAL_DELAY = 130 // ms between each staggered step
+
 export default function Hero() {
   const sectionRef = useSectionFade()
-
-  const [texts, setTexts] = useState({
-    word1_first: '', word1_rest: '',
-    word2_first: '', word2_rest: '',
-    word3_first: '', word3_rest: '',
-    tag: ''
-  })
-  const [activeKey, setActiveKey] = useState('word1_first')
+  const [started, setStarted] = useState(false)
 
   useEffect(() => {
     const prefersReducedMotion =
       window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReducedMotion) {
-      setTexts({
-        word1_first: WORD_PARTS.word1.first, word1_rest: WORD_PARTS.word1.rest,
-        word2_first: WORD_PARTS.word2.first, word2_rest: WORD_PARTS.word2.rest,
-        word3_first: WORD_PARTS.word3.first, word3_rest: WORD_PARTS.word3.rest,
-        tag: TAGLINE
-      })
-      setActiveKey('done')
+      setStarted(true)
       return
     }
 
-    let timer
-    let segIndex = 0
-
-    const typeSegment = () => {
-      if (segIndex >= SEGMENTS.length) {
-        setActiveKey('done')
-        return
-      }
-      const seg = SEGMENTS[segIndex]
-      setActiveKey(seg.key)
-      let i = 0
-      timer = setInterval(() => {
-        i += 1
-        setTexts((prev) => ({ ...prev, [seg.key]: seg.text.slice(0, i) }))
-        if (i >= seg.text.length) {
-          clearInterval(timer)
-          segIndex += 1
-          setTimeout(typeSegment, seg.pause)
-        }
-      }, seg.speed)
-    }
-
-    typeSegment()
-    return () => clearInterval(timer)
+    const timer = setTimeout(() => setStarted(true), 150)
+    return () => clearTimeout(timer)
   }, [])
 
-  const reached = (key) => ORDER.indexOf(activeKey) >= ORDER.indexOf(key)
-  const isActive = (part) => activeKey === part
-
-  const Cursor = ({ color = 'bg-[#1B2A4A]', size = 'h-[0.9em]' }) => (
-    <span className={`inline-block w-[3px] ${size} ${color} ml-1 align-middle animate-pulse`} />
-  )
+  // Fade-up + blur-in reveal classes, shared across every staggered element
+  const revealClass = `transition-all duration-700 ease-out ${
+    started ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-5 blur-[2px]'
+  }`
+  const revealStyle = (stepIndex) => ({
+    transitionDelay: started ? `${stepIndex * REVEAL_DELAY}ms` : '0ms',
+  })
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
@@ -191,70 +143,71 @@ export default function Hero() {
               <span key={i} className="w-1 h-1 rounded-full bg-[#0D9488]" />
             ))}
           </div>
-          {/* Leaf SVG (arrow 2) removed */}
 
           {/* Content column */}
           <div className="relative w-full max-w-2xl mx-auto md:mx-0 z-10">
 
             <div className="mb-2">
-              <div className="flex items-baseline justify-start gap-0">
+              {/* Word 1: "We" */}
+              <div className={revealClass} style={revealStyle(0)}>
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
-                  {texts.word1_first}
-                  {isActive('word1_first') && <Cursor color="bg-[#1B2A4A]" size="h-[0.9em]" />}
+                  W
                 </span>
                 <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
-                  {texts.word1_rest}
-                  {isActive('word1_rest') && <Cursor color="bg-[#0D9488]" size="h-[0.7em]" />}
+                  e
                 </span>
               </div>
 
-              <div className="flex items-baseline justify-start gap-0">
+              {/* Word 2: "Help" */}
+              <div className={revealClass} style={revealStyle(1)}>
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
-                  {texts.word2_first}
-                  {isActive('word2_first') && <Cursor color="bg-[#1B2A4A]" size="h-[0.9em]" />}
+                  H
                 </span>
                 <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
-                  {texts.word2_rest}
-                  {isActive('word2_rest') && <Cursor color="bg-[#0D9488]" size="h-[0.7em]" />}
+                  elp
                 </span>
               </div>
 
-              <div className="flex items-baseline justify-start gap-0">
+              {/* Word 3: "You" */}
+              <div className={revealClass} style={revealStyle(2)}>
                 <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
-                  {texts.word3_first}
-                  {isActive('word3_first') && <Cursor color="bg-[#1B2A4A]" size="h-[0.9em]" />}
+                  Y
                 </span>
                 <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
-                  {texts.word3_rest}
-                  {isActive('word3_rest') && <Cursor color="bg-[#0D9488]" size="h-[0.7em]" />}
+                  ou
                 </span>
               </div>
 
-              <div className="flex items-center gap-2 my-5">
+              {/* Divider */}
+              <div className={`flex items-center gap-2 my-5 ${revealClass}`} style={revealStyle(3)}>
                 <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
                 <HeartHandshake className="w-4 h-4 text-[#0D9488]" strokeWidth={2} />
               </div>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-2xl lg:text-3xl text-[#1B2A4A] font-extrabold mb-4 min-h-[1.2em] tracking-tight leading-snug text-left max-w-[22ch]">
-              {activeKey === 'tag' && <Cursor color="bg-[#1B2A4A]" size="h-[0.8em]" />}
-              {texts.tag}
+            {/* Tagline */}
+            <h2
+              className={`text-2xl sm:text-3xl md:text-2xl lg:text-3xl text-[#1B2A4A] font-extrabold mb-4 tracking-tight leading-snug text-left max-w-[22ch] ${revealClass}`}
+              style={revealStyle(4)}
+            >
+              {TAGLINE}
             </h2>
 
+            {/* Subtext */}
             <p
-              className={`text-gray-500 text-base sm:text-lg max-w-md mb-8 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                }`}
+              className={`text-gray-500 text-base sm:text-lg max-w-md mb-8 ${revealClass}`}
+              style={revealStyle(5)}
             >
               {SUBTEXT}
             </p>
           </div>
 
+          {/* CTAs */}
           <div
-            className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
-              }`}
+            className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 ${revealClass}`}
+            style={revealStyle(6)}
           >
             <button
-              style={{ transitionDelay: reached('done') ? '80ms' : '0ms' }}
               onClick={scrollToNextSection}
               className="flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#F2711F] text-white font-semibold text-base sm:text-lg hover:bg-[#D9600F] transition-all duration-500 shadow-lg shadow-orange-900/10 hover:scale-105 active:scale-95"
             >
@@ -265,7 +218,6 @@ export default function Hero() {
             </button>
 
             <button
-              style={{ transitionDelay: reached('done') ? '180ms' : '0ms' }}
               onClick={() => scrollToSection('waiting-section')}
               className="flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-base sm:text-lg hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
             >
@@ -274,9 +226,10 @@ export default function Hero() {
             </button>
           </div>
 
+          {/* WhatsApp / Call links */}
           <div
-            className={`relative z-10 flex flex-col sm:flex-row items-center sm:items-center justify-start gap-3 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 mt-5 transition-all duration-500 ${reached('done') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
-              }`}
+            className={`relative z-10 flex flex-col sm:flex-row items-center sm:items-center justify-start gap-3 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 mt-5 ${revealClass}`}
+            style={revealStyle(7)}
           >
             <a
               href={getWhatsAppLink()}
