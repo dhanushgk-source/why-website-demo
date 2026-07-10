@@ -29,7 +29,7 @@ const cards = [
     subtitle: 'Medical Assistance',
     sectionId: COMPANION_SECTION_ID,
     tab: 'hospital',
-    desc: 'Compassionate support for consultations, hospital admissions, follow-up visits, and patient care.',
+    desc: 'Trusted support for consultations, hospital admissions, follow-up visits, and patient care.',
     image: '/Assests/hospital_assistant.jpg',
     imageAlt: 'Hospital companion caring for patient',
   },
@@ -48,7 +48,7 @@ const cards = [
     subtitle: 'Travel Assistance',
     sectionId: COMPANION_SECTION_ID,
     tab: 'travel',
-    desc: 'Compassionate companions who accompany seniors during their journeys, providing comfort, support, and peace of mind.',
+    desc: 'Trusted companions who accompany Seniors and Individuals during their journeys, providing comfort, support, and peace of mind.',
     image: '/Assests/travel_assistant.jpg',
     imageAlt: 'Travel companion assisting elderly',
   },
@@ -113,11 +113,11 @@ export default function ChooseExperience() {
 
         {/* Heading */}
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl fade-inner font-Manrope font-extrabold text-center mb-4 text-[#0A1F44]">
-          Choose the {' '}
+          Care That Fits {' '}
           <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-            Support
-          </span>{' '}
-          You Need
+            Your Needs 
+          </span>
+          
         </h2>
 
         {/* Divider */}
@@ -128,7 +128,7 @@ export default function ChooseExperience() {
         </div>
 
         <p className="fade-inner text-center text-[#0A1F44]/60 text-lg mb-16">
-          Compassionate companionship and personalized assistance designed to support seniors through hospital visits, travel, and everyday moments giving families peace of mind and seniors the confidence to live independently.
+          Trusted Companionship and personalized assistance designed to support Seniors and Individuals through hospital visits, travel, and everyday moments giving families peace of mind and seniors the confidence to live independently.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -162,7 +162,7 @@ export default function ChooseExperience() {
 
                 {/* Icon badge */}
                 <div className={`relative z-10 w-24 h-24 rounded-full ${card.iconBg} flex items-center justify-center mb-4`}>
-                  <card.Icon className={`w-12 h-12 ${card.iconColor} ${card.theme === 'orange' ? 'rotate-45' : ''}`} strokeWidth={2.25} />
+                  <card.Icon className={`w-12 h-12 ${card.iconColor} ${card.theme === 'orange' ? 'rotate-0' : ''}`} strokeWidth={2.25} />
                 </div>
 
                 {/* Title - Desktop */}

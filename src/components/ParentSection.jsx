@@ -2,8 +2,8 @@ import { useSectionFade } from '../hooks/useSectionFade'
 import {  HeartHandshake, ShieldCheck, Leaf, Heart } from 'lucide-react'
 
 const problems = [
-  { text: 'Seniors attending hospital visits alone', theme: 'orange' },
-  { text: ' Unexpected situations without immediate support', theme: 'teal' },
+  { text: 'Seniors and Individuals attending hospital visits alone', theme: 'orange' },
+  { text: 'Busy Professional Supporting their Families  ', theme: 'teal' },
   { text: 'Difficulty finding verified and reliable companions', theme: 'indigo' },
   { text: 'Families living away from their loved ones', theme: 'coral' },
 ]
@@ -84,7 +84,7 @@ export default function ParentSection() {
   When You Can't Be There,{' '}
   <br className="hidden sm:block" />
   <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-    WHY Shows We Care.
+    WHY is there.
   </span>
 </h2>
 
@@ -128,9 +128,9 @@ export default function ParentSection() {
           </span>
           <p className="text-base sm:text-xl font-semibold text-[#0A1F44]">
            WHY provides  {' '}
-            <span className="text-[#F2883B]">trusted companionship, </span> {' '}
-            <span className="text-[#5D5DEE]">reliable support,</span> {' '}
-            <span className="text-[#11AD9D]">comfort for every family</span>
+            <span className="text-[#F2883B]">Trusted Companionship, </span> {' '}
+            <span className="text-[#5D5DEE]">Reliable Support,</span> {' '}
+            <span className="text-[#11AD9D]">Comfort for Every Family</span>
           </p>
         </div>
 

@@ -4,7 +4,7 @@ import { Users, HeartHandshake, User, ArrowRight, PlayCircle, Phone } from 'luci
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink } from '../config/contact'
 
 const TAGLINE = 'Companionship That Feels Like a Family.'
-const SUBTEXT = 'Connecting Seniors With Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
+const SUBTEXT = 'Connecting Seniors and Individuals of all ages with Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
 
 const INFO_ITEMS = [
   { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },

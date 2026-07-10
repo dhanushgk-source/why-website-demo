@@ -109,8 +109,8 @@ const TRAVEL_CARDS = [
 const TABS = [
     {
         key: 'hospital',
-        label: 'Hospital & Medical Care',
-        shortLabel: 'Hospital Care',
+        label: 'Hospital Assistance',
+        shortLabel: 'Hospital Assistance',
         badge: 'Keeping Families Informed',
         badgeIcon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -120,9 +120,8 @@ const TABS = [
         ),
         headline: (
             <>
-                What our <span style={{ color: "#52B5BD" }}>Pro Can Do{' '}</span>
-                <br className="hidden sm:block" />
-                <span style={{ color: "#2F4A7D" }}>for Your Families and Elders</span>
+             Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors & Families{' '}</span>
+                
             </>
         ),
         subtext: "Your assigned Pro is trained to support elders with medical visits, medicines, nursing care, and everyday tasks — with compassion and reliability. After every visit, families receive a clear summary of the care provided, ensuring complete peace of mind.",
@@ -133,8 +132,8 @@ const TABS = [
     },
     {
         key: 'travel',
-        label: 'Travel & Mobility Support',
-        shortLabel: 'Travel & Mobility',
+        label: 'Travel Assistance',
+        shortLabel: 'Travel Assistance',
         badge: 'Trusted Companion Services',
         badgeIcon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -144,12 +143,12 @@ const TABS = [
         ),
         headline: (
             <>
-                Choose Your
+                Trusted Travel Assistance 
                 <br className="hidden sm:block" />{' '}
-                <span style={{ color: "#52B5BD" }}>Companion Service</span>
+                <span style={{ color: "#52B5BD" }}>For Seniors & Families</span>
             </>
         ),
-        subtext: "Trusted companions who provide personalized support for travel, medical visits, daily errands, emergencies, and everyday assistance—ensuring comfort, safety, and peace of mind for seniors and their families.",
+        subtext: "Trusted companions who provide personalized support for travel assistance ensuring comfort, safety, and peace of mind for seniors and families.",
         cards: TRAVEL_CARDS,
         gridCols: 'md:grid-cols-2 lg:grid-cols-4',
         maxW: 'max-w-6xl',

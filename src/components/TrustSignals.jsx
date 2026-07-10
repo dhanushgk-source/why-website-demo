@@ -156,7 +156,7 @@ export default function TrustSignals() {
           </div>
 
           <p className="fade-inner text-[#0A1F44]/60 text-lg max-w-2xl mx-auto">
-            Every interaction is built on compassion, trust, and dignity—so seniors feel cared for and families feel reassured          </p>
+            Every interaction is built on compassion, trust, and dignity—so Seniors and Individuals feel cared for and families feel reassured          </p>
         </div>
 
         {/* Features Grid */}

@@ -87,7 +87,7 @@ function Home() {
       <WhatIsWhy />
       <TrustSignals />
       <ChooseExperience />
-      <TrustedBy />
+      {/*<TrustedBy />*/}
       <ParentSection />
       {/*<ProNurseCare />*/}
       {/*<HospitalAssistance />
@@ -204,7 +204,7 @@ function AppLayout() {
             <Footer />
             <CookieBanner />
             <WhatsAppFloat />
-            <ScrollTopBottom />
+            {/*<ScrollTopBottom />*/}
           </>
         )}
       </div>
