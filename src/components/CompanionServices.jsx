@@ -110,6 +110,7 @@ const TABS = [
     {
         key: 'hospital',
         label: 'Hospital & Medical Care',
+        shortLabel: 'Hospital Care',
         badge: 'Keeping Families Informed',
         badgeIcon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -133,6 +134,7 @@ const TABS = [
     {
         key: 'travel',
         label: 'Travel & Mobility Support',
+        shortLabel: 'Travel & Mobility',
         badge: 'Trusted Companion Services',
         badgeIcon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -400,6 +402,37 @@ export default function CompanionServices() {
                         {active.badge}
                     </span>
 
+                    {/* Toggle / Tab Switch */}
+                    <div className="max-w-full overflow-x-auto mb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        <div
+                            className="inline-flex items-center p-1 sm:p-1.5 rounded-full bg-white shadow-sm mx-auto"
+                            role="tablist"
+                            aria-label="Companion service type"
+                        >
+                            {TABS.map((tab) => {
+                                const isActive = tab.key === activeTab
+                                return (
+                                    <button
+                                        key={tab.key}
+                                        role="tab"
+                                        aria-selected={isActive}
+                                        onClick={() => setActiveTab(tab.key)}
+                                        className="relative px-4 py-2 sm:px-6 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-300 whitespace-nowrap"
+                                        style={{
+                                            color: isActive ? '#FFFFFF' : '#6a7f96',
+                                            background: isActive
+                                                ? 'linear-gradient(135deg, #52B5BD, #2F4A7D)'
+                                                : 'transparent',
+                                        }}
+                                    >
+                                        <span className="sm:hidden">{tab.shortLabel}</span>
+                                        <span className="hidden sm:inline">{tab.label}</span>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+
                     <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight" style={{ color: "#1B2A4A" }}>
                         {active.headline}
                     </h2>
@@ -416,34 +449,6 @@ export default function CompanionServices() {
                     <p className="text-lg max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "#6a7f96" }}>
                         {active.subtext}
                     </p>
-
-                    {/* Toggle / Tab Switch */}
-                    <div
-                        className="inline-flex items-center p-1.5 rounded-full bg-white shadow-sm mb-14"
-                        role="tablist"
-                        aria-label="Companion service type"
-                    >
-                        {TABS.map((tab) => {
-                            const isActive = tab.key === activeTab
-                            return (
-                                <button
-                                    key={tab.key}
-                                    role="tab"
-                                    aria-selected={isActive}
-                                    onClick={() => setActiveTab(tab.key)}
-                                    className="relative px-6 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 whitespace-nowrap"
-                                    style={{
-                                        color: isActive ? '#FFFFFF' : '#6a7f96',
-                                        background: isActive
-                                            ? 'linear-gradient(135deg, #52B5BD, #2F4A7D)'
-                                            : 'transparent',
-                                    }}
-                                >
-                                    {tab.label}
-                                </button>
-                            )
-                        })}
-                    </div>
                 </div>
 
                 {/* Cards */}
