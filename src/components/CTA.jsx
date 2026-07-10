@@ -72,7 +72,7 @@ export default function CTA() {
 
         {/* Heading */}
         <h2 className="fade-inner font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight text-white">
-          Companion for elders <br />
+          Companion for <span className="text-[#FFE8D1]">Seniors and Families</span> <br />
           should feel <span className="text-[#FFE8D1]">safe</span>
         </h2>
 
@@ -113,19 +113,13 @@ export default function CTA() {
 
         </div>
 
-        {/* Payment note */}
-        <div className="fade-inner mt-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-white/15 backdrop-blur-sm border border-white/25 text-white">
-          <span style={{ color: '#FFE8D1' }}>●</span>
-          Secure your booking with only <strong>30% upfront</strong> — pay the rest only after a safe and successful journey.
-        </div>
-
         {/* Subtext */}
         <div className="fade-inner mt-6 text-white/70 text-sm">
-          Available on iOS and Android · 24/7 Support:{' '}
+          Available on Android and iOS · 24/7 Support:{' '}
           <a href={PHONE_LINK} className="text-white font-semibold hover:underline">
             {PHONE_DISPLAY}
           </a>{' '}
-          · Serving Bengaluru
+          · Launching Soon in Bengaluru and Chennai
         </div>
 
       </div>

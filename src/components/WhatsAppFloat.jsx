@@ -23,7 +23,7 @@ export default function WhatsAppFloat() {
                    transition-all duration-200 origin-left"
       >
         Book on WhatsApp
-        <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900" />
+        <span className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-gray-900" />
       </span>
 
       <FaWhatsapp className="text-[26px] sm:text-[30px]" />

@@ -44,9 +44,8 @@ export default function Footer() {
           <img src="/Assests/WHY_logo.png" alt="WHY Logo" className="w-16 mb-6" />
 
           <p className="text-base text-white/70 leading-relaxed mb-6">
-            Connecting people with verified, trusted PRO for entertainment,
-            social outings, and daily activities. Because every moment deserves
-            to be shared.
+            Connecting People with Verified, Trusted PRO for Your Care and Assistance. Because Every Moment Deserves
+            to be Shared.
           </p>
 
           <div className="space-y-5 text-white/70 text-base">
@@ -184,19 +183,19 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
-              <Link to="/terms-pro" className="hover:text-[#6ED3C8] transition">PRO Terms & Conditions</Link>
-            </li>
-            <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
-              <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
               <Link to="/terms-user" className="hover:text-[#6ED3C8] transition">Terms & Conditions</Link>
             </li>
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
-              <Link to="/privacy-policy-pro" className="hover:text-[#6ED3C8] transition">Privacy Policy - PRO</Link>
+              <Link to="/terms-pro" className="hover:text-[#6ED3C8] transition">PRO Terms & Conditions</Link>
             </li>
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
-              <Link to="/privacy-policy-user" className="hover:text-[#6ED3C8] transition">Privacy Policy - USER</Link>
+              <Link to="/privacy-policy-user" className="hover:text-[#6ED3C8] transition">Privacy Policy - Customer</Link>
+            </li>
+            <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
+              <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
+              <Link to="/privacy-policy-pro" className="hover:text-[#6ED3C8] transition">Privacy Policy - PRO</Link>
             </li>
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>

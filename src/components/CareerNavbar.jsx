@@ -86,11 +86,7 @@ export default function CareerNavbar() {
 
             {/* WHY Careers brand */}
             <Link to="/careers" className="flex items-center gap-2 group">
-              <img
-                src="/Assests/WHY_logo.png"
-                alt="WHY"
-                className="h-8 brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
-              />
+             
               <span className="text-white font-semibold text-sm hidden sm:block">Careers</span>
             </Link>
           </div>

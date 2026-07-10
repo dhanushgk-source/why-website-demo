@@ -148,7 +148,7 @@ function GeoJSONLayer({ userCountry }) {
 const features = [
     {
         title: "Verified Companion Network",
-        desc: "Background-verified companions available across major cities in India.",
+        desc: "Background Verified Companions-Arriving Soon in Bangalore and Chennai",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
     },
@@ -159,8 +159,8 @@ const features = [
         iconColor: "#2F4A7D",
     },
     {
-        title: "Hospital, Travel & Daily Support",
-        desc: "Reliable companionship for appointments, travel, errands, and everyday assistance.",
+        title: "Hospital & Travel Assistance",
+        desc: "Reliable Companionship for Appointments, Hospital and Travel Assistance.",
         iconBg: "#FDF0EC",
         iconColor: "#E07A5F",
     },

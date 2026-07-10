@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSectionNav } from '../hooks/useSectionNav'
-import { getWhatsAppLink, PHONE_LINK } from '../config/contact'
+import { PHONE_LINK } from '../config/contact'
 
 // Each item is either a same-page section (`section`) which needs to work
 // from any route, or a real route (`path`) handled by react-router.
@@ -11,9 +11,6 @@ const NAV_ITEMS = [
   { label: 'Safety', section: 'savefty-section' },
   { label: 'About', path: '/about' },
 ]
-
-const WHATSAPP_GREEN = '#25D366'
-const WHATSAPP_BORDER = '#2F4A7D'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -43,18 +40,6 @@ export default function Navbar() {
   const handleNavClick = (item) => {
     setMenuOpen(false)
     if (item.section) goToSection(item.section)
-  }
-
-  // Shared hover handlers for the WhatsApp button (desktop + mobile)
-  const whatsappHoverIn = (e) => {
-    e.currentTarget.style.background = WHATSAPP_GREEN
-    e.currentTarget.style.borderColor = WHATSAPP_GREEN
-    e.currentTarget.style.color = '#FFFFFF'
-  }
-  const whatsappHoverOut = (e) => {
-    e.currentTarget.style.background = 'transparent'
-    e.currentTarget.style.borderColor = WHATSAPP_BORDER
-    e.currentTarget.style.color = WHATSAPP_BORDER
   }
 
   return (
@@ -144,24 +129,14 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* DESKTOP BUTTONS */}
+          {/* DESKTOP: 24/7 support text + Book via Call button */}
           <div className="hidden xl:flex justify-end items-center gap-4">
-            <a
-              href={getWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={whatsappHoverIn}
-              onMouseLeave={whatsappHoverOut}
-              className="px-6 py-3 rounded-full font-semibold shadow-sm hover:scale-105 transition whitespace-nowrap"
-              style={{
-                color: WHATSAPP_BORDER,
-                border: `2px solid ${WHATSAPP_BORDER}`,
-                background: 'transparent',
-              }}
+            <span
+              className="text-sm font-medium whitespace-nowrap"
+              style={{ color: '#1B2A4A' }}
             >
-              Book on WhatsApp
-            </a>
-
+              24/7 Support
+            </span>
             <a
               href={PHONE_LINK}
               className="px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition whitespace-nowrap"
@@ -211,24 +186,13 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <div className="p-6 flex flex-col gap-4">
-            <a
-              href={getWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-              onMouseEnter={whatsappHoverIn}
-              onMouseLeave={whatsappHoverOut}
-              className="block w-full py-3 rounded-full font-semibold text-center"
-              style={{
-                color: WHATSAPP_BORDER,
-                border: `2px solid ${WHATSAPP_BORDER}`,
-                background: 'transparent',
-              }}
+          <div className="p-6 flex flex-col items-center gap-3">
+            <span
+              className="text-sm font-medium"
+              style={{ color: '#1B2A4A' }}
             >
-              Book on WhatsApp
-            </a>
-
+              24/7 Support
+            </span>
             <a
               href={PHONE_LINK}
               onClick={() => setMenuOpen(false)}

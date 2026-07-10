@@ -94,7 +94,7 @@ function Home() {
       <TravelCompanionServices />*/}
       <CompanionServices />
       <HowWhyWorks />
-      <WaitingSection />
+      {/*<WaitingSection />*/}
       <WorldMap />
       <TrustSafety />
       <WhyUnique/>

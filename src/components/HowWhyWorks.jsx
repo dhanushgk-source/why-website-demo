@@ -4,7 +4,7 @@ const steps = [
   {
     icon: '/Assests/icons/profile.svg',
     title: 'Book a Pro',
-    desc: 'Choose your Pro and share\ncare needs & location',
+    desc: 'Get your Pro and share\ncare needs & location',
   },
   {
     icon: '/Assests/icons/VUser.svg',
@@ -24,7 +24,7 @@ const steps = [
   {
     icon: '/Assests/icons/VDocs.svg',
     title: 'Trip & Health Summary Shared',
-    desc: 'Complete trip report and\nhospital health summary',
+    desc: 'Get Complete report and\nhospital health summary',
   },
 ]
 

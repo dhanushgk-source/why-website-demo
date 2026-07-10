@@ -22,7 +22,7 @@ const VALUES = [
   {
     icon: ShieldCheck,
     title: 'Check for yourself',
-    desc: "Every companion has a QR code you can scan. It'll tell you, right then, whether the person at your door is who we say they are.",
+    desc: "Every companion is issued a verified ID card with a unique QR code you can scan. It'll tell you, right then, whether the person at your door is who we say they are.",
   },
   {
     icon: Wallet,
@@ -37,7 +37,7 @@ const VALUES = [
 ]
 
 const STATS = [
-  { label: 'Point verification', value: '6' },
+  { label: 'Pro Verification Stages', value: '7' },
   { label: 'Insured', value: 'Every visit' },
   { label: 'Subscription required', value: 'None' },
   { label: 'City we call home', value: 'Bengaluru' },
@@ -316,12 +316,12 @@ export default function About() {
             Where we are
           </span>
           <h2 className="fade-inner font-display text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ color: '#1B2A4A' }}>
-            Right now, it's just {LOCATIONS.join(', ')} — and that's on purpose
+            Launching Soon in {LOCATIONS.join(' and ')} — 
+            <span style={{color : ' #52B5BD'}}>Growing with Purpose</span>
+             
           </h2>
           <p className="fade-inner text-base sm:text-lg leading-relaxed" style={{ color: '#5a6b83' }}>
-            We'd rather do one city really well than five cities half-heartedly. Every
-            companion, every coordinator, every process here is built around this place
-            specifically. {LOCATIONS_NOTE}
+           We’re focused on delivering exceptional service in Bengaluru and Chennai before expanding to more cities {LOCATIONS_NOTE}
           </p>
         </div>
       </Section>

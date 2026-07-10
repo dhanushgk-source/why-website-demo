@@ -29,7 +29,7 @@ const CANCELLATION_RULES = [
     {
         icon: Clock3,
         title: 'Free cancellation',
-        desc: 'Cancel more than 4 hours before your scheduled start time at no cost.',
+        desc: 'Cancel more than 4 hours before your scheduled service to receive a Full Refund of your advance payment.',
         tone: 'good',
     },
     {
@@ -102,7 +102,7 @@ export default function WhyUnique() {
                 {/* ===== 30/70 trust meter ===== */}
                 <div className="fade-inner bg-white rounded-3xl shadow-sm p-7 sm:p-8 mb-14">
                     <div className="flex items-center justify-between text-sm font-semibold mb-3" style={{ color: '#1B2A4A' }}>
-                        <span>30% upfront to confirm your booking</span>
+                        <span>30% advance to confirm your booking</span>
                         <span>70% after your service is complete</span>
                     </div>
                     <div className="h-3 w-full rounded-full overflow-hidden flex bg-[#F7F3EA]">
@@ -110,14 +110,15 @@ export default function WhyUnique() {
                         <div className="h-full bg-[#0D9488]" style={{ width: '70%' }} />
                     </div>
                     <p className="text-xs mt-3" style={{ color: '#8a9ab0' }}>
-                        Book with just 30% upfront. Pay the remaining 70% only after your service is successfully completed.          </p>
+                        Book with just <strong>30% advance. </strong> Pay the balance after a safe and successful journey.
+                    </p>
                 </div>
 
                 {/* ===== Cancellation policy ===== */}
                 <div className="fade-inner">
                     <div className="text-center mb-10">
                         <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-3" style={{ color: '#1B2A4A' }}>
-                            Cancellation policy
+                            Cancellation & Refund policy
                         </h3>
                         <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: '#5a6b83' }}>
                             Plans change — here's exactly what happens if yours do.

@@ -4,32 +4,37 @@ const safetyItems = [
   {
     icon: '/Assests/icons/VDocs.svg',
     title: 'Identity verification',
-    desc: 'Government ID, address proof, professional documents',
+    desc: 'Government ID, Address proof, Police Verified documents and Professional documents',
     align: 'left',
   },
   {
     icon: '/Assests/icons/shield_verified.svg',
     title: 'Background checks',
-    desc: 'Criminal records, employment history, reference verification',
+    desc: 'Criminal Records, Employment History and Reference Verification',
     align: 'right',
+  },{
+    icon: '/Assests/icons/eye.svg',
+    title: 'Structured Interview',
+    desc : 'Communication Skills, Empathy Assessments, Situation-Based Evaluation and Professionalism',
+    align:'left'
   },
   {
     icon: '/Assests/icons/graduate.svg',
     title: 'Training',
-    desc: 'Elder care protocols, emergency response, dignity standards',
-    align: 'left',
+    desc: 'Elder Care Protocols, Emergency Response, Dignity Standards and Safety Guidelines',
+    align: 'right',
   },
   {
     icon: '/Assests/icons/eye.svg',
     title: 'Live supervision',
-    desc: 'Real-time tracking, check-ins, quality monitoring',
-    align: 'right',
+    desc: 'Real-time Tracking, Check-ins and Quality Monitoring',
+    align: 'left',
   },
   {
     icon: '/Assests/icons/phone.svg',
     title: 'Emergency protocols',
-    desc: '24/7 emergency line at +91 90365 99439, rapid response, incident management',
-    align: 'left',
+    desc: '24/7 Emergency Line at +91 90365 99439, Rapid Response and Incident Management',
+    align: 'right',
   },
 ]
 
@@ -113,7 +118,7 @@ export default function TrustSafety() {
         </div>
 
         <p className="fade-inner text-lg" style={{ color: "#6a7f96" }}>
-          Every Pro is verified, trained, and supervised — nothing here is left to chance
+          Every Pro is verifie d, trained, and supervised — nothing here is left to chance
         </p>
       </div>
 
