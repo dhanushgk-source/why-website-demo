@@ -145,7 +145,8 @@ export default function About() {
   return (
     <div className="bg-[#F7F3EA]">
       {/* ================= HERO ================= */}
-      <Section id="about-hero" className="pt-28 pb-16 lg:pt-32 lg:pb-20 overflow-hidden">        {/* decorative blobs */}
+      <Section id="about-hero" className="pt-24 pb-12 lg:pt-10 lg:pb-16 overflow-hidden">
+        {/* decorative blobs */}
         <div className="absolute top-10 -left-24 w-96 h-96 rounded-full bg-[#F2C89F]/30 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 -right-24 w-[26rem] h-[26rem] rounded-full bg-[#7FC8C0]/20 blur-3xl pointer-events-none" />
 
@@ -167,12 +168,12 @@ export default function About() {
         </svg>
 
         <div className="relative max-w-4xl mx-auto px-6 text-center z-10">
-          <span className="fade-inner inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-6 bg-white shadow-sm" style={{ color: '#F2711F' }}>
+          <span className="fade-inner inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-5 bg-white shadow-sm" style={{ color: '#F2711F' }}>
             <Heart className="w-4 h-4" fill="#F2711F" strokeWidth={0} />
             Our Story
           </span>
 
-          <h1 className="fade-inner font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6" style={{ color: '#1B2A4A' }}>
+          <h1 className="fade-inner font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-5" style={{ color: '#1B2A4A' }}>
             Being far away shouldn't mean{' '}
             <span style={{ color: '#F2711F' }}>being absent.</span>
           </h1>
@@ -186,7 +187,7 @@ export default function About() {
         </div>
 
         {/* stat strip */}
-        <div className="fade-inner relative mt-16 max-w-4xl mx-auto px-6 z-10">
+        <div className="fade-inner relative mt-12 max-w-4xl mx-auto px-6 z-10">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 bg-white rounded-3xl shadow-lg p-6 sm:p-8">
             {STATS.map((s) => (
               <div key={s.label} className="text-center">
@@ -199,7 +200,7 @@ export default function About() {
       </Section>
 
       {/* ================= FOUNDER STORY ================= */}
-      <Section id="about-founder" className="py-20 lg:py-28">
+      <Section id="about-founder" className="py-14 lg:py-20">
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-5 gap-10 md:gap-16 items-center">
           <div className="fade-inner md:col-span-2 flex justify-center">
             <div className="relative w-56 h-56 sm:w-64 sm:h-64">
@@ -211,13 +212,13 @@ export default function About() {
           </div>
 
           <div className="fade-inner md:col-span-3">
-            <span className="inline-flex items-center gap-2 text-sm font-semibold mb-4" style={{ color: '#0D9488' }}>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold mb-3" style={{ color: '#0D9488' }}>
               Why we built this
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight mb-5" style={{ color: '#1B2A4A' }}>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight mb-4" style={{ color: '#1B2A4A' }}>
               Honestly, it's a pretty ordinary story
             </h2>
-            <p className="text-base sm:text-lg leading-relaxed mb-4" style={{ color: '#5a6b83' }}>
+            <p className="text-base sm:text-lg leading-relaxed mb-3" style={{ color: '#5a6b83' }}>
               Our founder's been living away from home for years now, same as a lot of us on
               the team. One more name in the family group chat asking "did anyone go check on
               Appa today?" It's not a big dramatic worry — it's the quiet kind that just sits
@@ -235,10 +236,10 @@ export default function About() {
       </Section>
 
       {/* ================= TEAM ================= */}
-      <Section id="about-team" className="py-20 lg:py-28 bg-white">
+      <Section id="about-team" className="py-14 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="max-w-2xl mb-10">
-            <h2 className="fade-inner font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4" style={{ color: '#1B2A4A' }}>
+          <div className="max-w-2xl mb-8">
+            <h2 className="fade-inner font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3" style={{ color: '#1B2A4A' }}>
               A team of real people
             </h2>
             <p className="fade-inner text-base sm:text-lg leading-relaxed" style={{ color: '#5a6b83' }}>
@@ -249,7 +250,7 @@ export default function About() {
           </div>
 
           {/* Filter pills */}
-          <div className="fade-inner flex flex-wrap gap-2 mb-10">
+          <div className="fade-inner flex flex-wrap gap-2 mb-8">
             {TEAM_FILTERS.map((filter) => (
               <button
                 key={filter}
@@ -267,7 +268,7 @@ export default function About() {
           </div>
 
           {/* Grid */}
-          <div className="fade-inner grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+          <div className="fade-inner grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
             {filteredTeam.map((member) => (
               <TeamCard key={member.name} member={member} />
             ))}
@@ -276,10 +277,10 @@ export default function About() {
       </Section>
 
       {/* ================= VALUES ================= */}
-      <Section id="about-values" className="py-20 lg:py-28">
+      <Section id="about-values" className="py-14 lg:py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="fade-inner font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4" style={{ color: '#1B2A4A' }}>
+          <div className="text-center mb-10">
+            <h2 className="fade-inner font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3" style={{ color: '#1B2A4A' }}>
               What actually matters to us
             </h2>
             <p className="fade-inner text-base sm:text-lg max-w-xl mx-auto" style={{ color: '#5a6b83' }}>
@@ -293,9 +294,9 @@ export default function About() {
               return (
                 <div
                   key={v.title}
-                  className="fade-inner group bg-white rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                  className="fade-inner group bg-white rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 >
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 bg-[#F7F3EA] shadow-sm group-hover:bg-[#F2711F] transition-colors duration-300">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-[#F7F3EA] shadow-sm group-hover:bg-[#F2711F] transition-colors duration-300">
                     <Icon className="w-6 h-6 text-[#F2711F] group-hover:text-white transition-colors duration-300" />
                   </div>
                   <h3 className="font-display text-lg font-bold mb-2" style={{ color: '#1B2A4A' }}>{v.title}</h3>
@@ -308,13 +309,13 @@ export default function About() {
       </Section>
 
       {/* ================= WHERE WE ARE ================= */}
-      <Section id="about-locations" className="py-20 lg:py-28">
+      <Section id="about-locations" className="py-14 lg:py-20">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="fade-inner inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-6 bg-white shadow-sm" style={{ color: '#0D9488' }}>
+          <span className="fade-inner inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-5 bg-white shadow-sm" style={{ color: '#0D9488' }}>
             <MapPin className="w-4 h-4" />
             Where we are
           </span>
-          <h2 className="fade-inner font-display text-3xl sm:text-4xl font-bold tracking-tight mb-4" style={{ color: '#1B2A4A' }}>
+          <h2 className="fade-inner font-display text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ color: '#1B2A4A' }}>
             Right now, it's just {LOCATIONS.join(', ')} — and that's on purpose
           </h2>
           <p className="fade-inner text-base sm:text-lg leading-relaxed" style={{ color: '#5a6b83' }}>
@@ -326,16 +327,16 @@ export default function About() {
       </Section>
 
       {/* ================= CTA ================= */}
-      <Section id="about-cta" className="pb-24 lg:pb-32">
+      <Section id="about-cta" className="pb-20 lg:pb-24">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="fade-inner relative rounded-[2rem] overflow-hidden px-8 py-14 sm:px-14 sm:py-16 text-center" style={{ background: 'linear-gradient(135deg, #1B2A4A, #0D9488)' }}>
+          <div className="fade-inner relative rounded-[2rem] overflow-hidden px-8 py-12 sm:px-14 sm:py-14 text-center" style={{ background: 'linear-gradient(135deg, #1B2A4A, #0D9488)' }}>
             <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-white/10 blur-2xl pointer-events-none" />
             <div className="absolute -bottom-10 -left-10 w-56 h-56 rounded-full bg-white/10 blur-2xl pointer-events-none" />
 
-            <h2 className="relative font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="relative font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
               One message, and it's off your plate.
             </h2>
-            <p className="relative text-white/70 mb-8 max-w-lg mx-auto">
+            <p className="relative text-white/70 mb-6 max-w-lg mx-auto">
               Tell us who needs help, and when — a verified companion takes it from there.
             </p>
 
@@ -362,7 +363,7 @@ export default function About() {
               </a>
             </div>
 
-            <p className="relative mt-6 text-sm text-white/50">
+            <p className="relative mt-5 text-sm text-white/50">
               Just browsing for now?{' '}
               <Link to="/" className="underline underline-offset-4 hover:text-white transition-colors">
                 Back to home

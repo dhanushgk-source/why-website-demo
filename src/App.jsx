@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import StickyDownload from "./components/StickyDownload";
 import CookieBanner from "./components/CookieBanner";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import ScrollTopBottom from "./components/ScrollTopDown";
 
 // Home Sections
 import Hero from "./components/Hero";
@@ -203,6 +204,7 @@ function AppLayout() {
             <Footer />
             <CookieBanner />
             <WhatsAppFloat />
+            <ScrollTopBottom />
           </>
         )}
       </div>

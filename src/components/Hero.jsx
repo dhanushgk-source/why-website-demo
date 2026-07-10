@@ -54,7 +54,7 @@ export default function Hero() {
   }
 
   const scrollToNextSection = () => {
-    const targetSection = document.getElementById("experience-section")
+    const targetSection = document.getElementById("cta-section")
     if (targetSection) {
       const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - 80
       window.scrollTo({ top: targetPosition, behavior: 'smooth' })
@@ -219,7 +219,6 @@ export default function Hero() {
             </button>
 
             <button
-              onClick={() => scrollToSection('waiting-section')}
               className="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-sm sm:text-base hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
             >
               <PlayCircle className="w-5 h-5 text-[#0D9488]" />

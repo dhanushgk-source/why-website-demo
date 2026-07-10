@@ -485,7 +485,7 @@ export default function CompanionServices() {
                 >
                     <span style={{ color: "#F2711F" }}>●</span>
                     <span style={{ color: "#1B2A4A" }}>
-                        Secure your booking with only <strong>30% upfront</strong> — pay the remaining amount only after a safe and successful journey.
+                        Book with just <strong>30% advance. </strong> Pay the balance after a safe and successful journey.
                     </span>
                 </p>
 
