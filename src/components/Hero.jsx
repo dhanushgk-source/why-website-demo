@@ -31,10 +31,9 @@ export default function Hero() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Fade-up + blur-in reveal classes, shared across every staggered element
-  const revealClass = `transition-all duration-700 ease-out ${
-    started ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-5 blur-[2px]'
-  }`
+  // Fade-up reveal classes, shared across every staggered element
+  const revealClass = `transition-all duration-700 ease-out ${started ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+    }`
   const revealStyle = (stepIndex) => ({
     transitionDelay: started ? `${stepIndex * REVEAL_DELAY}ms` : '0ms',
   })
@@ -80,13 +79,15 @@ export default function Hero() {
       id="hero-section"
     >
 
-      <div className="fade-inner relative w-full min-h-[75vh] min-h-[75svh] flex flex-col md:flex-row">
+      {/* Sized to fill the viewport below the fixed 80px navbar, so the whole hero
+          (image, headline, tagline, CTAs) is visible on load without scrolling. */}
+      <div className="fade-inner relative w-full min-h-[calc(100vh-5rem)] min-h-[calc(100svh-5rem)] flex flex-col md:flex-row">
 
         {/* Left Side - Image with organic curved edge */}
-        <div className="relative w-full md:w-[60%] flex-shrink-0 md:min-h-[75vh]">
+        <div className="relative w-full md:w-[60%] flex-shrink-0 md:min-h-[calc(100vh-5rem)]">
 
           {/* Image block — fixed height on mobile; fills the full stretched column height on desktop (no gap) */}
-          <div className="relative w-full h-[50vh] min-h-[320px] sm:min-h-[45vh] md:absolute md:inset-0 md:h-auto overflow-hidden">
+          <div className="relative w-full h-[42vh] min-h-[280px] sm:min-h-[38vh] md:absolute md:inset-0 md:h-auto overflow-hidden">
             <svg width="0" height="0" className="absolute">
               <defs>
                 <clipPath id="heroImageClip" clipPathUnits="objectBoundingBox">
@@ -133,7 +134,7 @@ export default function Hero() {
         </div>
 
         {/* Right Side - Content */}
-        <div className="relative w-full md:w-[40%] flex flex-col justify-center px-6 sm:px-10 md:px-10 lg:px-12 py-12 md:py-10">
+        <div className="relative w-full md:w-[40%] flex flex-col justify-center px-6 sm:px-10 md:px-10 lg:px-12 py-8 md:py-6">
 
           {/* Decorative shapes */}
           <div className="hidden md:block absolute top-0 right-10 w-28 h-28 rounded-full bg-[#7FC8C0]/40 -translate-y-1/3" />
@@ -150,36 +151,36 @@ export default function Hero() {
             <div className="mb-2">
               {/* Word 1: "We" */}
               <div className={revealClass} style={revealStyle(0)}>
-                <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
+                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   W
                 </span>
-                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
+                <span className="font-display text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
                   e
                 </span>
               </div>
 
               {/* Word 2: "Help" */}
               <div className={revealClass} style={revealStyle(1)}>
-                <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
+                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   H
                 </span>
-                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
+                <span className="font-display text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
                   elp
                 </span>
               </div>
 
               {/* Word 3: "You" */}
               <div className={revealClass} style={revealStyle(2)}>
-                <span className="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
+                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
                   Y
                 </span>
-                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
+                <span className="font-display text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
                   ou
                 </span>
               </div>
 
               {/* Divider */}
-              <div className={`flex items-center gap-2 my-5 ${revealClass}`} style={revealStyle(3)}>
+              <div className={`flex items-center gap-2 my-4 ${revealClass}`} style={revealStyle(3)}>
                 <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
                 <HeartHandshake className="w-4 h-4 text-[#0D9488]" strokeWidth={2} />
               </div>
@@ -187,7 +188,7 @@ export default function Hero() {
 
             {/* Tagline */}
             <h2
-              className={`text-2xl sm:text-3xl md:text-2xl lg:text-3xl text-[#1B2A4A] font-extrabold mb-4 tracking-tight leading-snug text-left max-w-[22ch] ${revealClass}`}
+              className={`text-xl sm:text-2xl md:text-xl lg:text-2xl text-[#1B2A4A] font-extrabold mb-3 tracking-tight leading-snug text-left max-w-[22ch] ${revealClass}`}
               style={revealStyle(4)}
             >
               {TAGLINE}
@@ -195,7 +196,7 @@ export default function Hero() {
 
             {/* Subtext */}
             <p
-              className={`text-gray-500 text-base sm:text-lg max-w-md mb-8 ${revealClass}`}
+              className={`text-gray-500 text-sm sm:text-base max-w-md mb-6 ${revealClass}`}
               style={revealStyle(5)}
             >
               {SUBTEXT}
@@ -204,52 +205,26 @@ export default function Hero() {
 
           {/* CTAs */}
           <div
-            className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 ${revealClass}`}
+            className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 ${revealClass}`}
             style={revealStyle(6)}
           >
             <button
               onClick={scrollToNextSection}
-              className="flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#F2711F] text-white font-semibold text-base sm:text-lg hover:bg-[#D9600F] transition-all duration-500 shadow-lg shadow-orange-900/10 hover:scale-105 active:scale-95"
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#F2711F] text-white font-semibold text-sm sm:text-base hover:bg-[#D9600F] transition-all duration-500 shadow-lg shadow-orange-900/10 hover:scale-105 active:scale-95"
             >
               <span className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center">
                 <ArrowRight className="w-4 h-4" />
               </span>
-              Find a Companion
+              Book a Pro
             </button>
 
             <button
               onClick={() => scrollToSection('waiting-section')}
-              className="flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-base sm:text-lg hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
+              className="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-sm sm:text-base hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
             >
               <PlayCircle className="w-5 h-5 text-[#0D9488]" />
-              What's Included
+              Get the App
             </button>
-          </div>
-
-          {/* WhatsApp / Call links */}
-          <div
-            className={`relative z-10 flex flex-col sm:flex-row items-center sm:items-center justify-start gap-3 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 mt-5 ${revealClass}`}
-            style={revealStyle(7)}
-          >
-            <a
-              href={getWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm sm:text-base font-semibold text-[#1B2A4A] hover:text-[#0D9488] transition-colors"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366">
-                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.15-4.94-4.34-.14-.19-1.19-1.58-1.19-3.01 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.15.07.15.12.32.02.51-.1.19-.15.3-.29.47-.15.16-.31.36-.44.48-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.45.29.15.46.13.63-.08.17-.2.72-.84.92-1.13.19-.29.39-.24.65-.14.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.13.07.75-.17 1.42z" />
-              </svg>
-              Book on WhatsApp
-            </a>
-            <span className="hidden sm:block w-px h-5 bg-gray-300" />
-            <a
-              href={PHONE_LINK}
-              className="flex items-center gap-2 text-sm sm:text-base font-semibold text-[#1B2A4A] hover:text-[#0D9488] transition-colors"
-            >
-              <Phone className="w-[18px] h-[18px] text-[#0D9488]" />
-              Call 24/7: {PHONE_DISPLAY}
-            </a>
           </div>
         </div>
       </div>

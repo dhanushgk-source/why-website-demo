@@ -1,19 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
+import { useSectionFade } from '../hooks/useSectionFade'
 
-// WHY Brand Colors
-// Primary: Soft Teal #52B5BD
-// Secondary: Deep Navy #2F4A7D
-// Accent: Coral #E07A5F
-// Accent 2: Soft Green #ABEAC8
+// WHY Brand Colors — reused across sections for consistency
+// Teal #52B5BD · Navy #2F4A7D · Coral #E07A5F · Green #4A9D6E
 
-const serviceCards = [
+const HOSPITAL_CARDS = [
     {
         icon: "hospital",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
         title: 'Hospital & Medical Support',
-        desc: "Your WHY Companion accompanies Seniors,Individuals,families and anyone who needs assistance to every hospital visit, ensuring they feel supported, safe, and never alone.",
+        desc: "Your WHY Companion accompanies Seniors, Individuals, families and anyone who needs assistance to every hospital visit, ensuring they feel supported, safe, and never alone.",
         points: [
             'Escort to hospitals & clinics',
             'Wait & assist during consultations',
@@ -47,11 +45,115 @@ const serviceCards = [
             "Doctor consultation summary",
             "Services completed during the visit",
             "Medication & prescription updates",
-            "Important observations shared with family"
+            "Important observations shared with family",
         ],
     },
 ]
 
+const TRAVEL_CARDS = [
+    {
+        icon: "car",
+        iconBg: "#E8F8F9",
+        iconColor: "#52B5BD",
+        accentBar: "#52B5BD",
+        title: 'Emergency Companion Support',
+        points: [
+            'Hospital & medical visits',
+            'Urgent travel support',
+            'Safe transportation',
+            'Immediate assistance when you need it',
+        ],
+    },
+    {
+        icon: "wheelchair",
+        iconBg: "#EAF0FA",
+        iconColor: "#2F4A7D",
+        accentBar: "#2F4A7D",
+        title: 'Assisted Mobility Support',
+        points: [
+            'Mobility assistance',
+            'Wheelchair support',
+            'Accessible mobility assistance',
+            'Comfortable journeys',
+        ],
+    },
+    {
+        icon: "clock",
+        iconBg: "#EEF8F1",
+        iconColor: "#4A9D6E",
+        accentBar: "#4A9D6E",
+        title: '24/7 Care & Companion Support',
+        points: [
+            'Day & night availability',
+            'Personal assistance',
+            'Safety monitoring',
+            'Continuous peace of mind',
+        ],
+    },
+    {
+        icon: "cart",
+        iconBg: "#FDF0EC",
+        iconColor: "#E07A5F",
+        accentBar: "#E07A5F",
+        title: 'Daily Errands & Essential Support',
+        comingSoon: true,
+        points: [
+            'Grocery shopping',
+            'Pharmacy visits',
+            'Bill payments',
+            'Daily task assistance',
+        ],
+    },
+]
+
+const TABS = [
+    {
+        key: 'hospital',
+        label: 'Hospital & Medical Care',
+        badge: 'Keeping Families Informed',
+        badgeIcon: (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z" />
+                <polyline points="9 12 11 14 15 10" />
+            </svg>
+        ),
+        headline: (
+            <>
+                What our <span style={{ color: "#52B5BD" }}>Pro Can Do{' '}</span>
+                <br className="hidden sm:block" />
+                <span style={{ color: "#2F4A7D" }}>for Your Families and Elders</span>
+            </>
+        ),
+        subtext: "Your assigned Pro is trained to support elders with medical visits, medicines, nursing care, and everyday tasks — with compassion and reliability. After every visit, families receive a clear summary of the care provided, ensuring complete peace of mind.",
+        cards: HOSPITAL_CARDS,
+        gridCols: 'md:grid-cols-3',
+        maxW: 'max-w-5xl',
+        ctaHint: 'Background-verified companions · Real-time family updates · Available whenever you need support',
+    },
+    {
+        key: 'travel',
+        label: 'Travel & Mobility Support',
+        badge: 'Trusted Companion Services',
+        badgeIcon: (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M8 12l3 3 5-6" />
+            </svg>
+        ),
+        headline: (
+            <>
+                Choose Your
+                <br className="hidden sm:block" />{' '}
+                <span style={{ color: "#52B5BD" }}>Companion Service</span>
+            </>
+        ),
+        subtext: "Trusted companions who provide personalized support for travel, medical visits, daily errands, emergencies, and everyday assistance—ensuring comfort, safety, and peace of mind for seniors and their families.",
+        cards: TRAVEL_CARDS,
+        gridCols: 'md:grid-cols-2 lg:grid-cols-4',
+        maxW: 'max-w-6xl',
+        ctaHint: 'Background-verified companions · Available 24/7 · Trusted support across India',
+    },
+]
 
 // SVG icon component — no emojis
 function CardIcon({ name, color }) {
@@ -70,11 +172,29 @@ function CardIcon({ name, color }) {
                 <circle cx="18" cy="18" r="4" /><line x1="18" y1="16" x2="18" y2="20" /><line x1="16" y1="18" x2="20" y2="18" />
             </svg>
         ),
-        stethoscope: (
+        clipboard: (
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
-                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
-                <circle cx="20" cy="10" r="2" />
+                <rect x="4" y="4" width="16" height="18" rx="2" />
+                <path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z" />
+                <line x1="8" y1="11" x2="16" y2="11" />
+                <line x1="8" y1="15" x2="16" y2="15" />
+                <line x1="8" y1="19" x2="12" y2="19" />
+            </svg>
+        ),
+        car: (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13" />
+                <path d="M3 13h18v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
+                <circle cx="7.5" cy="17.5" r="1.5" /><circle cx="16.5" cy="17.5" r="1.5" />
+            </svg>
+        ),
+        wheelchair: (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="4" r="1.5" fill={color} stroke="none" />
+                <path d="M9 7v6l5 3" />
+                <path d="M9 13H5" />
+                <circle cx="9" cy="17" r="5" />
+                <path d="M14 16l4 1 1 4" />
             </svg>
         ),
         cart: (
@@ -83,13 +203,10 @@ function CardIcon({ name, color }) {
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
             </svg>
         ),
-        clipboard: (
+        clock: (
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="4" y="4" width="16" height="18" rx="2" />
-                <path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z" />
-                <line x1="8" y1="11" x2="16" y2="11" />
-                <line x1="8" y1="15" x2="16" y2="15" />
-                <line x1="8" y1="19" x2="12" y2="19" />
+                <circle cx="12" cy="12" r="9" />
+                <polyline points="12 7 12 12 15.5 14" />
             </svg>
         ),
     }
@@ -101,6 +218,7 @@ function ServiceCard({ card, index }) {
     const ref = useRef(null)
 
     useEffect(() => {
+        setVisible(false)
         const el = ref.current
         if (!el) return
         const observer = new IntersectionObserver(
@@ -114,22 +232,32 @@ function ServiceCard({ card, index }) {
         )
         observer.observe(el)
         return () => observer.disconnect()
-    }, [index])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [index, card.title])
 
     return (
         <div
             ref={ref}
             style={{
-                opacity: visible ? 1 : 0,
+                opacity: visible ? (card.comingSoon ? 0.85 : 1) : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(32px)',
                 transition: 'opacity 0.55s ease, transform 0.55s ease',
                 borderTop: `4px solid ${card.accentBar}`,
             }}
-            className="bg-white rounded-3xl p-7 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-4"
+            className="relative bg-white rounded-3xl p-7 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-4"
         >
+            {card.comingSoon && (
+                <span
+                    className="absolute top-5 right-5 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full"
+                    style={{ background: card.iconBg, color: card.iconColor }}
+                >
+                    Coming Soon
+                </span>
+            )}
+
             {/* Icon badge */}
             <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                className="w-12 h-12 rounded-2xl flex items-center justify-center"
                 style={{ background: card.iconBg }}
             >
                 <CardIcon name={card.icon} color={card.iconColor} />
@@ -137,7 +265,9 @@ function ServiceCard({ card, index }) {
 
             <div>
                 <h3 className="text-lg font-bold mb-1" style={{ color: "#1a2a3a" }}>{card.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#8a9ab0" }}>{card.desc}</p>
+                {card.desc && (
+                    <p className="text-sm leading-relaxed" style={{ color: "#8a9ab0" }}>{card.desc}</p>
+                )}
             </div>
 
             <ul className="space-y-2.5 mt-1">
@@ -156,15 +286,17 @@ function ServiceCard({ card, index }) {
 
             <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${card.iconBg}` }}>
                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
-                    SUPPORTED BY YOUR WHY COMPANION
+                    {card.comingSoon ? 'COMING SOON' : 'SUPPORTED BY YOUR WHY COMPANION'}
                 </span>
             </div>
         </div>
     )
 }
 
-export default function TravelCompanion() {
+export default function CompanionServices() {
+    const sectionRef = useSectionFade()
     const [headerVisible, setHeaderVisible] = useState(false)
+    const [activeTab, setActiveTab] = useState('hospital') // default: hospital section
     const headerRef = useRef(null)
 
     useEffect(() => {
@@ -183,8 +315,25 @@ export default function TravelCompanion() {
         return () => observer.disconnect()
     }, [])
 
+    // Lets other components (e.g. the "Choose Experience" cards) switch the
+    // active tab from anywhere on the page — dispatch:
+    // window.dispatchEvent(new CustomEvent('why:companion-tab', { detail: { tab: 'travel' } }))
+    useEffect(() => {
+        const handleExternalTabChange = (e) => {
+            const tab = e.detail?.tab
+            if (tab && TABS.some((t) => t.key === tab)) {
+                setActiveTab(tab)
+            }
+        }
+        window.addEventListener('why:companion-tab', handleExternalTabChange)
+        return () => window.removeEventListener('why:companion-tab', handleExternalTabChange)
+    }, [])
+
+    const active = TABS.find((t) => t.key === activeTab)
+
     return (
         <section
+            ref={sectionRef}
             id="Hospital-companion-section"
             className="relative py-24 overflow-hidden bg-[#F8F3EA]"
         >
@@ -247,17 +396,12 @@ export default function TravelCompanion() {
                         className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-8 bg-white shadow-sm"
                         style={{ color: "#2F8F8A" }}
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z" />
-                            <polyline points="9 12 11 14 15 10" />
-                        </svg>
-                        Keeping Families Informed
+                        {active.badgeIcon}
+                        {active.badge}
                     </span>
 
                     <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight" style={{ color: "#1B2A4A" }}>
-                        What our <span style={{ color: "#52B5BD" }}>Pro Can Do {" "}</span>
-                        <br className="hidden sm:block" />
-                        <span style={{ color: "#2F4A7D" }}>for Your Families and Elders</span>
+                        {active.headline}
                     </h2>
 
                     {/* Divider with heart */}
@@ -269,17 +413,43 @@ export default function TravelCompanion() {
                         <span className="w-10 h-px bg-[#E0B98A]" />
                     </div>
 
-                    <p className="text-lg max-w-2xl mx-auto mb-14 leading-relaxed" style={{ color: "#6a7f96" }}>
-                        Your assigned Pro is trained to support elders with medical visits,
-                        medicines, nursing care, and everyday tasks — with compassion and reliability.
-                        After every visit, families receive a clear summary of the care provided, ensuring complete peace of mind.
+                    <p className="text-lg max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "#6a7f96" }}>
+                        {active.subtext}
                     </p>
+
+                    {/* Toggle / Tab Switch */}
+                    <div
+                        className="inline-flex items-center p-1.5 rounded-full bg-white shadow-sm mb-14"
+                        role="tablist"
+                        aria-label="Companion service type"
+                    >
+                        {TABS.map((tab) => {
+                            const isActive = tab.key === activeTab
+                            return (
+                                <button
+                                    key={tab.key}
+                                    role="tab"
+                                    aria-selected={isActive}
+                                    onClick={() => setActiveTab(tab.key)}
+                                    className="relative px-6 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 whitespace-nowrap"
+                                    style={{
+                                        color: isActive ? '#FFFFFF' : '#6a7f96',
+                                        background: isActive
+                                            ? 'linear-gradient(135deg, #52B5BD, #2F4A7D)'
+                                            : 'transparent',
+                                    }}
+                                >
+                                    {tab.label}
+                                </button>
+                            )
+                        })}
+                    </div>
                 </div>
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-5xl mx-auto">
-                    {serviceCards.map((card, i) => (
-                        <ServiceCard key={card.title} card={card} index={i} />
+                <div className={`grid grid-cols-1 ${active.gridCols} gap-6 text-left ${active.maxW} mx-auto`}>
+                    {active.cards.map((card, i) => (
+                        <ServiceCard key={`${activeTab}-${card.title}`} card={card} index={i} />
                     ))}
                 </div>
 
@@ -301,7 +471,7 @@ export default function TravelCompanion() {
                         </svg>
                     </button>
                     <p className="text-sm" style={{ color: "#8a9ab0" }}>
-                        Background-verified companions · Real-time family updates · Available whenever you need support
+                        {active.ctaHint}
                     </p>
                 </div>
 

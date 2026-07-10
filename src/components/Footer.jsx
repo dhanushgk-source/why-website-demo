@@ -2,15 +2,34 @@ import { Link } from "react-router-dom";
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from "../config/contact";
 import { useSectionNav } from "../hooks/useSectionNav";
 
+// Both "Hospital Assistance" and "Travel Companionship" now live in the same
+// merged section (CompanionServices.jsx) behind a toggle, so they share one
+// scroll target — `tab` tells that section which toggle state to switch to.
+const COMPANION_SECTION_ID = 'Hospital-companion-section';
+
 const scrollIds = {
   'How it Works': 'WHY-Works-section',
   'Safety & Trust': 'savefty-section',
-  'Hospital Assistance': 'Hospital-companion-section',
-  'Travel Companionship': 'travel-companion-section',
+  'Hospital Assistance': COMPANION_SECTION_ID,
+  'Travel Companionship': COMPANION_SECTION_ID,
+};
+
+const companionTabs = {
+  'Hospital Assistance': 'hospital',
+  'Travel Companionship': 'travel',
 };
 
 export default function Footer() {
   const goToSection = useSectionNav();
+
+  const handleSectionClick = (label) => {
+    const tab = companionTabs[label];
+    if (tab) {
+      window.dispatchEvent(new CustomEvent('why:companion-tab', { detail: { tab } }));
+    }
+    goToSection(scrollIds[label]);
+  };
+
   return (
     <footer
       id="footer-section"
@@ -100,7 +119,7 @@ export default function Footer() {
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
                 {scrollIds[s] ? (
                   <button
-                    onClick={() => goToSection(scrollIds[s])}
+                    onClick={() => handleSectionClick(s)}
                     className="hover:text-[#6ED3C8] transition text-left"
                   >
                     {s}
@@ -122,7 +141,7 @@ export default function Footer() {
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
                 {scrollIds[s] ? (
                   <button
-                    onClick={() => goToSection(scrollIds[s])}
+                    onClick={() => handleSectionClick(s)}
                     className="hover:text-[#6ED3C8] transition text-left"
                   >
                     {s}

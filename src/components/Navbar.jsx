@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSectionNav } from '../hooks/useSectionNav'
+import { getWhatsAppLink, PHONE_LINK } from '../config/contact'
 
 // Each item is either a same-page section (`section`) which needs to work
 // from any route, or a real route (`path`) handled by react-router.
 const NAV_ITEMS = [
-  { label: 'Services', section: 'parent-section' },
+  { label: 'Services', section: 'experience-section' },
   { label: 'How it Works', section: 'WHY-Works-section' },
   { label: 'Safety', section: 'savefty-section' },
   { label: 'About', path: '/about' },
 ]
+
+const WHATSAPP_GREEN = '#25D366'
+const WHATSAPP_BORDER = '#2F4A7D'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -41,6 +45,18 @@ export default function Navbar() {
     if (item.section) goToSection(item.section)
   }
 
+  // Shared hover handlers for the WhatsApp button (desktop + mobile)
+  const whatsappHoverIn = (e) => {
+    e.currentTarget.style.background = WHATSAPP_GREEN
+    e.currentTarget.style.borderColor = WHATSAPP_GREEN
+    e.currentTarget.style.color = '#FFFFFF'
+  }
+  const whatsappHoverOut = (e) => {
+    e.currentTarget.style.background = 'transparent'
+    e.currentTarget.style.borderColor = WHATSAPP_BORDER
+    e.currentTarget.style.color = WHATSAPP_BORDER
+  }
+
   return (
     <>
       {/* NAVBAR */}
@@ -48,12 +64,12 @@ export default function Navbar() {
         <nav
           className={`
             grid grid-cols-3 items-center
+            gap-x-4
             px-6 lg:px-12 h-20
             transition-all duration-500 ease-in-out
-            ${
-              visible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 -translate-y-10'
+            ${visible
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 -translate-y-10'
             }
           `}
           style={{
@@ -75,7 +91,7 @@ export default function Navbar() {
           </div>
 
           {/* DESKTOP MENU */}
-          <ul className="hidden lg:flex justify-center gap-10 font-medium">
+          <ul className="hidden xl:flex justify-center gap-8 font-medium">
             {NAV_ITEMS.map((item) => (
               <li
                 key={item.label}
@@ -85,7 +101,7 @@ export default function Navbar() {
                 {item.path ? (
                   <Link
                     to={item.path}
-                    className="transition-colors duration-300"
+                    className="transition-colors duration-300 whitespace-nowrap"
                     onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                   >
@@ -94,7 +110,7 @@ export default function Navbar() {
                 ) : (
                   <button
                     onClick={() => handleNavClick(item)}
-                    className="transition-colors duration-300"
+                    className="transition-colors duration-300 whitespace-nowrap"
                     onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                   >
@@ -119,7 +135,7 @@ export default function Navbar() {
           </ul>
 
           {/* MOBILE CENTER BRAND */}
-          <div className="flex lg:hidden justify-center">
+          <div className="flex xl:hidden justify-center">
             <span
               className="font-display font-bold text-xl tracking-wide"
               style={{ color: '#1B2A4A' }}
@@ -129,36 +145,41 @@ export default function Navbar() {
           </div>
 
           {/* DESKTOP BUTTONS */}
-          <div className="hidden lg:flex justify-end items-center gap-3">
-            <button
-              onClick={() => goToSection('cta-section')}
-              className="px-6 py-3 rounded-full font-semibold shadow-sm hover:scale-105 transition"
+          <div className="hidden xl:flex justify-end items-center gap-4">
+            <a
+              href={getWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={whatsappHoverIn}
+              onMouseLeave={whatsappHoverOut}
+              className="px-6 py-3 rounded-full font-semibold shadow-sm hover:scale-105 transition whitespace-nowrap"
               style={{
-                color: '#2F4A7D',
-                border: '2px solid #2F4A7D',
+                color: WHATSAPP_BORDER,
+                border: `2px solid ${WHATSAPP_BORDER}`,
                 background: 'transparent',
               }}
             >
-              Book a PRO
-            </button>
-            <button
-              className="px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition"
+              Book on WhatsApp
+            </a>
+
+            <a
+              href={PHONE_LINK}
+              className="px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition whitespace-nowrap"
               style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
             >
-              Get the App
-            </button>
+              Book via Call
+            </a>
           </div>
 
           {/* MOBILE TOGGLE */}
           <div
-            className="lg:hidden absolute right-6 cursor-pointer"
+            className="xl:hidden absolute right-6 cursor-pointer"
             onClick={toggleMenu}
             style={{ color: '#1B2A4A' }}
           >
             <i
-              className={`fa-solid ${
-                menuOpen ? 'fa-xmark' : 'fa-bars'
-              } fa-lg`}
+              className={`fa-solid ${menuOpen ? 'fa-xmark' : 'fa-bars'
+                } fa-lg`}
             ></i>
           </div>
         </nav>
@@ -166,7 +187,7 @@ export default function Navbar() {
         {/* MOBILE MENU */}
         <div
           className={`
-            lg:hidden
+            xl:hidden
             overflow-hidden
             transition-all duration-300
             shadow-lg
@@ -190,28 +211,32 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <div className="p-6 space-y-3">
-            <button
-              onClick={() => {
-                setMenuOpen(false)
-                goToSection('cta-section')
-              }}
+          <div className="p-6 flex flex-col gap-4">
+            <a
+              href={getWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              onMouseEnter={whatsappHoverIn}
+              onMouseLeave={whatsappHoverOut}
               className="block w-full py-3 rounded-full font-semibold text-center"
               style={{
-                color: '#2F4A7D',
-                border: '2px solid #2F4A7D',
+                color: WHATSAPP_BORDER,
+                border: `2px solid ${WHATSAPP_BORDER}`,
                 background: 'transparent',
               }}
             >
-              Book a PRO
-            </button>
-            <button
+              Book on WhatsApp
+            </a>
+
+            <a
+              href={PHONE_LINK}
               onClick={() => setMenuOpen(false)}
-              className="w-full py-3 rounded-full text-white"
+              className="block w-full py-3 rounded-full text-white text-center"
               style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
             >
-              Get the App
-            </button>
+              Book via Call
+            </a>
           </div>
         </div>
       </header>

@@ -29,20 +29,20 @@ const CANCELLATION_RULES = [
     {
         icon: Clock3,
         title: 'Free cancellation',
-        desc: 'Cancel your booking up to 4 hours before the scheduled service at no extra cost.',
+        desc: 'Cancel more than 4 hours before your scheduled start time at no cost.',
         tone: 'good',
     },
     {
         icon: AlertCircle,
-        title: 'Late cancellation',
-        desc: 'If you cancel within 4 hours of the scheduled service, a 30% cancellation fee will apply.',
+        title: '30% cancellation fee',
+        desc: 'Applies to your initial deposit, cancellations made within 4 hours of the scheduled start, or if the Customer/Senior is unavailable or refuses service after your WHY Pro has arrived. Charged to the payment method on file.',
         tone: 'warn',
     },
     {
-        icon: AlertCircle,
-        title: 'Deposit policy',
-        desc: 'The 30% booking deposit is non-refundable for cancellations made within 4 hours of the service.',
-        tone: 'warn',
+        icon: ShieldCheck,
+        title: "If it's on us, you're covered",
+        desc: "If a WHY Pro fails to arrive due to WHY's fault, you won't be charged — plus you'll get priority rebooking and 25% off your next booking.",
+        tone: 'good',
     },
 ]
 

@@ -367,7 +367,7 @@ export default function WorldMap() {
                     </div>
                 </div>
 
-                {/* RIGHT — Content */}
+               {/* RIGHT — Content */}
                 <div
                     ref={rightPanelRef}
                     style={{
@@ -389,7 +389,7 @@ export default function WorldMap() {
                         Care Beyond Borders
                     </span>
 
-                    <h1 className="font-display text-xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3 sm:mb-5 tracking-tight" style={{ color: "#1B2A4A" }}>
+                    <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-3 sm:mb-5 tracking-tight" style={{ color: "#1B2A4A" }}>
                         Stay Close to Your Parents,
                         <br />
                         {isIndiaVisitor ? (
@@ -403,7 +403,7 @@ export default function WorldMap() {
                         )}
                     </h1>
 
-                    <p className="text-sm sm:text-base leading-relaxed mb-5 sm:mb-8" style={{ color: "#6a7f96" }}>
+                    <p className="text-base sm:text-lg leading-relaxed mb-5 sm:mb-8" style={{ color: "#6a7f96" }}>
                         <span className="bg-[#F2C89F]/40 font-semibold px-1 rounded-sm box-decoration-clone" style={{ color: "#1a2a3a" }}>
                             Distance may separate families, but it should never separate care.
                         </span>{" "}
@@ -439,38 +439,11 @@ export default function WorldMap() {
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-sm" style={{ color: "#1a2a3a" }}>{f.title}</p>
-                                    <p className="text-xs sm:text-sm mt-0.5" style={{ color: "#8a9ab0" }}>{f.desc}</p>
+                                    <p className="font-semibold text-base sm:text-lg" style={{ color: "#1a2a3a" }}>{f.title}</p>
+                                    <p className="text-sm sm:text-base mt-0.5" style={{ color: "#8a9ab0" }}>{f.desc}</p>
                                 </div>
                             </div>
                         ))}
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-3">
-                        <button
-                            className="inline-flex items-center justify-center gap-2
-                                       px-5 py-3 sm:px-8 sm:py-4
-                                       rounded-full text-white font-semibold shadow-lg
-                                       hover:shadow-xl hover:scale-[1.03] active:scale-[0.98]
-                                       transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
-                            style={{ background: "#0D5A55" }}
-                        >
-                            Find Your Companion
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                                <polyline points="12 5 19 12 12 19" />
-                            </svg>
-                        </button>
-                        <button
-                            onClick={() => document.getElementById("WHY-Works-section")?.scrollIntoView({ behavior: "smooth" })}
-                            className="inline-flex items-center justify-center gap-2
-                                       px-5 py-3 sm:px-8 sm:py-4
-                                       rounded-full border border-gray-200 bg-white font-semibold
-                                       hover:border-[#52B5BD] transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
-                            style={{ color: "#6a7f96" }}
-                        >
-                             See
-                        </button>
                     </div>
                 </div>
 

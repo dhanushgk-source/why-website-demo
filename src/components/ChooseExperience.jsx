@@ -9,6 +9,10 @@ import {
   ShieldAlert,
 } from 'lucide-react'
 
+// Both cards point at the same merged section (CompanionServices.jsx);
+// `tab` tells that section which toggle state to switch to on arrival.
+const COMPANION_SECTION_ID = 'Hospital-companion-section'
+
 const cards = [
   {
     theme: 'teal',
@@ -23,8 +27,8 @@ const cards = [
     Icon: Hospital,
     title: 'Hospital',
     subtitle: 'Medical Assistance',
-    cta: 'BOOK NOW',
-    sectionId: 'Hospital-companion-section',
+    sectionId: COMPANION_SECTION_ID,
+    tab: 'hospital',
     desc: 'Compassionate support for consultations, hospital admissions, follow-up visits, and patient care.',
     image: '/Assests/hospital_assistant.jpg',
     imageAlt: 'Hospital companion caring for patient',
@@ -42,17 +46,18 @@ const cards = [
     Icon: CarTaxiFront,
     title: 'Travel',
     subtitle: 'Travel Assistance',
-    cta: 'BOOK NOW',
-    sectionId: 'travel-companion-section',
+    sectionId: COMPANION_SECTION_ID,
+    tab: 'travel',
     desc: 'Compassionate companions who accompany seniors during their journeys, providing comfort, support, and peace of mind.',
     image: '/Assests/travel_assistant.jpg',
     imageAlt: 'Travel companion assisting elderly',
   },
 ]
 
-
-function scrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+// Switches the CompanionServices toggle to the right tab, then scrolls there.
+function goToCompanionTab(sectionId, tab) {
+  window.dispatchEvent(new CustomEvent('why:companion-tab', { detail: { tab } }))
+  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
 }
 
 export default function ChooseExperience() {
@@ -149,13 +154,7 @@ export default function ChooseExperience() {
                   <p className="font-Manrope opacity-90 text-sm italic tracking-normal">{card.subtitle}</p>
                 </div>
 
-                {/* CTA pill */}
-                <button
-                  onClick={() => scrollTo(card.sectionId)}
-                  className={`absolute top-4 right-4 px-4 py-2 ${card.ctaPill} rounded-full text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg hover:brightness-110 transition-all duration-300`}
-                >
-                  {card.cta}
-                </button>
+                
               </div>
 
               {/* CONTENT SECTION */}
@@ -182,7 +181,7 @@ export default function ChooseExperience() {
                 </p>
 
                 <button
-                  onClick={() => scrollTo(card.sectionId)}
+                  onClick={() => goToCompanionTab(card.sectionId, card.tab)}
                   className={`relative z-10 inline-flex items-center gap-1 px-7 py-3 rounded-full ${card.btnGradient} text-white font-bold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl`}
                 >
                   Learn More

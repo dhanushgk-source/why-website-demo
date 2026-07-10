@@ -1,5 +1,5 @@
 import { useSectionFade } from '../hooks/useSectionFade'
-import { AlertCircle, HeartHandshake, ShieldCheck, Leaf, Heart } from 'lucide-react'
+import {  HeartHandshake, ShieldCheck, Leaf, Heart } from 'lucide-react'
 
 const problems = [
   { text: 'Seniors attending hospital visits alone', theme: 'orange' },
@@ -75,18 +75,18 @@ export default function ParentSection() {
 
         {/* Eyebrow */}
         <div className="fade-inner mx-auto mb-6 flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-[#0D9488] shadow-sm">
-          <AlertCircle className="h-4 w-4" aria-hidden="true" />
+          <ShieldCheck  className="h-4 w-4" aria-hidden="true" />
           Why Families Choose WHY
         </div>
 
         {/* Heading */}
         <h2 className="fade-inner text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-[#0A1F44]">
-          When Seniors Need Support, {' '}
-          <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-             Families Need Peace of Mind
-          </span>
-        </h2>
+  When You Can't Be There,{' '}
+  <br className="hidden sm:block" />
+  <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
+    WHY Shows We Care.
+  </span>
+</h2>
 
         {/* Divider */}
         <div className="fade-inner mb-12 sm:mb-16 flex items-center justify-center gap-3">

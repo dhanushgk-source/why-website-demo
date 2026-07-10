@@ -145,12 +145,8 @@ export default function TrustSignals() {
           <h2 className="fade-inner text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-[#0A1F44]">
             Why{' '}
             <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-              Families
-            </span>{' '} Choose {' '}
-            <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-              WHY
-            </span>
-
+              Families Trust
+            </span>{' '}  Us 
           </h2>
 
           <div className="fade-inner flex items-center justify-center gap-3 mb-4">
@@ -172,7 +168,7 @@ export default function TrustSignals() {
               className="card-hidden group relative bg-white rounded-3xl overflow-hidden text-center
                 shadow-lg transition-all duration-500 ease-out
                 hover:-translate-y-2 hover:shadow-2xl
-                h-full flex flex-col"
+                h-full flex flex-col cursor-pointer"
               style={{
                 transform: 'translateY(30px)',
                 opacity: 0,
@@ -180,7 +176,8 @@ export default function TrustSignals() {
                 transitionDelay: `${index * 100}ms`
               }}
             >
-              <div className="relative px-5 pt-7 pb-12 flex-1 flex flex-col">
+              {/* ===== FRONT FACE — icon, title, subtitle, number ===== */}
+              <div className="relative px-5 pt-7 pb-12 flex-1 flex flex-col transition-opacity duration-300 ease-out group-hover:opacity-0">
                 {/* Sparkle decorations */}
                 <Sparkle className={`absolute top-5 left-5 w-3 h-3 ${signal.iconColor} opacity-60`} fill="currentColor" />
                 <Sparkle className={`absolute top-8 right-6 w-2 h-2 ${signal.iconColor} opacity-40`} fill="currentColor" />
@@ -202,14 +199,14 @@ export default function TrustSignals() {
                 </p>
                 <span className={`block w-8 h-[3px] mx-auto rounded-full mb-3 flex-shrink-0 ${signal.underline}`} />
 
-                {/* Description */}
-                <p className="text-xs text-slate-500 leading-relaxed max-w-[20ch] mx-auto">
-                  {signal.description}
-                </p>
+                {/* Hint that more info is on hover */}
+                <span className="mt-auto text-[11px] font-medium text-slate-300 tracking-wide uppercase">
+                  Hover to read more
+                </span>
               </div>
 
-              {/* Wavy bottom with number badge — pinned to the true bottom of the card via flex */}
-              <div className="relative h-12 flex-shrink-0">
+              {/* Wavy bottom with number badge */}
+              <div className="relative h-12 flex-shrink-0 transition-opacity duration-300 ease-out group-hover:opacity-0">
                 <svg
                   className={`absolute inset-0 w-full h-full ${signal.waveColor}`}
                   viewBox="0 0 300 60"
@@ -221,6 +218,30 @@ export default function TrustSignals() {
                   flex items-center justify-center font-bold text-xs shadow-lg border-4 border-white`}>
                   {signal.number}
                 </div>
+              </div>
+
+              {/* ===== HOVER REVEAL — themed panel with full description ===== */}
+              <div
+                className={`absolute inset-0 ${signal.badgeBg} text-white flex flex-col items-center justify-center
+                  px-6 py-8 text-center
+                  opacity-0 scale-95 translate-y-2
+                  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0
+                  transition-all duration-400 ease-out
+                  pointer-events-none group-hover:pointer-events-auto`}
+              >
+                <span className="absolute top-4 right-5 text-xs font-bold text-white/50">
+                  {signal.number}
+                </span>
+                <div className="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center mb-4">
+                  <signal.Icon className="w-6 h-6 text-white" strokeWidth={2} />
+                </div>
+                <h3 className="text-base font-bold mb-1 leading-snug">
+                  {signal.title} {signal.subtitle}
+                </h3>
+                <span className="block w-8 h-[2px] bg-white/40 rounded-full mb-3" />
+                <p className="text-sm leading-relaxed text-white/90 max-w-[22ch]">
+                  {signal.description}
+                </p>
               </div>
             </div>
           ))}

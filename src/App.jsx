@@ -33,6 +33,7 @@ import ProNurseCare from "./components/ProNurseCare";
 import TravelCompanionServices from "./components/TravelCompanion";
 import HospitalAssistance from "./components/HospitalAssistance"
 import TestimonialsSlideshow from "./components/TestimonialsSlideshow";
+import CompanionServices from "./components/CompanionServices";
 
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
@@ -88,8 +89,9 @@ function Home() {
       <TrustedBy />
       <ParentSection />
       {/*<ProNurseCare />*/}
-      <HospitalAssistance />
-      <TravelCompanionServices />
+      {/*<HospitalAssistance />
+      <TravelCompanionServices />*/}
+      <CompanionServices />
       <HowWhyWorks />
       <WaitingSection />
       <WorldMap />
