@@ -3,6 +3,7 @@ import {
     MapContainer,
     Marker,
     Popup,
+    Tooltip,
     useMap,
 } from "react-leaflet";
 import L from "leaflet";
@@ -16,11 +17,25 @@ const blueIcon = new L.Icon({
     iconAnchor: [14, 44],
 });
 
-const greenIcon = new L.Icon({
-    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
-    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [28, 44],
-    iconAnchor: [14, 44],
+function countryDotIcon(color = "#2F4A7D") {
+    return L.divIcon({
+        className: "",
+        html: `<span style="display:block;width:12px;height:12px;border-radius:9999px;background:${color};box-shadow:0 0 0 4px rgba(255,255,255,0.25),0 0 8px ${color};border:2px solid white;"></span>`,
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
+    });
+}
+
+const whyZoneIcon = L.divIcon({
+    className: "",
+    html: `
+      <div style="position:relative;width:22px;height:22px;">
+        <span style="position:absolute;inset:0;border-radius:9999px;background:#52B5BD;animation:whyZonePulse 2s ease-out infinite;"></span>
+        <span style="position:absolute;inset:0;margin:auto;width:14px;height:14px;border-radius:9999px;background:#52B5BD;border:3px solid white;box-shadow:0 0 12px rgba(82,181,189,0.9);"></span>
+      </div>
+    `,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11],
 });
 
 // Deterministic color from country name
@@ -43,9 +58,27 @@ function getCountryColor(name) {
     return COUNTRY_COLORS[Math.abs(hash) % COUNTRY_COLORS.length];
 }
 
-// Pool of world locations used when the visitor is browsing from India —
-// a random one is picked so the map points somewhere different each time.
-const RANDOM_WORLD_LOCATIONS = [
+// Haversine great-circle distance (km) between two lat/lon points
+function distanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth radius in km
+    const toRad = (d) => (d * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return Math.round(R * c);
+}
+
+function formatDistance(km) {
+    return `${km.toLocaleString("en-IN")} km`;
+}
+
+const INDIA = { city: "India", country: "India", lat: 20.5937, lon: 78.9629 };
+
+// The 20 countries permanently shown connected to India
+const GLOBAL_NETWORK_COUNTRIES_BASE = [
     { city: "New York", country: "United States", lat: 40.7128, lon: -74.006 },
     { city: "London", country: "United Kingdom", lat: 51.5072, lon: -0.1276 },
     { city: "Toronto", country: "Canada", lat: 43.6532, lon: -79.3832 },
@@ -56,33 +89,49 @@ const RANDOM_WORLD_LOCATIONS = [
     { city: "Auckland", country: "New Zealand", lat: -36.8485, lon: 174.7633 },
     { city: "Tokyo", country: "Japan", lat: 35.6762, lon: 139.6503 },
     { city: "Paris", country: "France", lat: 48.8566, lon: 2.3522 },
-    { city: "San Francisco", country: "United States", lat: 37.7749, lon: -122.4194 },
     { city: "Muscat", country: "Oman", lat: 23.588, lon: 58.3829 },
+    { city: "Riyadh", country: "Saudi Arabia", lat: 24.7136, lon: 46.6753 },
+    { city: "Doha", country: "Qatar", lat: 25.2854, lon: 51.531 },
+    { city: "Kuala Lumpur", country: "Malaysia", lat: 3.139, lon: 101.6869 },
+    { city: "Amsterdam", country: "Netherlands", lat: 52.3676, lon: 4.9041 },
+    { city: "Dublin", country: "Ireland", lat: 53.3498, lon: -6.2603 },
+    { city: "Zurich", country: "Switzerland", lat: 47.3769, lon: 8.5417 },
+    { city: "Johannesburg", country: "South Africa", lat: -26.2041, lon: 28.0473 },
+    { city: "Hong Kong", country: "Hong Kong", lat: 22.3193, lon: 114.1694 },
+    { city: "Los Angeles", country: "United States", lat: 34.0522, lon: -118.2437 },
 ];
 
+// Precompute distance to India for each network country
+const GLOBAL_NETWORK_COUNTRIES = GLOBAL_NETWORK_COUNTRIES_BASE.map((c) => ({
+    ...c,
+    distanceKm: distanceKm(c.lat, c.lon, INDIA.lat, INDIA.lon),
+}));
+
+// Pool used only as a fallback when the visitor is already browsing from India
+const RANDOM_WORLD_LOCATIONS = GLOBAL_NETWORK_COUNTRIES;
+
 function getRandomWorldLocation() {
-    return RANDOM_WORLD_LOCATIONS[Math.floor(Math.random() * RANDOM_WORLD_LOCATIONS.length)];
+    const pick = RANDOM_WORLD_LOCATIONS[Math.floor(Math.random() * RANDOM_WORLD_LOCATIONS.length)];
+    return pick;
 }
 
-function FitBounds({ user, india }) {
+function FitBounds({ points }) {
     const map = useMap();
     useEffect(() => {
-        map.fitBounds(
-            [[user.lat, user.lon], [india.lat, india.lon]],
-            { padding: [60, 60], maxZoom: 4 }
-        );
-    }, [map, user, india]);
+        const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lon]));
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 3 });
+    }, [map, points]);
     return null;
 }
 
-function AnimatedPolyline({ positions }) {
+function AnimatedPolyline({ positions, color = "#52B5BD" }) {
     const map = useMap();
     const frameRef = useRef(null);
     const offsetRef = useRef(0);
 
     useEffect(() => {
         const line = L.polyline(positions, {
-            color: "#52B5BD",
+            color,
             weight: 2.5,
             opacity: 1,
             dashArray: "12 14",
@@ -100,16 +149,55 @@ function AnimatedPolyline({ positions }) {
             cancelAnimationFrame(frameRef.current);
             line.remove();
         };
-    }, [map, positions]);
+    }, [map, positions, color]);
 
     return null;
 }
 
-function GeoJSONLayer({ userCountry }) {
+function AnimatedNetworkLines({ origins, destination }) {
+    const map = useMap();
+    const frameRef = useRef(null);
+    const offsetRef = useRef(0);
+    const linesRef = useRef([]);
+
+    useEffect(() => {
+        linesRef.current = origins.map((origin) =>
+            L.polyline(
+                [[origin.lat, origin.lon], [destination.lat, destination.lon]],
+                {
+                    color: "#8FA9C7",
+                    weight: 1.5,
+                    opacity: 0.7,
+                    dashArray: "6 9",
+                    dashOffset: "0",
+                }
+            ).addTo(map)
+        );
+
+        function animate() {
+            offsetRef.current -= 1;
+            linesRef.current.forEach((line) => line.setStyle({ dashOffset: String(offsetRef.current) }));
+            frameRef.current = requestAnimationFrame(animate);
+        }
+        frameRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            cancelAnimationFrame(frameRef.current);
+            linesRef.current.forEach((line) => line.remove());
+            linesRef.current = [];
+        };
+    }, [map, origins, destination]);
+
+    return null;
+}
+
+function GeoJSONLayer({ userCountry, networkCountries }) {
     const map = useMap();
     const layerRef = useRef(null);
 
     useEffect(() => {
+        const networkNames = networkCountries.map((c) => c.country.toLowerCase());
+
         fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson")
             .then((r) => r.json())
             .then((data) => {
@@ -117,15 +205,19 @@ function GeoJSONLayer({ userCountry }) {
                 const layer = L.geoJSON(data, {
                     style: (feature) => {
                         const name = feature.properties.ADMIN || feature.properties.name || "";
-                        const isUserCountry = name.toLowerCase() === userCountry.toLowerCase();
-                        const isIndia = name.toLowerCase() === "india";
+                        const lower = name.toLowerCase();
+                        const isUserCountry = lower === userCountry.toLowerCase();
+                        const isIndia = lower === "india";
+                        const isNetworkCountry = networkNames.includes(lower);
                         return {
                             fillColor: isIndia
                                 ? "#52B5BD"
                                 : isUserCountry
                                 ? "#2F4A7D"
+                                : isNetworkCountry
+                                ? "#5C7FA8"
                                 : getCountryColor(name),
-                            fillOpacity: isIndia || isUserCountry ? 0.85 : 0.65,
+                            fillOpacity: isIndia ? 0.9 : isUserCountry || isNetworkCountry ? 0.75 : 0.55,
                             color: "#0d3d5c",
                             weight: 0.6,
                             opacity: 1,
@@ -140,7 +232,7 @@ function GeoJSONLayer({ userCountry }) {
         return () => {
             if (layerRef.current) layerRef.current.remove();
         };
-    }, [map, userCountry]);
+    }, [map, userCountry, networkCountries]);
 
     return null;
 }
@@ -179,7 +271,6 @@ export default function WorldMap() {
     const [isVisible, setIsVisible] = useState(false);
     const rightPanelRef = useRef(null);
 
-    // Responsive map height
     useEffect(() => {
         function updateHeight() {
             if (window.innerWidth < 640) {
@@ -206,17 +297,18 @@ export default function WorldMap() {
                         data.country?.toLowerCase() === "india";
 
                     if (isIndia) {
-                        // Visitor is already in India — point to a random
-                        // location anywhere else in the world instead.
                         setIsIndiaVisitor(true);
                         setUser(getRandomWorldLocation());
                     } else {
                         setIsIndiaVisitor(false);
+                        const lat = data.latitude;
+                        const lon = data.longitude;
                         setUser({
                             city: data.city,
                             country: data.country,
-                            lat: data.latitude,
-                            lon: data.longitude,
+                            lat,
+                            lon,
+                            distanceKm: distanceKm(lat, lon, INDIA.lat, INDIA.lon),
                         });
                     }
                 }
@@ -243,31 +335,50 @@ export default function WorldMap() {
         return () => observer.disconnect();
     }, []);
 
-    const india = { city: "India", country: "India", lat: 20.5937, lon: 78.9629 };
-    const innerMapHeight = mapHeight - 24; // subtract 12px padding top + bottom
+    const india = INDIA;
+    const innerMapHeight = mapHeight - 24;
+
+    const allBoundsPoints = [...GLOBAL_NETWORK_COUNTRIES, india, user];
+    const userDistance = user.distanceKm ?? distanceKm(user.lat, user.lon, india.lat, india.lon);
 
     return (
         <section className="relative w-full px-3 sm:px-6 lg:px-8 py-16 sm:py-20 overflow-hidden bg-[#F8F3EA]">
+
+            <style>{`
+              @keyframes whyZonePulse {
+                0% { transform: scale(1); opacity: 0.7; }
+                70% { transform: scale(2.4); opacity: 0; }
+                100% { transform: scale(2.4); opacity: 0; }
+              }
+              .why-zone-tooltip {
+                background: #1B2A4A !important;
+                color: #fff !important;
+                border: none !important;
+                border-radius: 9999px !important;
+                padding: 4px 12px !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+              }
+              .why-zone-tooltip::before { border-top-color: #1B2A4A !important; }
+            `}</style>
 
             {/* Decorative blobs */}
             <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-[#F2C89F]/30 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[#F2C89F]/25 -translate-x-1/4 translate-y-1/4 pointer-events-none" />
 
-            {/* Decorative dot grid - top left */}
             <div className="hidden md:grid absolute top-10 left-10 grid-cols-6 gap-2 opacity-40 pointer-events-none">
                 {Array.from({ length: 24 }).map((_, i) => (
                     <span key={i} className="w-1 h-1 rounded-full bg-[#C9A96A]" />
                 ))}
             </div>
 
-            {/* Decorative dot grid - bottom right */}
             <div className="hidden md:grid absolute bottom-10 right-10 grid-cols-6 gap-2 opacity-40 pointer-events-none">
                 {Array.from({ length: 24 }).map((_, i) => (
                     <span key={i} className="w-1 h-1 rounded-full bg-[#C9A96A]" />
                 ))}
             </div>
 
-            {/* Decorative leaf branch - bottom left */}
             <svg
                 className="hidden lg:block absolute -bottom-8 left-0 w-56 h-64 text-[#BFDAD4] opacity-70 pointer-events-none"
                 viewBox="0 0 200 220"
@@ -311,24 +422,44 @@ export default function WorldMap() {
                             background: "#1a6a9a",
                         }}
                     >
-                        <FitBounds user={user} india={india} />
-                        <GeoJSONLayer userCountry={user.country} />
-                        <AnimatedPolyline positions={[[user.lat, user.lon], [india.lat, india.lon]]} />
+                        <FitBounds points={allBoundsPoints} />
+                        <GeoJSONLayer userCountry={user.country} networkCountries={GLOBAL_NETWORK_COUNTRIES} />
 
+                        {/* 20 countries connected to India, each showing distance */}
+                        <AnimatedNetworkLines origins={GLOBAL_NETWORK_COUNTRIES} destination={india} />
+                        {GLOBAL_NETWORK_COUNTRIES.map((c) => (
+                            <Marker key={c.country} position={[c.lat, c.lon]} icon={countryDotIcon("#2F4A7D")}>
+                                <Popup>
+                                    <div className="text-center">
+                                        <h3 className="font-bold text-[#2F4A7D]">{c.country}</h3>
+                                        <p className="text-xs text-gray-500 mb-1">Connected to your WHY Zone</p>
+                                        <p className="text-xs font-semibold text-[#52B5BD]">{formatDistance(c.distanceKm)} to India</p>
+                                    </div>
+                                </Popup>
+                            </Marker>
+                        ))}
+
+                        {/* Personalized visitor line + marker */}
+                        <AnimatedPolyline positions={[[user.lat, user.lon], [india.lat, india.lon]]} color="#52B5BD" />
                         <Marker position={[user.lat, user.lon]} icon={blueIcon}>
                             <Popup>
                                 <div className="text-center">
                                     <h3 className="font-bold text-blue-600">Your Location</h3>
                                     <p>{user.city}</p>
                                     <p>{user.country}</p>
+                                    <p className="text-xs font-semibold text-[#52B5BD] mt-1">{formatDistance(userDistance)} to India</p>
                                 </div>
                             </Popup>
                         </Marker>
 
-                        <Marker position={[india.lat, india.lon]} icon={greenIcon}>
+                        {/* India — the WHY Zone */}
+                        <Marker position={[india.lat, india.lon]} icon={whyZoneIcon}>
+                            <Tooltip permanent direction="top" offset={[0, -10]} className="why-zone-tooltip">
+                                🇮🇳 WHY Zone
+                            </Tooltip>
                             <Popup>
                                 <div className="text-center">
-                                    <h3 className="font-bold text-green-600">Your Family</h3>
+                                    <h3 className="font-bold text-[#52B5BD]">WHY Zone</h3>
                                     <p>India</p>
                                     <p className="text-green-600 font-semibold">Companion Assigned ✓</p>
                                 </div>
@@ -336,7 +467,7 @@ export default function WorldMap() {
                         </Marker>
                     </MapContainer>
 
-                    {/* Legend dots — smaller on mobile */}
+                    {/* Legend dots */}
                     <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-[999] flex items-center gap-2">
                         <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl sm:rounded-2xl px-3 py-1.5 sm:px-4 sm:py-2.5 flex items-center gap-2">
                             <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2F4A7D] shadow-[0_0_6px_#2F4A7D]"></span>
@@ -344,11 +475,11 @@ export default function WorldMap() {
                         </div>
                         <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl sm:rounded-2xl px-3 py-1.5 sm:px-4 sm:py-2.5 flex items-center gap-2">
                             <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#52B5BD] shadow-[0_0_6px_#52B5BD]"></span>
-                            <span className="text-white text-[10px] sm:text-xs font-medium">India</span>
+                            <span className="text-white text-[10px] sm:text-xs font-medium">WHY Zone</span>
                         </div>
                     </div>
 
-                    {/* Live Tracking Badge — hidden on mobile, shown from sm breakpoint up */}
+                    {/* Live Tracking Badge */}
                     <div className="hidden sm:block absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl px-3 py-2 sm:px-5 sm:py-3">
                         <div className="flex items-center gap-2 sm:gap-3">
                             <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 animate-pulse flex-shrink-0"></span>
@@ -359,12 +490,7 @@ export default function WorldMap() {
                         </div>
                     </div>
 
-                    {/* Parents Info Badge — hidden on mobile, shown from sm breakpoint up */}
-                    <div className="hidden sm:block absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] bg-white rounded-xl sm:rounded-2xl shadow-xl p-2.5 sm:p-4">
-                        <h3 className="font-bold text-xs sm:text-sm" style={{ color: "#52B5BD" }}>Your Family</h3>
-                        <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>India</p>
-                        <span className="text-green-600 font-semibold text-[10px] sm:text-xs">Companion Assigned ✓</span>
-                    </div>
+                    
                 </div>
 
                {/* RIGHT — Content */}
@@ -403,7 +529,7 @@ export default function WorldMap() {
                         )}
                     </h1>
 
-                    <p className="text-base sm:text-lg leading-relaxed mb-5 sm:mb-8" style={{ color: "#6a7f96" }}>
+                    <p className="text-base sm:text-lg leading-relaxed mb-2 sm:mb-3" style={{ color: "#6a7f96" }}>
                         <span className="bg-[#F2C89F]/40 font-semibold px-1 rounded-sm box-decoration-clone" style={{ color: "#1a2a3a" }}>
                             Distance may separate families, but it should never separate care.
                         </span>{" "}
@@ -417,6 +543,10 @@ export default function WorldMap() {
                                 <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified companions across India—keeping you informed, reassured, and connected every step of the way.
                             </>
                         )}
+                    </p>
+
+                    <p className="text-sm font-semibold mb-5 sm:mb-8" style={{ color: "#2F4A7D" }}>
+                        📍 {formatDistance(userDistance)} between you and your family in India
                     </p>
 
                     <div className="space-y-3 sm:space-y-5 mb-6 sm:mb-10">

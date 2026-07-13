@@ -28,17 +28,19 @@ import HowWhyWorks from "./components/HowWhyWorks";
 import WaitingSection from "./components/WaitingSection";
 import WorldMap from "./components/WorldMap"
 import TrustSafety from "./components/TrustSafety";
-import WhyUnique from "./components/WhyUnique"
 import CTA from "./components/CTA";
 import ProNurseCare from "./components/ProNurseCare";
 import TravelCompanionServices from "./components/TravelCompanion";
 import HospitalAssistance from "./components/HospitalAssistance"
 import TestimonialsSlideshow from "./components/TestimonialsSlideshow";
 import CompanionServices from "./components/CompanionServices";
+import AnnouncementBar from "./components/AnnouncementBar";
+import TrustAndSafety from "./pages/TrustAndSafety";
 
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import About from "./pages/About";
+import Pricing from "./pages/Pricing"
 import DataDeletion from "./pages/DataDeletion";
 import PrivacyPolicyUser from "./pages/PrivacyPolicyUser";
 import PrivacyPolicyPro from "./pages/PrivacyPolicyPro";
@@ -83,10 +85,11 @@ function Home() {
 
   return (
     <>
+      <AnnouncementBar/>
       <Hero />
       <WhatIsWhy />
-      <TrustSignals />
-      <ChooseExperience />
+      {/*<TrustSignals />*/}
+      {/*<ChooseExperience />*/}
       {/*<TrustedBy />*/}
       <ParentSection />
       {/*<ProNurseCare />*/}
@@ -96,8 +99,7 @@ function Home() {
       <HowWhyWorks />
       {/*<WaitingSection />*/}
       <WorldMap />
-      <TrustSafety />
-      <WhyUnique/>
+      {/*<TrustSafety />*/}
       {/*<BlogSection /> */}
       {/*<TestimonialsSlideshow />*/}
       <CTA />
@@ -141,6 +143,8 @@ function AppLayout() {
 
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/pricing" element={<Pricing/>}/>
+          <Route path="/trust and safety" element = {<TrustAndSafety/>}/>
           <Route path="/about" element={<About />} />
           <Route path="/data-deletion" element={<DataDeletion />} />
           <Route path="/privacy-policy-user" element={<PrivacyPolicyUser />} />

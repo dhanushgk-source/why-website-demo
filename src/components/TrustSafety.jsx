@@ -10,7 +10,7 @@ const safetyItems = [
   {
     icon: '/Assests/icons/shield_verified.svg',
     title: 'Background checks',
-    desc: 'Criminal Records, Employment History and Reference Verification',
+    desc: 'Criminal Records, Education History and Reference Verification',
     align: 'right',
   },{
     icon: '/Assests/icons/eye.svg',
@@ -33,7 +33,7 @@ const safetyItems = [
   {
     icon: '/Assests/icons/phone.svg',
     title: 'Emergency protocols',
-    desc: '24/7 Emergency Line at +91 90365 99439, Rapid Response and Incident Management',
+    desc: '24/7 Emergency Line, Rapid Response and Incident Management',
     align: 'right',
   },
 ]
@@ -118,7 +118,7 @@ export default function TrustSafety() {
         </div>
 
         <p className="fade-inner text-lg" style={{ color: "#6a7f96" }}>
-          Every Pro is verifie d, trained, and supervised — nothing here is left to chance
+          Every Pro is verified, trained, and supervised — nothing here is left to chance
         </p>
       </div>
 

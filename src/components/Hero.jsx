@@ -1,10 +1,23 @@
 import { useSectionFade } from '../hooks/useSectionFade'
 import { useEffect, useState } from 'react'
-import { Users, HeartHandshake, User, ArrowRight, PlayCircle, Phone } from 'lucide-react'
-import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink } from '../config/contact'
+import {
+  Users,
+  HeartHandshake,
+  User,
+  ArrowRight,
+  PlayCircle,
+  Phone,
+} from 'lucide-react'
+import {
+  PHONE_DISPLAY,
+  PHONE_LINK,
+  getWhatsAppLink,
+} from '../config/contact'
 
 const TAGLINE = 'Companionship That Feels Like a Family.'
-const SUBTEXT = 'Connecting Seniors and Individuals of all ages with Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
+
+const SUBTEXT =
+  'Connecting Seniors and Individuals of all ages with Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
 
 const INFO_ITEMS = [
   { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
@@ -12,7 +25,7 @@ const INFO_ITEMS = [
   { icon: User, title: 'Companions', subtitle: 'Build Meaningful Connections' },
 ]
 
-const REVEAL_DELAY = 130 // ms between each staggered step
+const REVEAL_DELAY = 130
 
 export default function Hero() {
   const sectionRef = useSectionFade()
@@ -20,7 +33,8 @@ export default function Hero() {
 
   useEffect(() => {
     const prefersReducedMotion =
-      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReducedMotion) {
       setStarted(true)
@@ -31,43 +45,77 @@ export default function Hero() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Fade-up reveal classes, shared across every staggered element
-  const revealClass = `transition-all duration-700 ease-out ${started ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+  const revealClass = `transition-all duration-700 ease-out ${started
+      ? 'opacity-100 translate-y-0'
+      : 'opacity-0 translate-y-5'
     }`
+
   const revealStyle = (stepIndex) => ({
     transitionDelay: started ? `${stepIndex * REVEAL_DELAY}ms` : '0ms',
   })
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
+
     if (element) {
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.pageYOffset - 80
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
     } else {
-      const section = document.querySelector(`[data-section="${sectionId}"]`) ||
+      const section =
+        document.querySelector(`[data-section="${sectionId}"]`) ||
         document.querySelector(`.${sectionId}`)
+
       if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        section.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
       }
     }
   }
 
   const scrollToNextSection = () => {
-    const targetSection = document.getElementById("cta-section")
+    const targetSection = document.getElementById('cta-section')
+
     if (targetSection) {
-      const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - 80
-      window.scrollTo({ top: targetPosition, behavior: 'smooth' })
+      const targetPosition =
+        targetSection.getBoundingClientRect().top +
+        window.pageYOffset -
+        80
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth',
+      })
     } else {
       const sections = document.querySelectorAll('section')
+
       let heroIndex = -1
+
       sections.forEach((section, index) => {
         if (section === sectionRef.current) heroIndex = index
       })
-      if (heroIndex !== -1 && heroIndex < sections.length - 1) {
+
+      if (
+        heroIndex !== -1 &&
+        heroIndex < sections.length - 1
+      ) {
         const nextSection = sections[heroIndex + 1]
-        const nextPosition = nextSection.getBoundingClientRect().top + window.pageYOffset - 80
-        window.scrollTo({ top: nextPosition, behavior: 'smooth' })
+
+        const nextPosition =
+          nextSection.getBoundingClientRect().top +
+          window.pageYOffset -
+          80
+
+        window.scrollTo({
+          top: nextPosition,
+          behavior: 'smooth',
+        })
       }
     }
   }
@@ -78,9 +126,6 @@ export default function Hero() {
       className="w-full relative overflow-hidden bg-[#F7F3EA] rounded-b-[40px] md:rounded-b-[60px]"
       id="hero-section"
     >
-
-      {/* Sized to fill the viewport below the fixed 80px navbar, so the whole hero
-          (image, headline, tagline, CTAs) is visible on load without scrolling. */}
       <div className="fade-inner relative w-full min-h-[calc(100vh-5rem)] min-h-[calc(100svh-5rem)] flex flex-col md:flex-row">
 
         {/* Left Side - Image with organic curved edge */}
@@ -133,63 +178,80 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right Side - Content */}
+        {/* RIGHT SIDE */}
+
         <div className="relative w-full md:w-[40%] flex flex-col justify-center px-6 sm:px-10 md:px-10 lg:px-12 py-8 md:py-6">
 
-          {/* Decorative shapes */}
           <div className="hidden md:block absolute top-0 right-10 w-28 h-28 rounded-full bg-[#7FC8C0]/40 -translate-y-1/3" />
           <div className="hidden md:block absolute top-24 right-4 w-10 h-10 rounded-full bg-[#F6C89F]" />
+
           <div className="hidden md:block absolute top-40 right-16 grid grid-cols-6 gap-1.5 opacity-40">
             {Array.from({ length: 24 }).map((_, i) => (
-              <span key={i} className="w-1 h-1 rounded-full bg-[#0D9488]" />
+              <span
+                key={i}
+                className="w-1 h-1 rounded-full bg-[#0D9488]"
+              />
             ))}
           </div>
 
-          {/* Content column */}
           <div className="relative w-full max-w-2xl mx-auto md:mx-0 z-10">
 
+            {/* NEW HERO TITLE */}
+
             <div className="mb-2">
-              {/* Word 1: "We" */}
-              <div className={revealClass} style={revealStyle(0)}>
-                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
-                  W
-                </span>
-                <span className="font-display text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
-                  e
-                </span>
+
+              <div
+                className={revealClass}
+                style={revealStyle(0)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#1B2A4A]">
+                  Care for
+                </h1>
               </div>
 
-              {/* Word 2: "Help" */}
-              <div className={revealClass} style={revealStyle(1)}>
-                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
-                  H
-                </span>
-                <span className="font-display text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
-                  elp
-                </span>
+              <div
+                className={revealClass}
+                style={revealStyle(1)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#0D9488]">
+                  Your Parents
+                </h1>
               </div>
 
-              {/* Word 3: "You" */}
-              <div className={revealClass} style={revealStyle(2)}>
-                <span className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.9] text-[#1B2A4A]">
-                  Y
-                </span>
-                <span className="font-display text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[0.9] text-[#0D9488]">
-                  ou
-                </span>
+              <div
+                className={revealClass}
+                style={revealStyle(2)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#1B2A4A]">
+                  Even When
+                </h1>
               </div>
 
-              {/* Divider */}
-              <div className={`flex items-center gap-2 my-4 ${revealClass}`} style={revealStyle(3)}>
+              <div
+                className={revealClass}
+                style={revealStyle(3)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#0D9488]">
+                  You're Away
+                </h1>
+              </div>
+
+              <div
+                className={`flex items-center gap-2 my-4 ${revealClass}`}
+                style={revealStyle(4)}
+              >
                 <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
-                <HeartHandshake className="w-4 h-4 text-[#0D9488]" strokeWidth={2} />
+
+                <HeartHandshake
+                  className="w-4 h-4 text-[#0D9488]"
+                  strokeWidth={2}
+                />
               </div>
             </div>
-
             {/* Tagline */}
             <h2
               className={`text-xl sm:text-2xl md:text-xl lg:text-2xl text-[#1B2A4A] font-extrabold mb-3 tracking-tight leading-snug text-left max-w-[22ch] ${revealClass}`}
-              style={revealStyle(4)}
+              style={revealStyle(5)}
             >
               {TAGLINE}
             </h2>
@@ -197,16 +259,17 @@ export default function Hero() {
             {/* Subtext */}
             <p
               className={`text-gray-500 text-sm sm:text-base max-w-md mb-6 ${revealClass}`}
-              style={revealStyle(5)}
+              style={revealStyle(6)}
             >
               {SUBTEXT}
             </p>
+
           </div>
 
           {/* CTAs */}
           <div
             className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 ${revealClass}`}
-            style={revealStyle(6)}
+            style={revealStyle(7)}
           >
             <button
               onClick={scrollToNextSection}
@@ -215,16 +278,19 @@ export default function Hero() {
               <span className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center">
                 <ArrowRight className="w-4 h-4" />
               </span>
-              Book a Pro
+
+              Book a Companion
             </button>
 
             <button
               className="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-sm sm:text-base hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
             >
               <PlayCircle className="w-5 h-5 text-[#0D9488]" />
-              Get the App
+
+              See How It Works
             </button>
           </div>
+
         </div>
       </div>
     </section>

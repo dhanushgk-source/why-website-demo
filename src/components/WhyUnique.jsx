@@ -5,12 +5,12 @@ import { PHONE_DISPLAY } from '../config/contact'
 const DIFFERENTIATORS = [
     {
         icon: Wallet,
-        title: 'Book with just 30%',
-        desc: 'Pay only 30% to confirm your booking. The remaining 70% is paid after the service is completed, so you pay with confidence.',
+        title: 'Free Booking. Pay Later.',
+        desc: 'Enjoy free booking with no upfront payment. If your trip starts within the next 4 hours, a 30% advance is required. Otherwise, pay 100% after the service is completed.',
     },
     {
         icon: ShieldCheck,
-        title: '70% satisfaction guarantee',
+        title: '100% satisfaction guarantee',
         desc: 'If our service doesn’t meet your expectations, we’ll refund 70% of your payment. Your trust matters to us.',
     },
     {
@@ -101,18 +101,36 @@ export default function WhyUnique() {
 
                 {/* ===== 30/70 trust meter ===== */}
                 <div className="fade-inner bg-white rounded-3xl shadow-sm p-7 sm:p-8 mb-14">
-                    <div className="flex items-center justify-between text-sm font-semibold mb-3" style={{ color: '#1B2A4A' }}>
-                        <span>30% advance to confirm your booking</span>
-                        <span>70% after your service is complete</span>
-                    </div>
-                    <div className="h-3 w-full rounded-full overflow-hidden flex bg-[#F7F3EA]">
-                        <div className="h-full bg-[#F2711F]" style={{ width: '30%' }} />
-                        <div className="h-full bg-[#0D9488]" style={{ width: '70%' }} />
-                    </div>
-                    <p className="text-xs mt-3" style={{ color: '#8a9ab0' }}>
-                        Book with just <strong>30% advance. </strong> Pay the balance after a safe and successful journey.
-                    </p>
-                </div>
+    <div
+        className="flex items-center justify-between text-sm font-semibold mb-3"
+        style={{ color: '#1B2A4A' }}
+    >
+        <span>Free Advance Booking</span>
+        <span>30% Due 4 Hours Before</span>
+    </div>
+
+    <div className="h-3 w-full rounded-full overflow-hidden flex bg-[#F7F3EA]">
+        <div
+            className="h-full bg-[#0D9488]"
+            style={{ width: '70%' }}
+        />
+        <div
+            className="h-full bg-[#F2711F]"
+            style={{ width: '30%' }}
+        />
+    </div>
+
+    <p
+        className="text-xs mt-3 leading-relaxed"
+        style={{ color: '#8a9ab0' }}
+    >
+        <strong>Schedule your booking in advance at no cost.</strong> A{' '}
+        <strong>30% advance payment</strong> is required only{' '}
+        <strong>4 hours before your scheduled service</strong> to confirm your
+        booking. The remaining <strong>70%</strong> is paid after your service
+        is completed.
+    </p>
+</div>
 
                 {/* ===== Cancellation policy ===== */}
                 <div className="fade-inner">

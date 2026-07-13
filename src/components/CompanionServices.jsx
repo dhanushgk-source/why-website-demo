@@ -465,33 +465,11 @@ export default function CompanionServices() {
                     }}
                     className="mt-14 inline-flex flex-col sm:flex-row items-center gap-4"
                 >
-                    <button
-                        className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 text-sm"
-                        style={{ background: "#0D5A55" }}
-                    >
-                        Book a Companion Now
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-                        </svg>
-                    </button>
+                    
                     <p className="text-sm" style={{ color: "#8a9ab0" }}>
                         {active.ctaHint}
                     </p>
                 </div>
-
-                {/* Payment note */}
-                <p
-                    style={{
-                        opacity: headerVisible ? 1 : 0,
-                        transition: 'opacity 0.6s ease 0.6s',
-                    }}
-                    className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-white shadow-sm"
-                >
-                    <span style={{ color: "#F2711F" }}>●</span>
-                    <span style={{ color: "#1B2A4A" }}>
-                        Book with just <strong>30% advance. </strong> Pay the balance after a safe and successful journey.
-                    </span>
-                </p>
 
             </div>
         </section>

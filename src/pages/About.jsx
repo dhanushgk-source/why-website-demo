@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSectionFade } from '../hooks/useSectionFade'
 import {
@@ -12,6 +12,8 @@ import {
   Phone,
 } from 'lucide-react'
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from '../config/contact'
+
+const API_BASE = import.meta.env.VITE_API_URL || 'https://why-website-backend.onrender.com/api'
 
 const VALUES = [
   {
@@ -43,67 +45,6 @@ const STATS = [
   { label: 'City we call home', value: 'Bengaluru' },
 ]
 
-const TEAM_FILTERS = ['All', 'Leadership', 'Operations', 'Engineering', 'Companions']
-
-const TEAM = [
-  {
-    name: 'Arjun Mehta',
-    role: 'Founder',
-    location: 'Bengaluru, India',
-    category: 'Leadership',
-    initials: 'AM',
-  },
-  {
-    name: 'Divya Nair',
-    role: 'Operations Lead',
-    location: 'Bengaluru, India',
-    category: 'Operations',
-    initials: 'DN',
-  },
-  {
-    name: 'Karthik Raman',
-    role: 'Companion Verification',
-    location: 'Bengaluru, India',
-    category: 'Operations',
-    initials: 'KR',
-  },
-  {
-    name: 'Sneha Iyer',
-    role: 'Family Coordinator',
-    location: 'Bengaluru, India',
-    category: 'Operations',
-    initials: 'SI',
-  },
-  {
-    name: 'Rahul Verma',
-    role: 'Hospital Liaison',
-    location: 'Bengaluru, India',
-    category: 'Operations',
-    initials: 'RV',
-  },
-  {
-    name: 'Meera Das',
-    role: 'Companion',
-    location: 'Bengaluru, India',
-    category: 'Companions',
-    initials: 'MD',
-  },
-  {
-    name: 'Anand Krishnan',
-    role: 'Engineering Lead',
-    location: 'Bengaluru, India',
-    category: 'Engineering',
-    initials: 'AK',
-  },
-  {
-    name: 'Priya Menon',
-    role: 'Companion',
-    location: 'Bengaluru, India',
-    category: 'Companions',
-    initials: 'PM',
-  },
-]
-
 function Section({ children, className = '', id }) {
   const ref = useSectionFade()
   return (
@@ -113,34 +54,128 @@ function Section({ children, className = '', id }) {
   )
 }
 
+function getInitials(name = '') {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+}
+
 function TeamCard({ member }) {
+  const [imgSrc, setImgSrc] = useState(member.image_url || null)
+  const [retried, setRetried] = useState(false)
+  const [failed, setFailed] = useState(false)
+
+  const hasPhoto = Boolean(imgSrc) && !failed
+
+  function handleError() {
+    if (!retried) {
+      // Freshly uploaded Drive files can 403/404 for a few seconds
+      // while sharing/thumbnail generation catches up — try once more.
+      setRetried(true)
+      setTimeout(() => {
+        setImgSrc(`${member.image_url}${member.image_url.includes('?') ? '&' : '?'}retry=${Date.now()}`)
+      }, 1500)
+    } else {
+      setFailed(true)
+    }
+  }
+
   return (
-    <div>
-      {/* Photo */}
-      <div
-        className="w-full aspect-square rounded-2xl flex items-center justify-center text-white font-display font-bold text-4xl mb-4 shadow-md"
-        style={{ background: 'linear-gradient(135deg, #F2711F, #0D9488)' }}
-      >
-        {member.initials}
+    <div className="group">
+      {/* Photo, with biography reveal on hover */}
+      <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 shadow-md bg-white">
+        {hasPhoto ? (
+          <img
+            src={imgSrc}
+            alt={member.name}
+            loading="lazy"
+            onError={handleError}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center text-white font-display font-bold text-4xl"
+            style={{ background: 'linear-gradient(135deg, #F2711F, #0D9488)' }}
+          >
+            {getInitials(member.name)}
+          </div>
+        )}
+
+        {member.biography && (
+          <div
+            className="absolute inset-0 flex items-center justify-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: 'rgba(27,42,74,0.92)' }}
+          >
+            <p className="text-white text-xs sm:text-sm leading-relaxed overflow-y-auto max-h-full">
+              {member.biography}
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Name / role / location */}
+      {/* Name / role / department */}
       <p className="font-display font-bold text-base" style={{ color: '#1B2A4A' }}>
         {member.name}
       </p>
       <p className="text-sm mt-0.5" style={{ color: '#5a6b83' }}>
-        {member.role}
+        {member.designation}
       </p>
-      <p className="text-xs mt-1" style={{ color: '#8a9ab0' }}>
-        {member.location}
-      </p>
+      {member.department && (
+        <p className="text-xs mt-1" style={{ color: '#8a9ab0' }}>
+          {member.department}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function TeamCardSkeleton() {
+  return (
+    <div className="animate-pulse">
+      <div className="w-full aspect-square rounded-2xl mb-4 bg-[#F7F3EA]" />
+      <div className="h-4 w-3/4 rounded bg-[#F7F3EA] mb-2" />
+      <div className="h-3 w-1/2 rounded bg-[#F7F3EA]" />
     </div>
   )
 }
 
 export default function About() {
+  const [team, setTeam] = useState([])
+  const [teamLoading, setTeamLoading] = useState(true)
+  const [teamError, setTeamError] = useState('')
   const [teamFilter, setTeamFilter] = useState('All')
-  const filteredTeam = teamFilter === 'All' ? TEAM : TEAM.filter((m) => m.category === teamFilter)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadTeam() {
+      setTeamLoading(true)
+      setTeamError('')
+      try {
+        const res = await fetch(`${API_BASE}/team`)
+        const data = await res.json()
+        if (!data.success) throw new Error(data.message || 'Failed to load team')
+        if (!cancelled) setTeam(data.team || [])
+      } catch (err) {
+        if (!cancelled) setTeamError("Couldn't load the team right now — please try again shortly.")
+      } finally {
+        if (!cancelled) setTeamLoading(false)
+      }
+    }
+
+    loadTeam()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const teamFilters = ['All', ...Array.from(new Set(team.map((m) => m.department).filter(Boolean)))]
+
+  const filteredTeam = teamFilter === 'All' ? team : team.filter((m) => m.department === teamFilter)
 
   return (
     <div className="bg-[#F7F3EA]">
@@ -245,34 +280,52 @@ export default function About() {
             <p className="fade-inner text-base sm:text-lg leading-relaxed" style={{ color: '#5a6b83' }}>
               We're building a team that actually understands what families go through.
               Get to know the people finding companions, checking backgrounds, and picking
-              up the phone at 2am when something's wrong.
+              up the phone at 2am when something's wrong. Hover a photo to read their story.
             </p>
           </div>
 
-          {/* Filter pills */}
-          <div className="fade-inner flex flex-wrap gap-2 mb-8">
-            {TEAM_FILTERS.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setTeamFilter(filter)}
-                className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 border"
-                style={
-                  teamFilter === filter
-                    ? { background: '#1B2A4A', color: '#fff', borderColor: '#1B2A4A' }
-                    : { background: '#F7F3EA', color: '#5a6b83', borderColor: 'transparent' }
-                }
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
+          {/* Filter pills — built from whatever departments come back from the API */}
+          {!teamLoading && !teamError && teamFilters.length > 1 && (
+            <div className="fade-inner flex flex-wrap gap-2 mb-8">
+              {teamFilters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setTeamFilter(filter)}
+                  className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 border"
+                  style={
+                    teamFilter === filter
+                      ? { background: '#1B2A4A', color: '#fff', borderColor: '#1B2A4A' }
+                      : { background: '#F7F3EA', color: '#5a6b83', borderColor: 'transparent' }
+                  }
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Grid */}
-          <div className="fade-inner grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
-            {filteredTeam.map((member) => (
-              <TeamCard key={member.name} member={member} />
-            ))}
-          </div>
+          {teamLoading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <TeamCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : teamError ? (
+            <div className="text-center py-12">
+              <p className="text-sm" style={{ color: '#5a6b83' }}>{teamError}</p>
+            </div>
+          ) : filteredTeam.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-sm" style={{ color: '#5a6b83' }}>No team members to show yet.</p>
+            </div>
+          ) : (
+            <div className="fade-inner grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
+              {filteredTeam.map((member) => (
+                <TeamCard key={member.id} member={member} />
+              ))}
+            </div>
+          )}
         </div>
       </Section>
 
@@ -321,7 +374,7 @@ export default function About() {
              
           </h2>
           <p className="fade-inner text-base sm:text-lg leading-relaxed" style={{ color: '#5a6b83' }}>
-           We’re focused on delivering exceptional service in Bengaluru and Chennai before expanding to more cities {LOCATIONS_NOTE}
+           We're focused on delivering exceptional service in Bengaluru and Chennai before expanding to more cities {LOCATIONS_NOTE}
           </p>
         </div>
       </Section>

@@ -146,7 +146,7 @@ export default function TrustSignals() {
             Why{' '}
             <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
               Families Trust
-            </span>{' '}  Us 
+            </span>{' '}  Us
           </h2>
 
           <div className="fade-inner flex items-center justify-center gap-3 mb-4">
@@ -201,7 +201,13 @@ export default function TrustSignals() {
 
                 {/* Hint that more info is on hover */}
                 <span className="mt-auto text-[11px] font-medium text-slate-300 tracking-wide uppercase">
-                  Hover to read more
+                  <span className="block md:hidden">
+                    Tap to Learn More
+                  </span>
+
+                  <span className="hidden md:block">
+                    Hover to Learn More
+                  </span>
                 </span>
               </div>
 

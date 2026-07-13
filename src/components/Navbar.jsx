@@ -1,21 +1,39 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSectionNav } from '../hooks/useSectionNav'
-import { PHONE_LINK } from '../config/contact'
+import { PHONE_LINK, APP_LINK, getWhatsAppLink } from '../config/contact'
 
 // Each item is either a same-page section (`section`) which needs to work
-// from any route, or a real route (`path`) handled by react-router.
+// from any route, a real route (`path`) handled by react-router, or a
+// `dropdown` containing a list of sub-items (each of which is itself a
+// section or path). `tab` is optional — used to switch a tabbed section
+// (e.g. CompanionServices) to the right tab before/while scrolling to it.
 const NAV_ITEMS = [
-  { label: 'Services', section: 'experience-section' },
+  {
+    label: 'Services',
+    dropdown: [
+      { label: 'Hospital Assistance', section: 'Hospital-companion-section', tab: 'hospital' },
+      { label: 'Travel Assistance', section: 'Hospital-companion-section', tab: 'travel' },
+    ],
+  },
   { label: 'How it Works', section: 'WHY-Works-section' },
-  { label: 'Safety', section: 'savefty-section' },
+  { label: 'Pricing', path: '/pricing' },
+  { label: 'Safety', path: '/trust and safety' },
   { label: 'About', path: '/about' },
 ]
+
+const BOOK_OPTIONS = [
+  { label: 'Book on App', href: APP_LINK || undefined },
+  { label: 'Book via WhatsApp', href: getWhatsAppLink() },
+  { label: 'Book via Call', href: PHONE_LINK },
+].filter((opt) => opt.href) // hides "Book on App" automatically while APP_LINK is empty
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
+  const [mobileBookOpen, setMobileBookOpen] = useState(false)
   const goToSection = useSectionNav()
 
   useEffect(() => {
@@ -39,6 +57,14 @@ export default function Navbar() {
 
   const handleNavClick = (item) => {
     setMenuOpen(false)
+    setMobileServicesOpen(false)
+    setMobileBookOpen(false)
+
+    // Switch the tab first so the section renders the right content
+    // before (or as) we scroll to it.
+    if (item.tab) {
+      window.dispatchEvent(new CustomEvent('why:companion-tab', { detail: { tab: item.tab } }))
+    }
     if (item.section) goToSection(item.section)
   }
 
@@ -83,7 +109,45 @@ export default function Navbar() {
                 className="relative group"
                 style={{ color: '#1B2A4A' }}
               >
-                {item.path ? (
+                {item.dropdown ? (
+                  <>
+                    <button
+                      className="flex items-center gap-1 transition-colors duration-300 whitespace-nowrap"
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '')}
+                    >
+                      {item.label}
+                      <i className="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180" />
+                    </button>
+
+                    {/* DROPDOWN PANEL */}
+                    <div
+                      className="
+                        absolute left-1/2 -translate-x-1/2 top-full pt-3
+                        opacity-0 invisible translate-y-2
+                        group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                        transition-all duration-200
+                      "
+                    >
+                      <ul
+                        className="min-w-[220px] rounded-xl overflow-hidden shadow-lg"
+                        style={{ background: '#F7F3EA', boxShadow: '0 8px 24px rgba(27,42,74,0.15)' }}
+                      >
+                        {item.dropdown.map((sub) => (
+                          <li key={sub.label}>
+                            <button
+                              onClick={() => handleNavClick(sub)}
+                              className="w-full text-left px-5 py-3 text-sm whitespace-nowrap transition-colors duration-200 hover:bg-[#52B5BD]/10"
+                              style={{ color: '#1B2A4A' }}
+                            >
+                              {sub.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ) : item.path ? (
                   <Link
                     to={item.path}
                     className="transition-colors duration-300 whitespace-nowrap"
@@ -129,7 +193,7 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* DESKTOP: 24/7 support text + Book via Call button */}
+          {/* DESKTOP: 24/7 support text + Book dropdown */}
           <div className="hidden xl:flex justify-end items-center gap-4">
             <span
               className="text-sm font-medium whitespace-nowrap"
@@ -137,13 +201,45 @@ export default function Navbar() {
             >
               24/7 Support
             </span>
-            <a
-              href={PHONE_LINK}
-              className="px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition whitespace-nowrap"
-              style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
-            >
-              Book via Call
-            </a>
+
+            <div className="relative group">
+              <button
+                className="flex items-center gap-2 px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition whitespace-nowrap"
+                style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
+              >
+                Book Now
+                <i className="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180" />
+              </button>
+
+              {/* BOOK DROPDOWN PANEL */}
+              <div
+                className="
+                  absolute right-0 top-full pt-3
+                  opacity-0 invisible translate-y-2
+                  group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                  transition-all duration-200
+                "
+              >
+                <ul
+                  className="min-w-[220px] rounded-xl overflow-hidden shadow-lg"
+                  style={{ background: '#F7F3EA', boxShadow: '0 8px 24px rgba(27,42,74,0.15)' }}
+                >
+                  {BOOK_OPTIONS.map((opt) => (
+                    <li key={opt.label}>
+                      <a
+                        href={opt.href}
+                        target={opt.label === 'Book via Call' ? undefined : '_blank'}
+                        rel={opt.label === 'Book via Call' ? undefined : 'noopener noreferrer'}
+                        className="block px-5 py-3 text-sm whitespace-nowrap transition-colors duration-200 hover:bg-[#52B5BD]/10"
+                        style={{ color: '#1B2A4A' }}
+                      >
+                        {opt.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
 
           {/* MOBILE TOGGLE */}
@@ -166,19 +262,49 @@ export default function Navbar() {
             overflow-hidden
             transition-all duration-300
             shadow-lg
-            ${menuOpen ? 'max-h-96' : 'max-h-0'}
+            ${menuOpen ? 'max-h-[600px]' : 'max-h-0'}
           `}
           style={{ background: '#F7F3EA' }}
         >
           <ul className="text-center font-medium" style={{ color: '#1B2A4A' }}>
             {NAV_ITEMS.map((item) => (
-              <li key={item.label} className="py-4 border-b border-[#F2C89F]/40">
-                {item.path ? (
-                  <Link to={item.path} onClick={() => setMenuOpen(false)}>
+              <li key={item.label} className="border-b border-[#F2C89F]/40">
+                {item.dropdown ? (
+                  <div>
+                    <button
+                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                      className="w-full flex items-center justify-center gap-2 py-4"
+                    >
+                      {item.label}
+                      <i
+                        className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${
+                          mobileServicesOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${
+                        mobileServicesOpen ? 'max-h-40' : 'max-h-0'
+                      }`}
+                      style={{ background: 'rgba(82,181,189,0.08)' }}
+                    >
+                      {item.dropdown.map((sub) => (
+                        <button
+                          key={sub.label}
+                          onClick={() => handleNavClick(sub)}
+                          className="block w-full py-3 text-sm"
+                        >
+                          {sub.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : item.path ? (
+                  <Link to={item.path} onClick={() => setMenuOpen(false)} className="block py-4">
                     {item.label}
                   </Link>
                 ) : (
-                  <button onClick={() => handleNavClick(item)}>
+                  <button onClick={() => handleNavClick(item)} className="block w-full py-4">
                     {item.label}
                   </button>
                 )}
@@ -193,14 +319,39 @@ export default function Navbar() {
             >
               24/7 Support
             </span>
-            <a
-              href={PHONE_LINK}
-              onClick={() => setMenuOpen(false)}
-              className="block w-full py-3 rounded-full text-white text-center"
+
+            <button
+              onClick={() => setMobileBookOpen(!mobileBookOpen)}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-full text-white"
               style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
             >
-              Book via Call
-            </a>
+              Book Now
+              <i
+                className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${
+                  mobileBookOpen ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            <div
+              className={`w-full overflow-hidden transition-all duration-300 ${
+                mobileBookOpen ? 'max-h-40' : 'max-h-0'
+              }`}
+            >
+              <div className="flex flex-col gap-2 pt-2">
+                {BOOK_OPTIONS.map((opt) => (
+                  <a
+                    key={opt.label}
+                    href={opt.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block w-full py-3 rounded-full text-center border"
+                    style={{ borderColor: '#2F4A7D', color: '#1B2A4A' }}
+                  >
+                    {opt.label}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </header>

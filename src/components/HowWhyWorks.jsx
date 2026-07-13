@@ -1,4 +1,5 @@
 import { useSectionFade } from '../hooks/useSectionFade'
+import { Leaf, ShieldCheck } from 'lucide-react'
 
 const steps = [
   {
@@ -151,15 +152,23 @@ export default function HowWhyWorks() {
 
         {/* Bottom Glass Box */}
         <div
-          className="fade-inner mt-24 inline-block px-10 py-6 rounded-2xl text-lg bg-white shadow-md"
-          style={{ color: "#1a2a3a" }}
+          className="fade-inner mt-24 inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white shadow-md"
         >
-          Every step is{' '}
-          <span style={{ color: "#2F8F8A" }} className="font-semibold">monitored</span>.
-          {' '}Every task is{' '}
-          <span style={{ color: "#2F8F8A" }} className="font-semibold">accountable</span>
-        </div>
+          <Leaf className="w-5 h-5 text-[#52B5BD]" strokeWidth={1.75} />
 
+          <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#2F8F8A] flex items-center justify-center flex-shrink-0">
+            <ShieldCheck className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white" strokeWidth={2} />
+          </span>
+
+          <p className="text-base sm:text-lg font-medium whitespace-nowrap" style={{ color: "#1a2a3a" }}>
+            Every step is{' '}
+            <span style={{ color: "#2F8F8A" }} className="font-semibold">monitored</span>.
+            {' '}Every task is{' '}
+            <span style={{ color: "#2F8F8A" }} className="font-semibold">accountable</span>
+          </p>
+
+          <Leaf className="w-5 h-5 text-[#52B5BD]" strokeWidth={1.75} />
+        </div>
       </div>
     </section>
   )
