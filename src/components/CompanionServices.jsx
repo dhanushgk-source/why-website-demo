@@ -10,13 +10,13 @@ const HOSPITAL_CARDS = [
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
-        title: 'Hospital & Medical Support',
-        desc: "Your WHY Companion accompanies Seniors, Individuals, families and anyone who needs assistance to every hospital visit, ensuring they feel supported, safe, and never alone.",
+        title: 'Hospital Assistance',
+        desc: "Your WHY Companion accompanies seniors and anyone who needs assistance during hospital visits, providing safe, reliable support from arrival to departure — so no one has to face a hospital visit alone.",
         points: [
-            'Escort to hospitals & clinics',
-            'Wait & assist during consultations',
-            'Coordinate with doctors & staff',
-            'Ensure a safe return home after every visit',
+            'Escort to hospitals and clinics',
+            'Accompany and assist during consultations',
+            'Assist with communication and coordination with hospital staff',
+            'Accompany you safely until your return home',
         ],
     },
     {
@@ -24,14 +24,15 @@ const HOSPITAL_CARDS = [
         iconBg: "#EAF0FA",
         iconColor: "#2F4A7D",
         accentBar: "#2F4A7D",
-        title: 'Medicine & Pharmacy Care',
-        desc: "Your WHY Companion helps manage medications, prescriptions, and timely refills, so nothing is overlooked.",
+        title: 'Medicine & Pharmacy Assistance',
+        desc: "Your WHY Companion provides reliable assistance with prescription collection, pharmacy visits, medicine purchases, and pharmacy-related coordination. We help ensure prescribed medicines are collected safely while keeping families informed throughout the process. If requested, the prescription can also be securely uploaded to the WHY app for easy access.",
         points: [
-            'Pick up prescribed medicines',
-            'Medication reminders & tracking',
-            'Pharmacy visits & bill payments',
-            'Coordinate with local chemists',
-            'Share medicine collection updates with family',
+            'Collect prescribed medicines from pharmacies',
+            'Accompany customers to pharmacies & assist with billing',
+            'Assist with communication and coordination at the pharmacy',
+            'Keep family members updated on medicine collection',
+            'Upload prescriptions to the WHY app (upon request)',
+            'Ensure safe delivery of medicines to the customer',
         ],
     },
     {
@@ -39,29 +40,45 @@ const HOSPITAL_CARDS = [
         iconBg: "#F4F8EC",
         iconColor: "#4A9D6E",
         accentBar: "#4A9D6E",
-        title: "Visit Summary & Family Updates",
-        desc: "After every visit, your Pro shares a detailed summary with your family, helping them stay informed and confident.",
+        title: "Hospital Visit Summary & Family Updates",
+        desc: "After every hospital visit, your assigned Pro shares a clear and detailed visit summary with your family, keeping them informed and reassured throughout the care journey. If requested, the Pro can securely upload the doctor's prescription to the WHY app and, where permitted, record the consultation for future reference.",
         points: [
-            "Doctor consultation summary",
+            "Summary of the hospital visit",
             "Services completed during the visit",
-            "Medication & prescription updates",
-            "Important observations shared with family",
+            "Key visit updates shared with family",
+            "Consultation recording (upon request) & prescription upload to the WHY app",
+        ],
+    },
+    {
+        icon: "car",
+        iconBg: "#FDF0EC",
+        iconColor: "#E07A5F",
+        accentBar: "#E07A5F",
+        title: 'Emergency Hospital Assistance',
+        desc: "When an urgent hospital visit is needed, your assigned WHY Pro provides prompt companionship and assistance from pickup to safe return, ensuring the customer is supported throughout the visit.",
+        points: [
+            'Urgent hospital visit assistance',
+            'Pickup and accompaniment to the hospital',
+            'Assistance during registration and consultation',
+            'Pharmacy and billing assistance',
+            'Safe return home',
+            'Family updates throughout the visit',
         ],
     },
 ]
 
 const TRAVEL_CARDS = [
     {
-        icon: "car",
+        icon: "senior",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
-        title: 'Emergency Companion Support',
+        title: 'Senior Travel Assistance',
         points: [
-            'Hospital & medical visits',
-            'Urgent travel support',
-            'Safe transportation',
-            'Immediate assistance when you need it',
+            'Safe pickup and drop-off',
+            'Accompaniment throughout the journey',
+            'Assistance with boarding and mobility',
+            'Safe arrival confirmation to family',
         ],
     },
     {
@@ -69,39 +86,25 @@ const TRAVEL_CARDS = [
         iconBg: "#EAF0FA",
         iconColor: "#2F4A7D",
         accentBar: "#2F4A7D",
-        title: 'Assisted Mobility Support',
+        title: 'Travel Assistance for Persons with Disabilities',
         points: [
-            'Mobility assistance',
-            'Wheelchair support',
-            'Accessible mobility assistance',
-            'Comfortable journeys',
+            'Door-to-door assistance',
+            'Mobility support throughout the journey',
+            'Assistance at airports, railway stations, or other destinations',
+            'Safe handover to the designated person',
         ],
     },
     {
-        icon: "clock",
+        icon: "child",
         iconBg: "#EEF8F1",
         iconColor: "#4A9D6E",
         accentBar: "#4A9D6E",
-        title: '24/7 Care & Companion Support',
+        title: 'Minor Travel Assistance',
         points: [
-            'Day & night availability',
-            'Personal assistance',
-            'Safety monitoring',
-            'Continuous peace of mind',
-        ],
-    },
-    {
-        icon: "cart",
-        iconBg: "#FDF0EC",
-        iconColor: "#E07A5F",
-        accentBar: "#E07A5F",
-        title: 'Daily Errands & Essential Support',
-        comingSoon: true,
-        points: [
-            'Grocery shopping',
-            'Pharmacy visits',
-            'Bill payments',
-            'Daily task assistance',
+            'Safe pickup from home or school',
+            'Escort to school, tuition, airport, railway station, or other destinations',
+            'Continuous supervision during travel',
+            'Safe handover to the authorized guardian',
         ],
     },
 ]
@@ -120,15 +123,15 @@ const TABS = [
         ),
         headline: (
             <>
-             Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors & Families{' '}</span>
+             Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors & Their Families{' '}</span>
                 
             </>
         ),
-        subtext: "Your assigned Pro is trained to support elders with medical visits, medicines, nursing care, and everyday tasks — with compassion and reliability. After every visit, families receive a clear summary of the care provided, ensuring complete peace of mind.",
+        subtext: "Your assigned Pro accompanies seniors throughout their hospital visit, providing assistance with hospital registration, appointment coordination, queue management, consultations, billing, pharmacy support, and a safe return home. Upon request, the Pro can securely upload the doctor's prescription to the WHY app and, where permitted by the hospital and with the doctor's consent, record the consultation for future reference. Families receive timely updates and a detailed visit summary, ensuring reassurance, transparency, and complete peace of mind.",
         cards: HOSPITAL_CARDS,
-        gridCols: 'md:grid-cols-3',
+        gridCols: 'md:grid-cols-2',
         maxW: 'max-w-5xl',
-        ctaHint: 'Background-verified companions · Real-time family updates · Available whenever you need support',
+        ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
     },
     {
         key: 'travel',
@@ -143,16 +146,16 @@ const TABS = [
         ),
         headline: (
             <>
-                Trusted Travel Assistance 
+                Safe & Reliable Travel Assistance
                 <br className="hidden sm:block" />{' '}
-                <span style={{ color: "#52B5BD" }}>For Seniors & Families</span>
+                <span style={{ color: "#52B5BD" }}>For Seniors, Persons with Disabilities & Minors</span>
             </>
         ),
-        subtext: "Trusted companions who provide personalized support for travel assistance ensuring comfort, safety, and peace of mind for seniors and families.",
+        subtext: "Your assigned WHY Pro provides safe and reliable travel assistance for senior citizens, persons with disabilities, and minors. We accompany customers from pickup to drop-off, ensuring a comfortable, secure, and worry-free journey while keeping families informed.",
         cards: TRAVEL_CARDS,
-        gridCols: 'md:grid-cols-2 lg:grid-cols-4',
-        maxW: 'max-w-6xl',
-        ctaHint: 'Background-verified companions · Available 24/7 · Trusted support across India',
+        gridCols: 'md:grid-cols-3',
+        maxW: 'max-w-5xl',
+        ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
     },
 ]
 
@@ -208,6 +211,23 @@ function CardIcon({ name, color }) {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="9" />
                 <polyline points="12 7 12 12 15.5 14" />
+            </svg>
+        ),
+        senior: (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="10" cy="5" r="2.5" />
+                <path d="M10 9.5c-2.5 0-4.5 1.8-4.5 4.5v7" />
+                <path d="M10 9.5c2.5 0 4.5 1.8 4.5 4.5" />
+                <path d="M8 15l-1.5 3.5" />
+                <path d="M18 13l1.5 8" />
+            </svg>
+        ),
+        child: (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="6" r="2.5" />
+                <path d="M8 21v-6a4 4 0 0 1 8 0v6" />
+                <path d="M9 15l-2.5 2" />
+                <path d="M15 15l2.5 2" />
             </svg>
         ),
     }

@@ -545,9 +545,7 @@ export default function WorldMap() {
                         )}
                     </p>
 
-                    <p className="text-sm font-semibold mb-5 sm:mb-8" style={{ color: "#2F4A7D" }}>
-                        📍 {formatDistance(userDistance)} between you and your family in India
-                    </p>
+                    
 
                     <div className="space-y-3 sm:space-y-5 mb-6 sm:mb-10">
                         {features.map((f, i) => (

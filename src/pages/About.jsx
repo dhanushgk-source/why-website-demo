@@ -131,9 +131,20 @@ function TeamCard({ member, onOpen }) {
       <p className="text-sm mt-0.5" style={{ color: '#5a6b83' }}>
         {member.designation}
       </p>
+
       {member.department && (
         <p className="text-xs mt-1" style={{ color: '#8a9ab0' }}>
           {member.department}
+        </p>
+      )}
+
+      {member.location && (
+        <p
+          className="text-xs flex items-center gap-1 mt-1"
+          style={{ color: '#8a9ab0' }}
+        >
+          <MapPin className="w-3 h-3" />
+          {member.location}
         </p>
       )}
     </div>
@@ -188,14 +199,26 @@ function TeamProfileModal({ member, onClose }) {
           <p className="text-sm mt-1" style={{ color: '#F2711F' }}>
             {member.designation}
           </p>
-          {member.department && (
-            <span
-              className="inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold"
-              style={{ background: '#F7F3EA', color: '#5a6b83' }}
-            >
-              {member.department.trim()}
-            </span>
-          )}
+          <div className="flex flex-wrap justify-center gap-2 mt-3">
+            {member.department && (
+              <span
+                className="px-3 py-1 rounded-full text-xs font-semibold"
+                style={{ background: '#F7F3EA', color: '#5a6b83' }}
+              >
+                {member.department.trim()}
+              </span>
+            )}
+
+            {member.location && (
+              <span
+                className="flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold"
+                style={{ background: '#F7F3EA', color: '#5a6b83' }}
+              >
+                <MapPin className="w-3 h-3" />
+                {member.location}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="px-7 pb-8 pt-4">
@@ -450,12 +473,12 @@ export default function About() {
             Where we are
           </span>
           <h2 className="fade-inner font-display text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ color: '#1B2A4A' }}>
-            Launching Soon in {LOCATIONS.join(' and ')} — 
-            <span style={{color : ' #52B5BD'}}>Growing with Purpose</span>
-             
+            Launching Soon in {LOCATIONS.join(' and ')} —
+            <span style={{ color: ' #52B5BD' }}>Growing with Purpose</span>
+
           </h2>
           <p className="fade-inner text-base sm:text-lg leading-relaxed" style={{ color: '#5a6b83' }}>
-           We're focused on delivering exceptional service in Bengaluru and Chennai before expanding to more cities {LOCATIONS_NOTE}
+            We're focused on delivering exceptional service in Bengaluru and Chennai before expanding to more cities {LOCATIONS_NOTE}
           </p>
         </div>
       </Section>

@@ -1,6 +1,6 @@
 export default function AnnouncementBar() {
   const message =
-    "📍 Launching in Bangalore This August • ";
+    "Coming to Bangalore This August";
 
   return (
     <div className="w-full overflow-hidden bg-[#0D9488] text-white border-y border-[#0B7E73]">
