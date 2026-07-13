@@ -10,6 +10,8 @@ import {
   Compass,
   Quote,
   Phone,
+  Info,
+  X,
 } from 'lucide-react'
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from '../config/contact'
 
@@ -64,7 +66,7 @@ function getInitials(name = '') {
     .toUpperCase()
 }
 
-function TeamCard({ member }) {
+function TeamAvatar({ member, className }) {
   const [imgSrc, setImgSrc] = useState(member.image_url || null)
   const [retried, setRetried] = useState(false)
   const [failed, setFailed] = useState(false)
@@ -73,8 +75,6 @@ function TeamCard({ member }) {
 
   function handleError() {
     if (!retried) {
-      // Freshly uploaded Drive files can 403/404 for a few seconds
-      // while sharing/thumbnail generation catches up — try once more.
       setRetried(true)
       setTimeout(() => {
         setImgSrc(`${member.image_url}${member.image_url.includes('?') ? '&' : '?'}retry=${Date.now()}`)
@@ -84,37 +84,44 @@ function TeamCard({ member }) {
     }
   }
 
+  if (!hasPhoto) {
+    return (
+      <div
+        className={`flex items-center justify-center text-white font-display font-bold ${className}`}
+        style={{ background: 'linear-gradient(135deg, #F2711F, #0D9488)' }}
+      >
+        {getInitials(member.name)}
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={imgSrc}
+      alt={member.name}
+      loading="lazy"
+      onError={handleError}
+      className={`object-cover ${className}`}
+    />
+  )
+}
+
+function TeamCard({ member, onOpen }) {
   return (
     <div className="group">
-      {/* Photo, with biography reveal on hover */}
+      {/* Photo, with view-profile icon */}
       <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 shadow-md bg-white">
-        {hasPhoto ? (
-          <img
-            src={imgSrc}
-            alt={member.name}
-            loading="lazy"
-            onError={handleError}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div
-            className="w-full h-full flex items-center justify-center text-white font-display font-bold text-4xl"
-            style={{ background: 'linear-gradient(135deg, #F2711F, #0D9488)' }}
-          >
-            {getInitials(member.name)}
-          </div>
-        )}
+        <TeamAvatar member={member} className="w-full h-full text-4xl" />
 
-        {member.biography && (
-          <div
-            className="absolute inset-0 flex items-center justify-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ background: 'rgba(27,42,74,0.92)' }}
-          >
-            <p className="text-white text-xs sm:text-sm leading-relaxed overflow-y-auto max-h-full">
-              {member.biography}
-            </p>
-          </div>
-        )}
+        <button
+          type="button"
+          onClick={() => onOpen(member)}
+          aria-label={`View ${member.name}'s full profile`}
+          className="absolute bottom-2.5 right-2.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110 active:scale-95"
+          style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(4px)' }}
+        >
+          <Info className="w-[18px] h-[18px]" style={{ color: '#1B2A4A' }} strokeWidth={2.25} />
+        </button>
       </div>
 
       {/* Name / role / department */}
@@ -143,11 +150,81 @@ function TeamCardSkeleton() {
   )
 }
 
+function TeamProfileModal({ member, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [onClose])
+
+  if (!member) return null
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      style={{ background: 'rgba(27,42,74,0.55)', backdropFilter: 'blur(3px)' }}
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl bg-white shadow-2xl animate-[modalIn_0.18s_ease-out]">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:bg-black/5 z-10"
+          style={{ background: '#F7F3EA' }}
+        >
+          <X className="w-[18px] h-[18px]" style={{ color: '#1B2A4A' }} />
+        </button>
+
+        <div className="pt-8 px-7 pb-3 flex flex-col items-center text-center">
+          <TeamAvatar member={member} className="w-28 h-28 rounded-full text-3xl shadow-md mb-4" />
+          <p className="font-display font-bold text-xl" style={{ color: '#1B2A4A' }}>
+            {member.name}
+          </p>
+          <p className="text-sm mt-1" style={{ color: '#F2711F' }}>
+            {member.designation}
+          </p>
+          {member.department && (
+            <span
+              className="inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold"
+              style={{ background: '#F7F3EA', color: '#5a6b83' }}
+            >
+              {member.department.trim()}
+            </span>
+          )}
+        </div>
+
+        <div className="px-7 pb-8 pt-4">
+          {member.biography ? (
+            <>
+              <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: '#8a9ab0' }}>
+                About
+              </p>
+              <p className="text-sm sm:text-base leading-relaxed whitespace-pre-line" style={{ color: '#5a6b83' }}>
+                {member.biography}
+              </p>
+            </>
+          ) : (
+            <p className="text-sm text-center" style={{ color: '#8a9ab0' }}>
+              No biography added yet.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function About() {
   const [team, setTeam] = useState([])
   const [teamLoading, setTeamLoading] = useState(true)
   const [teamError, setTeamError] = useState('')
   const [teamFilter, setTeamFilter] = useState('All')
+  const [selectedMember, setSelectedMember] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -280,7 +357,7 @@ export default function About() {
             <p className="fade-inner text-base sm:text-lg leading-relaxed" style={{ color: '#5a6b83' }}>
               We're building a team that actually understands what families go through.
               Get to know the people finding companions, checking backgrounds, and picking
-              up the phone at 2am when something's wrong. Hover a photo to read their story.
+              up the phone at 2am when something's wrong. Tap the <Info className="inline w-3.5 h-3.5 -mt-0.5" /> icon on a photo for their full story.
             </p>
           </div>
 
@@ -322,12 +399,16 @@ export default function About() {
           ) : (
             <div className="fade-inner grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
               {filteredTeam.map((member) => (
-                <TeamCard key={member.id} member={member} />
+                <TeamCard key={member.id} member={member} onOpen={setSelectedMember} />
               ))}
             </div>
           )}
         </div>
       </Section>
+
+      {selectedMember && (
+        <TeamProfileModal member={selectedMember} onClose={() => setSelectedMember(null)} />
+      )}
 
       {/* ================= VALUES ================= */}
       <Section id="about-values" className="py-14 lg:py-20">
