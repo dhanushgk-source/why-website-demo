@@ -3,7 +3,7 @@
 
 export const PHONE_DISPLAY = '+91 90365 99439';
 export const PHONE_TEL = '+919036599439'; // used in tel: links
-export const WHATSAPP_NUMBER = '919036599439'; // used in wa.me links (no + or spaces)
+export const WHATSAPP_NUMBER = '919090254343'; // used in wa.me links (no + or spaces)
 export const APP_LINK = "";
 export const WHATSAPP_LINK = "";
 export const DEFAULT_WHATSAPP_MESSAGE =
