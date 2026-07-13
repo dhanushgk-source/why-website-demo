@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from "../config/contact";
+import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE,WHATSAPP_NUMBER } from "../config/contact";
 import { useSectionNav } from "../hooks/useSectionNav";
 
 // Both "Hospital Assistance" and "Travel Companionship" now live in the same
@@ -77,7 +77,7 @@ export default function Footer() {
               </div>
               <span className="transition duration-300 group-hover:text-[#6ED3C8]">
                 Book on WhatsApp
-                <span className="block text-xs text-white/50">{PHONE_DISPLAY}</span>
+                <span className="block text-xs text-white/50">{WHATSAPP_NUMBER}</span>
               </span>
             </a>
 
