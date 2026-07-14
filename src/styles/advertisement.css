@@ -1,0 +1,261 @@
+/* =========================================================
+   Advertisement Popup — bold offset-card style
+   Brand: teal #2CB1A6 / darkblue #0E1B3D / coral #E07A5F / mint #A6EACB
+========================================================= */
+
+.ad-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 27, 61, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  padding: 28px;
+  animation: adFadeIn 0.35s ease;
+}
+
+.ad-overlay--closing {
+  animation: adFadeOut 0.25s ease forwards;
+}
+
+/* Offset accent frame sits behind the card */
+.ad-frame {
+  position: relative;
+  width: min(92vw, 620px);
+  max-height: 88vh;
+  animation: adPopIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ad-frame--closing {
+  animation: adPopOut 0.22s ease forwards;
+}
+
+.ad-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(14px, 14px);
+  background: #E07A5F;
+  border-radius: 22px;
+  z-index: 0;
+}
+
+/* Popup Card */
+.ad-popup {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #A6EACB 0%, #52B5BD 55%, #2CB1A6 100%);
+  border-radius: 22px;
+  border: 3px solid #0E1B3D;
+  box-shadow: 0 20px 45px -12px rgba(14, 27, 61, 0.5);
+  font-family: 'Work Sans', sans-serif;
+}
+
+/* Close Button */
+.ad-close {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #0E1B3D;
+  border-radius: 50%;
+  background: #fff;
+  color: #0E1B3D;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 10;
+}
+
+.ad-close:hover {
+  transform: rotate(90deg) scale(1.08);
+  background: #E07A5F;
+  color: #fff;
+}
+
+/* Big image */
+.ad-media {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  max-height: 40vh;
+  overflow: hidden;
+  border-bottom: 3px solid #0E1B3D;
+  border-radius: 19px 19px 0 0;
+}
+
+.ad-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 6s ease;
+}
+
+.ad-popup:hover .ad-image {
+  transform: scale(1.1);
+}
+
+.ad-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: #0E1B3D;
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 2px solid #fff;
+}
+
+/* Content */
+.ad-content {
+  padding: 30px 32px 34px;
+  text-align: center;
+}
+
+.ad-content h2 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #0E1B3D;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.ad-content h4 {
+  margin: 10px 0 0;
+  color: #0E1B3D;
+  opacity: 0.75;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.ad-content p {
+  margin: 16px auto 0;
+  max-width: 440px;
+  color: #0E1B3D;
+  opacity: 0.85;
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+.ad-content p strong {
+  font-weight: 700;
+}
+
+/* CTA Button */
+.ad-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  padding: 15px 36px;
+  border-radius: 12px;
+  background: #0E1B3D;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border: 2px solid #0E1B3D;
+  box-shadow: 4px 4px 0 0 #E07A5F;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.ad-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 #E07A5F;
+  background: #2F4A7D;
+}
+
+.ad-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 #E07A5F;
+}
+
+/* Animations */
+@keyframes adPopIn {
+  from {
+    transform: scale(0.85) translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes adPopOut {
+  from {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.9) translateY(15px);
+    opacity: 0;
+  }
+}
+
+@keyframes adFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes adFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .ad-frame {
+    width: 100%;
+  }
+
+  .ad-frame::before {
+    transform: translate(8px, 8px);
+    border-radius: 18px;
+  }
+
+  .ad-media {
+    height: 190px;
+  }
+
+  .ad-content {
+    padding: 24px 20px 28px;
+  }
+
+  .ad-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .ad-button {
+    width: 100%;
+    padding: 15px 20px;
+  }
+}

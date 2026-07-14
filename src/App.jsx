@@ -36,6 +36,7 @@ import TestimonialsSlideshow from "./components/TestimonialsSlideshow";
 import CompanionServices from "./components/CompanionServices";
 import AnnouncementBar from "./components/AnnouncementBar";
 import TrustAndSafety from "./pages/TrustAndSafety";
+import AdvertisementPopup from "./components/AdvertisementPopup";
 
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
@@ -85,6 +86,7 @@ function Home() {
 
   return (
     <>
+    <AdvertisementPopup />
       <AnnouncementBar/>
       <Hero />
       <WhatIsWhy />
