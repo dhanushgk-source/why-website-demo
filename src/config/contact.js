@@ -7,7 +7,7 @@ export const WHATSAPP_NUMBER = '919090254343'; // used in wa.me links (no + or s
 export const APP_LINK = "";
 export const WHATSAPP_LINK = "";
 export const DEFAULT_WHATSAPP_MESSAGE =
-  "Hi WHY, I'd like to book a companion.";
+  "Hi";
 
 export function getWhatsAppLink(message = DEFAULT_WHATSAPP_MESSAGE) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

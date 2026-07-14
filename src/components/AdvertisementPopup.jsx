@@ -29,18 +29,51 @@ function markAdAsShown(id) {
   }
 }
 
+// Preloads a single image and resolves once it's actually loaded in the
+// browser cache. Resolves (doesn't reject) even on error so one broken
+// image url can't block anything downstream.
+function preloadImage(url) {
+  return new Promise((resolve) => {
+    if (!url) {
+      resolve({ url, ok: false });
+      return;
+    }
+    const img = new Image();
+    img.onload = () => resolve({ url, ok: true });
+    img.onerror = () => resolve({ url, ok: false });
+    img.src = url;
+  });
+}
+
 export default function AdvertisementPopup() {
   const [loading, setLoading] = useState(true);
   const [ads, setAds] = useState([]);
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
+  // Tracks which ad image_urls have finished preloading, so we only
+  // render an <img> once its src is actually cache-ready.
+  const [readyUrls, setReadyUrls] = useState(() => new Set());
 
   const ad = ads[index] || null;
+  const adReady = ad ? readyUrls.has(ad.image_url) : false;
 
   useEffect(() => {
     loadAdvertisements();
   }, []);
+
+  // Once the current ad's image is ready, start preloading the *next*
+  // one in the background so it's ready by the time the user advances.
+  useEffect(() => {
+    const next = ads[index + 1];
+    if (next?.image_url) {
+      preloadImage(next.image_url).then(({ url, ok }) => {
+        if (ok) {
+          setReadyUrls((prev) => new Set(prev).add(url));
+        }
+      });
+    }
+  }, [index, ads]);
 
   function handleClose() {
     setClosing(true);
@@ -83,6 +116,14 @@ export default function AdvertisementPopup() {
       );
 
       if (unseen.length > 0) {
+        // Only block on the FIRST ad's image so the popup appears quickly.
+        const first = unseen[0];
+        const { ok } = await preloadImage(first.image_url);
+
+        if (ok) {
+          setReadyUrls((prev) => new Set(prev).add(first.image_url));
+        }
+
         setAds(unseen); // Backend already returns priority order
         setIndex(0);
         setOpen(true);
@@ -94,7 +135,8 @@ export default function AdvertisementPopup() {
     }
   }
 
-  if (loading || !open || !ad) return null;
+  // Don't render the popup at all until we have an ad AND its image is ready.
+  if (loading || !open || !ad || !adReady) return null;
 
   return (
     <div

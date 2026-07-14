@@ -17,7 +17,7 @@ function Section({ children, className = '', id }) {
 export default function PricingSection() {
     return (<>
     <TrustSafety/>
-    <TrustedBy/>
+    {/*<TrustedBy/>*/}
     <TrustSignals/>
     </>
     )

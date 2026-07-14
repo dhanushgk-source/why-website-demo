@@ -240,7 +240,7 @@ function GeoJSONLayer({ userCountry, networkCountries }) {
 const features = [
     {
         title: "Verified Companion Network",
-        desc: "Background Verified Companions-Arriving Soon in Bangalore and Chennai",
+        desc: "Background Verified Companions in Bangalore, Coming Soon to Chennai",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
     },

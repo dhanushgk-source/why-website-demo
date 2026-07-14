@@ -5,8 +5,8 @@ import { PHONE_DISPLAY } from '../config/contact'
 const DIFFERENTIATORS = [
     {
         icon: Wallet,
-        title: 'Free Booking. Pay Later.',
-        desc: 'Enjoy free booking with no upfront payment. If your trip starts within the next 4 hours, a 30% advance is required. Otherwise, pay 100% after the service is completed.',
+        title: '30% at Booking, Rest Later.',
+        desc: 'A 30% advance payment is charged at the time of booking to confirm your slot. The remaining 70% is paid after your service is completed. Cancel more than 4 hours before your trip and your 30% advance is fully refunded.',
     },
     {
         icon: ShieldCheck,
@@ -29,19 +29,19 @@ const CANCELLATION_RULES = [
     {
         icon: Clock3,
         title: 'Free cancellation',
-        desc: 'Cancel more than 4 hours before your scheduled service to receive a Full Refund of your advance payment.',
+        desc: 'Cancel more than 4 hours before your scheduled service to receive a Full Refund of your 30% advance payment.',
         tone: 'good',
     },
     {
         icon: AlertCircle,
         title: '30% cancellation fee',
-        desc: 'Applies to your initial deposit, cancellations made within 4 hours of the scheduled start, or if the Customer/Senior is unavailable or refuses service after your WHY Pro has arrived. Charged to the payment method on file.',
+        desc: 'Cancellations made within 4 hours of the scheduled start, or if the Customer/Senior is unavailable or refuses service after your WHY Pro has arrived, forfeit the 30% advance already charged at booking.',
         tone: 'warn',
     },
     {
         icon: ShieldCheck,
         title: "If it's on us, you're covered",
-        desc: "If a WHY Pro fails to arrive due to WHY's fault, you won't be charged — plus you'll get priority rebooking and 25% off your next booking.",
+        desc: "If a WHY Pro fails to arrive due to WHY's fault, your 30% advance is fully refunded — plus you'll get priority rebooking and 25% off your next booking.",
         tone: 'good',
     },
 ]
@@ -105,18 +105,18 @@ export default function WhyUnique() {
         className="flex items-center justify-between text-sm font-semibold mb-3"
         style={{ color: '#1B2A4A' }}
     >
-        <span>Free Advance Booking</span>
-        <span>30% Due 4 Hours Before</span>
+        <span>30% Charged at Booking</span>
+        <span>70% Due After Service</span>
     </div>
 
     <div className="h-3 w-full rounded-full overflow-hidden flex bg-[#F7F3EA]">
         <div
-            className="h-full bg-[#0D9488]"
-            style={{ width: '70%' }}
-        />
-        <div
             className="h-full bg-[#F2711F]"
             style={{ width: '30%' }}
+        />
+        <div
+            className="h-full bg-[#0D9488]"
+            style={{ width: '70%' }}
         />
     </div>
 
@@ -124,11 +124,11 @@ export default function WhyUnique() {
         className="text-xs mt-3 leading-relaxed"
         style={{ color: '#8a9ab0' }}
     >
-        <strong>Schedule your booking in advance at no cost.</strong> A{' '}
-        <strong>30% advance payment</strong> is required only{' '}
-        <strong>4 hours before your scheduled service</strong> to confirm your
-        booking. The remaining <strong>70%</strong> is paid after your service
-        is completed.
+        A <strong>30% advance payment</strong> is charged{' '}
+        <strong>at the time of booking</strong> to confirm your slot. Cancel{' '}
+        <strong>more than 4 hours before</strong> your trip starts and this{' '}
+        <strong>30% is fully refunded</strong>. The remaining{' '}
+        <strong>70%</strong> is paid after your service is completed.
     </p>
 </div>
 
@@ -167,7 +167,7 @@ export default function WhyUnique() {
                     </div>
 
                     <p className="text-center text-xs mt-6" style={{ color: '#8a9ab0' }}>
-                        The initial deposit is always 30% of the total service cost.
+                        A 30% advance payment is charged at the time of every booking.
                     </p>
                 </div>
 

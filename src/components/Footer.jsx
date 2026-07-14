@@ -7,9 +7,10 @@ import { useSectionNav } from "../hooks/useSectionNav";
 // scroll target — `tab` tells that section which toggle state to switch to.
 const COMPANION_SECTION_ID = 'Hospital-companion-section';
 
+// "Safety & Trust" now has its own route (/trust-safety) instead of an
+// in-page section, so it's intentionally left out of scrollIds below.
 const scrollIds = {
   'How it Works': 'WHY-Works-section',
-  'Safety & Trust': 'savefty-section',
   'Hospital Assistance': COMPANION_SECTION_ID,
   'Travel Companionship': COMPANION_SECTION_ID,
 };
@@ -17,6 +18,13 @@ const scrollIds = {
 const companionTabs = {
   'Hospital Assistance': 'hospital',
   'Travel Companionship': 'travel',
+};
+
+// Routes for the Company column links that aren't in-page scroll targets.
+const companyRoutes = {
+  'About Us': '/about',
+  'Safety & Trust': '/trust and safety',
+  'Careers': '/careers',
 };
 
 export default function Footer() {
@@ -147,7 +155,7 @@ export default function Footer() {
                   </button>
                 ) : (
                   <Link
-                    to={s === 'Careers' ? '/careers' : s === 'About Us' ? '/about' : '/'}
+                    to={companyRoutes[s] || '/'}
                     className="hover:text-[#6ED3C8] transition"
                   >
                     {s}

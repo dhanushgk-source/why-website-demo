@@ -131,6 +131,8 @@ const TABS = [
         gridCols: 'md:grid-cols-2',
         maxW: 'max-w-5xl',
         ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
+        // Show these as a one-at-a-time paged carousel instead of a grid.
+        paged: true,
     },
     {
         key: 'travel',
@@ -287,6 +289,142 @@ function ServiceCard({ card, index }) {
                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
                     SUPPORTED BY YOUR WHY COMPANION
                 </span>
+            </div>
+        </div>
+    )
+}
+
+// One-at-a-time card pager: prev/next arrows + dot navigation, with
+// swipe support on touch devices and left/right arrow-key support.
+function CardPager({ cards, tabKey }) {
+    const [page, setPage] = useState(0)
+    const touchStartX = useRef(null)
+
+    // Reset to the first card whenever the underlying tab/cards change.
+    useEffect(() => {
+        setPage(0)
+    }, [tabKey])
+
+    const goTo = (i) => {
+        const next = (i + cards.length) % cards.length
+        setPage(next)
+    }
+
+    function handleKeyDown(e) {
+        if (e.key === 'ArrowRight') {
+            e.preventDefault()
+            goTo(page + 1)
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault()
+            goTo(page - 1)
+        }
+    }
+
+    function handleTouchStart(e) {
+        touchStartX.current = e.touches[0].clientX
+    }
+
+    function handleTouchEnd(e) {
+        if (touchStartX.current === null) return
+        const delta = e.changedTouches[0].clientX - touchStartX.current
+        const SWIPE_THRESHOLD = 40
+        if (delta > SWIPE_THRESHOLD) {
+            goTo(page - 1)
+        } else if (delta < -SWIPE_THRESHOLD) {
+            goTo(page + 1)
+        }
+        touchStartX.current = null
+    }
+
+    return (
+        <div
+            className="max-w-xl mx-auto"
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            aria-roledescription="carousel"
+        >
+            {/* Card viewport */}
+            <div className="relative flex items-stretch gap-3">
+                {/* Prev arrow */}
+                <button
+                    type="button"
+                    onClick={() => goTo(page - 1)}
+                    aria-label="Previous card"
+                    className="hidden sm:flex items-center justify-center w-11 h-11 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex-shrink-0"
+                    style={{ color: "#2F4A7D" }}
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
+
+                {/* Card slot — key forces the fade/slide-in effect on page change */}
+                <div className="flex-1 min-w-0">
+                    <ServiceCard key={`${tabKey}-${cards[page].title}`} card={cards[page]} index={0} />
+                </div>
+
+                {/* Next arrow */}
+                <button
+                    type="button"
+                    onClick={() => goTo(page + 1)}
+                    aria-label="Next card"
+                    className="hidden sm:flex items-center justify-center w-11 h-11 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex-shrink-0"
+                    style={{ color: "#2F4A7D" }}
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Mobile prev/next (arrows hidden above sm breakpoint aren't reachable by thumb easily, so repeat them below on small screens) */}
+            <div className="flex sm:hidden items-center justify-center gap-6 mt-4">
+                <button
+                    type="button"
+                    onClick={() => goTo(page - 1)}
+                    aria-label="Previous card"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md"
+                    style={{ color: "#2F4A7D" }}
+                >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
+                <span className="text-sm font-semibold" style={{ color: "#6a7f96" }}>
+                    {page + 1} / {cards.length}
+                </span>
+                <button
+                    type="button"
+                    onClick={() => goTo(page + 1)}
+                    aria-label="Next card"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md"
+                    style={{ color: "#2F4A7D" }}
+                >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Dot pagination */}
+            <div className="hidden sm:flex items-center justify-center gap-2.5 mt-6">
+                {cards.map((c, i) => (
+                    <button
+                        key={c.title}
+                        type="button"
+                        onClick={() => goTo(i)}
+                        aria-label={`Go to card ${i + 1}: ${c.title}`}
+                        aria-current={i === page}
+                        className="rounded-full transition-all duration-300"
+                        style={{
+                            width: i === page ? '28px' : '9px',
+                            height: '9px',
+                            background: i === page ? '#52B5BD' : '#D8E3E8',
+                        }}
+                    />
+                ))}
             </div>
         </div>
     )
@@ -477,17 +615,27 @@ export default function CompanionServices() {
                 </div>
 
                 {/* Cards */}
-                <div
-                    id={`companion-tabpanel-${active.key}`}
-                    role="tabpanel"
-                    aria-labelledby={`companion-tab-${active.key}`}
-                    tabIndex={0}
-                    className={`grid grid-cols-1 ${active.gridCols} gap-6 text-left ${active.maxW} mx-auto`}
-                >
-                    {active.cards.map((card, i) => (
-                        <ServiceCard key={`${activeTab}-${card.title}`} card={card} index={i} />
-                    ))}
-                </div>
+                {active.paged ? (
+                    <div
+                        id={`companion-tabpanel-${active.key}`}
+                        role="tabpanel"
+                        aria-labelledby={`companion-tab-${active.key}`}
+                    >
+                        <CardPager cards={active.cards} tabKey={active.key} />
+                    </div>
+                ) : (
+                    <div
+                        id={`companion-tabpanel-${active.key}`}
+                        role="tabpanel"
+                        aria-labelledby={`companion-tab-${active.key}`}
+                        tabIndex={0}
+                        className={`grid grid-cols-1 ${active.gridCols} gap-6 text-left ${active.maxW} mx-auto`}
+                    >
+                        {active.cards.map((card, i) => (
+                            <ServiceCard key={`${activeTab}-${card.title}`} card={card} index={i} />
+                        ))}
+                    </div>
+                )}
 
                 {/* Bottom CTA */}
                 <div
