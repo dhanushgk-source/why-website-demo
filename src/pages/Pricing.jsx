@@ -59,7 +59,7 @@ const PLANS = [
 const TRUST_POINTS = [
   { icon: Tag, title: 'Subscription Free Usage', desc: 'Pay only when you need assistance. No subscriptions.' },
   { icon: ShieldCheck, title: 'No Hidden Charges', desc: 'Transparent pricing with GST clearly mentioned.' },
-  { icon: UserCheck, title: 'Verified Professionals', desc: 'Every service is delivered by a trained, verified WHY Pro.' },
+  { icon: UserCheck, title: 'Verified Professionals', desc: 'Every service will be delivered by a trained, verified WHY PRO.' },
   { icon: Clock, title: 'Flexible Duration', desc: 'Need more time? Extend your booking easily.' },
 ]
 
