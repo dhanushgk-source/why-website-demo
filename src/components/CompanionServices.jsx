@@ -157,6 +157,7 @@ const TABS = [
         gridCols: 'md:grid-cols-3',
         maxW: 'max-w-5xl',
         ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
+        paged : true,
     },
 ]
 
