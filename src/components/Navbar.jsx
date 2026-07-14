@@ -16,7 +16,6 @@ const NAV_ITEMS = [
       { label: 'Travel Assistance', section: 'Hospital-companion-section', tab: 'travel' },
     ],
   },
-  { label: 'How it Works', section: 'WHY-Works-section' },
   { label: 'Pricing', path: '/pricing' },
   { label: 'Safety', path: '/trust and safety' },
   { label: 'About', path: '/about' },
@@ -195,12 +194,21 @@ export default function Navbar() {
 
           {/* DESKTOP: 24/7 support text + Book dropdown */}
           <div className="hidden xl:flex justify-end items-center gap-4">
-            <span
-              className="text-sm font-medium whitespace-nowrap"
-              style={{ color: '#1B2A4A' }}
-            >
-              24/7 Support
-            </span>
+            <div>
+              <a
+                href={PHONE_LINK}
+                className="flex items-center gap-2 px-5 py-2 rounded-full border shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer"
+                style={{
+                  background: '#fff',
+                  borderColor: '#52B5BD',
+                  color: '#1B2A4A',
+                }}
+                aria-label="Call us 24/7"
+              >
+                <i className="fa-solid fa-headset text-[#52B5BD]"></i>
+                <span className="font-semibold text-sm">24/7 Support</span>
+              </a>
+            </div>
 
             <div className="relative group">
               <button
@@ -277,15 +285,13 @@ export default function Navbar() {
                     >
                       {item.label}
                       <i
-                        className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${
-                          mobileServicesOpen ? 'rotate-180' : ''
-                        }`}
+                        className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''
+                          }`}
                       />
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        mobileServicesOpen ? 'max-h-40' : 'max-h-0'
-                      }`}
+                      className={`overflow-hidden transition-all duration-300 ${mobileServicesOpen ? 'max-h-40' : 'max-h-0'
+                        }`}
                       style={{ background: 'rgba(82,181,189,0.08)' }}
                     >
                       {item.dropdown.map((sub) => (
@@ -327,16 +333,14 @@ export default function Navbar() {
             >
               Book Now
               <i
-                className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${
-                  mobileBookOpen ? 'rotate-180' : ''
-                }`}
+                className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${mobileBookOpen ? 'rotate-180' : ''
+                  }`}
               />
             </button>
 
             <div
-              className={`w-full overflow-hidden transition-all duration-300 ${
-                mobileBookOpen ? 'max-h-40' : 'max-h-0'
-              }`}
+              className={`w-full overflow-hidden transition-all duration-300 ${mobileBookOpen ? 'max-h-40' : 'max-h-0'
+                }`}
             >
               <div className="flex flex-col gap-2 pt-2">
                 {BOOK_OPTIONS.map((opt) => (

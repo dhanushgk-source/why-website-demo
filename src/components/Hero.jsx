@@ -14,10 +14,10 @@ import {
   getWhatsAppLink,
 } from '../config/contact'
 
-const TAGLINE = 'Companionship That Feels Like a Family.'
+const TAGLINE = 'Companionship That Feels Like Family.'
 
 const SUBTEXT =
-  'Connecting Seniors and Individuals of all ages with Trusted Companions, Giving Families Peace of Mind, and Creating Meaningful Opportunities For Compassionate Professionals.'
+  'Connecting seniors and people of all ages with trusted companions, giving families peace of mind, and creating meaningful opportunities for caring professionals.'
 
 const INFO_ITEMS = [
   { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
@@ -74,6 +74,47 @@ export default function Hero() {
         section.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
+        })
+      }
+    }
+  }
+
+   const scrollToHowSection = () => {
+    const targetSection = document.getElementById('WHY-Works-section')
+
+    if (targetSection) {
+      const targetPosition =
+        targetSection.getBoundingClientRect().top +
+        window.pageYOffset -
+        80
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth',
+      })
+    } else {
+      const sections = document.querySelectorAll('section')
+
+      let heroIndex = -1
+
+      sections.forEach((section, index) => {
+        if (section === sectionRef.current) heroIndex = index
+      })
+
+      if (
+        heroIndex !== -1 &&
+        heroIndex < sections.length - 1
+      ) {
+        const nextSection = sections[heroIndex + 1]
+
+        const nextPosition =
+          nextSection.getBoundingClientRect().top +
+          window.pageYOffset -
+          80
+
+        window.scrollTo({
+          top: nextPosition,
+          behavior: 'smooth',
         })
       }
     }
@@ -283,6 +324,7 @@ export default function Hero() {
             </button>
 
             <button
+            onClick={scrollToHowSection}
               className="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-sm sm:text-base hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
             >
               <PlayCircle className="w-5 h-5 text-[#0D9488]" />

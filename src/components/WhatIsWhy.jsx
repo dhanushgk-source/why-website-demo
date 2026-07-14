@@ -195,7 +195,8 @@ export default function WhatIsWhy() {
         </div>
 
         <p className="fade-inner mx-auto mb-16 max-w-3xl text-lg text-[#0A1F44]/60">
-          One platform for seniors seeking companionship, families seeking reassurance, and companions seeking meaningful work.        </p>
+         One platform for seniors looking for companionship, families looking for peace of mind, and companions looking for meaningful work.
+        </p>
 
         {/* Cards */}
         <div className="grid gap-8 md:grid-cols-3">

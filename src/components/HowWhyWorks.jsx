@@ -4,28 +4,28 @@ import { Leaf, ShieldCheck } from 'lucide-react'
 const steps = [
   {
     icon: '/Assests/icons/profile.svg',
-    title: 'Book a Pro',
-    desc: 'Get your Pro and share\ncare needs & location',
+    title: 'Book a PRO',
+    desc: 'Book your PRO and\nshare the care needs & location',
   },
   {
     icon: '/Assests/icons/VUser.svg',
-    title: 'Pro Accepts the Booking',
-    desc: 'Your Pro confirms and\ngets ready to help',
+    title: 'PRO Accepts the Booking',
+    desc: 'Your PRO confirms the\nbooking and gets ready',
   },
   {
     icon: '/Assests/icons/location.svg',
-    title: 'Pro Reaches Pickup Location',
-    desc: 'Trip begins as your Pro\narrives to accompany',
+    title: 'PRO Arrives',
+    desc: 'Your PRO reaches the\npickup location',
   },
   {
     icon: '/Assests/icons/heart_rate.svg',
-    title: 'Companion Care Delivered',
-    desc: 'Your Pro stays by their side\nthrough the visit',
+    title: 'Care & Support Provided',
+    desc: 'Your PRO stays by their side\nthroughout the visit',
   },
   {
     icon: '/Assests/icons/VDocs.svg',
-    title: 'Trip & Health Summary Shared',
-    desc: 'Get Complete report and\nhospital health summary',
+    title: 'Visit Summary Shared',
+    desc: 'Receive the visit summary\nand important updates',
   },
 ]
 
@@ -111,7 +111,8 @@ export default function HowWhyWorks() {
         </div>
 
         <p className="fade-inner mb-20 text-lg" style={{ color: "#6a7f96" }}>
-          System thinking meets human companion
+         Systems thinking meets human companionship
+
         </p>
 
         {/* Timeline Wrapper */}

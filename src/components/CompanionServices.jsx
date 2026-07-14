@@ -11,12 +11,12 @@ const HOSPITAL_CARDS = [
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
         title: 'Hospital Assistance',
-        desc: "Your WHY Companion accompanies seniors and anyone who needs assistance during hospital visits, providing safe, reliable support from arrival to departure — so no one has to face a hospital visit alone.",
+        desc: "Your WHY companion stays with seniors and anyone who needs help during hospital visits. We provide safe and reliable support from arrival to departure, so no one has to visit the hospital alone.",
         points: [
             'Escort to hospitals and clinics',
-            'Accompany and assist during consultations',
+            'Accompany and assist during doctor consultations',
             'Assist with communication and coordination with hospital staff',
-            'Accompany you safely until your return home',
+            'Accompany you safely until you return home',
         ],
     },
     {
@@ -25,11 +25,11 @@ const HOSPITAL_CARDS = [
         iconColor: "#2F4A7D",
         accentBar: "#2F4A7D",
         title: 'Medicine & Pharmacy Assistance',
-        desc: "Your WHY Companion provides reliable assistance with prescription collection, pharmacy visits, medicine purchases, and pharmacy-related coordination. We help ensure prescribed medicines are collected safely while keeping families informed throughout the process. If requested, the prescription can also be securely uploaded to the WHY app for easy access.",
+        desc: "Your WHY companion helps with prescription collection, pharmacy visits, medicine purchases, and other pharmacy-related support. We make sure the prescribed medicines are collected safely while keeping families updated. If requested, the prescription can also be securely uploaded to the WHY app for easy access.",
         points: [
             'Collect prescribed medicines from pharmacies',
-            'Accompany customers to pharmacies & assist with billing',
-            'Assist with communication and coordination at the pharmacy',
+            'Accompany customers to pharmacies and assist with billing',
+            'Help with communication and coordination at the pharmacy',
             'Keep family members updated on medicine collection',
             'Upload prescriptions to the WHY app (upon request)',
             'Ensure safe delivery of medicines to the customer',
@@ -41,12 +41,12 @@ const HOSPITAL_CARDS = [
         iconColor: "#4A9D6E",
         accentBar: "#4A9D6E",
         title: "Hospital Visit Summary & Family Updates",
-        desc: "After every hospital visit, your assigned Pro shares a clear and detailed visit summary with your family, keeping them informed and reassured throughout the care journey. If requested, the Pro can securely upload the doctor's prescription to the WHY app and, where permitted, record the consultation for future reference.",
+        desc: "After every hospital visit, your assigned WHY companion shares a clear and detailed visit summary with your family, keeping them informed and giving them peace of mind. If requested, the companion can securely upload the doctor's prescription to the WHY app and, where allowed, record the doctor's consultation for future reference.",
         points: [
             "Summary of the hospital visit",
             "Services completed during the visit",
-            "Key visit updates shared with family",
-            "Consultation recording (upon request) & prescription upload to the WHY app",
+            "Key updates shared with the family",
+            "Consultation recording (upon request) and prescription upload to the WHY app",
         ],
     },
     {
@@ -55,11 +55,11 @@ const HOSPITAL_CARDS = [
         iconColor: "#E07A5F",
         accentBar: "#E07A5F",
         title: 'Emergency Hospital Assistance',
-        desc: "When an urgent hospital visit is needed, your assigned WHY Pro provides prompt companionship and assistance from pickup to safe return, ensuring the customer is supported throughout the visit.",
+        desc: "When an urgent hospital visit is needed, your assigned WHY companion provides quick support from pickup to a safe return home, ensuring the customer is assisted throughout the visit.",
         points: [
             'Urgent hospital visit assistance',
             'Pickup and accompaniment to the hospital',
-            'Assistance during registration and consultation',
+            'Help with hospital registration and doctor consultation',
             'Pharmacy and billing assistance',
             'Safe return home',
             'Family updates throughout the visit',
@@ -76,9 +76,9 @@ const TRAVEL_CARDS = [
         title: 'Senior Travel Assistance',
         points: [
             'Safe pickup and drop-off',
-            'Accompaniment throughout the journey',
-            'Assistance with boarding and mobility',
-            'Safe arrival confirmation to family',
+            'Companion support throughout the journey',
+            'Help with boarding and mobility',
+            'Safe arrival updates for the family',
         ],
     },
     {
@@ -90,7 +90,7 @@ const TRAVEL_CARDS = [
         points: [
             'Door-to-door assistance',
             'Mobility support throughout the journey',
-            'Assistance at airports, railway stations, or other destinations',
+            'Assistance at airports, railway stations, and other destinations',
             'Safe handover to the designated person',
         ],
     },
@@ -102,8 +102,8 @@ const TRAVEL_CARDS = [
         title: 'Minor Travel Assistance',
         points: [
             'Safe pickup from home or school',
-            'Escort to school, tuition, airport, railway station, or other destinations',
-            'Continuous supervision during travel',
+            'Escort to school, tuition, the airport, the railway station, or other destinations',
+            'Continuous supervision during the journey',
             'Safe handover to the authorized guardian',
         ],
     },
@@ -116,18 +116,17 @@ const TABS = [
         shortLabel: 'Hospital Assistance',
         badge: 'Keeping Families Informed',
         badgeIcon: (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z" />
                 <polyline points="9 12 11 14 15 10" />
             </svg>
         ),
         headline: (
             <>
-             Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors & Their Families{' '}</span>
-                
+                Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors & Their Families</span>
             </>
         ),
-        subtext: "Your assigned Pro accompanies seniors throughout their hospital visit, providing assistance with hospital registration, appointment coordination, queue management, consultations, billing, pharmacy support, and a safe return home. Upon request, the Pro can securely upload the doctor's prescription to the WHY app and, where permitted by the hospital and with the doctor's consent, record the consultation for future reference. Families receive timely updates and a detailed visit summary, ensuring reassurance, transparency, and complete peace of mind.",
+        subtext: "Your assigned companion stays with the senior throughout the hospital visit. They help with hospital registration, appointments, waiting in the queue, doctor consultations, billing, pharmacy support, and a safe return home. If requested, the companion can upload the doctor's prescription to the WHY app and, where allowed by the hospital and doctor, record the consultation for future reference. Families receive regular updates and a detailed visit summary for complete peace of mind.",
         cards: HOSPITAL_CARDS,
         gridCols: 'md:grid-cols-2',
         maxW: 'max-w-5xl',
@@ -139,7 +138,7 @@ const TABS = [
         shortLabel: 'Travel Assistance',
         badge: 'Trusted Companion Services',
         badgeIcon: (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="9" />
                 <path d="M8 12l3 3 5-6" />
             </svg>
@@ -151,7 +150,7 @@ const TABS = [
                 <span style={{ color: "#52B5BD" }}>For Seniors, Persons with Disabilities & Minors</span>
             </>
         ),
-        subtext: "Your assigned WHY Pro provides safe and reliable travel assistance for senior citizens, persons with disabilities, and minors. We accompany customers from pickup to drop-off, ensuring a comfortable, secure, and worry-free journey while keeping families informed.",
+        subtext: "Your assigned WHY companion provides safe and reliable travel assistance for senior citizens, people with disabilities, and minors. We stay with them from pickup to drop-off, ensuring a safe, comfortable, and worry-free journey while keeping families updated.",
         cards: TRAVEL_CARDS,
         gridCols: 'md:grid-cols-3',
         maxW: 'max-w-5xl',
@@ -163,21 +162,21 @@ const TABS = [
 function CardIcon({ name, color }) {
     const icons = {
         hospital: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                 <polyline points="9 22 9 12 15 12 15 22" />
                 <line x1="12" y1="8" x2="12" y2="8" /><line x1="10" y1="10" x2="14" y2="10" /><line x1="12" y1="8" x2="12" y2="12" />
             </svg>
         ),
         pill: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M10.5 20H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v7" />
                 <line x1="12" y1="2" x2="12" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="16" y1="2" x2="16" y2="6" />
                 <circle cx="18" cy="18" r="4" /><line x1="18" y1="16" x2="18" y2="20" /><line x1="16" y1="18" x2="20" y2="18" />
             </svg>
         ),
         clipboard: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="4" y="4" width="16" height="18" rx="2" />
                 <path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z" />
                 <line x1="8" y1="11" x2="16" y2="11" />
@@ -186,14 +185,14 @@ function CardIcon({ name, color }) {
             </svg>
         ),
         car: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13" />
                 <path d="M3 13h18v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
                 <circle cx="7.5" cy="17.5" r="1.5" /><circle cx="16.5" cy="17.5" r="1.5" />
             </svg>
         ),
         wheelchair: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="4" r="1.5" fill={color} stroke="none" />
                 <path d="M9 7v6l5 3" />
                 <path d="M9 13H5" />
@@ -201,20 +200,8 @@ function CardIcon({ name, color }) {
                 <path d="M14 16l4 1 1 4" />
             </svg>
         ),
-        cart: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-            </svg>
-        ),
-        clock: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="9" />
-                <polyline points="12 7 12 12 15.5 14" />
-            </svg>
-        ),
         senior: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="10" cy="5" r="2.5" />
                 <path d="M10 9.5c-2.5 0-4.5 1.8-4.5 4.5v7" />
                 <path d="M10 9.5c2.5 0 4.5 1.8 4.5 4.5" />
@@ -223,7 +210,7 @@ function CardIcon({ name, color }) {
             </svg>
         ),
         child: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="6" r="2.5" />
                 <path d="M8 21v-6a4 4 0 0 1 8 0v6" />
                 <path d="M9 15l-2.5 2" />
@@ -260,22 +247,13 @@ function ServiceCard({ card, index }) {
         <div
             ref={ref}
             style={{
-                opacity: visible ? (card.comingSoon ? 0.85 : 1) : 0,
+                opacity: visible ? 1 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(32px)',
                 transition: 'opacity 0.55s ease, transform 0.55s ease',
                 borderTop: `4px solid ${card.accentBar}`,
             }}
             className="relative bg-white rounded-3xl p-7 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-4"
         >
-            {card.comingSoon && (
-                <span
-                    className="absolute top-5 right-5 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full"
-                    style={{ background: card.iconBg, color: card.iconColor }}
-                >
-                    Coming Soon
-                </span>
-            )}
-
             {/* Icon badge */}
             <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center"
@@ -307,7 +285,7 @@ function ServiceCard({ card, index }) {
 
             <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${card.iconBg}` }}>
                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
-                    {card.comingSoon ? 'COMING SOON' : 'SUPPORTED BY YOUR WHY COMPANION'}
+                    SUPPORTED BY YOUR WHY COMPANION
                 </span>
             </div>
         </div>
@@ -319,6 +297,7 @@ export default function CompanionServices() {
     const [headerVisible, setHeaderVisible] = useState(false)
     const [activeTab, setActiveTab] = useState('hospital') // default: hospital section
     const headerRef = useRef(null)
+    const tabRefs = useRef([])
 
     useEffect(() => {
         const el = headerRef.current
@@ -350,7 +329,27 @@ export default function CompanionServices() {
         return () => window.removeEventListener('why:companion-tab', handleExternalTabChange)
     }, [])
 
-    const active = TABS.find((t) => t.key === activeTab)
+    function handleTabKeyDown(e, currentIndex) {
+        let nextIndex = null
+
+        if (e.key === 'ArrowRight') {
+            nextIndex = (currentIndex + 1) % TABS.length
+        } else if (e.key === 'ArrowLeft') {
+            nextIndex = (currentIndex - 1 + TABS.length) % TABS.length
+        } else if (e.key === 'Home') {
+            nextIndex = 0
+        } else if (e.key === 'End') {
+            nextIndex = TABS.length - 1
+        }
+
+        if (nextIndex !== null) {
+            e.preventDefault()
+            setActiveTab(TABS[nextIndex].key)
+            tabRefs.current[nextIndex]?.focus()
+        }
+    }
+
+    const active = TABS.find((t) => t.key === activeTab) || TABS[0]
 
     return (
         <section
@@ -359,18 +358,18 @@ export default function CompanionServices() {
             className="relative py-24 overflow-hidden bg-[#F8F3EA]"
         >
             {/* Decorative blobs */}
-            <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-[#F2C89F]/30 -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#F2C89F]/25 translate-x-1/4 translate-y-1/4 pointer-events-none" />
+            <div aria-hidden="true" className="absolute top-0 left-0 w-72 h-72 rounded-full bg-[#F2C89F]/30 -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+            <div aria-hidden="true" className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#F2C89F]/25 translate-x-1/4 translate-y-1/4 pointer-events-none" />
 
             {/* Decorative dot grid - top left */}
-            <div className="hidden md:grid absolute top-16 left-16 grid-cols-6 gap-2 opacity-40 pointer-events-none">
+            <div aria-hidden="true" className="hidden md:grid absolute top-16 left-16 grid-cols-6 gap-2 opacity-40 pointer-events-none">
                 {Array.from({ length: 24 }).map((_, i) => (
                     <span key={i} className="w-1 h-1 rounded-full bg-[#C9A96A]" />
                 ))}
             </div>
 
             {/* Decorative dot grid - bottom right */}
-            <div className="hidden md:grid absolute bottom-16 right-16 grid-cols-6 gap-2 opacity-40 pointer-events-none">
+            <div aria-hidden="true" className="hidden md:grid absolute bottom-16 right-16 grid-cols-6 gap-2 opacity-40 pointer-events-none">
                 {Array.from({ length: 24 }).map((_, i) => (
                     <span key={i} className="w-1 h-1 rounded-full bg-[#C9A96A]" />
                 ))}
@@ -378,6 +377,7 @@ export default function CompanionServices() {
 
             {/* Decorative leaf branch - top right */}
             <svg
+                aria-hidden="true"
                 className="hidden md:block absolute -top-6 right-0 w-56 h-56 text-[#BFDAD4] opacity-70 pointer-events-none"
                 viewBox="0 0 200 200"
                 fill="none"
@@ -391,6 +391,7 @@ export default function CompanionServices() {
 
             {/* Decorative leaf branch - bottom left */}
             <svg
+                aria-hidden="true"
                 className="hidden md:block absolute -bottom-8 left-0 w-56 h-64 text-[#BFDAD4] opacity-70 pointer-events-none"
                 viewBox="0 0 200 220"
                 fill="none"
@@ -428,14 +429,19 @@ export default function CompanionServices() {
                             role="tablist"
                             aria-label="Companion service type"
                         >
-                            {TABS.map((tab) => {
+                            {TABS.map((tab, i) => {
                                 const isActive = tab.key === activeTab
                                 return (
                                     <button
                                         key={tab.key}
+                                        ref={(el) => (tabRefs.current[i] = el)}
+                                        id={`companion-tab-${tab.key}`}
                                         role="tab"
                                         aria-selected={isActive}
+                                        aria-controls={`companion-tabpanel-${tab.key}`}
+                                        tabIndex={isActive ? 0 : -1}
                                         onClick={() => setActiveTab(tab.key)}
+                                        onKeyDown={(e) => handleTabKeyDown(e, i)}
                                         className="relative px-4 py-2 sm:px-6 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-300 whitespace-nowrap"
                                         style={{
                                             color: isActive ? '#FFFFFF' : '#6a7f96',
@@ -459,7 +465,7 @@ export default function CompanionServices() {
                     {/* Divider with heart */}
                     <div className="flex items-center justify-center gap-3 mb-8">
                         <span className="w-10 h-px bg-[#E0B98A]" />
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#F2711F" stroke="none">
+                        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="#F2711F" stroke="none">
                             <path d="M12 21s-6.7-4.3-9.3-8.1C.8 10 1.5 6.6 4.3 5c2.2-1.3 4.9-.7 6.4 1.2.4.5 1.1.5 1.5 0C13.7 4.3 16.4 3.7 18.6 5c2.8 1.6 3.5 5 1.6 7.9C18.7 16.7 12 21 12 21z" />
                         </svg>
                         <span className="w-10 h-px bg-[#E0B98A]" />
@@ -471,7 +477,13 @@ export default function CompanionServices() {
                 </div>
 
                 {/* Cards */}
-                <div className={`grid grid-cols-1 ${active.gridCols} gap-6 text-left ${active.maxW} mx-auto`}>
+                <div
+                    id={`companion-tabpanel-${active.key}`}
+                    role="tabpanel"
+                    aria-labelledby={`companion-tab-${active.key}`}
+                    tabIndex={0}
+                    className={`grid grid-cols-1 ${active.gridCols} gap-6 text-left ${active.maxW} mx-auto`}
+                >
                     {active.cards.map((card, i) => (
                         <ServiceCard key={`${activeTab}-${card.title}`} card={card} index={i} />
                     ))}
@@ -485,7 +497,7 @@ export default function CompanionServices() {
                     }}
                     className="mt-14 inline-flex flex-col sm:flex-row items-center gap-4"
                 >
-                    
+
                     <p className="text-sm" style={{ color: "#8a9ab0" }}>
                         {active.ctaHint}
                     </p>
