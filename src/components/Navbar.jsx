@@ -319,12 +319,20 @@ export default function Navbar() {
           </ul>
 
           <div className="p-6 flex flex-col items-center gap-3">
-            <span
-              className="text-sm font-medium"
-              style={{ color: '#1B2A4A' }}
+            <a
+              href={PHONE_LINK}
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full border shadow-sm"
+              style={{
+                background: "#fff",
+                borderColor: "#52B5BD",
+                color: "#1B2A4A",
+              }}
             >
-              24/7 Support
-            </span>
+              <i className="fa-solid fa-headset text-[#52B5BD]"></i>
+              <span className="font-semibold text-sm sm:text-base">
+                24/7 Support
+              </span>
+            </a>
 
             <button
               onClick={() => setMobileBookOpen(!mobileBookOpen)}
