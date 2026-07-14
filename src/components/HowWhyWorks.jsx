@@ -111,7 +111,7 @@ export default function HowWhyWorks() {
         </div>
 
         <p className="fade-inner mb-20 text-lg" style={{ color: "#6a7f96" }}>
-         Systems thinking meets human companionship
+          Systems thinking meets human companionship
 
         </p>
 
@@ -153,22 +153,25 @@ export default function HowWhyWorks() {
 
         {/* Bottom Glass Box */}
         <div
-          className="fade-inner mt-24 inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white shadow-md"
+          className="fade-inner mt-16 sm:mt-24 inline-flex items-center gap-3 bg-white shadow-md rounded-full py-3 sm:py-5 px-6 sm:px-10"
         >
-          <Leaf className="w-5 h-5 text-[#52B5BD]" strokeWidth={1.75} />
-
-          <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#2F8F8A] flex items-center justify-center flex-shrink-0">
-            <ShieldCheck className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white" strokeWidth={2} />
+          <Leaf className="hidden sm:block w-5 h-5 text-[#52B5BD]" strokeWidth={1.75}/>
+          <span className="w-8 h-8 rounded-full bg-[#2F8F8A] flex items-center justify-center flex-shrink-0">
+            <ShieldCheck className="w-4 h-4 text-white" strokeWidth={2} />
           </span>
-
-          <p className="text-base sm:text-lg font-medium whitespace-nowrap" style={{ color: "#1a2a3a" }}>
-            Every step is{' '}
-            <span style={{ color: "#2F8F8A" }} className="font-semibold">monitored</span>.
-            {' '}Every task is{' '}
-            <span style={{ color: "#2F8F8A" }} className="font-semibold">accountable</span>
+          <p
+            className="text-base sm:text-lg font-medium text-center sm:text-left"
+            style={{ color: "#1a2a3a" }}
+          >
+            Every step is{" "}
+            <span className="font-semibold text-[#2F8F8A]">monitored</span>.{" "}
+            Every task is{" "}
+            <span className="font-semibold text-[#2F8F8A]">accountable</span>.
           </p>
-
-          <Leaf className="w-5 h-5 text-[#52B5BD]" strokeWidth={1.75} />
+          <Leaf
+            className="hidden sm:block w-5 h-5 text-[#52B5BD]"
+            strokeWidth={1.75}
+          />
         </div>
       </div>
     </section>
