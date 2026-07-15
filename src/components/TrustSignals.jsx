@@ -8,7 +8,7 @@ const signals = [
     number: '01',
     title: 'Verified',
     subtitle: 'Companions',
-    description: 'Every companion is thoroughly background-verified and professionally trained, ensuring trusted care and complete peace of mind.',
+    description: 'Every WHY PRO is thoroughly background-verified and professionally trained, ensuring trusted care and complete peace of mind.',
     Icon: CheckCircle2,
     theme: 'emerald',
     titleColor: 'text-emerald-600',

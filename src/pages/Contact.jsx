@@ -36,9 +36,9 @@ export default function Contact() {
               <br />
               Seshadripuram,
               <br />
-              Bangalore North,
+               Bengaluru  North,
               <br />
-              Bangalore – 560020,
+               Bengaluru  – 560020,
               <br />
               Karnataka
             </p>

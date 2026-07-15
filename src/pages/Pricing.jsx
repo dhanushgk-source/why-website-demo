@@ -21,8 +21,8 @@ const PLANS = [
     icon: Building2,
     title: 'Hospital Assistance',
     desc: 'Professional support inside hospitals and clinics.',
-    dayPrice: '1,999',
-    nightPrice: '3,999',
+    dayPrice: '1,499',
+    nightPrice: '2,499',
     includedHours: 'Up to 4 Hours',
     includes: [
       'Verified WHY Professional',
@@ -40,8 +40,8 @@ const PLANS = [
     icon: Car,
     title: 'Travel Assistance',
     desc: 'Companionship and support for your travel journey.',
-    dayPrice: '1,499',
-    nightPrice: '2,999',
+    dayPrice: '999',
+    nightPrice: '1,499',
     includedHours: 'Up to 4 Hours',
     includes: [
       'Verified WHY Professional',

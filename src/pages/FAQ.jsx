@@ -17,11 +17,11 @@ const FAQS = [
   },
   {
     q: "How do I pay?",
-    a: "Secure your booking with only 30% upfront — pay the remaining amount only after a safe and successful journey. Pay securely by card or UPI, international cards welcome. Money flows only through WHY, never directly to the companion.",
+    a: "Secure your booking with only 30% upfront — pay the remaining amount only after a safe and successful journey. Pay securely by card or UPI, international cards welcome. Money flows only through WHY, never directly to the WHY PRO.",
   },
   {
-    q: "Are companions verified?",
-    a: "Yes — every companion passes 6-point checks (identity, criminal & court records, references, health, WHY training, insurance), and you can verify any companion live via their QR page.",
+    q: "Are WHY PROs verified?",
+    a: "Yes — every WHY PRO passes 6-point checks (identity, criminal & court records, references, health, WHY training, insurance), and you can verify any WHY PRO live via their QR page.",
   },
   {
     q: "Do I need a subscription?",

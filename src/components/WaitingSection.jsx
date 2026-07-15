@@ -165,7 +165,7 @@ export default function WaitingSection() {
               </svg>
             </div>
             <div>
-              <div className="text-sm font-semibold" style={{ color: "#1a2a3a" }}>PRO Arrived</div>
+              <div className="text-sm font-semibold" style={{ color: "#1a2a3a" }}>WHY PRO Arrived</div>
               <div className="text-xs" style={{ color: "#8a9ab0" }}>Maria is at the location</div>
             </div>
           </div>

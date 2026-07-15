@@ -17,7 +17,7 @@ import {
 const TAGLINE = 'Companionship That Feels Like Family.'
 
 const SUBTEXT =
-  'WHY connects seniors and individual of all ages   with trusted companions, gives families complete peace of Mind, and creates meaningful opportunities for compassionate professionals.'
+  'WHY connects seniors and individual of all ages   with trusted WHY PROs, gives families complete peace of Mind, and creates meaningful opportunities for compassionate professionals.'
 
 const INFO_ITEMS = [
   { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
@@ -255,7 +255,7 @@ export default function Hero() {
                 style={revealStyle(1)}
               >
                 <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#0D9488]">
-                  Your Parents
+                  Your family 
                 </h1>
               </div>
 
@@ -264,7 +264,7 @@ export default function Hero() {
                 style={revealStyle(2)}
               >
                 <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#1B2A4A]">
-                  Even When
+                 When
                 </h1>
               </div>
 

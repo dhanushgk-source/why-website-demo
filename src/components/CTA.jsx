@@ -121,7 +121,7 @@ export default function CTA() {
           <a href={PHONE_LINK} className="text-white font-semibold hover:underline">
             {PHONE_DISPLAY}
           </a>{' '}
-          · Launching Soon in Bangalore and Chennai
+          · Launching Soon in  Bengaluru  and Chennai
         </div>
 
       </div>

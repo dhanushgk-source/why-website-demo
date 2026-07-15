@@ -58,7 +58,7 @@ const cards = [
     imageType: 'photo',
     image: '/Assests/pro.jpg',
     imageAlt:
-      'A caregiver in scrubs smiling, representing the PROs on the WHY platform',
+      'A caregiver in scrubs smiling, representing the WHY PROs on the WHY platform',
     title: 'For WHY PROs',
     items: [
       'Flexible Earnings',
@@ -195,7 +195,7 @@ export default function WhatIsWhy() {
         </div>
 
         <p className="fade-inner mx-auto mb-16 max-w-3xl text-lg text-[#0A1F44]/60">
-         One platform for seniors looking for companionship, families looking for peace of mind, and companions looking for meaningful work.
+         One platform for seniors looking for companionship, families looking for peace of mind, and WHY PRO looking for meaningful work.
         </p>
 
         {/* Cards */}

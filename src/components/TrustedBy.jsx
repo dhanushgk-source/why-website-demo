@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useSectionFade } from '../hooks/useSectionFade'
 import { ShieldCheck, Users, MapPin, Heart, Star, Leaf } from 'lucide-react'
 
-const coveredCities = ['Bangalore']
+const coveredCities = [' Bengaluru ']
 
 const statsData = [
   {

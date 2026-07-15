@@ -31,7 +31,7 @@ const cards = [
     tab: 'hospital',
     desc: 'Trusted support for consultations, hospital admissions, follow-up visits, and patient care.',
     image: '/Assests/hospital_assistant.jpg',
-    imageAlt: 'Hospital companion caring for patient',
+    imageAlt: 'Hospital PRO caring for patient',
   },
   {
     theme: 'orange',
@@ -48,9 +48,9 @@ const cards = [
     subtitle: 'Travel Assistance',
     sectionId: COMPANION_SECTION_ID,
     tab: 'travel',
-    desc: 'Trusted companions who accompany Seniors and Individuals during their journeys, providing comfort, support, and peace of mind.',
+    desc: 'Trusted WHY PROs who accompany Seniors and Individuals during their journeys, providing comfort, support, and peace of mind.',
     image: '/Assests/travel_assistant.jpg',
-    imageAlt: 'Travel companion assisting elderly',
+    imageAlt: 'Travel WHY PRO assisting elderly',
   },
 ]
 

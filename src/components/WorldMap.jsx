@@ -119,12 +119,23 @@ function getRandomWorldLocation() {
     return pick;
 }
 
-function FitBounds({ points }) {
+function FitBounds({ points, height }) {
     const map = useMap();
     useEffect(() => {
-        const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lon]));
-        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 3 });
-    }, [map, points]);
+        // The container height changes via React state (mobile/tablet/desktop
+        // breakpoints), but Leaflet caches its own internal size and doesn't
+        // know the DOM element resized unless told explicitly. Without this,
+        // the map keeps using its stale size, so fitBounds miscalculates and
+        // content ends up shifted/clipped (e.g. crammed at the bottom on mobile).
+        // A rAF delay ensures the CSS height change has actually been painted
+        // before Leaflet measures the container.
+        const id = requestAnimationFrame(() => {
+            map.invalidateSize();
+            const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lon]));
+            map.fitBounds(bounds, { padding: [50, 50], maxZoom: 3 });
+        });
+        return () => cancelAnimationFrame(id);
+    }, [map, points, height]);
     return null;
 }
 
@@ -263,7 +274,7 @@ function GeoJSONLayer({ userCountry, networkCountries }) {
 const features = [
     {
         title: "Verified Companion Network",
-        desc: "Background-Verified Companions– Launching Soon in Bangalore.",
+        desc: "Background-Verified Companions– Launching Soon in  Bengaluru .",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
     },
@@ -416,9 +427,89 @@ export default function WorldMap() {
 
             <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center z-10">
 
-                {/* LEFT — Map */}
+                {/* LEFT (was RIGHT) — Content */}
                 <div
-                    className="relative rounded-[24px] sm:rounded-[35px] overflow-hidden shadow-xl"
+                    ref={rightPanelRef}
+                    style={{
+                        opacity: isVisible ? 1 : 0,
+                        transform: isVisible ? "translateY(0)" : "translateY(28px)",
+                        transition: "opacity 0.6s ease, transform 0.6s ease",
+                    }}
+                    className="order-1 lg:order-1 flex flex-col justify-center px-1 sm:px-4 lg:px-8 xl:px-14 py-6 sm:py-8 lg:py-0"
+                >
+                    <span
+                        className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 bg-white shadow-sm w-fit"
+                        style={{ color: "#2F8F8A" }}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M2 12h20" />
+                            <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9z" />
+                        </svg>
+                        Care Beyond Borders
+                    </span>
+
+                    <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-3 sm:mb-5 tracking-tight" style={{ color: "#1B2A4A" }}>
+                        Stay Close to Your Parents,
+                        <br />
+                        {isIndiaVisitor ? (
+                            <span style={{ color: "#52B5BD" }}>
+                                Wherever You Are.
+                            </span>
+                        ) : (
+                            <span style={{ color: "#52B5BD" }}>
+                               Even from {user.country}.
+                            </span>
+                        )}
+                    </h1>
+
+                    <p className="text-base sm:text-lg leading-relaxed mb-2 sm:mb-3" style={{ color: "#6a7f96" }}>
+                        <span className="bg-[#F2C89F]/40 font-semibold px-1 rounded-sm box-decoration-clone" style={{ color: "#1a2a3a" }}>
+                            Distance may separate families, but it should never separate care.
+                        </span>{" "}
+                        {isIndiaVisitor ? (
+                            <>
+                                Whether you're living abroad or in another city, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified WHY PRO across India—keeping you informed, reassured, and connected every step of the way.
+                            </>
+                        ) : (
+                            <>
+                                Whether you're currently living in{" "}
+                                <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified WHY PRO across India—keeping you informed, reassured, and connected every step of the way.
+                            </>
+                        )}
+                    </p>
+
+                    <div className="space-y-3 sm:space-y-5 mb-6 sm:mb-10">
+                        {features.map((f, i) => (
+                            <div
+                                key={f.title}
+                                className="flex items-start gap-3 sm:gap-4"
+                                style={{
+                                    opacity: isVisible ? 1 : 0,
+                                    transform: isVisible ? "translateY(0)" : "translateY(16px)",
+                                    transition: `opacity 0.5s ease ${0.2 + i * 0.1}s, transform 0.5s ease ${0.2 + i * 0.1}s`,
+                                }}
+                            >
+                                <div
+                                    className="w-8 h-8 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                                    style={{ background: f.iconBg, color: f.iconColor }}
+                                >
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-base sm:text-lg" style={{ color: "#1a2a3a" }}>{f.title}</p>
+                                    <p className="text-sm sm:text-base mt-0.5" style={{ color: "#8a9ab0" }}>{f.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* RIGHT (was LEFT) — Map */}
+                <div
+                    className="order-2 lg:order-2 relative rounded-[24px] sm:rounded-[35px] overflow-hidden shadow-xl"
                     style={{
                         padding: "12px",
                         height: `${mapHeight}px`,
@@ -445,7 +536,7 @@ export default function WorldMap() {
                             background: "#1a6a9a",
                         }}
                     >
-                        <FitBounds points={allBoundsPoints} />
+                        <FitBounds points={allBoundsPoints} height={mapHeight} />
                         <GeoJSONLayer userCountry={user.country} networkCountries={GLOBAL_NETWORK_COUNTRIES} />
 
                         {/* 12 countries connected to India, each showing distance */}
@@ -511,90 +602,6 @@ export default function WorldMap() {
                                 <p className="text-[10px] sm:text-xs" style={{ color: "#8a9ab0" }}>Companion en route</p>
                             </div>
                         </div>
-                    </div>
-
-                    
-                </div>
-
-               {/* RIGHT — Content */}
-                <div
-                    ref={rightPanelRef}
-                    style={{
-                        opacity: isVisible ? 1 : 0,
-                        transform: isVisible ? "translateY(0)" : "translateY(28px)",
-                        transition: "opacity 0.6s ease, transform 0.6s ease",
-                    }}
-                    className="flex flex-col justify-center px-1 sm:px-4 lg:px-8 xl:px-14 py-6 sm:py-8 lg:py-0"
-                >
-                    <span
-                        className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 bg-white shadow-sm w-fit"
-                        style={{ color: "#2F8F8A" }}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="9" />
-                            <path d="M2 12h20" />
-                            <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9z" />
-                        </svg>
-                        Care Beyond Borders
-                    </span>
-
-                    <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-3 sm:mb-5 tracking-tight" style={{ color: "#1B2A4A" }}>
-                        Stay Close to Your Parents,
-                        <br />
-                        {isIndiaVisitor ? (
-                            <span style={{ color: "#52B5BD" }}>
-                                Wherever You Are.
-                            </span>
-                        ) : (
-                            <span style={{ color: "#52B5BD" }}>
-                               Even from {user.country}.
-                            </span>
-                        )}
-                    </h1>
-
-                    <p className="text-base sm:text-lg leading-relaxed mb-2 sm:mb-3" style={{ color: "#6a7f96" }}>
-                        <span className="bg-[#F2C89F]/40 font-semibold px-1 rounded-sm box-decoration-clone" style={{ color: "#1a2a3a" }}>
-                            Distance may separate families, but it should never separate care.
-                        </span>{" "}
-                        {isIndiaVisitor ? (
-                            <>
-                                Whether you're living abroad or in another city, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified companions across India—keeping you informed, reassured, and connected every step of the way.
-                            </>
-                        ) : (
-                            <>
-                                Whether you're currently living in{" "}
-                                <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified companions across India—keeping you informed, reassured, and connected every step of the way.
-                            </>
-                        )}
-                    </p>
-
-                    
-
-                    <div className="space-y-3 sm:space-y-5 mb-6 sm:mb-10">
-                        {features.map((f, i) => (
-                            <div
-                                key={f.title}
-                                className="flex items-start gap-3 sm:gap-4"
-                                style={{
-                                    opacity: isVisible ? 1 : 0,
-                                    transform: isVisible ? "translateY(0)" : "translateY(16px)",
-                                    transition: `opacity 0.5s ease ${0.2 + i * 0.1}s, transform 0.5s ease ${0.2 + i * 0.1}s`,
-                                }}
-                            >
-                                <div
-                                    className="w-8 h-8 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                                    style={{ background: f.iconBg, color: f.iconColor }}
-                                >
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-base sm:text-lg" style={{ color: "#1a2a3a" }}>{f.title}</p>
-                                    <p className="text-sm sm:text-base mt-0.5" style={{ color: "#8a9ab0" }}>{f.desc}</p>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
 

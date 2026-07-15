@@ -301,7 +301,7 @@ export default function TravelCompanion() {
                         </svg>
                     </button>
                     <p className="text-sm" style={{ color: "#8a9ab0" }}>
-                        Background-verified companions · Real-time family updates · Available whenever you need support
+                        Background-verified WHY PROs · Real-time family updates · Available whenever you need support
                     </p>
                 </div>
 

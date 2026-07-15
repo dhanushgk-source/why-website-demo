@@ -16,7 +16,7 @@ export function getWhatsAppLink(message = DEFAULT_WHATSAPP_MESSAGE) {
 export const PHONE_LINK = `tel:${PHONE_TEL}`;
 
 // WHY currently operates only in Bengaluru.
-export const LOCATIONS = ['Bangalore','Chennai'];
+export const LOCATIONS = ['Bengaluru ','Chennai'];
 export const LOCATIONS_NOTE = ' coming soon.';
 
 // Support is available around the clock, on the same number as WhatsApp.
