@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE,WHATSAPP_NUMBER } from "../config/contact";
+import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE, WHATSAPP_NUMBER } from "../config/contact";
 import { useSectionNav } from "../hooks/useSectionNav";
 
 // Both "Hospital Assistance" and "Travel Companionship" now live in the same
@@ -12,12 +12,12 @@ const COMPANION_SECTION_ID = 'Hospital-companion-section';
 const scrollIds = {
   'How it Works': 'WHY-Works-section',
   'Hospital Assistance': COMPANION_SECTION_ID,
-  'Travel Companionship': COMPANION_SECTION_ID,
+  'Travel Assistance': COMPANION_SECTION_ID,
 };
 
 const companionTabs = {
   'Hospital Assistance': 'hospital',
-  'Travel Companionship': 'travel',
+  'Travel Assistance': 'travel',
 };
 
 // Routes for the Company column links that aren't in-page scroll targets.
@@ -52,8 +52,7 @@ export default function Footer() {
           <img src="/Assests/WHY_logo.png" alt="WHY Logo" className="w-16 mb-6" />
 
           <p className="text-base text-white/70 leading-relaxed mb-6">
-            Connecting People with Verified, Trusted PRO for Your Care and Assistance. Because Every Moment Deserves
-            to be Shared.
+            Connecting people with verified and trusted WHY PROs for compassionate care and assistance. Because every moment deserves to be shared.
           </p>
 
           <div className="space-y-5 text-white/70 text-base">
@@ -67,7 +66,7 @@ export default function Footer() {
               </div>
               <span className="transition duration-300 group-hover:text-[#6ED3C8]">
                 {PHONE_DISPLAY}
-                <span className="block text-xs text-white/50">24/7 Support</span>
+                <span className="block text-xs text-white/50">24/7 Customer Support</span>
               </span>
             </a>
 
@@ -84,8 +83,8 @@ export default function Footer() {
                 </span>
               </div>
               <span className="transition duration-300 group-hover:text-[#6ED3C8]">
-                Book on WhatsApp
-                <span className="block text-xs text-white/50">{WHATSAPP_NUMBER}</span>
+                Book via WhatsApp                
+              <span className="block text-xs text-white/50">{WHATSAPP_NUMBER}</span>
               </span>
             </a>
 
@@ -121,7 +120,7 @@ export default function Footer() {
         <div>
           <h4 className="text-xl font-semibold mb-6">Services</h4>
           <ul className="space-y-4 text-white/70 text-base">
-            {['Hospital Assistance', 'Travel Companionship'].map((s) => (
+            {['Hospital Assistance', 'Travel Assistance'].map((s) => (
               <li key={s} className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
                 {scrollIds[s] ? (

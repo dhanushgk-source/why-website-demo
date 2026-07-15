@@ -87,7 +87,7 @@ export default function CTA() {
 
         {/* Buttons */}
         <div className="fade-inner flex flex-wrap justify-center items-center gap-6">
-
+        {/*
           <button
             className="flex items-center gap-3 px-8 py-4 rounded-full font-semibold shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl"
             style={{ background: '#ffffff', color: '#2F4A7D' }}
@@ -95,20 +95,21 @@ export default function CTA() {
             <img src="/Assests/icons/download.svg" width="20" alt="" style={{ filter: 'invert(24%) sepia(23%) saturate(1200%) hue-rotate(190deg)' }} />
             Download the App
           </button>
+        */}
 
           <a
-            href={getWhatsAppLink()}
+            href={PHONE_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20"
           >
             <img src="/Assests/icons/msg.svg" className="white-icon" width="20" alt="" />
-            Talk to WHY Support
+            Contact WHY Support
           </a>
 
           <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20">
             <img src="/Assests/icons/user_Plus.svg" className="white-icon" width="20" alt="" />
-            Join as a PRO
+            Join Our WHY PRO Team
           </button>
 
         </div>
@@ -119,7 +120,7 @@ export default function CTA() {
           <a href={PHONE_LINK} className="text-white font-semibold hover:underline">
             {PHONE_DISPLAY}
           </a>{' '}
-          · Launching Soon in Bengaluru and Chennai
+          · Launching Soon in Bangalore and Chennai
         </div>
 
       </div>

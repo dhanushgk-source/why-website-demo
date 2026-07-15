@@ -11,7 +11,7 @@ const HOSPITAL_CARDS = [
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
         title: 'Hospital Assistance',
-        desc: "Your WHY companion stays with seniors and anyone who needs help during hospital visits. We provide safe and reliable support from arrival to departure, so no one has to visit the hospital alone.",
+        desc: "Your WHY PRO stays with seniors and anyone who needs help during hospital visits. We provide safe and reliable support from arrival to departure, so no one has to visit the hospital alone.",
         points: [
             'Escort to hospitals and clinics',
             'Accompany and assist during doctor consultations',
@@ -25,7 +25,7 @@ const HOSPITAL_CARDS = [
         iconColor: "#2F4A7D",
         accentBar: "#2F4A7D",
         title: 'Medicine & Pharmacy Assistance',
-        desc: "Your WHY companion helps with prescription collection, pharmacy visits, medicine purchases, and other pharmacy-related support. We make sure the prescribed medicines are collected safely while keeping families updated. If requested, the prescription can also be securely uploaded to the WHY app for easy access.",
+        desc: "Your WHY PRO helps with prescription collection, pharmacy visits, medicine purchases, and other pharmacy-related support. We make sure the prescribed medicines are collected safely while keeping families updated. If requested, the prescription can also be securely uploaded to the WHY app for easy access.",
         points: [
             'Collect prescribed medicines from pharmacies',
             'Accompany customers to pharmacies and assist with billing',
@@ -41,7 +41,7 @@ const HOSPITAL_CARDS = [
         iconColor: "#4A9D6E",
         accentBar: "#4A9D6E",
         title: "Hospital Visit Summary & Family Updates",
-        desc: "After every hospital visit, your assigned WHY companion shares a clear and detailed visit summary with your family, keeping them informed and giving them peace of mind. If requested, the companion can securely upload the doctor's prescription to the WHY app and, where allowed, record the doctor's consultation for future reference.",
+        desc: "After every hospital visit, your assigned WHY PRO shares a clear and detailed visit summary with your family, keeping them informed and giving them peace of mind. If requested, the WHY PRO can securely upload the doctor's prescription to the WHY app and, where allowed, record the doctor's consultation for future reference.",
         points: [
             "Summary of the hospital visit",
             "Services completed during the visit",
@@ -55,7 +55,7 @@ const HOSPITAL_CARDS = [
         iconColor: "#E07A5F",
         accentBar: "#E07A5F",
         title: 'Emergency Hospital Assistance',
-        desc: "When an urgent hospital visit is needed, your assigned WHY companion provides quick support from pickup to a safe return home, ensuring the customer is assisted throughout the visit.",
+        desc: "When an urgent hospital visit is needed, your assigned WHY PRO provides quick support from pickup to a safe return home, ensuring the customer is assisted throughout the visit.",
         points: [
             'Urgent hospital visit assistance',
             'Pickup and accompaniment to the hospital',
@@ -126,11 +126,11 @@ const TABS = [
                 Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors & Their Families</span>
             </>
         ),
-        subtext: "Your assigned companion stays with the senior throughout the hospital visit. They help with hospital registration, appointments, waiting in the queue, doctor consultations, billing, pharmacy support, and a safe return home. If requested, the companion can upload the doctor's prescription to the WHY app and, where allowed by the hospital and doctor, record the consultation for future reference. Families receive regular updates and a detailed visit summary for complete peace of mind.",
+        subtext: "Your assigned WHY PRO accompanies seniors and  Individuals of all ages throughout the hospital visit. They help with hospital registration, appointments, waiting in the queue, doctor consultations, billing, pharmacy support, and a safe return home. If requested, the WHY PRO can upload the doctor's prescription to the WHY app and, where allowed by the hospital and doctor, record the consultation for future reference. Families receive regular updates and a detailed visit summary for complete peace of mind.",
         cards: HOSPITAL_CARDS,
         gridCols: 'md:grid-cols-2',
         maxW: 'max-w-5xl',
-        ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
+        ctaHint: 'Our WHY PRO provide assistance and support only. Vehicle transportation is not provided as part of any service.',
         // Show these as a paged carousel instead of a grid.
         paged: true,
     },
@@ -149,14 +149,14 @@ const TABS = [
             <>
                 Safe & Reliable Travel Assistance
                 <br className="hidden sm:block" />{' '}
-                <span style={{ color: "#52B5BD" }}>For Seniors, Persons with Disabilities & Minors</span>
+                <span style={{ color: "#52B5BD" }}>For senior and Individuals  Who Needs a Helping Hand</span>
             </>
         ),
-        subtext: "Your assigned WHY companion provides safe and reliable travel assistance for senior citizens, people with disabilities, and minors. We stay with them from pickup to drop-off, ensuring a safe, comfortable, and worry-free journey while keeping families updated.",
+        subtext: "Your assigned WHY PRO provides safe, reliable, and compassionate travel assistance from pickup to drop-off. Whether it's a temple, airport transfer, family function, trip or any other destination, we ensure a comfortable, secure, and worry-free journey while keeping loved ones informed.",
         cards: TRAVEL_CARDS,
         gridCols: 'md:grid-cols-3',
         maxW: 'max-w-5xl',
-        ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
+        ctaHint: 'Our WHY PRO provide assistance and support only. Vehicle transportation is not provided as part of any service.',
         paged: true,
     },
 ]

@@ -77,7 +77,7 @@ function formatDistance(km) {
 
 const INDIA = { city: "India", country: "India", lat: 20.5937, lon: 78.9629 };
 
-// The 20 countries permanently shown connected to India
+// The 12 countries permanently shown connected to India
 const GLOBAL_NETWORK_COUNTRIES_BASE = [
     { city: "New York", country: "United States", lat: 40.7128, lon: -74.006 },
     { city: "London", country: "United Kingdom", lat: 51.5072, lon: -0.1276 },
@@ -86,19 +86,11 @@ const GLOBAL_NETWORK_COUNTRIES_BASE = [
     { city: "Dubai", country: "United Arab Emirates", lat: 25.2048, lon: 55.2708 },
     { city: "Singapore", country: "Singapore", lat: 1.3521, lon: 103.8198 },
     { city: "Berlin", country: "Germany", lat: 52.52, lon: 13.405 },
-    { city: "Auckland", country: "New Zealand", lat: -36.8485, lon: 174.7633 },
     { city: "Tokyo", country: "Japan", lat: 35.6762, lon: 139.6503 },
-    { city: "Paris", country: "France", lat: 48.8566, lon: 2.3522 },
-    { city: "Muscat", country: "Oman", lat: 23.588, lon: 58.3829 },
+    { city: "Beijing", country: "China", lat: 39.9042, lon: 116.4074 },
+    { city: "Moscow", country: "Russia", lat: 55.7558, lon: 37.6173 },
     { city: "Riyadh", country: "Saudi Arabia", lat: 24.7136, lon: 46.6753 },
-    { city: "Doha", country: "Qatar", lat: 25.2854, lon: 51.531 },
-    { city: "Kuala Lumpur", country: "Malaysia", lat: 3.139, lon: 101.6869 },
-    { city: "Amsterdam", country: "Netherlands", lat: 52.3676, lon: 4.9041 },
-    { city: "Dublin", country: "Ireland", lat: 53.3498, lon: -6.2603 },
-    { city: "Zurich", country: "Switzerland", lat: 47.3769, lon: 8.5417 },
     { city: "Johannesburg", country: "South Africa", lat: -26.2041, lon: 28.0473 },
-    { city: "Hong Kong", country: "Hong Kong", lat: 22.3193, lon: 114.1694 },
-    { city: "Los Angeles", country: "United States", lat: 34.0522, lon: -118.2437 },
 ];
 
 // Precompute distance to India for each network country
@@ -240,19 +232,19 @@ function GeoJSONLayer({ userCountry, networkCountries }) {
 const features = [
     {
         title: "Verified Companion Network",
-        desc: "Background Verified Companions in Bangalore, Coming Soon to Chennai",
+        desc: "Background-Verified Companions– Launching Soon in Bangalore.",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
     },
     {
         title: "Live Visit Tracking",
-        desc: "Receive live updates from arrival to visit completion.",
+        desc: "Receive live updates from your WHY PRO's arrival until the visit is completed.",
         iconBg: "#EAF0FA",
         iconColor: "#2F4A7D",
     },
     {
         title: "Hospital & Travel Assistance",
-        desc: "Reliable Companionship for Appointments, Hospital and Travel Assistance.",
+        desc: "Reliable companionship for hospital  and travel assistance.",
         iconBg: "#FDF0EC",
         iconColor: "#E07A5F",
     },

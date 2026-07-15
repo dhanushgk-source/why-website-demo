@@ -4,28 +4,28 @@ import { Leaf, ShieldCheck } from 'lucide-react'
 const steps = [
   {
     icon: '/Assests/icons/profile.svg',
-    title: 'Book a PRO',
-    desc: 'Book your PRO and\nshare the care needs & location',
+    title: 'Book a WHY PRO',
+    desc: 'Book your WHY PRO and share your care needs and location.',
   },
   {
     icon: '/Assests/icons/VUser.svg',
-    title: 'PRO Accepts the Booking',
-    desc: 'Your PRO confirms the\nbooking and gets ready',
+    title: 'WHY PRO Accepts the Booking',
+    desc: 'Your WHY PRO confirms the booking and prepares to assist you.',
   },
   {
     icon: '/Assests/icons/location.svg',
-    title: 'PRO Arrives',
-    desc: 'Your PRO reaches the\npickup location',
+    title: 'WHY PRO Reaches Pickup Location',
+    desc: 'Your journey begins as your WHY PRO arrives at the pickup location to accompany you.',
   },
   {
     icon: '/Assests/icons/heart_rate.svg',
     title: 'Care & Support Provided',
-    desc: 'Your PRO stays by their side\nthroughout the visit',
+    desc: 'Your WHY PRO stays with you throughout the visit.',
   },
   {
     icon: '/Assests/icons/VDocs.svg',
-    title: 'Visit Summary Shared',
-    desc: 'Receive the visit summary\nand important updates',
+    title: 'Trip and Health Summary Shared',
+    desc: 'Receive a complete visit report and hospital health summary.',
   },
 ]
 
@@ -111,7 +111,7 @@ export default function HowWhyWorks() {
         </div>
 
         <p className="fade-inner mb-20 text-lg" style={{ color: "#6a7f96" }}>
-          Systems thinking meets human companionship
+           Smart Technology Meets Human Compassion
 
         </p>
 
