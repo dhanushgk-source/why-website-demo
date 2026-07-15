@@ -131,7 +131,7 @@ const TABS = [
         gridCols: 'md:grid-cols-2',
         maxW: 'max-w-5xl',
         ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
-        // Show these as a one-at-a-time paged carousel instead of a grid.
+        // Show these as a paged carousel instead of a grid.
         paged: true,
     },
     {
@@ -157,7 +157,7 @@ const TABS = [
         gridCols: 'md:grid-cols-3',
         maxW: 'max-w-5xl',
         ctaHint: 'Our companions provide assistance and support only. Vehicle transportation is not provided as part of any service.',
-        paged : true,
+        paged: true,
     },
 ]
 
@@ -272,16 +272,23 @@ function ServiceCard({ card, index }) {
                 )}
             </div>
 
-            <ul className="space-y-2.5 mt-1">
+            <ul className="space-y-4 mt-2">
                 {card.points.map((point, i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm" style={{ color: "#3a4a5a" }}>
+                    <li
+                        key={i}
+                        className="flex items-start gap-4"
+                        style={{ color: "#3a4a5a" }}
+                    >
                         <div
-                            className="w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                            className="w-7 h-7 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 mt-0.5"
                             style={{ background: card.accentBar }}
                         >
                             ✓
                         </div>
-                        {point}
+
+                        <span className="flex-1 text-left text-[15px] leading-7">
+                            {point}
+                        </span>
                     </li>
                 ))}
             </ul>
@@ -295,29 +302,60 @@ function ServiceCard({ card, index }) {
     )
 }
 
-// One-at-a-time card pager: prev/next arrows + dot navigation, with
-// swipe support on touch devices and left/right arrow-key support.
+// Card pager: 1 card at a time on mobile, 2 cards side-by-side on tablet
+// & desktop. Arrows/swipe/keys advance by however many cards are visible.
 function CardPager({ cards, tabKey }) {
     const [page, setPage] = useState(0)
+    // Cards shown at once: 1 on mobile (<640px), 2 on tablet & desktop (>=640px).
+    const [cardsPerView, setCardsPerView] = useState(() =>
+        typeof window !== 'undefined' && window.innerWidth >= 640 ? 2 : 1
+    )
     const touchStartX = useRef(null)
+
+    // Track viewport so the pager switches between 1-at-a-time and
+    // 2-at-a-time as the window is resized (not just on first render).
+    useEffect(() => {
+        function handleResize() {
+            setCardsPerView(window.innerWidth >= 640 ? 2 : 1)
+        }
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
     // Reset to the first card whenever the underlying tab/cards change.
     useEffect(() => {
         setPage(0)
     }, [tabKey])
 
-    const goTo = (i) => {
-        const next = (i + cards.length) % cards.length
+    // Keep `page` aligned to a group boundary when cardsPerView changes
+    // (e.g. resizing from mobile to desktop mid-browse).
+    useEffect(() => {
+        setPage((p) => p - (p % cardsPerView))
+    }, [cardsPerView])
+
+    // direction: +1 (next) or -1 (prev). Steps by cardsPerView so desktop/
+    // tablet advance two cards at a time, mobile advances one.
+    const goTo = (direction) => {
+        const step = cardsPerView
+        let next = page + direction * step
+
+        if (next >= cards.length) {
+            next = 0
+        } else if (next < 0) {
+            const lastGroupStart = Math.floor((cards.length - 1) / step) * step
+            next = Math.max(lastGroupStart, 0)
+        }
+
         setPage(next)
     }
 
     function handleKeyDown(e) {
         if (e.key === 'ArrowRight') {
             e.preventDefault()
-            goTo(page + 1)
+            goTo(1)
         } else if (e.key === 'ArrowLeft') {
             e.preventDefault()
-            goTo(page - 1)
+            goTo(-1)
         }
     }
 
@@ -330,12 +368,22 @@ function CardPager({ cards, tabKey }) {
         const delta = e.changedTouches[0].clientX - touchStartX.current
         const SWIPE_THRESHOLD = 40
         if (delta > SWIPE_THRESHOLD) {
-            goTo(page - 1)
+            goTo(-1)
         } else if (delta < -SWIPE_THRESHOLD) {
-            goTo(page + 1)
+            goTo(1)
         }
         touchStartX.current = null
     }
+
+    // Dot pagination reflects groups (pairs on tablet/desktop, singles on
+    // mobile) rather than every individual card.
+    const groupStarts = []
+    for (let i = 0; i < cards.length; i += cardsPerView) {
+        groupStarts.push(i)
+    }
+    const activeGroupIndex = groupStarts.findIndex(
+        (start) => page >= start && page < start + cardsPerView
+    )
 
     return (
         <div
@@ -351,7 +399,7 @@ function CardPager({ cards, tabKey }) {
                 {/* Prev arrow */}
                 <button
                     type="button"
-                    onClick={() => goTo(page - 1)}
+                    onClick={() => goTo(-1)}
                     aria-label="Previous card"
                     className="hidden sm:flex items-center justify-center w-11 h-11 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex-shrink-0"
                     style={{ color: "#2F4A7D" }}
@@ -361,15 +409,38 @@ function CardPager({ cards, tabKey }) {
                     </svg>
                 </button>
 
-                {/* Card slot — key forces the fade/slide-in effect on page change */}
                 <div className="flex-1 min-w-0">
-                    <ServiceCard key={`${tabKey}-${cards[page].title}`} card={cards[page]} index={0} />
+                    {/* Mobile: one card */}
+                    <div className="block sm:hidden">
+                        <ServiceCard
+                            key={`${tabKey}-${cards[page].title}`}
+                            card={cards[page]}
+                            index={0}
+                        />
+                    </div>
+
+                    {/* Tablet & Desktop: two cards side by side */}
+                    <div className="hidden sm:grid grid-cols-2 gap-6">
+                        <ServiceCard
+                            key={`${tabKey}-${page}-left`}
+                            card={cards[page]}
+                            index={0}
+                        />
+
+                        {cards[page + 1] && (
+                            <ServiceCard
+                                key={`${tabKey}-${page}-right`}
+                                card={cards[page + 1]}
+                                index={1}
+                            />
+                        )}
+                    </div>
                 </div>
 
                 {/* Next arrow */}
                 <button
                     type="button"
-                    onClick={() => goTo(page + 1)}
+                    onClick={() => goTo(1)}
                     aria-label="Next card"
                     className="hidden sm:flex items-center justify-center w-11 h-11 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex-shrink-0"
                     style={{ color: "#2F4A7D" }}
@@ -384,7 +455,7 @@ function CardPager({ cards, tabKey }) {
             <div className="flex sm:hidden items-center justify-center gap-6 mt-4">
                 <button
                     type="button"
-                    onClick={() => goTo(page - 1)}
+                    onClick={() => goTo(-1)}
                     aria-label="Previous card"
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md"
                     style={{ color: "#2F4A7D" }}
@@ -398,7 +469,7 @@ function CardPager({ cards, tabKey }) {
                 </span>
                 <button
                     type="button"
-                    onClick={() => goTo(page + 1)}
+                    onClick={() => goTo(1)}
                     aria-label="Next card"
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md"
                     style={{ color: "#2F4A7D" }}
@@ -409,20 +480,20 @@ function CardPager({ cards, tabKey }) {
                 </button>
             </div>
 
-            {/* Dot pagination */}
+            {/* Dot pagination — one dot per visible group (pair on tablet/desktop) */}
             <div className="hidden sm:flex items-center justify-center gap-2.5 mt-6">
-                {cards.map((c, i) => (
+                {groupStarts.map((start, i) => (
                     <button
-                        key={c.title}
+                        key={start}
                         type="button"
-                        onClick={() => goTo(i)}
-                        aria-label={`Go to card ${i + 1}: ${c.title}`}
-                        aria-current={i === page}
+                        onClick={() => setPage(start)}
+                        aria-label={`Go to cards ${start + 1}${cardsPerView > 1 && cards[start + 1] ? `-${start + 2}` : ''}`}
+                        aria-current={i === activeGroupIndex}
                         className="rounded-full transition-all duration-300"
                         style={{
-                            width: i === page ? '28px' : '9px',
+                            width: i === activeGroupIndex ? '28px' : '9px',
                             height: '9px',
-                            background: i === page ? '#52B5BD' : '#D8E3E8',
+                            background: i === activeGroupIndex ? '#52B5BD' : '#D8E3E8',
                         }}
                     />
                 ))}
