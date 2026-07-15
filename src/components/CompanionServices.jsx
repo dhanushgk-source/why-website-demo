@@ -73,12 +73,12 @@ const TRAVEL_CARDS = [
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
         accentBar: "#52B5BD",
-        title: 'Senior Travel Assistance',
+        title: 'Safe Pickup & Companion Support',
         points: [
-            'Safe pickup and drop-off',
-            'Companion support throughout the journey',
-            'Help with boarding and mobility',
-            'Safe arrival updates for the family',
+            'Safe pickup from your location',
+            'Door-to-door accompaniment ',
+            'Comfortable travel support',
+            'Compassionate WHY PRO throughout the journey ',
         ],
     },
     {
@@ -86,12 +86,12 @@ const TRAVEL_CARDS = [
         iconBg: "#EAF0FA",
         iconColor: "#2F4A7D",
         accentBar: "#2F4A7D",
-        title: 'Travel Assistance for Persons with Disabilities',
+        title: 'Travel & Mobility Assistance',
         points: [
-            'Door-to-door assistance',
-            'Mobility support throughout the journey',
-            'Assistance at airports, railway stations, and other destinations',
-            'Safe handover to the designated person',
+            'Mobility and boarding assistance ',
+            'Support at airports, railway stations, bus terminals, temples, and other destinations ',
+            'Assistance with essential belongings',
+            'Comfortable and secure travel experience',
         ],
     },
     {
@@ -99,12 +99,12 @@ const TRAVEL_CARDS = [
         iconBg: "#EEF8F1",
         iconColor: "#4A9D6E",
         accentBar: "#4A9D6E",
-        title: 'Minor Travel Assistance',
+        title: 'Safe Arrival & Family Updates',
         points: [
-            'Safe pickup from home or school',
-            'Escort to school, tuition, the airport, the railway station, or other destinations',
-            'Continuous supervision during the journey',
-            'Safe handover to the authorized guardian',
+            'Safe arrival at the destination',
+            'Handover to the designated person (if applicable)',
+            'Arrival confirmation to family or caregivers',
+            'Journey completed with care and peace of mind ',
         ],
     },
 ]
@@ -295,7 +295,7 @@ function ServiceCard({ card, index }) {
 
             <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${card.iconBg}` }}>
                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
-                    SUPPORTED BY YOUR WHY COMPANION
+                    SUPPORTED BY YOUR WHY PRO
                 </span>
             </div>
         </div>
