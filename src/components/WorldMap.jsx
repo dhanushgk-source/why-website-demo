@@ -9,13 +9,25 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Markers
-const blueIcon = new L.Icon({
-    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
-    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [28, 44],
-    iconAnchor: [14, 44],
-});
+// User-location marker — inline SVG divIcon (no external image files,
+// which were failing to load and showing as a broken-image marker).
+function userLocationIcon(color = "#2F6FED") {
+    return L.divIcon({
+        className: "",
+        html: `
+          <div style="position:relative;width:28px;height:36px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.35));">
+            <svg viewBox="0 0 24 32" width="28" height="36" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C6 0 1 5 1 11c0 8 11 21 11 21s11-13 11-21c0-6-5-11-11-11z"
+                    fill="${color}" stroke="white" stroke-width="1.5" />
+              <circle cx="12" cy="11" r="4.2" fill="white" />
+            </svg>
+          </div>
+        `,
+        iconSize: [28, 36],
+        iconAnchor: [14, 36],
+        popupAnchor: [0, -32],
+    });
+}
 
 function countryDotIcon(color = "#2F4A7D") {
     return L.divIcon({
@@ -188,40 +200,59 @@ function GeoJSONLayer({ userCountry, networkCountries }) {
     const layerRef = useRef(null);
 
     useEffect(() => {
+        let cancelled = false;
         const networkNames = networkCountries.map((c) => c.country.toLowerCase());
 
-        fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson")
-            .then((r) => r.json())
-            .then((data) => {
-                if (layerRef.current) layerRef.current.remove();
-                const layer = L.geoJSON(data, {
-                    style: (feature) => {
-                        const name = feature.properties.ADMIN || feature.properties.name || "";
-                        const lower = name.toLowerCase();
-                        const isUserCountry = lower === userCountry.toLowerCase();
-                        const isIndia = lower === "india";
-                        const isNetworkCountry = networkNames.includes(lower);
-                        return {
-                            fillColor: isIndia
-                                ? "#52B5BD"
-                                : isUserCountry
-                                ? "#2F4A7D"
-                                : isNetworkCountry
-                                ? "#5C7FA8"
-                                : getCountryColor(name),
-                            fillOpacity: isIndia ? 0.9 : isUserCountry || isNetworkCountry ? 0.75 : 0.55,
-                            color: "#0d3d5c",
-                            weight: 0.6,
-                            opacity: 1,
-                        };
-                    },
-                    interactive: false,
-                }).addTo(map);
-                layerRef.current = layer;
-            })
-            .catch(console.error);
+        // Primary source plus a CDN mirror fallback, in case the primary
+        // request is blocked/fails in a given deployment environment.
+        const sources = [
+            "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson",
+            "https://cdn.jsdelivr.net/gh/datasets/geo-countries@master/data/countries.geojson",
+        ];
+
+        function styleFn(feature) {
+            const name = feature.properties.ADMIN || feature.properties.name || "";
+            const lower = name.toLowerCase();
+            const isUserCountry = lower === userCountry.toLowerCase();
+            const isIndia = lower === "india";
+            const isNetworkCountry = networkNames.includes(lower);
+            return {
+                fillColor: isIndia
+                    ? "#52B5BD"
+                    : isUserCountry
+                    ? "#2F4A7D"
+                    : isNetworkCountry
+                    ? "#5C7FA8"
+                    : getCountryColor(name),
+                fillOpacity: isIndia ? 0.9 : isUserCountry || isNetworkCountry ? 0.75 : 0.55,
+                color: "#0d3d5c",
+                weight: 0.6,
+                opacity: 1,
+            };
+        }
+
+        // Try each source in order; only fall through to the next on failure.
+        async function loadFromSources() {
+            for (const url of sources) {
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const data = await res.json();
+                    if (cancelled) return;
+                    if (layerRef.current) layerRef.current.remove();
+                    layerRef.current = L.geoJSON(data, { style: styleFn, interactive: false }).addTo(map);
+                    return; // success — stop trying further sources
+                } catch (err) {
+                    console.warn(`Country map source failed (${url}):`, err);
+                }
+            }
+            console.error("All country map sources failed to load.");
+        }
+
+        loadFromSources();
 
         return () => {
+            cancelled = true;
             if (layerRef.current) layerRef.current.remove();
         };
     }, [map, userCountry, networkCountries]);
@@ -417,7 +448,7 @@ export default function WorldMap() {
                         <FitBounds points={allBoundsPoints} />
                         <GeoJSONLayer userCountry={user.country} networkCountries={GLOBAL_NETWORK_COUNTRIES} />
 
-                        {/* 20 countries connected to India, each showing distance */}
+                        {/* 12 countries connected to India, each showing distance */}
                         <AnimatedNetworkLines origins={GLOBAL_NETWORK_COUNTRIES} destination={india} />
                         {GLOBAL_NETWORK_COUNTRIES.map((c) => (
                             <Marker key={c.country} position={[c.lat, c.lon]} icon={countryDotIcon("#2F4A7D")}>
@@ -433,7 +464,7 @@ export default function WorldMap() {
 
                         {/* Personalized visitor line + marker */}
                         <AnimatedPolyline positions={[[user.lat, user.lon], [india.lat, india.lon]]} color="#52B5BD" />
-                        <Marker position={[user.lat, user.lon]} icon={blueIcon}>
+                        <Marker position={[user.lat, user.lon]} icon={userLocationIcon("#2F6FED")}>
                             <Popup>
                                 <div className="text-center">
                                     <h3 className="font-bold text-blue-600">Your Location</h3>
