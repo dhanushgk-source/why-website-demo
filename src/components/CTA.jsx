@@ -106,11 +106,12 @@ export default function CTA() {
             <img src="/Assests/icons/msg.svg" className="white-icon" width="20" alt="" />
             Contact WHY Support
           </a>
-
+        {/* 
           <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20">
             <img src="/Assests/icons/user_Plus.svg" className="white-icon" width="20" alt="" />
             Join Our WHY PRO Team
           </button>
+        */}
 
         </div>
 
