@@ -3,7 +3,7 @@ import {  HeartHandshake, ShieldCheck, Leaf, Heart } from 'lucide-react'
 
 const problems = [
   { text: 'Seniors and people attending hospital visits alone.', theme: 'orange' },
-  { text: 'Busy working professionals supporting their families.', theme: 'teal' },
+  { text: 'Busy working professionals Caring for Their families.', theme: 'teal' },
   { text: 'Difficulty finding verified and reliable companions.', theme: 'indigo' },
   { text: 'Families living away from their loved ones.', theme: 'coral' },
 ]
@@ -84,7 +84,7 @@ export default function ParentSection() {
   When You Can't Be There,{' '}
   <br className="hidden sm:block" />
   <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-    WHY is there.
+    WHY is There.
   </span>
 </h2>
 
@@ -129,7 +129,7 @@ export default function ParentSection() {
           <p className="text-base sm:text-xl font-semibold text-[#0A1F44]">
            WHY provides  {' '}
             <span className="text-[#F2883B]">Trusted Companionship, </span> {' '}
-            <span className="text-[#5D5DEE]">Reliable Support,</span> {' '}
+            <span className="text-[#5D5DEE]">Reliable Support,</span> {' '}and {' '}
             <span className="text-[#11AD9D]">Comfort for Every Family</span>
           </p>
         </div>

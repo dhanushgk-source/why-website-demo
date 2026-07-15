@@ -255,7 +255,7 @@ function ServiceCard({ card, index }) {
                 transition: 'opacity 0.55s ease, transform 0.55s ease',
                 borderTop: `4px solid ${card.accentBar}`,
             }}
-            className="relative bg-white rounded-3xl p-7 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-4"
+            className="relative bg-white rounded-3xl p-9 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-5 text-left h-full"
         >
             {/* Icon badge */}
             <div
@@ -387,7 +387,9 @@ function CardPager({ cards, tabKey }) {
 
     return (
         <div
-            className="max-w-xl mx-auto"
+            // Wider container so paired cards get real horizontal room
+            // instead of feeling squeezed.
+            className="max-w-6xl mx-auto text-left"
             tabIndex={0}
             onKeyDown={handleKeyDown}
             onTouchStart={handleTouchStart}
@@ -419,8 +421,8 @@ function CardPager({ cards, tabKey }) {
                         />
                     </div>
 
-                    {/* Tablet & Desktop: two cards side by side */}
-                    <div className="hidden sm:grid grid-cols-2 gap-6">
+                    {/* Tablet & Desktop: two cards side by side, equal height */}
+                    <div className="hidden sm:grid grid-cols-2 gap-8 items-stretch">
                         <ServiceCard
                             key={`${tabKey}-${page}-left`}
                             card={cards[page]}

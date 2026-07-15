@@ -17,7 +17,7 @@ import {
 const TAGLINE = 'Companionship That Feels Like Family.'
 
 const SUBTEXT =
-  'Connecting seniors and people of all ages with trusted companions, giving families peace of mind, and creating meaningful opportunities for caring professionals.'
+  'WHY connects seniors and individual of all ages   with trusted companions, gives families complete peace of Mind, and creates meaningful opportunities for compassionate professionals.'
 
 const INFO_ITEMS = [
   { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
@@ -320,7 +320,7 @@ export default function Hero() {
                 <ArrowRight className="w-4 h-4" />
               </span>
 
-              Book a Companion
+              Book Your Companion
             </button>
 
             <button

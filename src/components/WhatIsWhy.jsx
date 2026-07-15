@@ -23,7 +23,7 @@ const cards = [
       'An elderly couple smiling, representing the elders and families WHY supports',
     title: 'For Seniors & Families',
     items: [
-      'Peace of mind',
+      'Peace of Mind',
       'Independence',
       'Dignity & Respect',
       'Trusted Human Companionship',
@@ -44,7 +44,7 @@ const cards = [
     items: [
       'Trusted & Verified Platform',
       'Quality Assurance',
-      'Dedicated Support Team',
+      'Dedicated Customer Support',
       'Emergency Assistance',
     ],
   },
