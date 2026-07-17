@@ -21,7 +21,7 @@ const cards = [
     image: '/Assests/elder .jpg',
     imageAlt:
       'An elderly couple smiling, representing the elders and families WHY supports',
-    title: 'For Seniors & Families',
+    title: 'For Seniors & Individuals of all ages ',
     items: [
       'Peace of Mind',
       'Independence',

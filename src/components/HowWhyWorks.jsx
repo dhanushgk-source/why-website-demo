@@ -14,8 +14,8 @@ const steps = [
   },
   {
     icon: '/Assests/icons/location.svg',
-    title: 'WHY PRO Reaches Pickup Location',
-    desc: 'Your journey begins as your WHY PRO arrives at the pickup location to accompany you.',
+    title: 'WHY PRO Meets You at the Pickup Location',
+    desc: 'Your WHY PRO meets you at the agreed location and accompanies you throughout your journey using your preferred mode of transportation.',
   },
   {
     icon: '/Assests/icons/heart_rate.svg',
@@ -24,7 +24,7 @@ const steps = [
   },
   {
     icon: '/Assests/icons/VDocs.svg',
-    title: 'Trip and Health Summary Shared',
+    title: 'Service Summary Shared',
     desc: 'Receive a complete visit report and hospital health summary.',
   },
 ]

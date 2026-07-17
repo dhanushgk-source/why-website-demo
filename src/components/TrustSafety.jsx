@@ -45,7 +45,7 @@ export default function TrustSafety() {
     <section
       ref={sectionRef}
       id="savefty-section"
-      className="relative py-20 lg:py-32 overflow-hidden bg-[#F8F3EA]"
+      className="relative py-12 lg:py-20 overflow-hidden bg-[#F8F3EA]"
     >
       {/* Decorative blobs */}
       <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-[#F2C89F]/30 -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
@@ -92,9 +92,9 @@ export default function TrustSafety() {
       </svg>
 
       {/* Heading */}
-      <div className="relative max-w-6xl mx-auto px-6 text-center mb-16 lg:mb-20 z-10">
+      <div className="relative max-w-6xl mx-auto px-6 text-center mb-10 lg:mb-14 z-10">
         <span
-          className="fade-inner inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-8 bg-white shadow-sm"
+          className="fade-inner inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-5 bg-white shadow-sm"
           style={{ color: "#2F8F8A" }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F8F8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -104,12 +104,12 @@ export default function TrustSafety() {
           Verified &amp; Supervised
         </span>
 
-        <h2 className="fade-inner font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight" style={{ color: "#1B2A4A" }}>
+        <h2 className="fade-inner font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 tracking-tight" style={{ color: "#1B2A4A" }}>
           Trust &amp; <span style={{ color: "#52B5BD" }}>Safety</span>
         </h2>
 
         {/* Divider with heart */}
-        <div className="fade-inner flex items-center justify-center gap-3 mb-6">
+        <div className="fade-inner flex items-center justify-center gap-3 mb-4">
           <span className="w-10 h-px bg-[#E0B98A]" />
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#F2711F" stroke="none">
             <path d="M12 21s-6.7-4.3-9.3-8.1C.8 10 1.5 6.6 4.3 5c2.2-1.3 4.9-.7 6.4 1.2.4.5 1.1.5 1.5 0C13.7 4.3 16.4 3.7 18.6 5c2.8 1.6 3.5 5 1.6 7.9C18.7 16.7 12 21 12 21z" />
@@ -132,10 +132,10 @@ export default function TrustSafety() {
           return (
             <div
               key={i}
-              className={`fade-inner relative mb-16 flex flex-col lg:flex-row lg:items-center ${isRight ? 'lg:justify-end' : ''}`}
+              className={`fade-inner relative mb-10 flex flex-col lg:flex-row lg:items-center ${isRight ? 'lg:justify-end' : ''}`}
             >
               <div className={`w-full lg:w-1/2 ${isRight ? 'lg:pl-10' : 'lg:pr-10 lg:text-right'} pl-16 lg:pl-0 transition duration-500 hover:scale-105 hover:-translate-y-2`}>
-                <div className="bg-white p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-500">
+                <div className="bg-white p-4 lg:p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-500">
                   <h3 className="text-xl font-semibold mb-2" style={{ color: "#1a2a3a" }}>{item.title}</h3>
                   <p className="text-sm" style={{ color: "#6a7f96" }}>{item.desc}</p>
                 </div>
@@ -152,8 +152,8 @@ export default function TrustSafety() {
       </div>
 
       {/* Bottom Statement */}
-      <div className="relative mt-20 text-center px-6 z-10">
-        <div className="fade-inner inline-block bg-white px-8 py-6 rounded-2xl shadow-md">
+      <div className="relative mt-12 text-center px-6 z-10">
+        <div className="fade-inner inline-block bg-white px-6 py-4 rounded-2xl shadow-md">
           <h3 className="text-xl font-semibold mb-2" style={{ color: "#1a2a3a" }}>WHY is not a marketplace.</h3>
           <p style={{ color: "#6a7f96" }}>It's a supervised companion system.</p>
         </div>

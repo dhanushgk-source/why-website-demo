@@ -19,10 +19,13 @@ const TAGLINE = 'Companionship That Feels Like Family.'
 const SUBTEXT =
   'WHY connects seniors and individual of all ages   with trusted WHY PROs, gives families complete peace of Mind, and creates meaningful opportunities for compassionate professionals.'
 
+const WHY_PRO_EXPLAINER =
+  "WHY PRO is a trained and verified human companion who provides assistance during hospital and travel. WHY does not provide transportation or vehicles. Customers are responsible for arranging their own transportation. WHY's role is to provide a professional human companion who accompanies and assists the customer throughout the service."
+
 const INFO_ITEMS = [
   { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
   { icon: HeartHandshake, title: 'Families', subtitle: 'Peace of Mind' },
-  { icon: User, title: 'Companions', subtitle: 'Build Meaningful Connections' },
+  { icon: User, title: 'WHY PRO', subtitle: 'Build Meaningful Connections' },
 ]
 
 const REVEAL_DELAY = 130
@@ -299,10 +302,18 @@ export default function Hero() {
 
             {/* Subtext */}
             <p
-              className={`text-gray-500 text-sm sm:text-base max-w-md mb-6 ${revealClass}`}
+              className={`text-gray-500 text-sm sm:text-base max-w-md mb-3 ${revealClass}`}
               style={revealStyle(6)}
             >
               {SUBTEXT}
+            </p>
+
+            {/* WHY PRO explainer */}
+            <p
+              className={`text-gray-500 text-xs sm:text-sm max-w-md mb-6 ${revealClass}`}
+              style={revealStyle(6)}
+            >
+              {WHY_PRO_EXPLAINER}
             </p>
 
           </div>
@@ -314,20 +325,20 @@ export default function Hero() {
           >
             <button
               onClick={scrollToNextSection}
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#F2711F] text-white font-semibold text-sm sm:text-base hover:bg-[#D9600F] transition-all duration-500 shadow-lg shadow-orange-900/10 hover:scale-105 active:scale-95"
+              className="flex items-center gap-2 px-8 py-4 rounded-full bg-[#F2711F] text-white font-bold text-base sm:text-lg hover:bg-[#D9600F] transition-all duration-500 shadow-lg shadow-orange-900/10 hover:scale-105 active:scale-95"
             >
               <span className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center">
                 <ArrowRight className="w-4 h-4" />
               </span>
 
-              Book Your Companion
+              Book Your WHY PRO
             </button>
 
             <button
             onClick={scrollToHowSection}
-              className="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-sm sm:text-base hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-xs sm:text-sm hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
             >
-              <PlayCircle className="w-5 h-5 text-[#0D9488]" />
+              <PlayCircle className="w-4 h-4 text-[#0D9488]" />
 
               See How It Works
             </button>

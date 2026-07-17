@@ -274,7 +274,7 @@ function GeoJSONLayer({ userCountry, networkCountries }) {
 const features = [
     {
         title: "Verified Companion Network",
-        desc: "Background-Verified Companions– Launching Soon in  Bengaluru .",
+        desc: "Background-Verified WHY PRO's  Launching Soon in  Bengaluru .",
         iconBg: "#E8F8F9",
         iconColor: "#52B5BD",
     },
@@ -469,12 +469,12 @@ export default function WorldMap() {
                         </span>{" "}
                         {isIndiaVisitor ? (
                             <>
-                                Whether you're living abroad or in another city, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified WHY PRO across India—keeping you informed, reassured, and connected every step of the way.
+                                Whether you're living abroad or in another city, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified WHY PRO's across India—keeping you informed, reassured, and connected every step of the way.
                             </>
                         ) : (
                             <>
                                 Whether you're currently living in{" "}
-                                <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified WHY PRO across India—keeping you informed, reassured, and connected every step of the way.
+                                <strong style={{ color: "#1a2a3a" }}>{user.city}, {user.country}</strong>, <strong style={{ color: "#1a2a3a" }}>WHY</strong> connects your parents with trusted, background-verified WHY PRO's across India—keeping you informed, reassured, and connected every step of the way.
                             </>
                         )}
                     </p>

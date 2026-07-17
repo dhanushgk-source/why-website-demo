@@ -58,7 +58,7 @@ const HOSPITAL_CARDS = [
         desc: "When an urgent hospital visit is needed, your assigned WHY PRO provides quick support from pickup to a safe return home, ensuring the customer is assisted throughout the visit.",
         points: [
             'Urgent hospital visit assistance',
-            'Pickup and accompaniment to the hospital',
+            'Accompany the customer to the hospital.',
             'Help with hospital registration and doctor consultation',
             'Pharmacy and billing assistance',
             'Safe return home',
@@ -75,7 +75,7 @@ const TRAVEL_CARDS = [
         accentBar: "#52B5BD",
         title: 'Safe Pickup & Companion Support',
         points: [
-            'Safe pickup from your location',
+            'WHY PRO meets you at your pickup location',
             'Door-to-door accompaniment ',
             'Comfortable travel support',
             'Compassionate WHY PRO throughout the journey ',
@@ -91,7 +91,7 @@ const TRAVEL_CARDS = [
             'Mobility and boarding assistance ',
             'Support at airports, railway stations, bus terminals, temples, and other destinations ',
             'Assistance with essential belongings',
-            'Comfortable and secure travel experience',
+            'Comfortable and secure companion support throughout the journey.',
         ],
     },
     {
@@ -123,14 +123,14 @@ const TABS = [
         ),
         headline: (
             <>
-                Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors & Their Families</span>
+                Hospital Visits Made Easier <br className="hidden sm:block" /><span style={{ color: "#52B5BD" }}>For Seniors and Individuals of All Ages</span>
             </>
         ),
-        subtext: "Your assigned WHY PRO accompanies seniors and  Individuals of all ages throughout the hospital visit. They help with hospital registration, appointments, waiting in the queue, doctor consultations, billing, pharmacy support, and a safe return home. If requested, the WHY PRO can upload the doctor's prescription to the WHY app and, where allowed by the hospital and doctor, record the consultation for future reference. Families receive regular updates and a detailed visit summary for complete peace of mind.",
+        subtext: "Your assigned WHY PRO accompanies seniors and  individuals of all ages throughout the hospital visit. They help with hospital registration, appointments, waiting in the queue, doctor consultations, billing, pharmacy support, and a safe return home. If requested, the WHY PRO can upload the doctor's prescription to the WHY app and, where allowed by the hospital and doctor, record the consultation for future reference. Families receive regular updates and a detailed visit summary for complete peace of mind.",
         cards: HOSPITAL_CARDS,
         gridCols: 'md:grid-cols-2',
         maxW: 'max-w-5xl',
-        ctaHint: 'Our WHY PRO provide assistance and support only. Vehicle transportation is not provided as part of any service.',
+        ctaHint: 'WHY provides trained human companions only. Transportation (car, taxi, auto, metro, bus, etc.) is arranged by the customer and is not included in our services.',
         // Show these as a paged carousel instead of a grid.
         paged: true,
     },
@@ -152,11 +152,11 @@ const TABS = [
                 <span style={{ color: "#52B5BD" }}>For senior and Individuals  Who Needs a Helping Hand</span>
             </>
         ),
-        subtext: "Your assigned WHY PRO provides safe, reliable, and compassionate travel assistance from pickup to drop-off. Whether it's a temple, airport transfer, family function, trip or any other destination, we ensure a comfortable, secure, and worry-free journey while keeping loved ones informed.",
+        subtext: "Your assigned WHY PRO accompanies you throughout your journey, from your pickup location to your destination, using your preferred mode of transportation.",
         cards: TRAVEL_CARDS,
         gridCols: 'md:grid-cols-3',
         maxW: 'max-w-5xl',
-        ctaHint: 'Our WHY PRO provide assistance and support only. Vehicle transportation is not provided as part of any service.',
+        ctaHint: 'WHY provides trained human companions only. Transportation (car, taxi, auto, metro, bus, etc.) is arranged by the customer and is not included in our services.',
         paged: true,
     },
 ]

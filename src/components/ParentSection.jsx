@@ -2,7 +2,7 @@ import { useSectionFade } from '../hooks/useSectionFade'
 import {  HeartHandshake, ShieldCheck, Leaf, Heart } from 'lucide-react'
 
 const problems = [
-  { text: 'Seniors and people attending hospital visits alone.', theme: 'orange' },
+  { text: 'Seniors and individuals attending hospital visits alone.', theme: 'orange' },
   { text: 'Busy working professionals Caring for Their families.', theme: 'teal' },
   { text: 'Difficulty finding verified and reliable companions.', theme: 'indigo' },
   { text: 'Families living away from their loved ones.', theme: 'coral' },

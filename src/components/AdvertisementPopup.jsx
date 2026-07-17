@@ -168,6 +168,12 @@ export default function AdvertisementPopup() {
 
             <p>{ad.description}</p>
 
+            <p className="ad-disclaimer">
+              Note: WHY provides trained human companions only.
+              Transportation (cab, auto, metro, bus, or personal vehicle) is
+              arranged by the customer.
+            </p>
+
             {ad.button_link && (
               <a
                 href={ad.button_link}
