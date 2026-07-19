@@ -206,6 +206,14 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
+              <Link to="/cp-pro" className="hover:text-[#6ED3C8] transition">Cancellation Policy - PRO</Link>
+            </li>
+            <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
+              <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
+              <Link to="/cp-user" className="hover:text-[#6ED3C8] transition">Cancellation Policy - User</Link>
+            </li>
+            <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
+              <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
               <Link to="/data-deletion" className="hover:text-[#6ED3C8] transition">Data Deletion Policy</Link>
             </li>
           </ul>

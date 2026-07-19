@@ -3,28 +3,6 @@ import { Link } from "react-router-dom";
 export default function DataDeletion() {
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen text-gray-700">
-      {/* Header */}
-      <header className="bg-white shadow-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex justify-start">
-            <Link to="/">
-              <img
-                src="/Assests/WHY_logo.png"
-                alt="WHY logo"
-                className="h-14 hover:-translate-y-0.5 hover:shadow-lg transition duration-300"
-              />
-            </Link>
-          </div>
-
-          <Link
-            to="/"
-            className="text-sm text-[#2F4A7D] hover:text-[#41D0C3] transition"
-          >
-            ← Back to Home
-          </Link>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="py-16 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-[#2F4A7D] mb-4">

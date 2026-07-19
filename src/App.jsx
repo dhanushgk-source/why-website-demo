@@ -62,6 +62,8 @@ import ManageJobs from "./pages/admin/ManageJobs";
 import CreateJob from "./pages/admin/CreateJob";
 import Applications from "./pages/admin/Applications";
 import EditJob from "./pages/admin/EditJob";
+import CancellationPolicyPro from "./pages/Cancellationpolicypro";
+import CancellationPolicyUser from "./pages/Cancellationpolicyuser";
 
 function Home() {
   const location = useLocation();
@@ -115,14 +117,18 @@ function AppLayout() {
   const isCareerOrAdmin =
     pathname.startsWith("/careers") || pathname.startsWith("/admin");
 
-  const hideGlobalLayout = [
-    "/contact",
-    "/faq",
+  const hideGlobalLayout = ["/contact", "/faq"].includes(pathname);
+
+  // Support/legal pages: still get the same Navbar as the home page, but
+  // never the full site Footer (they keep their own simple in-page footer).
+  const hideFooterOnly = [
     "/data-deletion",
     "/privacy-policy-user",
     "/privacy-policy-pro",
     "/terms-user",
     "/terms-pro",
+    "/cp-pro",
+    "/cp-user",
   ].includes(pathname);
 
   // Every route change should land at the top of the new page — unless
@@ -153,6 +159,8 @@ function AppLayout() {
           <Route path="/privacy-policy-pro" element={<PrivacyPolicyPro />} />
           <Route path="/terms-user" element={<TermsUser />} />
           <Route path="/terms-pro" element={<TermsPro />} />
+          <Route path="/cp-pro" element={<CancellationPolicyPro />} />
+          <Route path="/cp-user" element={<CancellationPolicyUser />} />
 
 
           {/* Home */}
@@ -207,7 +215,7 @@ function AppLayout() {
         {!isCareerOrAdmin && !hideGlobalLayout && (
           <>
             {/* <StickyDownload /> */}
-            <Footer />
+            {!hideFooterOnly && <Footer />}
             <CookieBanner />
             <WhatsAppFloat />
             {/*<ScrollTopBottom />*/}
