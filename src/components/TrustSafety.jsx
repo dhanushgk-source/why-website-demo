@@ -10,7 +10,7 @@ const safetyItems = [
   {
     icon: '/Assests/icons/shield_verified.svg',
     title: 'Background checks',
-    desc: 'Criminal Records, Education History and Reference Verification',
+    desc: 'Education History and Reference Verification',
     align: 'right',
   },{
     icon: '/Assests/icons/eye.svg',
