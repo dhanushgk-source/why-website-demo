@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { label: 'Pricing', path: '/pricing' },
   { label: 'Safety', path: '/trust and safety' },
   { label: 'About', path: '/about' },
+  { label: 'Careers', path: '/Careers' },
 ]
 
 const BOOK_OPTIONS = [
