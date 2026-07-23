@@ -18,7 +18,7 @@ const cards = [
     BulletIcon: Heart,
     HeaderIcon: Heart,
     imageType: 'photo',
-    image: '/Assests/elder .jpg',
+    image: '/Assests/elder .webp',
     imageAlt:
       'An elderly couple smiling, representing the elders and families WHY supports',
     title: 'For Seniors & Individuals of all ages ',
@@ -56,7 +56,7 @@ const cards = [
     BulletIcon: User,
     HeaderIcon: Users,
     imageType: 'photo',
-    image: '/Assests/pro.jpg',
+    image: '/Assests/pro.webp',
     imageAlt:
       'A caregiver in scrubs smiling, representing the WHY PROs on the WHY platform',
     title: 'For WHY PROs',
@@ -217,6 +217,7 @@ export default function WhatIsWhy() {
                   <img
                     src={card.image}
                     alt={card.imageAlt}
+                    
                     loading="lazy"
                     className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
                   />

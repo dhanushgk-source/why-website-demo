@@ -188,7 +188,7 @@ export default function Hero() {
             <div
               className="absolute inset-0"
               style={{
-                backgroundImage: "url('/Assests/elder.png')",
+                backgroundImage: "url('/Assests/elder.webp')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center top',
                 clipPath: 'url(#heroImageClip)',
