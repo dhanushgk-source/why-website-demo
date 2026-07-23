@@ -49,7 +49,7 @@ export default function Footer() {
 
         {/* Logo & About */}
         <div>
-          <img src="/Assests/WHY_logo.png" alt="WHY Logo" className="w-16 mb-6" />
+          <img src="/Assests/WHY_logo.png" alt="WHY Logo" className="w-40 mb-6" />
 
           <p className="text-base text-white/70 leading-relaxed mb-6">
             Connecting people with verified and trusted WHY PROs for compassionate care and assistance. Because every moment deserves to be shared.
