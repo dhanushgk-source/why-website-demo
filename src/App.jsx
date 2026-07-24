@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy, useRef, useState } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { scrollToId } from "./utils/scrollNav";
 
@@ -15,7 +15,7 @@ import CookieBanner from "./components/CookieBanner";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import ScrollTopBottom from "./components/ScrollTopDown";
 
-// Home Sections
+// Home Sections (eagerly loaded)
 import Hero from "./components/Hero";
 import ChooseExperience from "./components/ChooseExperience";
 import TrustSignals from "./components/TrustSignals";
@@ -26,7 +26,6 @@ import ParentSection from "./components/ParentSection";
 import WhatIsWhy from "./components/WhatIsWhy";
 import HowWhyWorks from "./components/HowWhyWorks";
 import WaitingSection from "./components/WaitingSection";
-import WorldMap from "./components/WorldMap"
 import TrustSafety from "./components/TrustSafety";
 import CTA from "./components/CTA";
 import ProNurseCare from "./components/ProNurseCare";
@@ -65,6 +64,69 @@ import EditJob from "./pages/admin/EditJob";
 import CancellationPolicyPro from "./pages/Cancellationpolicypro";
 import CancellationPolicyUser from "./pages/Cancellationpolicyuser";
 
+// Lazy load WorldMap with IntersectionObserver
+const WorldMapLazy = lazy(() => import("./components/WorldMap"));
+
+// Skeleton placeholder for WorldMap
+const WorldMapSkeleton = () => (
+  <div className="w-full py-12 bg-gray-50">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="animate-pulse">
+        <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4"></div>
+        <div className="h-4 bg-gray-200 rounded w-96 mx-auto mb-8"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="h-64 bg-gray-200 rounded-lg"></div>
+          <div className="h-64 bg-gray-200 rounded-lg"></div>
+          <div className="h-64 bg-gray-200 rounded-lg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Lazy loaded WorldMap wrapper with IntersectionObserver
+function LazyWorldMap() {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        rootMargin: '200px', // Start loading when within 200px of viewport
+        threshold: 0.01
+      }
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef}>
+      {shouldLoad ? (
+        <Suspense fallback={<WorldMapSkeleton />}>
+          <WorldMapLazy />
+        </Suspense>
+      ) : (
+        <WorldMapSkeleton />
+      )}
+    </div>
+  );
+}
+
 function Home() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -102,7 +164,7 @@ function Home() {
       <CompanionServices />
       <HowWhyWorks />
       {/*<WaitingSection />*/}
-      <WorldMap />
+      <LazyWorldMap />
       {/*<TrustSafety />*/}
       {/*<BlogSection /> */}
       {/*<TestimonialsSlideshow />*/}

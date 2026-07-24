@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import "./index.css";
 import 'leaflet/dist/leaflet.css';
+import "./font.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
