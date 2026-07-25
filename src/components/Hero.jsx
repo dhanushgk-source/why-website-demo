@@ -1,4 +1,6 @@
 import React from "react";
+import { PHONE_LINK, ANDROID_APP_LINK, IOS_APP_LINK, getWhatsAppLink } from "../config/contact";
+import { useState } from "react";
 
 // Tiny inline icons (no external icon package to download/parse).
 // Each is a plain 24x24 stroke SVG, styled via currentColor so
@@ -69,6 +71,42 @@ const Icon = {
       <path d="M10 8.5 15.5 12 10 15.5Z" />
     </svg>
   ),
+  phone: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  ),
+  whatsapp: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+    </svg>
+  ),
+  android: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8.5" />
+      <path d="M7 2v3" />
+      <path d="M17 2v3" />
+      <path d="M3 7.5h18" />
+      <path d="M8 12h.01" />
+      <path d="M16 12h.01" />
+    </svg>
+  ),
+  apple: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 4a4 4 0 0 1 3.5-2 4 4 0 0 1-3.5 2z" />
+      <path d="M12 4v16" />
+      <path d="M12 20a4 4 0 0 1-3.5 2 4 4 0 0 1 3.5-2z" />
+      <path d="M12 20a4 4 0 0 0 3.5 2 4 4 0 0 0-3.5-2z" />
+      <path d="M12 4a4 4 0 0 0-3.5 2 4 4 0 0 0 3.5-2z" />
+      <circle cx="12" cy="12" r="9" />
+    </svg>
+  ),
+  close: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M18 6L6 18" />
+      <path d="M6 6l12 12" />
+    </svg>
+  ),
 };
 
 const features = [
@@ -95,18 +133,53 @@ const features = [
 ];
 
 export default function CareHero() {
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  const BOOK_OPTIONS = [
+    {
+      label: "Call Us",
+      href: PHONE_LINK,
+      icon: Icon.phone,
+      color: "text-blue-600",
+      bgColor: "bg-blue-50 group-hover:bg-blue-100",
+      borderColor: "group-hover:border-blue-200",
+      description: "Talk instantly with our team"
+    },
+    {
+      label: "WhatsApp",
+      href: getWhatsAppLink(),
+      icon: Icon.whatsapp,
+      color: "text-green-600",
+      bgColor: "bg-green-50 group-hover:bg-green-100",
+      borderColor: "group-hover:border-green-200",
+      description: "Quick booking via chat"
+    },
+    {
+      label: "Android App",
+      href: ANDROID_APP_LINK,
+      icon: Icon.android,
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50 group-hover:bg-emerald-100",
+      borderColor: "group-hover:border-emerald-200",
+      description: "Download from Google Play"
+    },
+    {
+      label: "iPhone App",
+      href: IOS_APP_LINK,
+      icon: Icon.apple,
+      color: "text-gray-700",
+      bgColor: "bg-gray-50 group-hover:bg-gray-100",
+      borderColor: "group-hover:border-gray-200",
+      description: "Download from App Store"
+    },
+  ].filter((item) => item.href);
+
   return (
     <section
-      className="relative min-h-[100svh] overflow-hidden flex items-center py-10 sm:py-14 lg:py-8"
+      className="relative min-h-[100svh] overflow-visible flex items-center py-10 sm:py-14 lg:py-8"
       style={{ background: "#FBF3E8" }}
     >
-      {/*
-        ================= BACKGROUND =================
-        Decorative blur/grid layers are the heaviest thing to paint on a
-        first-view section, and mobile GPUs pay for every one of them.
-        They're hidden below sm and only mounted on larger screens, and
-        the blur radii are reduced so paint cost stays low everywhere.
-      */}
+      {/* Background decorative elements */}
       <div className="hidden sm:block absolute -top-52 -left-52 h-[550px] w-[550px] rounded-full bg-teal-100/60 blur-[90px] lg:blur-[120px]" />
       <div className="hidden sm:block absolute top-0 right-0 h-[450px] w-[450px] rounded-full bg-orange-100/60 blur-[90px] lg:blur-[120px]" />
       <div className="hidden sm:block absolute -bottom-56 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-50 blur-[100px] lg:blur-[140px]" />
@@ -115,7 +188,7 @@ export default function CareHero() {
         className="hidden sm:block absolute inset-0 opacity-[0.035]"
         style={{
           backgroundImage:
-            "linear-gradient(#0f766e 1px, transparent 1px),linear-gradient(90deg,#0f766e 1px,transparent 1px)",
+            "linear-gradient(#0f766e 1px, transparent 1px),linear-gradient(90deg,#0f766e 1px, transparent 1px)",
           backgroundSize: "42px 42px",
         }}
       />
@@ -123,8 +196,98 @@ export default function CareHero() {
       <div className="hidden sm:block absolute left-12 top-16 h-44 w-44 rounded-full border border-teal-200/30"></div>
       <div className="hidden sm:block absolute right-12 bottom-16 h-56 w-56 rounded-full border border-orange-200/30"></div>
 
-      {/* ================= CONTAINER ================= */}
+      {/* Floating Action Panel - Overlay */}
+      {isPanelOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setIsPanelOpen(false)}
+          />
+          
+          {/* Panel */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div 
+              className="w-full max-w-md bg-white rounded-[28px] shadow-2xl border border-slate-100 transform transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="relative px-6 py-5 border-b border-slate-100">
+                <h3 className="text-xl font-bold text-slate-900 text-center">
+                  Book a WHY PRO
+                </h3>
+                <p className="text-sm text-slate-500 text-center mt-1">
+                  Choose how you'd like to book
+                </p>
+                <button
+                  onClick={() => setIsPanelOpen(false)}
+                  className="absolute right-4 top-4 p-2 rounded-full hover:bg-slate-100 transition-colors"
+                >
+                  <Icon.close className="h-5 w-5 text-slate-400" />
+                </button>
+              </div>
 
+              {/* Options */}
+              <div className="p-4 space-y-3">
+                {BOOK_OPTIONS.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.label === "Call Us" ? "_self" : "_blank"}
+                    rel="noopener noreferrer"
+                    className={`
+                      group flex items-center gap-4 p-4 
+                      rounded-2xl border-2 border-transparent
+                      transition-all duration-300
+                      ${item.bgColor} ${item.borderColor}
+                      hover:scale-[1.02] hover:shadow-md
+                      cursor-pointer
+                    `}
+                  >
+                    {/* Icon Circle */}
+                    <div className={`
+                      flex h-12 w-12 flex-shrink-0 items-center justify-center 
+                      rounded-full bg-white shadow-sm
+                      transition-all duration-300
+                      group-hover:scale-110
+                      ${item.color}
+                    `}>
+                      <item.icon className="h-6 w-6" />
+                    </div>
+
+                    {/* Text Content */}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">
+                        {item.label}
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    {/* Arrow */}
+                    <Icon.arrowRight className={`
+                      h-5 w-5 text-slate-400 
+                      transition-all duration-300
+                      group-hover:translate-x-1
+                      ${item.color}
+                    `} />
+                  </a>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 rounded-b-[28px]">
+                <p className="text-xs text-slate-400 text-center">
+                  ✦ 24/7 support available • All bookings are verified
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ================= CONTAINER ================= */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6">
         <div className="grid lg:grid-cols-2 items-center gap-10 sm:gap-12">
 
@@ -185,19 +348,35 @@ export default function CareHero() {
 
             {/* CTA Buttons */}
             <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-4">
-              <button className="group inline-flex items-center justify-center gap-3 rounded-full bg-orange-500 px-8 py-4 font-semibold text-white shadow-xl shadow-orange-200 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600 active:translate-y-0">
+              <button
+                onClick={() => setIsPanelOpen(true)}
+                className="group inline-flex items-center justify-center gap-3 rounded-full bg-orange-500 px-8 py-4 font-semibold text-white shadow-xl shadow-orange-200 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600 hover:shadow-2xl"
+              >
                 Book a WHY PRO
-                <Icon.arrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                <svg
+                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
               </button>
 
-              <button className="inline-flex items-center justify-center gap-3 rounded-full border border-slate-200 bg-white px-8 py-4 font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-teal-500 hover:text-teal-600">
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("WHY-Works-section")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="inline-flex items-center justify-center gap-3 rounded-full border border-slate-200 bg-white px-8 py-4 font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-teal-500 hover:text-teal-600 hover:shadow-md"
+              >
                 <Icon.play className="h-5 w-5" />
                 How It Works
               </button>
             </div>
 
-            {/* Trust strip — mobile-only compact summary, replaces the
-                floating badges that don't have room on small screens */}
+            {/* Trust strip — mobile-only compact summary */}
             <div className="mt-8 flex sm:hidden items-center justify-center gap-5 text-xs font-semibold text-slate-600">
               <span className="inline-flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
@@ -213,8 +392,7 @@ export default function CareHero() {
           {/* RIGHT CONTENT */}
           <div className="relative w-full max-w-2xl mx-auto">
 
-            {/* Floating Badges — desktop/tablet only, avoids overlap and
-                extra backdrop-blur compositing on small screens */}
+            {/* Floating Badges */}
             <div className="hidden sm:block absolute -top-6 right-6 lg:right-10 z-30 rounded-full bg-white/90 backdrop-blur-md px-5 py-2 shadow-xl border border-white">
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
