@@ -6,63 +6,51 @@ import { scrollToId } from "./utils/scrollNav";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 
-// Layout
+// Layout (eager - needed immediately)
 import Navbar from "./components/Navbar";
 import CareerNavbar from "./components/CareerNavbar";
 import Footer from "./components/Footer";
-import StickyDownload from "./components/StickyDownload";
 import CookieBanner from "./components/CookieBanner";
 import WhatsAppFloat from "./components/WhatsAppFloat";
-import ScrollTopBottom from "./components/ScrollTopDown";
 
-// Home Sections (eagerly loaded)
+// Home Sections (eager - above the fold)
 import Hero from "./components/Hero";
-import ChooseExperience from "./components/ChooseExperience";
-import TrustSignals from "./components/TrustSignals";
-import TrustedBy from "./components/TrustedBy";
-import BlogSection from "./components/Blog";
-import BlogPost from "./components/BlogPost";
-import ParentSection from "./components/ParentSection";
-import WhatIsWhy from "./components/WhatIsWhy";
-import HowWhyWorks from "./components/HowWhyWorks";
-import WaitingSection from "./components/WaitingSection";
-import TrustSafety from "./components/TrustSafety";
-import CTA from "./components/CTA";
-import ProNurseCare from "./components/ProNurseCare";
-import TravelCompanionServices from "./components/TravelCompanion";
-import HospitalAssistance from "./components/HospitalAssistance"
-import TestimonialsSlideshow from "./components/TestimonialsSlideshow";
-import CompanionServices from "./components/CompanionServices";
 import AnnouncementBar from "./components/AnnouncementBar";
-import TrustAndSafety from "./pages/TrustAndSafety";
+import WhatIsWhy from "./components/WhatIsWhy";
+import ParentSection from "./components/ParentSection";
+import CompanionServices from "./components/CompanionServices";
+import HowWhyWorks from "./components/HowWhyWorks";
+import CTA from "./components/CTA";
 import AdvertisementPopup from "./components/AdvertisementPopup";
 
-import Contact from "./pages/Contact";
-import FAQ from "./pages/FAQ";
-import About from "./pages/About";
-import Pricing from "./pages/Pricing"
-import DataDeletion from "./pages/DataDeletion";
-import PrivacyPolicyUser from "./pages/PrivacyPolicyUser";
-import PrivacyPolicyPro from "./pages/PrivacyPolicyPro";
-import TermsUser from "./pages/TermsUser";
-import TermsPro from "./pages/TermsPro";
+// Lazy load all pages
+const Contact = lazy(() => import("./pages/Contact"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const About = lazy(() => import("./pages/About"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const TrustAndSafety = lazy(() => import("./pages/TrustAndSafety"));
+const DataDeletion = lazy(() => import("./pages/DataDeletion"));
+const PrivacyPolicyUser = lazy(() => import("./pages/PrivacyPolicyUser"));
+const PrivacyPolicyPro = lazy(() => import("./pages/PrivacyPolicyPro"));
+const TermsUser = lazy(() => import("./pages/TermsUser"));
+const TermsPro = lazy(() => import("./pages/TermsPro"));
+const CancellationPolicyPro = lazy(() => import("./pages/Cancellationpolicypro"));
+const CancellationPolicyUser = lazy(() => import("./pages/Cancellationpolicyuser"));
 
-// Careers
-import CareersLanding from "./pages/careers/CareersLanding";
-import Login from "./pages/careers/Login";
-import Register from "./pages/careers/Register";
-import Jobs from "./pages/careers/Jobs";
-import JobDetails from "./pages/careers/JobDetails";
-import MyApplications from "./pages/careers/MyApplications";
+// Lazy load Careers pages
+const CareersLanding = lazy(() => import("./pages/careers/CareersLanding"));
+const Login = lazy(() => import("./pages/careers/Login"));
+const Register = lazy(() => import("./pages/careers/Register"));
+const Jobs = lazy(() => import("./pages/careers/Jobs"));
+const JobDetails = lazy(() => import("./pages/careers/JobDetails"));
+const MyApplications = lazy(() => import("./pages/careers/MyApplications"));
 
-// Admin
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import ManageJobs from "./pages/admin/ManageJobs";
-import CreateJob from "./pages/admin/CreateJob";
-import Applications from "./pages/admin/Applications";
-import EditJob from "./pages/admin/EditJob";
-import CancellationPolicyPro from "./pages/Cancellationpolicypro";
-import CancellationPolicyUser from "./pages/Cancellationpolicyuser";
+// Lazy load Admin pages
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const ManageJobs = lazy(() => import("./pages/admin/ManageJobs"));
+const CreateJob = lazy(() => import("./pages/admin/CreateJob"));
+const Applications = lazy(() => import("./pages/admin/Applications"));
+const EditJob = lazy(() => import("./pages/admin/EditJob"));
 
 // Lazy load WorldMap with IntersectionObserver
 const WorldMapLazy = lazy(() => import("./components/WorldMap"));
@@ -102,7 +90,7 @@ function LazyWorldMap() {
         });
       },
       {
-        rootMargin: '200px', // Start loading when within 200px of viewport
+        rootMargin: '200px',
         threshold: 0.01
       }
     );
@@ -131,10 +119,6 @@ function Home() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // When a Navbar/Footer link on another page (e.g. About, FAQ) sends the
-  // user here to reach a homepage section, finish the job once we've
-  // mounted: scroll to that section, then clear the state so a later
-  // refresh/back-navigation doesn't re-trigger it.
   useEffect(() => {
     const target = location.state?.scrollTo;
     if (!target) return;
@@ -145,33 +129,32 @@ function Home() {
 
     navigate(location.pathname, { replace: true, state: {} });
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.key]);
 
   return (
     <>
-    <AdvertisementPopup />
-      <AnnouncementBar/>
+      <AdvertisementPopup />
+      <AnnouncementBar />
       <Hero />
       <WhatIsWhy />
-      {/*<TrustSignals />*/}
-      {/*<ChooseExperience />*/}
-      {/*<TrustedBy />*/}
       <ParentSection />
-      {/*<ProNurseCare />*/}
-      {/*<HospitalAssistance />
-      <TravelCompanionServices />*/}
       <CompanionServices />
       <HowWhyWorks />
-      {/*<WaitingSection />*/}
       <LazyWorldMap />
-      {/*<TrustSafety />*/}
-      {/*<BlogSection /> */}
-      {/*<TestimonialsSlideshow />*/}
       <CTA />
     </>
   );
 }
+
+// Loading fallback for lazy-loaded pages
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-12 h-12 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
+      <p className="text-slate-500 text-sm">Loading...</p>
+    </div>
+  </div>
+);
 
 function AppLayout() {
   const location = useLocation();
@@ -181,8 +164,6 @@ function AppLayout() {
 
   const hideGlobalLayout = ["/contact", "/faq"].includes(pathname);
 
-  // Support/legal pages: still get the same Navbar as the home page, but
-  // never the full site Footer (they keep their own simple in-page footer).
   const hideFooterOnly = [
     "/data-deletion",
     "/privacy-policy-user",
@@ -193,10 +174,6 @@ function AppLayout() {
     "/cp-user",
   ].includes(pathname);
 
-  // Every route change should land at the top of the new page — unless
-  // we're on our way to "/" with a pending section scroll (handled by
-  // Home itself), in which case jumping to 0 first would just cause a
-  // visible flash before the smooth-scroll to the section kicks in.
   useEffect(() => {
     if (!location.state?.scrollTo) {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -209,78 +186,105 @@ function AppLayout() {
         (isCareerOrAdmin ? <CareerNavbar /> : <Navbar />)}
 
       <div className="overflow-x-hidden">
-        <Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Public Pages - Lazy Loaded */}
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/trust-and-safety" element={<TrustAndSafety />} />
+            <Route path="/about" element={<About />} />
+            
+            {/* Legal Pages - Lazy Loaded */}
+            <Route path="/data-deletion" element={<DataDeletion />} />
+            <Route path="/privacy-policy-user" element={<PrivacyPolicyUser />} />
+            <Route path="/privacy-policy-pro" element={<PrivacyPolicyPro />} />
+            <Route path="/terms-user" element={<TermsUser />} />
+            <Route path="/terms-pro" element={<TermsPro />} />
+            <Route path="/cp-pro" element={<CancellationPolicyPro />} />
+            <Route path="/cp-user" element={<CancellationPolicyUser />} />
 
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/pricing" element={<Pricing/>}/>
-          <Route path="/trust and safety" element = {<TrustAndSafety/>}/>
-          <Route path="/about" element={<About />} />
-          <Route path="/data-deletion" element={<DataDeletion />} />
-          <Route path="/privacy-policy-user" element={<PrivacyPolicyUser />} />
-          <Route path="/privacy-policy-pro" element={<PrivacyPolicyPro />} />
-          <Route path="/terms-user" element={<TermsUser />} />
-          <Route path="/terms-pro" element={<TermsPro />} />
-          <Route path="/cp-pro" element={<CancellationPolicyPro />} />
-          <Route path="/cp-user" element={<CancellationPolicyUser />} />
+            {/* Home - Eager */}
+            <Route path="/" element={<Home />} />
 
+            {/* Careers - Lazy Loaded */}
+            <Route path="/careers" element={<CareersLanding />} />
+            <Route path="/careers/login" element={<Login />} />
+            <Route path="/careers/register" element={<Register />} />
+            <Route path="/careers/jobs" element={<Jobs />} />
+            <Route path="/careers/jobs/:id" element={<JobDetails />} />
 
-          {/* Home */}
-          <Route path="/" element={<Home />} />
+            {/* Protected Applicant Routes - Lazy Loaded */}
+            <Route
+              path="/careers/my-applications"
+              element={
+                <ProtectedRoute>
+                  <MyApplications />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Blog */}
-          {
-            /*
-            <Route path="/blog" element={<BlogSection />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            */
-          }
+            <Route
+              path="/careers/dashboard"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen flex items-center justify-center text-[#2F4A7D] font-semibold text-xl">
+                    Dashboard — Coming Soon
+                  </div>
+                </ProtectedRoute>
+              }
+            />
 
-
-          {/* Careers */}
-          <Route path="/careers" element={<CareersLanding />} />
-          <Route path="/careers/login" element={<Login />} />
-          <Route path="/careers/register" element={<Register />} />
-          <Route path="/careers/jobs" element={<Jobs />} />
-          <Route path="/careers/jobs/:id" element={<JobDetails />} />
-
-          {/* Protected Applicant Routes */}
-          <Route
-            path="/careers/my-applications"
-            element={
-              <ProtectedRoute>
-                <MyApplications />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/careers/dashboard"
-            element={
-              <ProtectedRoute>
-                <div className="min-h-screen flex items-center justify-center text-[#2F4A7D] font-semibold text-xl">
-                  Dashboard — Coming Soon
-                </div>
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-          <Route path="/admin/jobs" element={<AdminRoute><ManageJobs /></AdminRoute>} />
-          <Route path="/admin/jobs/create" element={<AdminRoute><CreateJob /></AdminRoute>} />
-          <Route path="/admin/applications" element={<AdminRoute><Applications /></AdminRoute>} />
-          <Route path="/admin/jobs/edit/:id" element={<AdminRoute><EditJob /></AdminRoute>} />
-        </Routes>
+            {/* Admin Routes - Lazy Loaded */}
+            <Route 
+              path="/admin" 
+              element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              } 
+            />
+            <Route 
+              path="/admin/jobs" 
+              element={
+                <AdminRoute>
+                  <ManageJobs />
+                </AdminRoute>
+              } 
+            />
+            <Route 
+              path="/admin/jobs/create" 
+              element={
+                <AdminRoute>
+                  <CreateJob />
+                </AdminRoute>
+              } 
+            />
+            <Route 
+              path="/admin/applications" 
+              element={
+                <AdminRoute>
+                  <Applications />
+                </AdminRoute>
+              } 
+            />
+            <Route 
+              path="/admin/jobs/edit/:id" 
+              element={
+                <AdminRoute>
+                  <EditJob />
+                </AdminRoute>
+              } 
+            />
+          </Routes>
+        </Suspense>
 
         {/* Only show home-page widgets on non-career/admin routes */}
         {!isCareerOrAdmin && !hideGlobalLayout && (
           <>
-            {/* <StickyDownload /> */}
             {!hideFooterOnly && <Footer />}
             <CookieBanner />
             <WhatsAppFloat />
-            {/*<ScrollTopBottom />*/}
           </>
         )}
       </div>
