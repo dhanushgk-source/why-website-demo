@@ -3,6 +3,36 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSectionNav } from '../hooks/useSectionNav'
 import { PHONE_LINK, APP_LINK, getWhatsAppLink } from '../config/contact'
 
+// SVG Icon Components
+const Icons = {
+  ArrowLeft: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+  ),
+  ChevronDown: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  ),
+  Headset: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+    </svg>
+  ),
+  Menu: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  ),
+  Close: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  ),
+}
+
 // Each item is either a same-page section (`section`) which needs to work
 // from any route, a real route (`path`) handled by react-router, or a
 // `dropdown` containing a list of sub-items (each of which is itself a
@@ -83,6 +113,7 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 w-full z-[9999]">
         <nav
           className={`
+            relative
             grid grid-cols-3 items-center
             gap-x-4
             px-6 lg:px-12 h-20
@@ -108,7 +139,7 @@ export default function Navbar() {
                 style={{ background: '#fff', border: '1px solid #52B5BD', color: '#1B2A4A' }}
                 aria-label="Back to home"
               >
-                <i className="fa-solid fa-arrow-left"></i>
+                <Icons.ArrowLeft className="h-5 w-5" />
               </button>
             )}
             <Link
@@ -140,7 +171,7 @@ export default function Navbar() {
                       onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                     >
                       {item.label}
-                      <i className="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180" />
+                      <Icons.ChevronDown className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" />
                     </button>
 
                     {/* DROPDOWN PANEL */}
@@ -229,7 +260,7 @@ export default function Navbar() {
                 }}
                 aria-label="Call us 24/7"
               >
-                <i className="fa-solid fa-headset text-[#52B5BD]"></i>
+                <Icons.Headset className="h-5 w-5 text-[#52B5BD]" />
                 <span className="font-semibold text-sm">24/7 Support</span>
               </a>
             </div>
@@ -240,7 +271,7 @@ export default function Navbar() {
                 style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
               >
                 Book Now
-                <i className="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180" />
+                <Icons.ChevronDown className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" />
               </button>
 
               {/* BOOK DROPDOWN PANEL */}
@@ -275,25 +306,29 @@ export default function Navbar() {
           </div>
 
           {/* MOBILE TOGGLE */}
-          <div
-            className="xl:hidden absolute right-6 cursor-pointer"
+          <button
+            type="button"
             onClick={toggleMenu}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            className="xl:hidden absolute right-6 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full cursor-pointer hover:bg-[#52B5BD]/10 transition-colors"
             style={{ color: '#1B2A4A' }}
           >
-            <i
-              className={`fa-solid ${menuOpen ? 'fa-xmark' : 'fa-bars'
-                } fa-lg`}
-            ></i>
-          </div>
+            {menuOpen ? (
+              <Icons.Close className="h-6 w-6" />
+            ) : (
+              <Icons.Menu className="h-6 w-6" />
+            )}
+          </button>
         </nav>
+        
         {/* MOBILE MENU */}
         <div
           className={`
             xl:hidden
-            overflow-hidden
             transition-all duration-300
             shadow-lg
-            ${menuOpen ? 'max-h-[600px]' : 'max-h-0'}
+            ${menuOpen ? 'max-h-[calc(100dvh-5rem)] overflow-y-auto' : 'max-h-0 overflow-hidden'}
           `}
           style={{ background: '#F7F3EA' }}
         >
@@ -304,36 +339,31 @@ export default function Navbar() {
                   <div>
                     <button
                       onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                      className="w-full flex items-center justify-center gap-2 py-4"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 text-sm"
                     >
                       {item.label}
-                      <i
-                        className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''
-                          }`}
-                      />
+                      <Icons.ChevronDown className={`h-3 w-3 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
                     </button>
-                    <div
-                      className={`overflow-hidden transition-all duration-300 ${mobileServicesOpen ? 'max-h-40' : 'max-h-0'
-                        }`}
-                      style={{ background: 'rgba(82,181,189,0.08)' }}
-                    >
-                      {item.dropdown.map((sub) => (
-                        <button
-                          key={sub.label}
-                          onClick={() => handleNavClick(sub)}
-                          className="block w-full py-3 text-sm"
-                        >
-                          {sub.label}
-                        </button>
-                      ))}
-                    </div>
+                    {mobileServicesOpen && (
+                      <div style={{ background: 'rgba(82,181,189,0.08)' }}>
+                        {item.dropdown.map((sub) => (
+                          <button
+                            key={sub.label}
+                            onClick={() => handleNavClick(sub)}
+                            className="block w-full py-2 text-sm"
+                          >
+                            {sub.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ) : item.path ? (
-                  <Link to={item.path} onClick={() => setMenuOpen(false)} className="block py-4">
+                  <Link to={item.path} onClick={() => setMenuOpen(false)} className="block py-2.5 text-sm">
                     {item.label}
                   </Link>
                 ) : (
-                  <button onClick={() => handleNavClick(item)} className="block w-full py-4">
+                  <button onClick={() => handleNavClick(item)} className="block w-full py-2.5 text-sm">
                     {item.label}
                   </button>
                 )}
@@ -341,17 +371,17 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <div className="p-6 flex flex-col items-center gap-3">
+          <div className="p-4 flex flex-col items-center gap-2">
             <a
               href={PHONE_LINK}
-              className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full border shadow-sm"
+              className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border shadow-sm"
               style={{
                 background: "#fff",
                 borderColor: "#52B5BD",
                 color: "#1B2A4A",
               }}
             >
-              <i className="fa-solid fa-headset text-[#52B5BD]"></i>
+              <Icons.Headset className="h-5 w-5 text-[#52B5BD]" />
               <span className="font-semibold text-sm sm:text-base">
                 24/7 Support
               </span>
@@ -359,34 +389,28 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileBookOpen(!mobileBookOpen)}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-full text-white"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full text-white"
               style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
             >
               Book Now
-              <i
-                className={`fa-solid fa-chevron-down text-xs transition-transform duration-300 ${mobileBookOpen ? 'rotate-180' : ''
-                  }`}
-              />
+              <Icons.ChevronDown className={`h-3 w-3 transition-transform duration-300 ${mobileBookOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            <div
-              className={`w-full overflow-hidden transition-all duration-300 ${mobileBookOpen ? 'max-h-40' : 'max-h-0'
-                }`}
-            >
-              <div className="flex flex-col gap-2 pt-2">
+            {mobileBookOpen && (
+              <div className="flex flex-col gap-1.5 pt-1.5 w-full">
                 {BOOK_OPTIONS.map((opt) => (
                   <a
                     key={opt.label}
                     href={opt.href}
                     onClick={() => setMenuOpen(false)}
-                    className="block w-full py-3 rounded-full text-center border"
+                    className="block w-full py-2 rounded-full text-center border text-sm"
                     style={{ borderColor: '#2F4A7D', color: '#1B2A4A' }}
                   >
                     {opt.label}
                   </a>
                 ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </header>
