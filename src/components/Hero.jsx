@@ -1,471 +1,351 @@
-import React from "react";
-import { PHONE_LINK, ANDROID_APP_LINK, IOS_APP_LINK, getWhatsAppLink } from "../config/contact";
-import { useState } from "react";
+import { useSectionFade } from '../hooks/useSectionFade'
+import { useEffect, useState } from 'react'
+import {
+  Users,
+  HeartHandshake,
+  User,
+  ArrowRight,
+  PlayCircle,
+  Phone,
+} from 'lucide-react'
+import {
+  PHONE_DISPLAY,
+  PHONE_LINK,
+  getWhatsAppLink,
+} from '../config/contact'
 
-// Tiny inline icons (no external icon package to download/parse).
-// Each is a plain 24x24 stroke SVG, styled via currentColor so
-// Tailwind text-color classes control them directly.
-const Icon = {
-  stethoscope: (p) => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...p}
-    >
-      <path d="M6 3v5a3 3 0 0 0 6 0V3" />
-      <path d="M12 3v5a3 3 0 0 1-6 0" />
-      <path d="M9 11v3a5 5 0 0 0 10 0v-1" />
-      <circle cx="19" cy="12" r="2" />
-    </svg>
-  ),
-  briefcase: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <rect x="3" y="7" width="18" height="12" rx="2" />
-      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-    </svg>
-  ),
-  users: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <circle cx="9" cy="8" r="3" />
-      <path d="M2.5 19a6.5 6.5 0 0 1 13 0" />
-      <circle cx="17" cy="9" r="2.5" />
-      <path d="M15.5 12.5a5 5 0 0 1 6 5" />
-    </svg>
-  ),
-  home: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M3 11.5 12 4l9 7.5" />
-      <path d="M5.5 10v9a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-9" />
-      <path d="M10 20v-5h4v5" />
-    </svg>
-  ),
-  badge: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="m8 12 2.5 2.5L16 9" />
-      <path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5Z" />
-    </svg>
-  ),
-  clock: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 3" />
-    </svg>
-  ),
-  shield: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5Z" />
-    </svg>
-  ),
-  arrowRight: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </svg>
-  ),
-  play: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M10 8.5 15.5 12 10 15.5Z" />
-    </svg>
-  ),
-  phone: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  ),
-  whatsapp: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-    </svg>
-  ),
-  android: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8.5" />
-      <path d="M7 2v3" />
-      <path d="M17 2v3" />
-      <path d="M3 7.5h18" />
-      <path d="M8 12h.01" />
-      <path d="M16 12h.01" />
-    </svg>
-  ),
-  apple: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M12 4a4 4 0 0 1 3.5-2 4 4 0 0 1-3.5 2z" />
-      <path d="M12 4v16" />
-      <path d="M12 20a4 4 0 0 1-3.5 2 4 4 0 0 1 3.5-2z" />
-      <path d="M12 20a4 4 0 0 0 3.5 2 4 4 0 0 0-3.5-2z" />
-      <path d="M12 4a4 4 0 0 0-3.5 2 4 4 0 0 0 3.5-2z" />
-      <circle cx="12" cy="12" r="9" />
-    </svg>
-  ),
-  close: (p) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <path d="M18 6L6 18" />
-      <path d="M6 6l12 12" />
-    </svg>
-  ),
-};
+const TAGLINE = 'Companionship That Feels Like Family.'
 
-const features = [
-  {
-    icon: Icon.stethoscope,
-    title: "Hospital Assistance",
-    description: "Professional companions to assist during appointments, treatments and recovery."
-  },
-  {
-    icon: Icon.briefcase,
-    title: "Travel Companion",
-    description: "Reliable assistance for local and long-distance travel with complete safety."
-  },
-  {
-    icon: Icon.users,
-    title: "Elderly Care",
-    description: "Friendly, compassionate support for seniors at home and during daily activities."
-  },
-  {
-    icon: Icon.home,
-    title: "Peace of Mind",
-    description: "Trusted care that keeps your loved ones safe whenever you can't be there."
+const SUBTEXT =
+  'WHY connects seniors and individual of all ages   with trusted WHY PROs, gives families complete peace of Mind, and creates meaningful opportunities for compassionate professionals.'
+
+//const WHY_PRO_EXPLAINER =
+//  "WHY PRO is a trained and verified human companion who provides assistance during hospital and travel. WHY does not provide transportation or vehicles. Customers are responsible for arranging their own transportation. WHY's role is to provide a professional human companion who accompanies and assists the customer throughout the service."
+
+const INFO_ITEMS = [
+  { icon: Users, title: 'Seniors', subtitle: 'Trusted Companionship' },
+  { icon: HeartHandshake, title: 'Families', subtitle: 'Peace of Mind' },
+  { icon: User, title: 'WHY PRO', subtitle: 'Build Meaningful Connections' },
+]
+
+const REVEAL_DELAY = 130
+
+export default function Hero() {
+  const sectionRef = useSectionFade()
+  const [started, setStarted] = useState(false)
+
+  useEffect(() => {
+    const prefersReducedMotion =
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (prefersReducedMotion) {
+      setStarted(true)
+      return
+    }
+
+    const timer = setTimeout(() => setStarted(true), 150)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const revealClass = `transition-all duration-700 ease-out ${started
+      ? 'opacity-100 translate-y-0'
+      : 'opacity-0 translate-y-5'
+    }`
+
+  const revealStyle = (stepIndex) => ({
+    transitionDelay: started ? `${stepIndex * REVEAL_DELAY}ms` : '0ms',
+  })
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId)
+
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - 80
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    } else {
+      const section =
+        document.querySelector(`[data-section="${sectionId}"]`) ||
+        document.querySelector(`.${sectionId}`)
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
+      }
+    }
   }
-];
 
-export default function CareHero() {
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+   const scrollToHowSection = () => {
+    const targetSection = document.getElementById('WHY-Works-section')
 
-  const BOOK_OPTIONS = [
-    {
-      label: "Call Us",
-      href: PHONE_LINK,
-      icon: Icon.phone,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50 group-hover:bg-blue-100",
-      borderColor: "group-hover:border-blue-200",
-      description: "Talk instantly with our team"
-    },
-    {
-      label: "WhatsApp",
-      href: getWhatsAppLink(),
-      icon: Icon.whatsapp,
-      color: "text-green-600",
-      bgColor: "bg-green-50 group-hover:bg-green-100",
-      borderColor: "group-hover:border-green-200",
-      description: "Quick booking via chat"
-    },
-    {
-      label: "Android App",
-      href: ANDROID_APP_LINK,
-      icon: Icon.android,
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-50 group-hover:bg-emerald-100",
-      borderColor: "group-hover:border-emerald-200",
-      description: "Download from Google Play"
-    },
-    {
-      label: "iPhone App",
-      href: IOS_APP_LINK,
-      icon: Icon.apple,
-      color: "text-gray-700",
-      bgColor: "bg-gray-50 group-hover:bg-gray-100",
-      borderColor: "group-hover:border-gray-200",
-      description: "Download from App Store"
-    },
-  ].filter((item) => item.href);
+    if (targetSection) {
+      const targetPosition =
+        targetSection.getBoundingClientRect().top +
+        window.pageYOffset -
+        80
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth',
+      })
+    } else {
+      const sections = document.querySelectorAll('section')
+
+      let heroIndex = -1
+
+      sections.forEach((section, index) => {
+        if (section === sectionRef.current) heroIndex = index
+      })
+
+      if (
+        heroIndex !== -1 &&
+        heroIndex < sections.length - 1
+      ) {
+        const nextSection = sections[heroIndex + 1]
+
+        const nextPosition =
+          nextSection.getBoundingClientRect().top +
+          window.pageYOffset -
+          80
+
+        window.scrollTo({
+          top: nextPosition,
+          behavior: 'smooth',
+        })
+      }
+    }
+  }
+
+  const scrollToNextSection = () => {
+    const targetSection = document.getElementById('cta-section')
+
+    if (targetSection) {
+      const targetPosition =
+        targetSection.getBoundingClientRect().top +
+        window.pageYOffset -
+        80
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth',
+      })
+    } else {
+      const sections = document.querySelectorAll('section')
+
+      let heroIndex = -1
+
+      sections.forEach((section, index) => {
+        if (section === sectionRef.current) heroIndex = index
+      })
+
+      if (
+        heroIndex !== -1 &&
+        heroIndex < sections.length - 1
+      ) {
+        const nextSection = sections[heroIndex + 1]
+
+        const nextPosition =
+          nextSection.getBoundingClientRect().top +
+          window.pageYOffset -
+          80
+
+        window.scrollTo({
+          top: nextPosition,
+          behavior: 'smooth',
+        })
+      }
+    }
+  }
 
   return (
     <section
-      className="relative min-h-[100svh] overflow-visible flex items-center py-10 sm:py-14 lg:py-8"
-      style={{ background: "#FBF3E8" }}
+      ref={sectionRef}
+      className="w-full relative overflow-hidden bg-[#F7F3EA] rounded-b-[40px] md:rounded-b-[60px]"
+      id="hero-section"
     >
-      {/* Background decorative elements */}
-      <div className="hidden sm:block absolute -top-52 -left-52 h-[550px] w-[550px] rounded-full bg-teal-100/60 blur-[90px] lg:blur-[120px]" />
-      <div className="hidden sm:block absolute top-0 right-0 h-[450px] w-[450px] rounded-full bg-orange-100/60 blur-[90px] lg:blur-[120px]" />
-      <div className="hidden sm:block absolute -bottom-56 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-50 blur-[100px] lg:blur-[140px]" />
+      <div className="fade-inner relative w-full min-h-[calc(100vh-5rem)] min-h-[calc(100svh-5rem)] flex flex-col md:flex-row">
 
-      <div
-        className="hidden sm:block absolute inset-0 opacity-[0.035]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#0f766e 1px, transparent 1px),linear-gradient(90deg,#0f766e 1px, transparent 1px)",
-          backgroundSize: "42px 42px",
-        }}
-      />
+        {/* Left Side - Image with organic curved edge */}
+        <div className="relative w-full md:w-[60%] flex-shrink-0 md:min-h-[calc(100vh-5rem)]">
 
-      <div className="hidden sm:block absolute left-12 top-16 h-44 w-44 rounded-full border border-teal-200/30"></div>
-      <div className="hidden sm:block absolute right-12 bottom-16 h-56 w-56 rounded-full border border-orange-200/30"></div>
+          {/* Image block — fixed height on mobile; fills the full stretched column height on desktop (no gap) */}
+          <div className="relative w-full h-[42vh] min-h-[280px] sm:min-h-[38vh] md:absolute md:inset-0 md:h-auto overflow-hidden">
+            <svg width="0" height="0" className="absolute">
+              <defs>
+                <clipPath id="heroImageClip" clipPathUnits="objectBoundingBox">
+                  <path d="M0,0 L0.95,0 C0.99,0.12 1,0.22 0.97,0.34 C0.95,0.44 0.95,0.56 0.97,0.66 C1,0.78 0.99,0.88 0.95,1 L0,1 Z" />
+                </clipPath>
+              </defs>
+            </svg>
 
-      {/* Floating Action Panel - Overlay */}
-      {isPanelOpen && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
-            onClick={() => setIsPanelOpen(false)}
-          />
-          
-          {/* Panel */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div 
-              className="w-full max-w-md bg-white rounded-[28px] shadow-2xl border border-slate-100 transform transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header */}
-              <div className="relative px-6 py-5 border-b border-slate-100">
-                <h3 className="text-xl font-bold text-slate-900 text-center">
-                  Book a WHY PRO
-                </h3>
-                <p className="text-sm text-slate-500 text-center mt-1">
-                  Choose how you'd like to book
-                </p>
-                <button
-                  onClick={() => setIsPanelOpen(false)}
-                  className="absolute right-4 top-4 p-2 rounded-full hover:bg-slate-100 transition-colors"
-                >
-                  <Icon.close className="h-5 w-5 text-slate-400" />
-                </button>
-              </div>
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: "url('/Assests/elder.webp')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center top',
+                clipPath: 'url(#heroImageClip)',
+                WebkitClipPath: 'url(#heroImageClip)'
+              }}
+            />
 
-              {/* Options */}
-              <div className="p-4 space-y-3">
-                {BOOK_OPTIONS.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.label === "Call Us" ? "_self" : "_blank"}
-                    rel="noopener noreferrer"
-                    className={`
-                      group flex items-center gap-4 p-4 
-                      rounded-2xl border-2 border-transparent
-                      transition-all duration-300
-                      ${item.bgColor} ${item.borderColor}
-                      hover:scale-[1.02] hover:shadow-md
-                      cursor-pointer
-                    `}
-                  >
-                    {/* Icon Circle */}
-                    <div className={`
-                      flex h-12 w-12 flex-shrink-0 items-center justify-center 
-                      rounded-full bg-white shadow-sm
-                      transition-all duration-300
-                      group-hover:scale-110
-                      ${item.color}
-                    `}>
-                      <item.icon className="h-6 w-6" />
-                    </div>
-
-                    {/* Text Content */}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">
-                        {item.label}
-                      </p>
-                      <p className="text-sm text-slate-500">
-                        {item.description}
-                      </p>
-                    </div>
-
-                    {/* Arrow */}
-                    <Icon.arrowRight className={`
-                      h-5 w-5 text-slate-400 
-                      transition-all duration-300
-                      group-hover:translate-x-1
-                      ${item.color}
-                    `} />
-                  </a>
-                ))}
-              </div>
-
-              {/* Footer */}
-              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 rounded-b-[28px]">
-                <p className="text-xs text-slate-400 text-center">
-                  ✦ 24/7 support available • All bookings are verified
-                </p>
-              </div>
-            </div>
+            {/* Drop-shadow / outline div removed — was causing the visible curved line (arrow 3) */}
           </div>
-        </>
-      )}
 
-      {/* ================= CONTAINER ================= */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6">
-        <div className="grid lg:grid-cols-2 items-center gap-10 sm:gap-12">
-
-          {/* LEFT CONTENT */}
-          <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
-
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-teal-700 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
-              Family-First Companion Care
+          {/* Info card — stacked below the image on mobile (no overlap), overlapping bottom-left on sm+ as before */}
+          <div className="relative sm:absolute sm:left-8 sm:bottom-8 -mt-6 sm:mt-0 mx-4 sm:mx-0 bg-white rounded-2xl shadow-xl border-2 border-teal-500 px-3 sm:px-6 py-3 sm:py-4 grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-6 sm:max-w-none z-10">            {INFO_ITEMS.map((item, idx) => (
+            <div
+              key={item.title}
+              className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1 sm:gap-2 min-w-0"
+            >
+              <item.icon className="w-5 h-5 sm:w-7 sm:h-7 text-[#F2711F] flex-shrink-0" strokeWidth={1.75} />
+              <div className="leading-tight min-w-0 w-full">
+                <p className="text-[#1B2A4A] font-bold text-[10px] sm:text-sm whitespace-normal sm:whitespace-nowrap break-words">
+                  {item.title}
+                </p>
+                <p className="text-gray-500 text-[8px] sm:text-xs whitespace-normal sm:whitespace-nowrap break-words leading-tight">
+                  {item.subtitle}
+                </p>
+              </div>
+              {idx < INFO_ITEMS.length - 1 && (
+                <span className="hidden sm:block w-px h-8 bg-gray-200 ml-2 sm:ml-4" />
+              )}
             </div>
+          ))}
+          </div>
+        </div>
 
-            <div className="mt-8 sm:mt-10 flex items-center justify-center lg:justify-start gap-4">
-              <div className="h-[2px] w-12 rounded-full bg-orange-500"></div>
-              <span className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
-                Trusted Companion Care
-              </span>
+        {/* RIGHT SIDE */}
+
+        <div className="relative w-full md:w-[40%] flex flex-col justify-center px-6 sm:px-10 md:px-10 lg:px-12 py-8 md:py-6">
+
+          <div className="hidden md:block absolute top-0 right-10 w-28 h-28 rounded-full bg-[#7FC8C0]/40 -translate-y-1/3" />
+          <div className="hidden md:block absolute top-24 right-4 w-10 h-10 rounded-full bg-[#F6C89F]" />
+
+          <div className="hidden md:block absolute top-40 right-16 grid grid-cols-6 gap-1.5 opacity-40">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <span
+                key={i}
+                className="w-1 h-1 rounded-full bg-[#0D9488]"
+              />
+            ))}
+          </div>
+
+          <div className="relative w-full max-w-2xl mx-auto md:mx-0 z-10">
+
+            {/* NEW HERO TITLE */}
+
+            <div className="mb-2">
+
+              <div
+                className={revealClass}
+                style={revealStyle(0)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#1B2A4A]">
+                  Care for
+                </h1>
+              </div>
+
+              <div
+                className={revealClass}
+                style={revealStyle(1)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#0D9488]">
+                  Your family 
+                </h1>
+              </div>
+
+              <div
+                className={revealClass}
+                style={revealStyle(2)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#1B2A4A]">
+                 When
+                </h1>
+              </div>
+
+              <div
+                className={revealClass}
+                style={revealStyle(3)}
+              >
+                <h1 className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] text-[#0D9488]">
+                  You're Away
+                </h1>
+              </div>
+
+              <div
+                className={`flex items-center gap-2 my-4 ${revealClass}`}
+                style={revealStyle(4)}
+              >
+                <span className="w-14 h-[3px] rounded-full bg-[#F2711F]" />
+
+                <HeartHandshake
+                  className="w-4 h-4 text-[#0D9488]"
+                  strokeWidth={2}
+                />
+              </div>
             </div>
+            {/* Tagline */}
+            <h2
+              className={`text-xl sm:text-2xl md:text-xl lg:text-2xl text-[#1B2A4A] font-extrabold mb-3 tracking-tight leading-snug text-left max-w-[22ch] ${revealClass}`}
+              style={revealStyle(5)}
+            >
+              {TAGLINE}
+            </h2>
 
-            {/* Heading */}
-            <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight">
-              Care for
-              <span className="relative inline-block">
-                <span
-                  className="
-                    bg-gradient-to-r
-                    from-teal-600
-                    via-cyan-500
-                    to-teal-700
-                    bg-clip-text
-                    text-transparent"
-                >
-                  Your Family
-                </span>
-                <svg
-                  className="absolute -bottom-2 sm:-bottom-3 left-0 w-full"
-                  viewBox="0 0 180 12"
-                  fill="none"
-                >
-                  <path
-                    d="M3 9C40 1 140 1 177 9"
-                    stroke="#F97316"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-              <span className="block">When You're Away</span>
-            </h1>
-
-            {/* Description */}
-            <p className="mt-6 sm:mt-8 max-w-lg mx-auto lg:mx-0 text-base sm:text-lg leading-7 sm:leading-8 text-slate-600">
-              WHY connects seniors and individuals of all ages with
-              trusted companions for hospital visits, travel assistance,
-              and elderly care&mdash;giving families complete peace of mind,
-              wherever they are.
+            {/* Subtext */}
+            <p
+              className={`text-gray-500 text-sm sm:text-base max-w-md mb-3 ${revealClass}`}
+              style={revealStyle(6)}
+            >
+              {SUBTEXT}
             </p>
 
-            {/* CTA Buttons */}
-            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-4">
-              <button
-                onClick={() => setIsPanelOpen(true)}
-                className="group inline-flex items-center justify-center gap-3 rounded-full bg-orange-500 px-8 py-4 font-semibold text-white shadow-xl shadow-orange-200 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600 hover:shadow-2xl"
-              >
-                Book a WHY PRO
-                <svg
-                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </button>
+            {/* WHY PRO explainer */}
+            <p
+              className={`text-gray-500 text-xs sm:text-sm max-w-md mb-6 ${revealClass}`}
+              style={revealStyle(6)}
+            >
+              {/*{WHY_PRO_EXPLAINER}*/}
+            </p>
 
-              <button
-                onClick={() =>
-                  document
-                    .getElementById("WHY-Works-section")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-                className="inline-flex items-center justify-center gap-3 rounded-full border border-slate-200 bg-white px-8 py-4 font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-teal-500 hover:text-teal-600 hover:shadow-md"
-              >
-                <Icon.play className="h-5 w-5" />
-                How It Works
-              </button>
-            </div>
-
-            {/* Trust strip — mobile-only compact summary */}
-            <div className="mt-8 flex sm:hidden items-center justify-center gap-5 text-xs font-semibold text-slate-600">
-              <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                24/7 Available
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Icon.badge className="h-3.5 w-3.5 text-teal-600" />
-                Verified Pros
-              </span>
-            </div>
           </div>
 
-          {/* RIGHT CONTENT */}
-          <div className="relative w-full max-w-2xl mx-auto">
+          {/* CTAs */}
+          <div
+            className={`relative z-10 flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-5 w-full max-w-xl mx-auto md:mx-0 ${revealClass}`}
+            style={revealStyle(7)}
+          >
+            <button
+              onClick={scrollToNextSection}
+              className="flex items-center gap-2 px-8 py-4 rounded-full bg-[#F2711F] text-white font-bold text-base sm:text-lg hover:bg-[#D9600F] transition-all duration-500 shadow-lg shadow-orange-900/10 hover:scale-105 active:scale-95"
+            >
+              <span className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center">
+                <ArrowRight className="w-4 h-4" />
+              </span>
 
-            {/* Floating Badges */}
-            <div className="hidden sm:block absolute -top-6 right-6 lg:right-10 z-30 rounded-full bg-white/90 backdrop-blur-md px-5 py-2 shadow-xl border border-white">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-sm font-semibold text-slate-700">24/7 Available</span>
-              </div>
-            </div>
+              Book Your WHY PRO
+            </button>
 
-            <div className="hidden sm:block absolute -bottom-6 left-6 lg:left-8 z-30 rounded-full bg-white/90 backdrop-blur-md px-5 py-2 shadow-xl border border-white">
-              <div className="flex items-center gap-2">
-                <Icon.badge className="h-4 w-4 text-teal-600" />
-                <span className="text-sm font-semibold text-slate-700">Verified Professionals</span>
-              </div>
-            </div>
+            <button
+            onClick={scrollToHowSection}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-[#0D9488] bg-white text-[#1B2A4A] font-semibold text-xs sm:text-sm hover:bg-[#0D9488]/5 transition-all duration-500 hover:scale-105 active:scale-95"
+            >
+              <PlayCircle className="w-4 h-4 text-[#0D9488]" />
 
-            {/* Background Glow */}
-            <div className="hidden sm:block absolute inset-0 rounded-[42px] bg-gradient-to-br from-teal-100 via-white to-orange-100 blur-2xl lg:blur-3xl opacity-80"></div>
-
-            {/* Main Glass Container */}
-            <div className="relative rounded-[28px] sm:rounded-[38px] border border-white/70 bg-white/80 sm:bg-white/60 sm:backdrop-blur-xl p-4 sm:p-6 shadow-[0_20px_50px_rgba(15,23,42,0.10)] sm:shadow-[0_30px_80px_rgba(15,23,42,0.12)]">
-
-              {/* Decorative Dots */}
-              <div className="absolute left-5 top-5 sm:left-6 sm:top-6 flex gap-2">
-                <span className="h-2 w-2 rounded-full bg-teal-300"></span>
-                <span className="h-2 w-2 rounded-full bg-orange-300"></span>
-                <span className="h-2 w-2 rounded-full bg-slate-300"></span>
-              </div>
-
-              {/* Cards */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-5 mt-7 sm:mt-8">
-                {features.map(({ icon: FeatureIcon, title, description }) => (
-                  <div
-                    key={title}
-                    className="group rounded-2xl sm:rounded-3xl bg-white border border-slate-100 p-3.5 sm:p-5 shadow-md sm:shadow-lg transition-all duration-300 sm:hover:-translate-y-2 sm:hover:shadow-2xl"
-                  >
-                    <div className="flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-teal-100 to-cyan-50 text-teal-600 transition-all duration-300 sm:group-hover:scale-110 sm:group-hover:from-teal-500 sm:group-hover:to-teal-600 sm:group-hover:text-white">
-                      <FeatureIcon className="h-5 w-5 sm:h-8 sm:w-8" />
-                    </div>
-
-                    <h3 className="mt-3 sm:mt-5 text-sm sm:text-xl font-bold text-slate-900">
-                      {title}
-                    </h3>
-
-                    <p className="mt-1.5 sm:mt-3 text-xs sm:text-sm leading-5 sm:leading-6 text-slate-500">
-                      {description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Divider */}
-              <div className="my-6 sm:my-8 border-t border-slate-200"></div>
-
-              {/* Statistics */}
-              <div className="grid grid-cols-3">
-                <div className="text-center">
-                  <h3 className="text-xl sm:text-3xl font-bold text-teal-600">50+</h3>
-                  <p className="mt-1 text-[11px] sm:text-sm text-slate-500">Families Served</p>
-                </div>
-
-                <div className="border-x border-slate-200 text-center">
-                  <h3 className="text-xl sm:text-3xl font-bold text-teal-600">100%</h3>
-                  <p className="mt-1 text-[11px] sm:text-sm text-slate-500">Verified</p>
-                </div>
-
-                <div className="text-center">
-                  <h3 className="text-xl sm:text-3xl font-bold text-teal-600">24/7</h3>
-                  <p className="mt-1 text-[11px] sm:text-sm text-slate-500">Support</p>
-                </div>
-              </div>
-            </div>
+              See How It Works
+            </button>
           </div>
+
         </div>
       </div>
     </section>
-  );
+  )
 }
