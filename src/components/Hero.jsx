@@ -162,8 +162,10 @@ export default function Hero() {
       return
     }
 
-    const timer = setTimeout(() => setStarted(true), 150)
-    return () => clearTimeout(timer)
+    // FIX 4: Use requestAnimationFrame instead of setTimeout
+    requestAnimationFrame(() => {
+      setStarted(true)
+    })
   }, [])
 
   const revealClass = `transition-all duration-700 ease-out ${started
@@ -386,11 +388,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — Image */}
-          <div
-            className={`w-full md:w-[46%] lg:w-[48%] relative ${revealClass}`}
-            style={revealStyle(2)}
-          >
+          {/* RIGHT — Image - FIX 1: No animation on LCP image */}
+          <div className="w-full md:w-[46%] lg:w-[48%] relative">
             {/* Decorative blobs behind the photo */}
             <div className="hidden sm:block absolute -top-6 -right-4 w-28 h-28 rounded-full bg-[#7FC8C0]/30 pointer-events-none" />
             <div className="hidden sm:block absolute top-16 -right-2 w-10 h-10 rounded-full bg-[#F6C89F] pointer-events-none" />
@@ -424,11 +423,11 @@ export default function Hero() {
                   "
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
-                {/* Final fallback for browsers with no <picture>/srcset support */}
+                {/* FIX 5: Removed absolute positioning for better layout performance */}
                 <img
                   src="/Assests/elder-hero-1024.webp"
                   alt="Elderly companion and senior smiling together at home"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="block w-full h-full object-cover"
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"

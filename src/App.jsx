@@ -133,9 +133,9 @@ function Home() {
 
   return (
     <>
-      <AdvertisementPopup />
       <AnnouncementBar />
       <Hero />
+      <AdvertisementPopup />
       <WhatIsWhy />
       <ParentSection />
       <CompanionServices />
