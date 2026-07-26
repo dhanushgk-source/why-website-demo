@@ -9,6 +9,11 @@ import {
   Leaf,
 } from 'lucide-react'
 
+// Builds a srcSet string from a list of { src, width } entries.
+const toSrcSet = (list) => list.map(({ src, width }) => `${src} ${width}w`).join(', ')
+
+const CARD_IMAGE_SIZES = '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+
 const cards = [
   {
     theme: 'orange',
@@ -18,7 +23,21 @@ const cards = [
     BulletIcon: Heart,
     HeaderIcon: Heart,
     imageType: 'photo',
-    image: '/Assests/elder .webp',
+    imageAvif: [
+      { src: '/Assests/elder-480.avif', width: 480 },
+      { src: '/Assests/elder-768.avif', width: 768 },
+      { src: '/Assests/elder-1024.avif', width: 1024 },
+      { src: '/Assests/elder-1440.avif', width: 1440 },
+    ],
+    imageWebp: [
+      { src: '/Assests/elder-480.webp', width: 480 },
+      { src: '/Assests/elder-768.webp', width: 768 },
+      { src: '/Assests/elder-1024.webp', width: 1024 },
+      { src: '/Assests/elder-1440.webp', width: 1440 },
+    ],
+    image: '/Assests/elder-768.webp',
+    imageWidth: 768,
+    imageHeight: 511,
     imageAlt:
       'An elderly couple smiling, representing the elders and families WHY supports',
     title: 'For Seniors & Individuals of all ages ',
@@ -38,7 +57,13 @@ const cards = [
     HeaderIcon: ShieldCheck,
     imageType: 'logo',
     imageBg: 'bg-gradient-to-b from-white via-[#CFF3EA] to-[#0D9488]',
-    image: '/Assests/WHY_logo.png',
+    imageWebp: [
+      { src: '/Assests/WHY_logo-256.webp', width: 256 },
+      { src: '/Assests/WHY_logo-512.webp', width: 512 },
+    ],
+    image: '/Assests/WHY_logo-512.webp',
+    imageWidth: 512,
+    imageHeight: 263,
     imageAlt: 'WHY logo mark',
     title: "WHY's Role",
     items: [
@@ -56,7 +81,17 @@ const cards = [
     BulletIcon: User,
     HeaderIcon: Users,
     imageType: 'photo',
-    image: '/Assests/pro.webp',
+    imageAvif: [
+      { src: '/Assests/pro-480.avif', width: 480 },
+      { src: '/Assests/pro-768.avif', width: 540 },
+    ],
+    imageWebp: [
+      { src: '/Assests/pro-480.webp', width: 480 },
+      { src: '/Assests/pro-768.webp', width: 540 },
+    ],
+    image: '/Assests/pro-768.webp',
+    imageWidth: 540,
+    imageHeight: 360,
     imageAlt:
       'A caregiver in scrubs smiling, representing the WHY PROs on the WHY platform',
     title: 'For WHY PROs',
@@ -214,23 +249,53 @@ export default function WhatIsWhy() {
               {/* Image */}
               <div className="relative h-56 overflow-hidden">
                 {card.imageType === 'photo' ? (
-                  <img
-                    src={card.image}
-                    alt={card.imageAlt}
-                    
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
-                  />
-                ) : (
-                  <div
-                    className={`relative flex h-full w-full items-center justify-center p-10 ${card.imageBg}`}
-                  >
+                  <picture>
+                    {card.imageAvif && (
+                      <source
+                        type="image/avif"
+                        srcSet={toSrcSet(card.imageAvif)}
+                        sizes={CARD_IMAGE_SIZES}
+                      />
+                    )}
+                    {card.imageWebp && (
+                      <source
+                        type="image/webp"
+                        srcSet={toSrcSet(card.imageWebp)}
+                        sizes={CARD_IMAGE_SIZES}
+                      />
+                    )}
                     <img
                       src={card.image}
                       alt={card.imageAlt}
                       loading="lazy"
-                      className="h-full w-full object-contain drop-shadow-lg transition-all duration-700 ease-out group-hover:scale-110"
+                      decoding="async"
+                      width={card.imageWidth}
+                      height={card.imageHeight}
+                      className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
                     />
+                  </picture>
+                ) : (
+                  <div
+                    className={`relative flex h-full w-full items-center justify-center p-10 ${card.imageBg}`}
+                  >
+                    <picture>
+                      {card.imageWebp && (
+                        <source
+                          type="image/webp"
+                          srcSet={toSrcSet(card.imageWebp)}
+                          sizes="200px"
+                        />
+                      )}
+                      <img
+                        src={card.image}
+                        alt={card.imageAlt}
+                        loading="lazy"
+                        decoding="async"
+                        width={card.imageWidth}
+                        height={card.imageHeight}
+                        className="h-full w-full object-contain drop-shadow-lg transition-all duration-700 ease-out group-hover:scale-110"
+                      />
+                    </picture>
                   </div>
                 )}
 

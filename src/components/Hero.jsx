@@ -403,15 +403,40 @@ export default function Hero() {
 
             {/* Photo card */}
             <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] md:aspect-[4/3] lg:aspect-[5/4] rounded-[2rem] overflow-hidden shadow-2xl shadow-[#1B2A4A]/10 ring-1 ring-black/5">
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: "url('/Assests/elder.webp')",
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
-              <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
+              <picture>
+                {/* AVIF first — smallest */}
+                <source
+                  type="image/avif"
+                  srcSet="
+                    /Assests/elder-hero-768.avif 768w,
+                    /Assests/elder-hero-1024.avif 1024w,
+                    /Assests/elder-hero-1440.avif 1440w
+                  "
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                {/* WebP fallback, responsive */}
+                <source
+                  type="image/webp"
+                  srcSet="
+                    /Assests/elder-hero-768.webp 768w,
+                    /Assests/elder-hero-1024.webp 1024w,
+                    /Assests/elder-hero-1440.webp 1440w
+                  "
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                {/* Final fallback for browsers with no <picture>/srcset support */}
+                <img
+                  src="/Assests/elder-hero-1024.webp"
+                  alt="Elderly companion and senior smiling together at home"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  width="1024"
+                  height="820"
+                />
+              </picture>
+              <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10 pointer-events-none" />
             </div>
           </div>
         </div>
