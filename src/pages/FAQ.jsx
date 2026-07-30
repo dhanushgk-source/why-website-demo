@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { useState } from "react";
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from "../config/contact";
 
@@ -65,27 +67,7 @@ export default function FAQ() {
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen text-gray-700">
-      {/* Header */}
-      <header className="bg-white shadow-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex justify-start">
-            <Link to="/">
-              <img
-                src="/Assests/WHY_logo.png"
-                alt="WHY logo"
-                className="h-14 hover:-translate-y-0.5 hover:shadow-lg transition duration-300"
-              />
-            </Link>
-          </div>
-
-          <Link
-            to="/"
-            className="text-sm text-[#2F4A7D] hover:text-[#41D0C3] transition"
-          >
-            ← Back to Home
-          </Link>
-        </div>
-      </header>
+      <Navbar/>
 
       {/* Hero Section */}
       <section className="py-16 text-center px-6">
@@ -127,9 +109,7 @@ export default function FAQ() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#2F4A7D] text-white py-6 text-center">
-        <p className="text-sm opacity-80">© 2026 WHY. All Rights Reserved.</p>
-      </footer>
+      <Footer/>
     </div>
   );
 }

@@ -42,7 +42,9 @@ export default function Footer() {
     <footer
       id="footer-section"
       className="text-white pt-20 pb-8"
-      style={{ background: 'linear-gradient(180deg, #2F4A7D 0%, #1B2A4A 100%)' }}
+      style={{
+  background: "linear-gradient(180deg, #0D1B2A 0%, #132B45 55%, #0A1623 100%)",
+}}
     >
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer"
 
 export default function PrivacyPolicyPro() {
   return (
@@ -171,11 +172,7 @@ export default function PrivacyPolicyPro() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#2F4A7D] text-white py-6 text-center">
-        <p className="text-sm opacity-80">
-          © 2026 WHY PRO. All Rights Reserved.
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }

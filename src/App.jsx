@@ -45,6 +45,15 @@ const Jobs = lazy(() => import("./pages/careers/Jobs"));
 const JobDetails = lazy(() => import("./pages/careers/JobDetails"));
 const MyApplications = lazy(() => import("./pages/careers/MyApplications"));
 
+// Lazy load Learn pages
+const LearnLogin = lazy(() => import("./pages/learn/LearnLogin"));
+const LearnRegister = lazy(() => import("./pages/learn/LearnRegister"));
+const SetPassword = lazy(() => import("./pages/learn/SetPassword"));
+const MyLearning = lazy(() => import("./pages/learn/MyLearning"));
+const CourseLayout = lazy(() => import("./pages/learn/CourseLayout"));
+const CourseIndexRedirect = lazy(() => import("./pages/learn/CourseIndexRedirect"));
+const LessonPage = lazy(() => import("./pages/learn/LessonPage"));
+
 // Lazy load Admin pages
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const ManageJobs = lazy(() => import("./pages/admin/ManageJobs"));
@@ -162,7 +171,10 @@ function AppLayout() {
   const isCareerOrAdmin =
     pathname.startsWith("/careers") || pathname.startsWith("/admin");
 
-  const hideGlobalLayout = ["/contact", "/faq"].includes(pathname);
+  const isLearn = pathname.startsWith("/learn");
+
+  const hideGlobalLayout =
+    ["/contact", "/faq"].includes(pathname) || isLearn;
 
   const hideFooterOnly = [
     "/data-deletion",
@@ -234,6 +246,32 @@ function AppLayout() {
                 </ProtectedRoute>
               }
             />
+
+            {/* Learn Portal - Lazy Loaded */}
+            <Route path="/learn/login" element={<LearnLogin />} />
+            <Route path="/learn/register" element={<LearnRegister />} />
+            <Route path="/learn/set-password" element={<SetPassword />} />
+
+            <Route
+              path="/learn"
+              element={
+                <ProtectedRoute redirectTo="/learn/login">
+                  <MyLearning />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/learn/course/:courseId"
+              element={
+                <ProtectedRoute redirectTo="/learn/login">
+                  <CourseLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<CourseIndexRedirect />} />
+              <Route path="lesson/:lessonId" element={<LessonPage />} />
+            </Route>
 
             {/* Admin Routes - Lazy Loaded */}
             <Route 

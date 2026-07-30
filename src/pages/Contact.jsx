@@ -1,26 +1,11 @@
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function Contact() {
   return (
     <div className="bg-white text-gray-800 min-h-screen">
-      <header className="border-b">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-          <Link to="/">
-            <img
-              src="/Assests/WHY_logo.png"
-              alt="WHY logo"
-              className="h-14 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg"
-            />
-          </Link>
-
-          <Link
-            to="/"
-            className="text-sm text-gray-600 hover:text-black transition"
-          >
-            ← Back to Home
-          </Link>
-        </div>
-      </header>
+      <Navbar/>
 
       <section className="max-w-4xl mx-auto px-6 md:px-16 py-12 md:py-16">
         <h2 className="text-4xl font-bold mb-10">Contact Us</h2>
@@ -65,7 +50,55 @@ export default function Contact() {
             />
           </div>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+  {/* Phone */}
+  <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
+    <div className="text-4xl mb-4">📞</div>
+    <h3 className="text-xl font-semibold mb-2">Phone</h3>
+    <p className="text-gray-600 mb-4">Speak directly with our support team.</p>
+    <a
+      href="tel:+919876543210"
+      className="text-[#52B5BD] font-semibold hover:underline"
+    >
+      +91 98765 43210
+    </a>
+  </div>
+
+  {/* Email */}
+  <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
+    <div className="text-4xl mb-4">📧</div>
+    <h3 className="text-xl font-semibold mb-2">Email</h3>
+    <p className="text-gray-600 mb-4">
+      Send us your questions anytime.
+    </p>
+    <a
+      href="mailto:support@whyservices.in"
+      className="text-[#52B5BD] font-semibold hover:underline"
+    >
+      support@whyservices.in
+    </a>
+  </div>
+
+  {/* WhatsApp */}
+  <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
+    <div className="text-4xl mb-4">💬</div>
+    <h3 className="text-xl font-semibold mb-2">WhatsApp</h3>
+    <p className="text-gray-600 mb-4">
+      Chat with us for instant assistance.
+    </p>
+    <a
+      href="https://wa.me/919876543210"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-[#52B5BD] font-semibold hover:underline"
+    >
+      Chat on WhatsApp
+    </a>
+  </div>
+</div>
       </section>
+
+      <Footer/>
     </div>
   );
 }

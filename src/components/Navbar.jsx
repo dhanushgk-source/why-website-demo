@@ -132,16 +132,7 @@ export default function Navbar() {
         >
           {/* LOGO / BACK — visible on all breakpoints (mobile, tablet, laptop, desktop) */}
           <div className="flex justify-start items-center gap-3">
-            {!isHome && (
-              <button
-                onClick={handleBackHome}
-                className="flex items-center justify-center h-10 w-10 rounded-full transition-all duration-300 hover:scale-105 flex-shrink-0"
-                style={{ background: '#fff', border: '1px solid #52B5BD', color: '#1B2A4A' }}
-                aria-label="Back to home"
-              >
-                <Icons.ArrowLeft className="h-5 w-5" />
-              </button>
-            )}
+           
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
