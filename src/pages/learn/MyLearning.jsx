@@ -8,6 +8,7 @@ function CourseCard({ course }) {
     ? Math.round((course.completedLessons / course.totalLessons) * 100)
     : 0;
   const started = course.completedLessons > 0;
+  const hasLessons = Boolean(course.resumeLessonId);
   const resumeHref = `/learn/course/${course.id}/lesson/${course.resumeLessonId}`;
 
   return (
@@ -39,12 +40,18 @@ function CourseCard({ course }) {
           />
         </div>
 
-        <Link
-          to={resumeHref}
-          className="mt-auto text-center text-sm font-semibold bg-[#2F4A7D] hover:bg-[#52B5BD] text-white py-2.5 rounded-xl transition-colors duration-300"
-        >
-          {started ? "Continue where you left off" : "Start course"}
-        </Link>
+        {hasLessons ? (
+          <Link
+            to={resumeHref}
+            className="mt-auto text-center text-sm font-semibold bg-[#2F4A7D] hover:bg-[#52B5BD] text-white py-2.5 rounded-xl transition-colors duration-300"
+          >
+            {started ? "Continue where you left off" : "Start course"}
+          </Link>
+        ) : (
+          <span className="mt-auto text-center text-sm font-semibold bg-gray-100 text-gray-400 py-2.5 rounded-xl cursor-not-allowed">
+            No lessons yet
+          </span>
+        )}
       </div>
     </div>
   );

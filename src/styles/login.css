@@ -1,0 +1,102 @@
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  background: var(--ink);
+}
+
+.login-visual {
+  flex: 1.1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px;
+  color: var(--on-ink);
+  background: radial-gradient(circle at 15% 15%, var(--ink-3), var(--ink) 60%);
+  overflow: hidden;
+}
+
+.login-visual .mark {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.login-visual .mark span {
+  color: var(--brass);
+}
+
+.login-visual .headline {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.15;
+  font-weight: 600;
+  max-width: 12ch;
+}
+
+.login-visual .headline em {
+  font-style: normal;
+  color: var(--brass);
+}
+
+.login-visual .foot {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--on-ink-muted);
+  letter-spacing: 0.04em;
+  max-width: 40ch;
+}
+
+.login-visual .big-pulse {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  right: 0;
+  opacity: 0.5;
+}
+
+.login-panel {
+  flex: 1;
+  min-width: 380px;
+  max-width: 480px;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 340px;
+}
+
+.login-card .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brass-dark);
+  margin-bottom: 8px;
+}
+
+.login-card h1 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.login-card .desc {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 780px) {
+  .login-visual {
+    display: none;
+  }
+  .login-panel {
+    max-width: none;
+    min-width: 0;
+  }
+}
