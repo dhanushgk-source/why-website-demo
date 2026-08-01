@@ -22,6 +22,8 @@ export default function LessonPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [marking, setMarking] = useState(false);
+  const [celebrating, setCelebrating] = useState(false);
+  const [issuedCertId, setIssuedCertId] = useState(null);
 
   const debounceRef = useRef(null);
 
@@ -73,11 +75,22 @@ export default function LessonPage() {
   const handleMarkComplete = async () => {
     setMarking(true);
     try {
-      await updateMyLessonProgress(lessonId, {
+      const res = await updateMyLessonProgress(lessonId, {
         status: "completed",
         lastPage: progress?.lastPage ?? null,
       });
       patchLessonStatus(lessonId, "completed");
+
+      const certInfo = res.data?.certificate;
+      if (certInfo?.issued && certInfo?.certificateId) {
+        setIssuedCertId(certInfo.certificateId);
+        setCelebrating(true);
+        setTimeout(() => {
+          navigate(`/learn/certificate/${certInfo.certificateId}`);
+        }, 1800);
+        return;
+      }
+
       if (lesson?.nextLessonId) {
         navigate(`/learn/course/${courseId}/lesson/${lesson.nextLessonId}`);
       }
@@ -159,6 +172,27 @@ export default function LessonPage() {
             : "Mark complete"}
         </button>
       </div>
+
+      {celebrating && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl animate-fade-in">
+            <div className="w-20 h-20 bg-amber-100 border-2 border-amber-300 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner animate-bounce">
+              🏆
+            </div>
+            <h2 className="text-2xl font-bold text-[#0D1B3E] mb-2">Congratulations!</h2>
+            <p className="text-gray-600 text-sm mb-6">
+              You have completed 100% of this course! Generating your official Certificate of Completion...
+            </p>
+            <button
+              onClick={() => navigate(`/learn/certificate/${issuedCertId}`)}
+              className="w-full bg-[#0D1B3E] hover:bg-[#D4AF37] hover:text-[#0D1B3E] text-white font-bold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2"
+            >
+              <span>View Certificate Now</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
