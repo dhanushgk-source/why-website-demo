@@ -78,6 +78,7 @@ export default function MyLearning() {
   const [isStudent, setIsStudent] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState("courses"); // 'courses' | 'certificates'
 
   useEffect(() => {
     let mounted = true;
@@ -116,11 +117,12 @@ export default function MyLearning() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFB]">
+      {/* Header */}
       <header className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4 flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold text-[#52B5BD] uppercase tracking-wide">My Learning Portal</p>
-            <h1 className="text-xl md:text-2xl font-bold text-[#2F4A7D] mt-0.5">
+            <h1 className="text-xl md:text-2xl font-bold text-[#0D1B3E] mt-0.5">
               Welcome back{user?.fullName ? `, ${user.fullName.split(" ")[0]}` : ""}
             </h1>
           </div>
@@ -128,7 +130,7 @@ export default function MyLearning() {
           {/* User Profile & Logout */}
           <div className="flex items-center gap-3 md:gap-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#2F4A7D] to-[#52B5BD] text-white font-bold text-sm flex items-center justify-center shadow-sm">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#0D1B3E] to-[#52B5BD] text-white font-bold text-sm flex items-center justify-center shadow-sm">
                 {getInitials(user?.fullName)}
               </div>
               <div className="hidden md:block text-left">
@@ -151,27 +153,40 @@ export default function MyLearning() {
             </button>
           </div>
         </div>
+
+        {/* Section Navigation Tabs */}
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 flex items-center gap-8 border-t border-gray-100 text-sm font-semibold pt-3">
+          <button
+            onClick={() => setActiveTab("courses")}
+            className={`pb-3 flex items-center gap-2 border-b-2 transition-colors ${
+              activeTab === "courses"
+                ? "border-[#0D1B3E] text-[#0D1B3E] font-bold"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            <span>📚 My Enrolled Courses</span>
+            <span className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "courses" ? "bg-[#0D1B3E]/10 text-[#0D1B3E]" : "bg-gray-100 text-gray-500"}`}>
+              {courses.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("certificates")}
+            className={`pb-3 flex items-center gap-2 border-b-2 transition-colors ${
+              activeTab === "certificates"
+                ? "border-amber-500 text-amber-900 font-bold"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            <span>🏆 My Certificates</span>
+            <span className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "certificates" ? "bg-amber-100 text-amber-900" : "bg-gray-100 text-gray-500"}`}>
+              {certificates.length}
+            </span>
+          </button>
+        </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 lg:px-8 py-8 space-y-10">
-        {inProgress && (
-          <Link
-            to={`/learn/course/${inProgress.id}/lesson/${inProgress.resumeLessonId}`}
-            className="block rounded-2xl bg-gradient-to-r from-[#2F4A7D] to-[#3E6BA8] text-white p-6 md:p-8 hover:shadow-xl transition-shadow duration-300"
-          >
-            <p className="text-white/70 text-xs font-semibold uppercase tracking-wide mb-2">
-              Pick up where you left off
-            </p>
-            <h2 className="text-xl md:text-2xl font-bold mb-4">{inProgress.title}</h2>
-            <span className="inline-flex items-center gap-2 text-sm font-semibold bg-white text-[#2F4A7D] px-4 py-2 rounded-xl">
-              Continue lesson
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </Link>
-        )}
-
+      <main className="max-w-6xl mx-auto px-4 lg:px-8 py-8 space-y-8">
         {loading && (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[1, 2, 3].map((i) => (
@@ -186,115 +201,178 @@ export default function MyLearning() {
           </p>
         )}
 
-        {!loading && !error && isStudent && courses.length === 0 && (
-          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 p-8">
-            <p className="text-gray-400">You're not enrolled in any courses yet.</p>
-          </div>
-        )}
+        {/* TAB 1: ENROLLED COURSES SECTION */}
+        {activeTab === "courses" && !loading && !error && (
+          <>
+            {inProgress && (
+              <Link
+                to={`/learn/course/${inProgress.id}/lesson/${inProgress.resumeLessonId}`}
+                className="block rounded-2xl bg-gradient-to-r from-[#0D1B3E] to-[#1C2541] text-white p-6 md:p-8 hover:shadow-xl transition-shadow duration-300 relative overflow-hidden"
+              >
+                <p className="text-amber-300 text-xs font-semibold uppercase tracking-wide mb-2">
+                  Pick up where you left off
+                </p>
+                <h2 className="text-xl md:text-2xl font-bold mb-4">{inProgress.title}</h2>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold bg-amber-400 text-amber-950 px-5 py-2.5 rounded-xl shadow-md">
+                  Continue lesson →
+                </span>
+              </Link>
+            )}
 
-        {!loading && !error && !isStudent && (
-          <div className="text-center py-20 max-w-md mx-auto">
-            <div className="w-14 h-14 rounded-2xl bg-[#EAF6F7] flex items-center justify-center mx-auto mb-4">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 6v6l4 2" stroke="#52B5BD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="12" cy="12" r="9" stroke="#52B5BD" strokeWidth="2" />
-              </svg>
-            </div>
-            <p className="text-gray-600 font-medium mb-1">No courses assigned yet</p>
-            <p className="text-gray-400 text-sm">
-              Your account is created, but you haven't been enrolled in a course yet.
-              Reach out to your administrator to get access.
-            </p>
-          </div>
-        )}
+            {isStudent && courses.length === 0 && (
+              <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 p-8">
+                <p className="text-gray-400">You're not enrolled in any courses yet.</p>
+              </div>
+            )}
 
-        {/* Course Cards Grid */}
-        {!loading && !error && isStudent && courses.length > 0 && (
-          <section>
-            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <span>My Enrolled Courses</span>
-              <span className="text-xs bg-gray-100 text-gray-600 font-semibold px-2 py-0.5 rounded-full">
-                {courses.length}
-              </span>
-            </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {courses.map((c) => (
-                <CourseCard
-                  key={c.id}
-                  course={c}
-                  certificate={certificates.find((cert) => cert.training_id === c.id)}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Certificates Table Section */}
-        {!loading && !error && isStudent && (
-          <section className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-5">
-              <div>
-                <h2 className="text-lg font-bold text-[#2F4A7D] flex items-center gap-2">
-                  <span>🏆 My Certificates & Achievements</span>
-                </h2>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  Official certificates earned upon completing 100% of a training course
+            {!isStudent && (
+              <div className="text-center py-20 max-w-md mx-auto">
+                <div className="w-14 h-14 rounded-2xl bg-[#EAF6F7] flex items-center justify-center mx-auto mb-4">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 6v6l4 2" stroke="#52B5BD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="12" cy="12" r="9" stroke="#52B5BD" strokeWidth="2" />
+                  </svg>
+                </div>
+                <p className="text-gray-600 font-medium mb-1">No courses assigned yet</p>
+                <p className="text-gray-400 text-sm">
+                  Your account is created, but you haven't been enrolled in a course yet.
+                  Reach out to your administrator to get access.
                 </p>
               </div>
-              <span className="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full">
-                {certificates.length} {certificates.length === 1 ? "Certificate" : "Certificates"}
-              </span>
+            )}
+
+            {isStudent && courses.length > 0 && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {courses.map((c) => (
+                  <CourseCard
+                    key={c.id}
+                    course={c}
+                    certificate={certificates.find((cert) => cert.training_id === c.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* TAB 2: SEPARATE CERTIFICATES SECTION */}
+        {activeTab === "certificates" && !loading && !error && (
+          <section className="bg-white rounded-2xl border border-gray-100 p-6 md:p-8 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-5">
+              <div>
+                <h2 className="text-xl font-bold text-[#0D1B3E] flex items-center gap-2">
+                  <span>🏆 Official Certificates of Completion</span>
+                </h2>
+                <p className="text-xs text-gray-500 mt-1">
+                  View, print, and download your earned course completion certificates
+                </p>
+              </div>
+              <div className="bg-amber-50 border border-amber-200 text-amber-900 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 self-start sm:self-auto">
+                <span>Earned Certificates:</span>
+                <span className="text-sm font-mono">{certificates.length}</span>
+              </div>
             </div>
 
             {certificates.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead>
-                    <tr className="border-b border-gray-100 text-xs font-semibold text-gray-400 uppercase tracking-wider bg-gray-50/50">
-                      <th className="py-3 px-4 rounded-l-xl">Course Title</th>
-                      <th className="py-3 px-4">Certificate Code</th>
-                      <th className="py-3 px-4">Date Issued</th>
-                      <th className="py-3 px-4 text-right rounded-r-xl">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {certificates.map((cert) => (
-                      <tr key={cert.id} className="hover:bg-gray-50/80 transition-colors">
-                        <td className="py-4 px-4 font-semibold text-gray-800">
-                          {cert.course_title}
-                        </td>
-                        <td className="py-4 px-4 font-mono text-xs font-bold text-amber-900">
+              <div className="space-y-4">
+                {/* Certificate Cards Grid */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  {certificates.map((cert) => (
+                    <div
+                      key={cert.id}
+                      className="bg-gradient-to-br from-[#FAF9F5] to-amber-50/30 rounded-2xl border-2 border-amber-200 p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group"
+                    >
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center text-2xl flex-shrink-0 shadow-inner">
+                          🏆
+                        </div>
+                        <span className="bg-[#0D1B3E] text-amber-300 font-mono text-[11px] font-bold px-3 py-1 rounded-full border border-amber-400/40">
                           {cert.certificate_number}
-                        </td>
-                        <td className="py-4 px-4 text-gray-500 text-xs">
-                          {cert.issued_at
-                            ? new Date(cert.issued_at).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              })
-                            : "N/A"}
-                        </td>
-                        <td className="py-4 px-4 text-right">
-                          <Link
-                            to={`/learn/certificate/${cert.id}`}
-                            className="inline-flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-4 py-2 rounded-xl transition shadow-sm"
-                          >
-                            <span>View Certificate</span>
-                            <span>→</span>
-                          </Link>
-                        </td>
+                        </span>
+                      </div>
+
+                      <div>
+                        <h3 className="font-bold text-[#0D1B3E] text-base mb-1 line-clamp-1">
+                          {cert.course_title}
+                        </h3>
+                        <p className="text-xs text-slate-500 mb-4">
+                          Issued on {cert.issued_at ? new Date(cert.issued_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "N/A"}
+                        </p>
+                      </div>
+
+                      <Link
+                        to={`/learn/certificate/${cert.id}`}
+                        className="w-full bg-[#0D1B3E] hover:bg-[#D4AF37] hover:text-[#0D1B3E] text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-2 shadow-sm"
+                      >
+                        <span>Open & Print Certificate</span>
+                        <span>→</span>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Structured Table View */}
+                <div className="overflow-x-auto mt-6 pt-4 border-t border-gray-100">
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                    Certificate Records Log
+                  </h4>
+                  <table className="w-full text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-gray-100 text-xs font-semibold text-gray-400 uppercase tracking-wider bg-gray-50/50">
+                        <th className="py-3 px-4 rounded-l-xl">Course Title</th>
+                        <th className="py-3 px-4">Certificate Code</th>
+                        <th className="py-3 px-4">Date Issued</th>
+                        <th className="py-3 px-4 text-right rounded-r-xl">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {certificates.map((cert) => (
+                        <tr key={cert.id} className="hover:bg-gray-50/80 transition-colors">
+                          <td className="py-4 px-4 font-semibold text-gray-800">
+                            {cert.course_title}
+                          </td>
+                          <td className="py-4 px-4 font-mono text-xs font-bold text-amber-900">
+                            {cert.certificate_number}
+                          </td>
+                          <td className="py-4 px-4 text-gray-500 text-xs">
+                            {cert.issued_at
+                              ? new Date(cert.issued_at).toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })
+                              : "N/A"}
+                          </td>
+                          <td className="py-4 px-4 text-right">
+                            <Link
+                              to={`/learn/certificate/${cert.id}`}
+                              className="inline-flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-4 py-2 rounded-xl transition shadow-sm"
+                            >
+                              <span>Open Certificate</span>
+                              <span>→</span>
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             ) : (
-              <div className="text-center py-8 bg-slate-50/50 rounded-xl border border-dashed border-gray-200">
-                <p className="text-gray-500 text-sm font-medium">No certificates earned yet</p>
-                <p className="text-gray-400 text-xs mt-1">
-                  Complete all lessons in a course to automatically issue your certificate of completion!
+              <div className="text-center py-16 bg-slate-50/60 rounded-2xl border-2 border-dashed border-gray-200 p-8">
+                <div className="w-14 h-14 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-3xl mx-auto mb-3">
+                  📜
+                </div>
+                <h3 className="text-gray-800 font-bold text-base mb-1">No Certificates Earned Yet</h3>
+                <p className="text-gray-500 text-xs max-w-sm mx-auto mb-4">
+                  Complete 100% of the lessons in an assigned training course to issue your official Certificate of Completion!
                 </p>
+                <button
+                  onClick={() => setActiveTab("courses")}
+                  className="bg-[#0D1B3E] text-white font-semibold text-xs px-5 py-2.5 rounded-xl hover:bg-[#52B5BD] transition"
+                >
+                  View Enrolled Courses →
+                </button>
               </div>
             )}
           </section>
