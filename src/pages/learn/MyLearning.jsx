@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getMyTrainings } from "../../services/learnService";
+import { useAuth } from "../../contexts/AuthContext";
 import { getMyCertificates } from "../../services/certificateService";
 
 function CourseCard({ course, certificate }) {
