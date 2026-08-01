@@ -72,7 +72,7 @@ function CourseCard({ course, certificate }) {
 }
 
 export default function MyLearning() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [courses, setCourses] = useState([]);
   const [certificates, setCertificates] = useState([]);
   const [isStudent, setIsStudent] = useState(true);
@@ -104,24 +104,60 @@ export default function MyLearning() {
 
   const inProgress = courses.find((c) => c.completedLessons > 0 && c.completedLessons < c.totalLessons);
 
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+  };
+
   return (
     <div className="min-h-screen bg-[#F8FAFB]">
-      <header className="bg-white border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6 flex items-center justify-between">
+      <header className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-20">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4 flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-[#52B5BD] uppercase tracking-wide">My Learning</p>
-            <h1 className="text-2xl font-bold text-[#2F4A7D] mt-1">
+            <p className="text-xs font-semibold text-[#52B5BD] uppercase tracking-wide">My Learning Portal</p>
+            <h1 className="text-xl md:text-2xl font-bold text-[#2F4A7D] mt-0.5">
               Welcome back{user?.fullName ? `, ${user.fullName.split(" ")[0]}` : ""}
             </h1>
+          </div>
+
+          {/* User Profile & Logout */}
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#2F4A7D] to-[#52B5BD] text-white font-bold text-sm flex items-center justify-center shadow-sm">
+                {getInitials(user?.fullName)}
+              </div>
+              <div className="hidden md:block text-left">
+                <p className="text-xs font-bold text-gray-800 line-clamp-1">{user?.fullName || "Student Account"}</p>
+                <p className="text-[11px] text-gray-400 line-clamp-1">{user?.email}</p>
+              </div>
+            </div>
+
+            <button
+              onClick={logout}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-100"
+              title="Sign out of your account"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 lg:px-8 py-8">
+      <main className="max-w-6xl mx-auto px-4 lg:px-8 py-8 space-y-10">
         {inProgress && (
           <Link
             to={`/learn/course/${inProgress.id}/lesson/${inProgress.resumeLessonId}`}
-            className="block mb-8 rounded-2xl bg-gradient-to-r from-[#2F4A7D] to-[#3E6BA8] text-white p-6 md:p-8 hover:shadow-xl transition-shadow duration-300"
+            className="block rounded-2xl bg-gradient-to-r from-[#2F4A7D] to-[#3E6BA8] text-white p-6 md:p-8 hover:shadow-xl transition-shadow duration-300"
           >
             <p className="text-white/70 text-xs font-semibold uppercase tracking-wide mb-2">
               Pick up where you left off
@@ -151,7 +187,7 @@ export default function MyLearning() {
         )}
 
         {!loading && !error && isStudent && courses.length === 0 && (
-          <div className="text-center py-20">
+          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 p-8">
             <p className="text-gray-400">You're not enrolled in any courses yet.</p>
           </div>
         )}
@@ -172,16 +208,96 @@ export default function MyLearning() {
           </div>
         )}
 
+        {/* Course Cards Grid */}
         {!loading && !error && isStudent && courses.length > 0 && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {courses.map((c) => (
-              <CourseCard
-                key={c.id}
-                course={c}
-                certificate={certificates.find((cert) => cert.training_id === c.id)}
-              />
-            ))}
-          </div>
+          <section>
+            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <span>My Enrolled Courses</span>
+              <span className="text-xs bg-gray-100 text-gray-600 font-semibold px-2 py-0.5 rounded-full">
+                {courses.length}
+              </span>
+            </h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {courses.map((c) => (
+                <CourseCard
+                  key={c.id}
+                  course={c}
+                  certificate={certificates.find((cert) => cert.training_id === c.id)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Certificates Table Section */}
+        {!loading && !error && isStudent && (
+          <section className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <h2 className="text-lg font-bold text-[#2F4A7D] flex items-center gap-2">
+                  <span>🏆 My Certificates & Achievements</span>
+                </h2>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Official certificates earned upon completing 100% of a training course
+                </p>
+              </div>
+              <span className="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full">
+                {certificates.length} {certificates.length === 1 ? "Certificate" : "Certificates"}
+              </span>
+            </div>
+
+            {certificates.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-100 text-xs font-semibold text-gray-400 uppercase tracking-wider bg-gray-50/50">
+                      <th className="py-3 px-4 rounded-l-xl">Course Title</th>
+                      <th className="py-3 px-4">Certificate Code</th>
+                      <th className="py-3 px-4">Date Issued</th>
+                      <th className="py-3 px-4 text-right rounded-r-xl">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {certificates.map((cert) => (
+                      <tr key={cert.id} className="hover:bg-gray-50/80 transition-colors">
+                        <td className="py-4 px-4 font-semibold text-gray-800">
+                          {cert.course_title}
+                        </td>
+                        <td className="py-4 px-4 font-mono text-xs font-bold text-amber-900">
+                          {cert.certificate_number}
+                        </td>
+                        <td className="py-4 px-4 text-gray-500 text-xs">
+                          {cert.issued_at
+                            ? new Date(cert.issued_at).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })
+                            : "N/A"}
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <Link
+                            to={`/learn/certificate/${cert.id}`}
+                            className="inline-flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-4 py-2 rounded-xl transition shadow-sm"
+                          >
+                            <span>View Certificate</span>
+                            <span>→</span>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center py-8 bg-slate-50/50 rounded-xl border border-dashed border-gray-200">
+                <p className="text-gray-500 text-sm font-medium">No certificates earned yet</p>
+                <p className="text-gray-400 text-xs mt-1">
+                  Complete all lessons in a course to automatically issue your certificate of completion!
+                </p>
+              </div>
+            )}
+          </section>
         )}
       </main>
     </div>
