@@ -11,7 +11,7 @@ export const getCurrentUser = (token) =>
 // Learn-portal-specific self-signup — creates a `students` row too (see
 // backend authController.registerStudent), NOT the shared /auth/register
 // used by the careers/job-applicant signup.
-export const registerStudent = (data) => API.post("/auth/register-student", data);
+export const registerStudent = (data) => API.post("/auth/register", data);
 
 // Consumes a one-time token from an emailed setup/reset link.
 export const setPassword = (token, newPassword) =>
