@@ -48,11 +48,13 @@ const MyApplications = lazy(() => import("./pages/careers/MyApplications"));
 // Lazy load Learn pages
 const LearnLogin = lazy(() => import("./pages/learn/LearnLogin"));
 const LearnRegister = lazy(() => import("./pages/learn/LearnRegister"));
+const ForgotPassword = lazy(() => import("./pages/learn/ForgotPassword"));
 const SetPassword = lazy(() => import("./pages/learn/SetPassword"));
 const MyLearning = lazy(() => import("./pages/learn/MyLearning"));
 const CourseLayout = lazy(() => import("./pages/learn/CourseLayout"));
 const CourseIndexRedirect = lazy(() => import("./pages/learn/CourseIndexRedirect"));
 const LessonPage = lazy(() => import("./pages/learn/LessonPage"));
+const CertificateView = lazy(() => import("./pages/learn/CertificateView"));
 
 // Lazy load Admin pages
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -250,7 +252,9 @@ function AppLayout() {
             {/* Learn Portal - Lazy Loaded */}
             <Route path="/learn/login" element={<LearnLogin />} />
             <Route path="/learn/register" element={<LearnRegister />} />
+            <Route path="/learn/forgot-password" element={<ForgotPassword />} />
             <Route path="/learn/set-password" element={<SetPassword />} />
+            <Route path="/learn/certificate/:certificateId" element={<CertificateView />} />
 
             <Route
               path="/learn"

@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getMyTrainings } from "../../services/learnService";
-import { useAuth } from "../../contexts/AuthContext";
+import { getMyCertificates } from "../../services/certificateService";
 
-function CourseCard({ course }) {
+function CourseCard({ course, certificate }) {
   const percent = course.totalLessons
     ? Math.round((course.completedLessons / course.totalLessons) * 100)
     : 0;
   const started = course.completedLessons > 0;
+  const completed = course.totalLessons > 0 && course.completedLessons >= course.totalLessons;
   const hasLessons = Boolean(course.resumeLessonId);
   const resumeHref = `/learn/course/${course.id}/lesson/${course.resumeLessonId}`;
 
@@ -25,6 +23,11 @@ function CourseCard({ course }) {
             {course.title}
           </div>
         )}
+        {completed && (
+          <span className="absolute top-3 right-3 bg-amber-400 text-amber-950 font-bold text-xs px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+            🏆 Completed
+          </span>
+        )}
       </div>
 
       <div className="p-5 flex flex-col flex-1">
@@ -35,12 +38,19 @@ function CourseCard({ course }) {
 
         <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-4">
           <div
-            className="h-full bg-[#52B5BD] rounded-full transition-all duration-500"
+            className={`h-full rounded-full transition-all duration-500 ${completed ? "bg-amber-400" : "bg-[#52B5BD]"}`}
             style={{ width: `${percent}%` }}
           />
         </div>
 
-        {hasLessons ? (
+        {completed && certificate ? (
+          <Link
+            to={`/learn/certificate/${certificate.id}`}
+            className="mt-auto text-center text-sm font-semibold bg-amber-500 hover:bg-amber-600 text-white py-2.5 rounded-xl transition-colors duration-300 flex items-center justify-center gap-1.5 shadow-sm"
+          >
+            🏆 View Certificate
+          </Link>
+        ) : hasLessons ? (
           <Link
             to={resumeHref}
             className="mt-auto text-center text-sm font-semibold bg-[#2F4A7D] hover:bg-[#52B5BD] text-white py-2.5 rounded-xl transition-colors duration-300"
@@ -60,6 +70,7 @@ function CourseCard({ course }) {
 export default function MyLearning() {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
+  const [certificates, setCertificates] = useState([]);
   const [isStudent, setIsStudent] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -68,10 +79,14 @@ export default function MyLearning() {
     let mounted = true;
     (async () => {
       try {
-        const res = await getMyTrainings();
+        const [resTrainings, resCerts] = await Promise.all([
+          getMyTrainings(),
+          getMyCertificates().catch(() => ({ data: { certificates: [] } })),
+        ]);
         if (mounted) {
-          setCourses(res.data.trainings || []);
-          setIsStudent(res.data.isStudent !== false);
+          setCourses(resTrainings.data.trainings || []);
+          setIsStudent(resTrainings.data.isStudent !== false);
+          setCertificates(resCerts.data.certificates || []);
         }
       } catch (err) {
         if (mounted)
@@ -156,7 +171,11 @@ export default function MyLearning() {
         {!loading && !error && isStudent && courses.length > 0 && (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {courses.map((c) => (
-              <CourseCard key={c.id} course={c} />
+              <CourseCard
+                key={c.id}
+                course={c}
+                certificate={certificates.find((cert) => cert.training_id === c.id)}
+              />
             ))}
           </div>
         )}
