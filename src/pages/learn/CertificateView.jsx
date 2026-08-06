@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getCertificateById } from "../../services/certificateService";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default function CertificateView() {
   const { certificateId } = useParams();
   const [cert, setCert] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [downloading, setDownloading] = useState(false);
+
+  const certRef = useRef(null);
 
   useEffect(() => {
     async function load() {
@@ -28,11 +33,68 @@ export default function CertificateView() {
     load();
   }, [certificateId]);
 
+  const handleDownloadPDF = async () => {
+    if (!certRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const element = certRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 3, // Ultra HD quality
+        useCORS: true,
+        backgroundColor: "#FAF8F3",
+        logging: false,
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      const filename = `Certificate-${(cert?.student_name || "Student").replace(/\s+/g, "_")}.pdf`;
+      pdf.save(filename);
+    } catch (err) {
+      console.error("PDF Download failed:", err);
+      alert("Failed to download PDF. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const handleDownloadPNG = async () => {
+    if (!certRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const element = certRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: "#FAF8F3",
+        logging: false,
+      });
+
+      const link = document.createElement("a");
+      link.download = `Certificate-${(cert?.student_name || "Student").replace(/\s+/g, "_")}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (err) {
+      console.error("PNG Download failed:", err);
+      alert("Failed to download PNG image. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-100">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[#0D1B3E] border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#16233B] border-t-transparent rounded-full animate-spin"></div>
           <p className="text-gray-500 text-sm font-medium">Loading certificate…</p>
         </div>
       </div>
@@ -50,7 +112,7 @@ export default function CertificateView() {
           <p className="text-gray-500 text-sm mb-6">{error || "Certificate record not found."}</p>
           <Link
             to="/learn"
-            className="inline-block bg-[#0D1B3E] text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-[#D4AF37] hover:text-[#0D1B3E] transition"
+            className="inline-block bg-[#16233B] text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-[#C5A059] transition"
           >
             ← Return to Learning Portal
           </Link>
@@ -68,7 +130,7 @@ export default function CertificateView() {
     : "N/A";
 
   return (
-    <div className="min-h-screen bg-slate-200 py-10 px-4 print:bg-white print:py-0 print:px-0 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-slate-200 py-10 px-4 flex flex-col items-center justify-center">
       {/* Import Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Alex+Brush&family=Montserrat:wght@400;500;600;700;800&display=swap');
@@ -76,232 +138,243 @@ export default function CertificateView() {
         .font-cinzel { font-family: 'Cinzel', serif; }
         .font-script { font-family: 'Alex Brush', cursive; }
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
-
-        @media print {
-          body { background: white !important; }
-          .no-print { display: none !important; }
-          .cert-container {
-            box-shadow: none !important;
-            margin: 0 !important;
-            width: 100% !important;
-            max-width: none !important;
-            border-radius: 0 !important;
-            border: none !important;
-          }
-        }
       `}</style>
 
-      {/* Top Action Bar (Hidden during print) */}
-      <div className="max-w-4xl w-full mb-6 flex items-center justify-between no-print">
+      {/* Top Action Bar — Straight Download Options Only (No Print) */}
+      <div className="max-w-[1050px] w-full mb-6 flex items-center justify-between">
         <Link
           to="/learn"
-          className="inline-flex items-center gap-2 text-slate-700 hover:text-[#0D1B3E] text-sm font-semibold transition"
+          className="inline-flex items-center gap-2 text-slate-700 hover:text-[#16233B] text-sm font-semibold transition"
         >
           ← Back to My Learning
         </Link>
-        <button
-          onClick={() => window.print()}
-          className="bg-[#0D1B3E] hover:bg-[#162A5A] text-amber-300 font-bold px-6 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2 text-sm border border-amber-400/30"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="6 9 6 2 18 2 18 9"></polyline>
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-            <rect x="6" y="14" width="12" height="8"></rect>
-          </svg>
-          Print / Save as PDF
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleDownloadPNG}
+            disabled={downloading}
+            className="bg-white hover:bg-slate-50 text-[#16233B] font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-sm border border-slate-300 disabled:opacity-60"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download Image (PNG)
+          </button>
+
+          <button
+            onClick={handleDownloadPDF}
+            disabled={downloading}
+            className="bg-[#16233B] hover:bg-[#203050] text-[#E8C580] font-bold px-6 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2 text-sm border border-amber-400/30 disabled:opacity-60"
+          >
+            {downloading ? (
+              <>
+                <span className="w-4 h-4 rounded-full border-2 border-amber-300 border-t-transparent animate-spin" />
+                Generating PDF…
+              </>
+            ) : (
+              <>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download PDF (A4 Landscape)
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* Printable Certificate Main Frame */}
-      <div className="cert-container max-w-4xl w-full bg-[#FAF9F6] p-4 sm:p-8 md:p-10 rounded-2xl shadow-2xl relative overflow-hidden border-[10px] border-white text-slate-800 font-montserrat">
+      {/* Main Certificate Frame (Fixed A4 Landscape Proportions: 1050px x 742px) */}
+      <div
+        id="certificate-element"
+        ref={certRef}
+        className="max-w-[1050px] w-full aspect-[1.414/1] bg-[#FAF8F3] p-4 sm:p-6 md:p-8 rounded-none shadow-2xl relative overflow-hidden border border-[#2C3B59]/30 text-slate-800 font-montserrat flex flex-col justify-between"
+        style={{ boxSizing: "border-box" }}
+      >
         
-        {/* Top-Left Corner Navy & Gold Swash Decor */}
-        <svg
-          className="absolute top-0 left-0 w-44 sm:w-60 md:w-72 h-auto pointer-events-none z-10"
-          viewBox="0 0 300 220"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern id="dotPatternTL" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.2" fill="#D4AF37" opacity="0.6" />
-            </pattern>
-            <linearGradient id="goldGradTL" x1="0" y1="0" x2="260" y2="160" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#D4AF37" />
-              <stop offset="0.5" stopColor="#FFF2B2" />
-              <stop offset="1" stopColor="#996515" />
-            </linearGradient>
-          </defs>
-          {/* Gold Dots Pattern Background */}
-          <path d="M0 0 H200 L0 180 Z" fill="url(#dotPatternTL)" />
-          {/* Navy Base Swash */}
-          <path d="M0 0 H260 C170 50 100 120 0 200 Z" fill="#081226" />
-          {/* Gold Stripe Line */}
-          <path d="M0 0 H240 C155 45 90 110 0 180 Z" fill="url(#goldGradTL)" />
-          {/* Dark Navy Top Layer */}
-          <path d="M0 0 H220 C140 40 80 100 0 160 Z" fill="#0D1B3E" />
-        </svg>
+        {/* Top-Left Corner Dark Navy & Gold Triangle Swash */}
+        <div
+          className="absolute top-0 left-0 w-44 sm:w-56 md:w-64 h-44 sm:h-56 md:h-64 pointer-events-none z-10"
+          style={{
+            background: "linear-gradient(135deg, #121D33 0%, #16233B 70%, #0A1329 100%)",
+            clipPath: "polygon(0 0, 100% 0, 0 100%)",
+          }}
+        />
+        <div
+          className="absolute top-0 left-0 w-48 sm:w-60 md:w-68 h-48 sm:h-60 md:h-68 pointer-events-none z-10"
+          style={{
+            background: "linear-gradient(135deg, #D4AF37 0%, #C5A059 50%, #8A6D3B 100%)",
+            clipPath: "polygon(96% 0, 100% 0, 0 100%, 0 96%)",
+          }}
+        />
 
-        {/* Bottom-Right Corner Navy & Gold Swash Decor */}
-        <svg
-          className="absolute bottom-0 right-0 w-44 sm:w-60 md:w-72 h-auto pointer-events-none z-10"
-          viewBox="0 0 300 220"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern id="dotPatternBR" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.2" fill="#D4AF37" opacity="0.6" />
-            </pattern>
-            <linearGradient id="goldGradBR" x1="300" y1="220" x2="40" y2="60" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#D4AF37" />
-              <stop offset="0.5" stopColor="#FFF2B2" />
-              <stop offset="1" stopColor="#996515" />
-            </linearGradient>
-          </defs>
-          {/* Gold Dots Pattern Background */}
-          <path d="M300 220 H100 L300 40 Z" fill="url(#dotPatternBR)" />
-          {/* Navy Base Swash */}
-          <path d="M300 220 H40 C130 170 200 100 300 20 Z" fill="#081226" />
-          {/* Gold Stripe Line */}
-          <path d="M300 220 H60 C145 175 210 110 300 40 Z" fill="url(#goldGradBR)" />
-          {/* Dark Navy Inner Layer */}
-          <path d="M300 220 H80 C160 180 220 120 300 60 Z" fill="#0D1B3E" />
-        </svg>
+        {/* Bottom-Right Corner Dark Navy & Gold Triangle Swash */}
+        <div
+          className="absolute bottom-0 right-0 w-44 sm:w-56 md:w-64 h-44 sm:h-56 md:h-64 pointer-events-none z-10"
+          style={{
+            background: "linear-gradient(135deg, #121D33 0%, #16233B 70%, #0A1329 100%)",
+            clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
+          }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-48 sm:w-60 md:w-68 h-48 sm:h-60 md:h-68 pointer-events-none z-10"
+          style={{
+            background: "linear-gradient(135deg, #D4AF37 0%, #C5A059 50%, #8A6D3B 100%)",
+            clipPath: "polygon(100% 0, 100% 4%, 4% 100%, 0 100%)",
+          }}
+        />
 
-        {/* Inner Border with Corner Flourishes */}
-        <div className="relative border-2 border-amber-600/70 p-6 sm:p-10 md:p-12 bg-white/70 backdrop-blur-sm z-0">
+        {/* Outer Fine Margin Area */}
+        <div className="relative border border-slate-300 p-4 sm:p-6 md:p-8 h-full flex flex-col justify-between z-0">
           
-          {/* Corner Flourish Accents */}
-          <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-amber-600"></div>
-          <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-amber-600"></div>
-          <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-amber-600"></div>
-          <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-amber-600"></div>
+          {/* Inner Thin Gold Double Border */}
+          <div className="absolute inset-2 sm:inset-3 border border-[#C5A059]/70 pointer-events-none z-0"></div>
 
-          {/* Top Seal Badge */}
-          <div className="flex flex-col items-center justify-center mb-3 relative z-10">
-            <div className="relative flex items-center justify-center">
-              {/* Dark Navy Ribbon Tails */}
-              <div className="absolute -bottom-4 w-12 flex justify-between">
-                <div className="w-4 h-8 bg-[#0D1B3E] transform -rotate-12 origin-top rounded-b shadow"></div>
-                <div className="w-4 h-8 bg-[#0D1B3E] transform rotate-12 origin-top rounded-b shadow"></div>
-              </div>
-              {/* Serrated Gold Trophy Medallion */}
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-[#B8860B] via-[#FFD700] to-[#DAA520] p-1.5 shadow-lg flex items-center justify-center relative z-10">
-                <div className="w-full h-full rounded-full border-2 border-dashed border-amber-900/50 bg-gradient-to-br from-[#0D1B3E] to-[#1C2541] flex flex-col items-center justify-center text-amber-300">
-                  <div className="flex gap-0.5 text-[7px] text-amber-400 mb-0.5">★ ★ ★</div>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="text-amber-400">
-                    <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V18H8v2h8v-2h-3v-2.1c2.14-.37 3.82-2.03 4.39-4.34C19.08 11.23 21 9.15 21 6.6V5c0-1.1-.9-2-2-2zM5 7.6V7h2v3.82C5.84 10.4 5 9.1 5 7.6zm14 0c0 1.5-.84 2.8-2 3.22V7h2v.6z" />
-                  </svg>
-                </div>
+          {/* Four Sharp L-Shaped Corner Bracket Accents */}
+          <div className="absolute top-4 left-4 w-7 h-7 border-t-[1.5px] border-l-[1.5px] border-[#C5A059] pointer-events-none"></div>
+          <div className="absolute top-4 right-4 w-7 h-7 border-t-[1.5px] border-r-[1.5px] border-[#C5A059] pointer-events-none"></div>
+          <div className="absolute bottom-4 left-4 w-7 h-7 border-b-[1.5px] border-l-[1.5px] border-[#C5A059] pointer-events-none"></div>
+          <div className="absolute bottom-4 right-4 w-7 h-7 border-b-[1.5px] border-r-[1.5px] border-[#C5A059] pointer-events-none"></div>
+
+          {/* Top Wreath & Mortarboard Emblem */}
+          <div className="flex flex-col items-center justify-center pt-2 sm:pt-4 relative z-10">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-[#C5A059]/60 flex items-center justify-center p-1 relative">
+              {/* Gold Wreath SVG */}
+              <svg className="absolute inset-0 w-full h-full text-[#C5A059]" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M50 12 C 40 12, 25 22, 22 38 C 20 48, 25 60, 32 68 C 36 72, 44 78, 50 82 C 56 78, 64 72, 68 68 C 75 60, 80 48, 78 38 C 75 22, 60 12, 50 12 Z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#C5A059" strokeWidth="1" />
+              </svg>
+              {/* Graduation Cap Mortarboard Icon */}
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#FAF8F3] border border-[#C5A059] flex items-center justify-center text-[#16233B] shadow-sm relative z-10">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4.02c0 2.5 3.13 4.8 7 4.8s7-2.3 7-4.8v-4.02l-7 3.82-7-3.82z" />
+                </svg>
               </div>
             </div>
           </div>
 
           {/* Subtitle Header */}
-          <div className="text-center my-3">
-            <div className="flex items-center justify-center gap-3 text-amber-700 text-[11px] sm:text-xs font-bold uppercase tracking-widest">
-              <span className="h-[1px] w-12 bg-amber-500/80"></span>
-              <span>OFFICIAL CERTIFICATE OF COMPLETION</span>
-              <span className="h-[1px] w-12 bg-amber-500/80"></span>
+          <div className="text-center my-1 relative z-10">
+            <div className="flex items-center justify-center gap-3 text-slate-600 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.25em]">
+              <span className="h-[1px] w-12 sm:w-16 bg-[#C5A059]/70"></span>
+              <span className="flex items-center gap-1.5">
+                <span className="text-[8px] text-[#C5A059]">◆</span>
+                <span>CERTIFICATE OF COMPLETION</span>
+                <span className="text-[8px] text-[#C5A059]">◆</span>
+              </span>
+              <span className="h-[1px] w-12 sm:w-16 bg-[#C5A059]/70"></span>
             </div>
 
             {/* Main Organization Title */}
-            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#0D1B3E] tracking-tight mt-1 mb-2">
+            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#16233B] tracking-tight mt-2 mb-1">
               We Help You
             </h1>
 
-            {/* Gold Ornamental Divider */}
-            <div className="flex items-center justify-center gap-2 text-amber-600 my-1">
-              <span className="h-[1px] w-16 bg-amber-400"></span>
-              <span className="text-xs">◆ ❖ ◆</span>
-              <span className="h-[1px] w-16 bg-amber-400"></span>
+            {/* Gold Ornamental Line with Dot */}
+            <div className="flex items-center justify-center gap-2 text-[#C5A059] my-1">
+              <span className="h-[1px] w-20 sm:w-28 bg-[#C5A059]/80"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059]"></span>
+              <span className="h-[1px] w-20 sm:w-28 bg-[#C5A059]/80"></span>
             </div>
           </div>
 
           {/* Recipient Section */}
-          <div className="text-center my-4">
-            <p className="text-slate-500 text-xs uppercase font-semibold tracking-wider">
+          <div className="text-center my-2 relative z-10">
+            <p className="text-slate-500 text-[11px] sm:text-xs uppercase font-semibold tracking-[0.2em] mb-1">
               THIS IS TO CERTIFY THAT
             </p>
             
             {/* Student Name */}
-            <div className="my-2 inline-block relative">
-              <h2 className="font-script text-4xl sm:text-6xl md:text-7xl font-bold text-[#0D1B3E] px-6 py-1 drop-shadow-sm">
+            <div className="my-1 inline-block relative px-8">
+              <h2 className="font-script text-4xl sm:text-6xl md:text-7xl text-[#16233B] font-normal leading-tight">
                 {cert.student_name}
               </h2>
-              <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
+              <div className="h-[1px] w-full bg-[#C5A059]/80 mt-1"></div>
             </div>
 
-            <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed mt-1">
+            <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed mt-2">
               has successfully completed all required modules, assessments, and lessons for the professional training course
             </p>
 
             {/* Course Title Banner */}
             <div className="mt-3 inline-block">
-              <div className="bg-[#0D1B3E] text-amber-300 font-bold text-xs sm:text-sm px-6 sm:px-10 py-2 rounded-full border border-amber-400 shadow-md uppercase tracking-wider flex items-center justify-center gap-2">
-                <span className="text-amber-400 text-xs">★</span>
+              <div className="bg-transparent text-[#16233B] font-bold text-xs sm:text-sm px-6 sm:px-8 py-1.5 border border-[#C5A059] uppercase tracking-[0.15em] flex items-center justify-center gap-3">
+                <span className="h-[1px] w-4 bg-[#C5A059]"></span>
+                <span className="w-1 h-1 rounded-full bg-[#C5A059]"></span>
                 <span>{cert.course_title}</span>
-                <span className="text-amber-400 text-xs">★</span>
+                <span className="w-1 h-1 rounded-full bg-[#C5A059]"></span>
+                <span className="h-[1px] w-4 bg-[#C5A059]"></span>
               </div>
             </div>
           </div>
 
-          {/* Footer Details: Date, Verification, Seal & Signature */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-end pt-6 mt-6 border-t border-amber-200/80 text-center sm:text-left relative z-20">
+          {/* Footer Details: Date, Code, Signature & Circular Seal */}
+          <div className="flex items-end justify-between pt-4 mt-2 border-t border-slate-200/80 text-left relative z-20">
             
             {/* Left Metadata: Date Issued & Certificate Code */}
-            <div className="flex items-center gap-6 justify-center sm:justify-start">
+            <div className="flex items-center gap-5 sm:gap-8">
               {/* Date Issued */}
-              <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-                <div className="w-9 h-9 rounded-full bg-white border border-slate-300 text-slate-800 flex items-center justify-center mb-1 shadow-sm">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-[#F3EFE6] border border-[#C5A059]/50 text-slate-800 flex items-center justify-center shadow-sm flex-shrink-0">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                     <line x1="16" y1="2" x2="16" y2="6"></line>
                     <line x1="8" y1="2" x2="8" y2="6"></line>
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                   </svg>
                 </div>
-                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">DATE ISSUED</p>
-                <p className="text-xs font-bold text-slate-900">{issueDate}</p>
-                <div className="h-[2px] w-12 bg-amber-400/80 mt-1"></div>
+                <div>
+                  <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">DATE ISSUED</p>
+                  <p className="text-xs font-bold text-slate-900">{issueDate}</p>
+                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-0.5"></div>
+                </div>
               </div>
 
+              {/* Vertical Subtle Divider */}
+              <div className="h-9 w-[1px] bg-slate-300/80"></div>
+
               {/* Certificate Code */}
-              <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-                <div className="w-9 h-9 rounded-full bg-white border border-slate-300 text-slate-800 flex items-center justify-center mb-1 shadow-sm">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-[#F3EFE6] border border-[#C5A059]/50 text-slate-800 flex items-center justify-center shadow-sm flex-shrink-0">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                   </svg>
                 </div>
-                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">CERTIFICATE CODE</p>
-                <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight">{cert.certificate_number}</p>
-                <div className="h-[2px] w-12 bg-amber-400/80 mt-1"></div>
-              </div>
-            </div>
-
-            {/* Center Circular Gold Seal */}
-            <div className="flex flex-col items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#B8860B] via-[#FFD700] to-[#DAA520] p-1 shadow-lg flex items-center justify-center">
-                <div className="w-full h-full rounded-full border-2 border-dashed border-amber-900/60 bg-[#FAF9F6] p-1.5 flex flex-col items-center justify-center text-center">
-                  <div className="flex gap-0.5 text-[7px] text-amber-700">★ ★ ★</div>
-                  <p className="text-[7px] font-bold uppercase tracking-tighter text-amber-950 leading-tight my-0.5">
-                    COMMITMENT<br />COMPASSION<br />CARE
-                  </p>
-                  <div className="flex gap-0.5 text-[7px] text-amber-700">★ ★ ★</div>
+                <div>
+                  <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">CERTIFICATE CODE</p>
+                  <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight">{cert.certificate_number}</p>
+                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-0.5"></div>
                 </div>
               </div>
             </div>
 
-            {/* Right Signature */}
-            <div className="text-center sm:text-right flex flex-col items-center sm:items-end justify-end">
-              <div className="inline-block text-center min-w-[170px]">
-                <p className="font-script text-2xl text-[#0D1B3E] font-bold mb-0.5 border-b-2 border-slate-400 pb-0.5">
+            {/* Signature Area */}
+            <div className="text-center flex flex-col items-center">
+              <div className="inline-block text-center min-w-[160px]">
+                <p className="font-script text-2xl sm:text-3xl text-[#16233B] font-normal mb-0.5 border-b border-slate-400 pb-0.5 px-4">
                   We Help You Board
                 </p>
-                <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mt-1">
+                <p className="text-[9px] sm:text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] mt-1">
                   AUTHORIZED SIGNATURE
                 </p>
+              </div>
+            </div>
+
+            {/* Right Circular Seal */}
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full border-2 border-[#C5A059] p-1 flex items-center justify-center relative">
+                <div className="w-full h-full rounded-full border border-dashed border-[#C5A059] p-1.5 flex flex-col items-center justify-center text-center bg-[#FAF8F3]">
+                  {/* Arched Top Text Accent */}
+                  <div className="text-[7px] font-bold tracking-[0.2em] text-[#C5A059] uppercase">
+                    C O M M I T M E N T
+                  </div>
+                  <div className="text-[9px] text-[#C5A059] my-0.5">★</div>
+                  <p className="text-[6.5px] font-bold uppercase tracking-tight text-[#16233B] leading-tight">
+                    COMMITMENT<br />COMPASSION<br />CARE
+                  </p>
+                </div>
               </div>
             </div>
 
