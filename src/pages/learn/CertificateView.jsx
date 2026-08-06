@@ -39,8 +39,7 @@ export default function CertificateView() {
 
     // Ensure all web fonts (Cinzel, Alex Brush, Montserrat) are fully loaded in memory
     await document.fonts.ready;
-    // Brief delay to allow font layout baselines to lock in
-    await new Promise((resolve) => setTimeout(resolve, 250));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     return await html2canvas(element, {
       scale: 3, // Ultra HD quality
@@ -48,17 +47,6 @@ export default function CertificateView() {
       backgroundColor: "#FAF8F3",
       logging: false,
       allowTaint: true,
-      windowWidth: 1123,
-      windowHeight: 794,
-      onclone: (clonedDoc) => {
-        const clonedElem = clonedDoc.getElementById("certificate-element");
-        if (clonedElem) {
-          clonedElem.style.width = "1123px";
-          clonedElem.style.height = "794px";
-          clonedElem.style.maxWidth = "none";
-          clonedElem.style.transform = "none";
-        }
-      },
     });
   };
 
@@ -279,12 +267,12 @@ export default function CertificateView() {
             </div>
 
             {/* Main Organization Title */}
-            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#16233B] tracking-tight mt-2 mb-2 leading-none">
+            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#16233B] tracking-tight mt-3 mb-1 leading-none">
               We Help You
             </h1>
 
-            {/* Gold Ornamental Line with Dot — Clean Explicit Block Flex Box */}
-            <div className="flex items-center justify-center gap-2 text-[#C5A059] mt-2 mb-1">
+            {/* Gold Ornamental Line with Dot */}
+            <div className="flex items-center justify-center gap-2 text-[#C5A059] mt-3 mb-2">
               <span className="h-[1.5px] w-20 sm:w-28 bg-[#C5A059]"></span>
               <span className="w-2 h-2 rounded-full bg-[#C5A059]"></span>
               <span className="h-[1.5px] w-20 sm:w-28 bg-[#C5A059]"></span>
@@ -297,12 +285,11 @@ export default function CertificateView() {
               THIS IS TO CERTIFY THAT
             </p>
             
-            {/* Student Name & Underline — Explicit Flex Column Structure */}
-            <div className="my-2 flex flex-col items-center px-8">
-              <h2 className="font-script text-4xl sm:text-6xl md:text-7xl text-[#16233B] font-normal leading-tight">
+            {/* Student Name — Using Native CSS border-bottom Directly on Heading for 100% Locked Position */}
+            <div className="my-2 inline-block">
+              <h2 className="font-script text-4xl sm:text-6xl md:text-7xl text-[#16233B] font-normal leading-tight px-8 pb-3 border-b-[1.5px] border-[#C5A059]">
                 {cert.student_name}
               </h2>
-              <div className="w-full min-w-[200px] h-[1.5px] bg-[#C5A059] mt-2"></div>
             </div>
 
             <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed mt-2">
@@ -338,8 +325,7 @@ export default function CertificateView() {
                 </div>
                 <div className="flex flex-col">
                   <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">DATE ISSUED</p>
-                  <p className="text-xs font-bold text-slate-900 mt-0.5">{issueDate}</p>
-                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-1"></div>
+                  <p className="text-xs font-bold text-slate-900 mt-0.5 pb-1 border-b-[1.5px] border-[#C5A059] inline-block">{issueDate}</p>
                 </div>
               </div>
 
@@ -355,18 +341,16 @@ export default function CertificateView() {
                 </div>
                 <div className="flex flex-col">
                   <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">CERTIFICATE CODE</p>
-                  <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight mt-0.5">{cert.certificate_number}</p>
-                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-1"></div>
+                  <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight mt-0.5 pb-1 border-b-[1.5px] border-[#C5A059] inline-block">{cert.certificate_number}</p>
                 </div>
               </div>
             </div>
 
-            {/* Signature Area — Explicit Flex Column Structure */}
+            {/* Signature Area */}
             <div className="flex flex-col items-center text-center min-w-[170px]">
-              <p className="font-script text-2xl sm:text-3xl text-[#16233B] font-normal px-4 pb-1 leading-normal">
+              <p className="font-script text-2xl sm:text-3xl text-[#16233B] font-normal px-4 pb-2 border-b border-slate-400 w-full text-center">
                 We Help You Board
               </p>
-              <div className="w-full h-[1.5px] bg-slate-400 mt-1"></div>
               <p className="text-[9px] sm:text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] mt-2">
                 AUTHORIZED SIGNATURE
               </p>
