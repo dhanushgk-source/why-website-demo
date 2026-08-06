@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useSectionFade } from '../hooks/useSectionFade'
-import PricingPolice from "../components/WhyUnique"
-import { getWhatsAppLink } from '../config/contact'
-import { getPublicPricingPlans, getPublicSiteSettings } from '../services/siteService'
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useSectionFade } from "../hooks/useSectionFade";
+import PricingPolice from "../components/WhyUnique";
+import { getWhatsAppLink } from "../config/contact";
+import { getPublicPricingPlans, getPublicSiteSettings } from "../services/siteService";
 import {
   Gift,
   Building2,
@@ -16,269 +16,399 @@ import {
   Moon,
   Sun,
   Sparkles,
-} from 'lucide-react'
+  Info,
+  ChevronRight,
+  Zap,
+} from "lucide-react";
 
-const DEFAULT_PLANS = [
+// Default fallback matrix matching user's exact specification
+const DEFAULT_TIERS = [
   {
-    icon: Building2,
-    title: 'Hospital Assistance',
-    desc: 'Professional support inside hospitals and clinics.',
-    dayPrice: '1,499',
-    nightPrice: '2,499',
-    includedHours: 'Up to 4 Hours',
-    includes: [
-      'Verified WHY Professional',
-      'Hospital visit assistance',
-      'Doctor communication support',
-      'Prescription & report collection',
-      'Live updates to family',
-      'Wheelchair & navigation assistance',
-      'Booking support',
-    ],
-    extraNote: 'Extra hours will be charged additionally beyond the included 4 hours.',
-    ctaLabel: 'Book Hospital Assistance',
+    id: "hosp-t1",
+    service_category: "Hospital",
+    tier_name: "Tier 1 — Companion",
+    day_base: 999.0,
+    day_addl: 250.0,
+    day_ot: 350.0,
+    night_base: 1498.5,
+    night_addl: 350.0,
+    night_ot: 450.0,
+    badge_note: "Standard Companion",
   },
   {
-    icon: Car,
-    title: 'Travel Assistance',
-    desc: 'Companionship and support for your travel journey.',
-    dayPrice: '999',
-    nightPrice: '1,499',
-    includedHours: 'Up to 4 Hours',
-    includes: [
-      'Verified WHY Professional',
-      'Door-to-door travel support',
-      'Assistance during travel (pick-up & drop)',
-      'Travel arrangements support',
-      'Live updates to family',
-      'Booking support',
-    ],
-    extraNote: 'Extra hours will be charged additionally beyond the included 4 hours.',
-    ctaLabel: 'Book Travel Assistance',
+    id: "hosp-t2",
+    service_category: "Hospital",
+    tier_name: "Tier 2 — Trained/Semi-Skilled",
+    day_base: 1200.0,
+    day_addl: 250.0,
+    day_ot: 350.0,
+    night_base: 1800.0,
+    night_addl: 350.0,
+    night_ot: 450.0,
+    badge_note: "During App Launch",
   },
-]
+  {
+    id: "hosp-t3",
+    service_category: "Hospital",
+    tier_name: "Tier 3 — Skilled Nurse",
+    day_base: 1400.0,
+    day_addl: 250.0,
+    day_ot: 350.0,
+    night_base: 2100.0,
+    night_addl: 350.0,
+    night_ot: 450.0,
+    badge_note: "During App Launch",
+  },
+  {
+    id: "trav-t1",
+    service_category: "Travel",
+    tier_name: "Single Tier — Companion",
+    day_base: 999.0,
+    day_addl: 250.0,
+    day_ot: 350.0,
+    night_base: 1498.5,
+    night_addl: 350.0,
+    night_ot: 450.0,
+    badge_note: "Same rates as Hospital Tier 1",
+  },
+];
 
 const TRUST_POINTS = [
-  { icon: Tag, title: 'Subscription Free Usage', desc: 'Pay only when you need assistance. No subscriptions.' },
-  { icon: ShieldCheck, title: 'No Hidden Charges', desc: 'Transparent pricing with GST clearly mentioned.' },
-  { icon: UserCheck, title: 'Verified Professionals', desc: 'Every service will be delivered by a trained, verified WHY PRO.' },
-  { icon: Clock, title: 'Flexible Duration', desc: 'Need more time? Extend your booking easily.' },
-]
+  { icon: Tag, title: "Subscription Free Usage", desc: "Pay only when you need assistance. No subscriptions." },
+  { icon: ShieldCheck, title: "No Hidden Charges", desc: "Transparent base, additional & OT rates clearly listed." },
+  { icon: UserCheck, title: "Verified Professionals", desc: "Every service delivered by a trained, background-checked WHY PRO." },
+  { icon: Clock, title: "Flexible Hourly Extension", desc: "Easily extend your duration from 4h up to full day." },
+];
 
 export default function PricingSection() {
-  const [isNight, setIsNight] = useState(false)
-  const [plans, setPlans] = useState(DEFAULT_PLANS)
-  const [whatsappNum, setWhatsappNum] = useState("")
+  const [isNight, setIsNight] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All"); // "All" | "Hospital" | "Travel"
+  const [tiers, setTiers] = useState(DEFAULT_TIERS);
+  const [whatsappNum, setWhatsappNum] = useState("");
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [fetchedPlans, settings] = await Promise.all([
+        const [fetchedTiers, settings] = await Promise.all([
           getPublicPricingPlans(),
           getPublicSiteSettings(),
-        ])
+        ]);
 
         if (settings && settings.whatsapp_number) {
-          setWhatsappNum(settings.whatsapp_number)
+          setWhatsappNum(settings.whatsapp_number);
         }
 
-        if (fetchedPlans && fetchedPlans.length > 0) {
-          const mapped = fetchedPlans.map((p, index) => {
-            let IconComp = Building2
-            if (p.title.toLowerCase().includes("travel")) IconComp = Car
-            else if (index > 1) IconComp = Sparkles
-
-            return {
-              icon: IconComp,
-              title: p.title,
-              desc: p.description || (index === 0 ? 'Professional support inside hospitals and clinics.' : 'Companionship and support for your travel journey.'),
-              dayPrice: p.day_price || (index === 0 ? '1,499' : '999'),
-              nightPrice: p.night_price || (index === 0 ? '2,499' : '1,499'),
-              includedHours: p.included_hours || 'Up to 4 Hours',
-              includes: Array.isArray(p.features) && p.features.length > 0 ? p.features : DEFAULT_PLANS[index % 2].includes,
-              extraNote: p.extra_note || 'Extra hours will be charged additionally beyond the included 4 hours.',
-              ctaLabel: `Book ${p.title}`,
-            }
-          })
-          setPlans(mapped)
+        if (fetchedTiers && fetchedTiers.length > 0) {
+          setTiers(fetchedTiers);
         }
       } catch (err) {
-        console.error("Error loading dynamic service pricing:", err)
+        console.error("Error loading dynamic service matrix:", err);
       }
     }
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
-  // Opens WhatsApp with a message pre-filled for the specific plan + rate period.
-  const handleWhatsApp = (plan) => {
-    const rateText = isNight ? `Night rate (₹${plan.nightPrice})` : `Day rate (₹${plan.dayPrice})`
-    const message = `Hi! I want to book "${plan.title}" (${rateText}). Please share details.`
-    const link = whatsappNum 
+  const handleWhatsApp = (tier) => {
+    const basePrice = isNight ? tier.night_base : tier.day_base;
+    const rateType = isNight ? "Night Rate" : "Day Rate";
+    const message = `Hi! I want to book "${tier.service_category} - ${tier.tier_name}" (${rateType} Base: ₹${basePrice} for first 4 hrs). Please share availability.`;
+    const link = whatsappNum
       ? `https://wa.me/${whatsappNum.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`
-      : getWhatsAppLink(message)
-    window.open(link, '_blank', 'noopener,noreferrer')
-  }
+      : getWhatsAppLink(message);
+    window.open(link, "_blank", "noopener,noreferrer");
+  };
+
+  const filteredTiers =
+    activeCategory === "All"
+      ? tiers
+      : tiers.filter((t) => (t.service_category || "").toLowerCase() === activeCategory.toLowerCase());
 
   return (
     <>
-      <section className={`w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
-        isNight ? 'bg-[#0B1220]' : 'bg-[#F7FAFB]'
-      }`}>
-        <div className="max-w-6xl mx-auto">
-
-          {/* Header */}
+      <section
+        className={`w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
+          isNight ? "bg-[#0B1220] text-white" : "bg-[#F7FAFB] text-slate-900"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto">
+          {/* Top Pill Header */}
           <div className="text-center mb-10 sm:mb-12">
-            <span className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide mb-5 transition-colors duration-500 ${
-              isNight ? 'bg-[#F2B705] text-[#1B2A4A]' : 'bg-[#0D5C4C] text-white'
-            }`}>
-              <Gift className={`w-4 h-4 transition-colors duration-500 ${isNight ? 'text-[#1B2A4A]' : 'text-[#F2B705]'}`} />
+            <span
+              className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide mb-5 transition-colors duration-500 ${
+                isNight ? "bg-[#F2B705] text-[#1B2A4A]" : "bg-[#0D5C4C] text-white"
+              }`}
+            >
+              <Gift className={`w-4 h-4 ${isNight ? "text-[#1B2A4A]" : "text-[#F2B705]"}`} />
               Subscription Free Usage
             </span>
 
-            <h2 className={`font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight transition-colors duration-500 ${
-              isNight ? 'text-white' : 'text-[#1B2A4A]'
-            }`}>
-              Simple, Transparent Pricing
-            </h2>
+            <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight">
+              Transparent Tiered Pricing
+            </h1>
 
-            <p className={`text-sm sm:text-base max-w-xl mx-auto mb-8 transition-colors duration-500 ${
-              isNight ? 'text-gray-400' : 'text-gray-500'
-            }`}>
-              Book only when you need assistance. Pay per service. No monthly commitments.
+            <p className={`text-sm sm:text-base max-w-2xl mx-auto mb-8 ${isNight ? "text-gray-400" : "text-gray-600"}`}>
+              Clear, itemized pricing for Hospital & Travel Assistance. Base rates cover <strong>first 4 hours</strong>, followed by transparent hourly additional and overtime rates.
             </p>
 
-            {/* Day / Night toggle */}
-            <div className={`inline-flex items-center gap-3 rounded-full p-1.5 shadow-sm border transition-colors duration-500 ${
-              isNight ? 'bg-[#111A2E] border-[#243044]' : 'bg-white border-gray-200'
-            }`}>
+            {/* Day / Night Toggle Switch */}
+            <div
+              className={`inline-flex items-center gap-3 rounded-full p-1.5 shadow-md border transition-colors duration-500 mb-8 ${
+                isNight ? "bg-[#111A2E] border-[#243044]" : "bg-white border-gray-200"
+              }`}
+            >
               <button
                 type="button"
                 onClick={() => setIsNight(false)}
-                className={`flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors ${
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
                   !isNight
-                    ? 'bg-[#0D9488] text-white shadow-sm'
-                    : isNight ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-[#1B2A4A]'
+                    ? "bg-[#0D9488] text-white shadow-md"
+                    : isNight
+                    ? "text-gray-400 hover:text-white"
+                    : "text-gray-500 hover:text-[#1B2A4A]"
                 }`}
               >
-                <Sun className="w-4 h-4" strokeWidth={2} />
-                Day
+                <Sun className="w-4 h-4" strokeWidth={2.2} />
+                Day Rate (7 AM - 9 PM)
               </button>
               <button
                 type="button"
                 onClick={() => setIsNight(true)}
-                className={`flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors ${
-                  isNight ? 'bg-[#F2B705] text-[#1B2A4A] shadow-sm' : 'text-gray-500 hover:text-[#1B2A4A]'
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+                  isNight
+                    ? "bg-[#F2B705] text-[#1B2A4A] shadow-md"
+                    : "text-gray-500 hover:text-[#1B2A4A]"
                 }`}
               >
-                <Moon className="w-4 h-4" strokeWidth={2} />
-                Night
+                <Moon className="w-4 h-4" strokeWidth={2.2} />
+                Night Rate (9 PM - 7 AM)
               </button>
+            </div>
+
+            {/* Category Filters */}
+            <div className="flex items-center justify-center gap-2 flex-wrap">
+              {["All", "Hospital", "Travel"].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition ${
+                    activeCategory === cat
+                      ? "bg-[#16233B] text-[#E8C580] shadow-sm"
+                      : isNight
+                      ? "bg-slate-800/70 text-gray-300 hover:bg-slate-800"
+                      : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                  }`}
+                >
+                  {cat === "All" ? "All Services" : `${cat} Assistance`}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Plan cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {plans.map((plan) => (
-              <div
-                key={plan.title}
-                className={`rounded-3xl shadow-sm border p-6 sm:p-8 flex flex-col transition-colors duration-500 ${
-                  isNight ? 'bg-[#111A2E] border-[#243044]' : 'bg-white border-gray-100'
-                }`}
-              >
-                {/* Top row: icon + title + price */}
-                <div className="flex items-start justify-between gap-4 mb-6">
-                  <div className="flex items-start gap-4">
-                    <span className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
-                      isNight ? 'bg-[#F2B705]/15' : 'bg-[#0D9488]/10'
-                    }`}>
-                      <plan.icon className={`w-7 h-7 transition-colors duration-500 ${isNight ? 'text-[#F2B705]' : 'text-[#0D9488]'}`} strokeWidth={1.75} />
+          {/* Service Tier Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {filteredTiers.map((tier) => {
+              const basePrice = isNight ? tier.night_base : tier.day_base;
+              const addlPrice = isNight ? tier.night_addl : tier.day_addl;
+              const otPrice = isNight ? tier.night_ot : tier.day_ot;
+              const isHospital = (tier.service_category || "").toLowerCase().includes("hospital");
+
+              return (
+                <div
+                  key={tier.id || tier.tier_name}
+                  className={`rounded-3xl shadow-sm border p-6 flex flex-col justify-between relative transition-all duration-500 hover:shadow-xl ${
+                    isNight ? "bg-[#111A2E] border-[#243044]" : "bg-white border-slate-200/90"
+                  }`}
+                >
+                  {/* Top Badge Note */}
+                  {tier.badge_note && (
+                    <span className="absolute -top-3 right-5 bg-[#C5A059] text-white font-bold text-[10px] uppercase px-3 py-0.5 rounded-full shadow-sm">
+                      {tier.badge_note}
                     </span>
-                    <div>
-                      <h3 className={`text-lg sm:text-xl font-extrabold mb-1 transition-colors duration-500 ${
-                        isNight ? 'text-white' : 'text-[#1B2A4A]'
-                      }`}>{plan.title}</h3>
-                      <p className={`text-sm max-w-[22ch] transition-colors duration-500 ${isNight ? 'text-gray-400' : 'text-gray-500'}`}>{plan.desc}</p>
+                  )}
+
+                  <div>
+                    {/* Header icon & category */}
+                    <div className="flex items-center gap-3 mb-3">
+                      <div
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                          isNight ? "bg-[#F2B705]/15 text-[#F2B705]" : "bg-[#0D9488]/10 text-[#0D9488]"
+                        }`}
+                      >
+                        {isHospital ? <Building2 className="w-5 h-5" /> : <Car className="w-5 h-5" />}
+                      </div>
+                      <div>
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-[#C5A059]">
+                          {tier.service_category} Assistance
+                        </span>
+                        <h3 className="text-base font-extrabold leading-tight">{tier.tier_name}</h3>
+                      </div>
+                    </div>
+
+                    {/* Base Rate Box */}
+                    <div
+                      className={`p-4 rounded-2xl mb-4 border ${
+                        isNight ? "bg-[#16233B]/60 border-slate-700" : "bg-slate-50 border-slate-200/80"
+                      }`}
+                    >
+                      <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                        Base Rate (First 4 Hours)
+                      </p>
+                      <div className="flex items-baseline gap-1">
+                        <span
+                          className={`text-3xl font-black ${
+                            isNight ? "text-[#F2B705]" : "text-[#0D9488]"
+                          }`}
+                        >
+                          ₹{parseFloat(basePrice).toLocaleString("en-IN")}
+                        </span>
+                        <span className="text-xs text-slate-500 font-semibold">+ GST</span>
+                      </div>
+                    </div>
+
+                    {/* Hourly Tier Breakdown List */}
+                    <div className="space-y-2.5 mb-6 text-xs">
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-100/50 dark:bg-slate-800/40">
+                        <span className="font-semibold text-slate-500 flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-[#C5A059]" />
+                          First 4 Hours (Base)
+                        </span>
+                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
+                          ₹{parseFloat(basePrice).toLocaleString("en-IN")}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-100/50 dark:bg-slate-800/40">
+                        <span className="font-semibold text-slate-500 flex items-center gap-1.5">
+                          <Zap className="w-3.5 h-3.5 text-blue-500" />
+                          Hours 5–8 (Addl)
+                        </span>
+                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
+                          ₹{parseFloat(addlPrice)}/hr
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-100/50 dark:bg-slate-800/40">
+                        <span className="font-semibold text-slate-500 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                          Hour 9+ (Overtime)
+                        </span>
+                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
+                          ₹{parseFloat(otPrice)}/hr
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="text-right flex-shrink-0">
-                    <p className={`text-[10px] sm:text-xs font-semibold uppercase tracking-wide mb-0.5 transition-colors duration-500 ${
-                      isNight ? 'text-gray-500' : 'text-gray-400'
-                    }`}>
-                      {isNight ? 'Night rate' : 'Starting from'}
-                    </p>
-                    <p className={`text-2xl sm:text-3xl font-extrabold leading-none transition-colors duration-500 ${
-                      isNight ? 'text-[#F2B705]' : 'text-[#0D9488]'
-                    }`}>
-                      &#8377;{isNight ? plan.nightPrice : plan.dayPrice}
-                    </p>
-                    <p className={`text-[11px] mb-2 transition-colors duration-500 ${isNight ? 'text-gray-500' : 'text-gray-400'}`}>+ 18% GST</p>
-                    <span className={`inline-block px-3 py-1 rounded-full text-[11px] font-semibold transition-colors duration-500 ${
-                      isNight ? 'bg-[#F2B705] text-[#1B2A4A]' : 'bg-[#0D5C4C] text-white'
-                    }`}>
-                      {plan.includedHours}
-                    </span>
-                  </div>
+                  {/* CTA Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleWhatsApp(tier)}
+                    className={`w-full py-3 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all ${
+                      isNight
+                        ? "bg-[#F2B705] text-[#1B2A4A] hover:bg-[#D9A404]"
+                        : "bg-[#0D9488] text-white hover:bg-[#0B7C72]"
+                    }`}
+                  >
+                    <span>Book {tier.service_category}</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
+              );
+            })}
+          </div>
 
-                {/* Includes list */}
-                <p className={`text-xs font-bold uppercase tracking-wide mb-3 transition-colors duration-500 ${
-                  isNight ? 'text-[#F2B705]' : 'text-[#0D9488]'
-                }`}>Includes</p>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 mb-6">
-                  {plan.includes.map((item) => (
-                    <li key={item} className={`flex items-start gap-2 text-sm transition-colors duration-500 ${
-                      isNight ? 'text-gray-300' : 'text-[#1B2A4A]'
-                    }`}>
-                      <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 transition-colors duration-500 ${
-                        isNight ? 'text-[#F2B705]' : 'text-[#0D9488]'
-                      }`} strokeWidth={2.5} />
-                      <span>{item}</span>
-                    </li>
+          {/* Full Itemized Pricing Matrix Table */}
+          <div className="mb-16">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold tracking-tight">Complete Service Rates Matrix Table</h2>
+              <p className="text-xs text-slate-500 mt-1">Full transparent comparison across all tiers and hourly brackets</p>
+            </div>
+
+            <div
+              className={`rounded-3xl border shadow-lg overflow-x-auto ${
+                isNight ? "bg-[#111A2E] border-[#243044]" : "bg-white border-slate-200"
+              }`}
+            >
+              <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr
+                    className={`border-b ${
+                      isNight ? "bg-[#16233B] border-slate-700 text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
+                    }`}
+                  >
+                    <th className="p-4 font-extrabold">Service</th>
+                    <th className="p-4 font-extrabold">Tier</th>
+                    <th className="p-4 font-extrabold text-emerald-600 dark:text-emerald-400">☀️ Day Base (1-4h)</th>
+                    <th className="p-4 font-extrabold text-emerald-600 dark:text-emerald-400">☀️ Day Addl (5-8h)</th>
+                    <th className="p-4 font-extrabold text-emerald-600 dark:text-emerald-400">☀️ Day OT (9+h)</th>
+                    <th className="p-4 font-extrabold text-amber-500">🌙 Night Base (1-4h)</th>
+                    <th className="p-4 font-extrabold text-amber-500">🌙 Night Addl (5-8h)</th>
+                    <th className="p-4 font-extrabold text-amber-500">🌙 Night OT (9+h)</th>
+                    <th className="p-4 font-extrabold">Note</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                  {tiers.map((t) => (
+                    <tr
+                      key={t.id || t.tier_name}
+                      className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition`}
+                    >
+                      <td className="p-4 font-bold text-[#C5A059]">{t.service_category}</td>
+                      <td className="p-4 font-extrabold">{t.tier_name}</td>
+                      <td className="p-4 font-black text-emerald-600 dark:text-emerald-400">₹{parseFloat(t.day_base).toLocaleString("en-IN")}</td>
+                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.day_addl)}/hr</td>
+                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.day_ot)}/hr</td>
+
+                      <td className="p-4 font-black text-amber-500">₹{parseFloat(t.night_base).toLocaleString("en-IN")}</td>
+                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.night_addl)}/hr</td>
+                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.night_ot)}/hr</td>
+                      <td className="p-4">
+                        {t.badge_note ? (
+                          <span className="inline-block bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/30 text-[11px] px-2.5 py-0.5 rounded-full font-bold">
+                            {t.badge_note}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
+                      </td>
+                    </tr>
                   ))}
-                </ul>
-
-                {/* Simple extra-charges note */}
-                <div className={`flex items-start gap-2 rounded-xl px-4 py-3 mb-6 transition-colors duration-500 ${
-                  isNight ? 'bg-[#1C1608] border border-[#3A2E12]' : 'bg-[#F7F3EA]'
-                }`}>
-                  <Clock className={`w-4 h-4 mt-0.5 flex-shrink-0 transition-colors duration-500 ${
-                    isNight ? 'text-[#F2B705]' : 'text-[#F2711F]'
-                  }`} />
-                  <p className={`text-xs sm:text-sm transition-colors duration-500 ${isNight ? 'text-gray-400' : 'text-gray-600'}`}>{plan.extraNote}</p>
-                </div>
-
-                {/* CTA */}
-                <button
-                  type="button"
-                  onClick={() => handleWhatsApp(plan)}
-                  className={`mt-auto flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm sm:text-base transition-colors duration-500 ${
-                    isNight
-                      ? 'bg-[#F2B705] text-[#1B2A4A] hover:bg-[#D9A404]'
-                      : 'bg-[#0D9488] text-white hover:bg-[#0B7C72]'
-                  }`}
-                >
-                  {plan.ctaLabel}
-                  <span className="text-lg leading-none">&rarr;</span>
-                </button>
-              </div>
-            ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Trust points strip */}
-          <div className="mt-10 sm:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="mt-12 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {TRUST_POINTS.map((point) => (
               <div key={point.title} className="flex items-start gap-3">
-                <span className={`w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
-                  isNight ? 'bg-[#F2B705]/15' : 'bg-[#0D9488]/10'
-                }`}>
-                  <point.icon className={`w-5 h-5 transition-colors duration-500 ${isNight ? 'text-[#F2B705]' : 'text-[#0D9488]'}`} strokeWidth={1.75} />
+                <span
+                  className={`w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
+                    isNight ? "bg-[#F2B705]/15" : "bg-[#0D9488]/10"
+                  }`}
+                >
+                  <point.icon
+                    className={`w-5 h-5 transition-colors duration-500 ${
+                      isNight ? "text-[#F2B705]" : "text-[#0D9488]"
+                    }`}
+                    strokeWidth={1.75}
+                  />
                 </span>
                 <div>
-                  <p className={`text-sm font-bold leading-tight mb-0.5 transition-colors duration-500 ${
-                    isNight ? 'text-white' : 'text-[#1B2A4A]'
-                  }`}>{point.title}</p>
-                  <p className={`text-xs leading-snug transition-colors duration-500 ${isNight ? 'text-gray-400' : 'text-gray-500'}`}>{point.desc}</p>
+                  <p
+                    className={`text-sm font-bold leading-tight mb-0.5 transition-colors duration-500 ${
+                      isNight ? "text-white" : "text-[#1B2A4A]"
+                    }`}
+                  >
+                    {point.title}
+                  </p>
+                  <p
+                    className={`text-xs leading-snug transition-colors duration-500 ${
+                      isNight ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
+                    {point.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -288,5 +418,5 @@ export default function PricingSection() {
 
       <PricingPolice />
     </>
-  )
+  );
 }
