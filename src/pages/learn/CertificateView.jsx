@@ -38,11 +38,25 @@ export default function CertificateView() {
     setDownloading(true);
     try {
       const element = certRef.current;
+      await document.fonts.ready; // Wait for fonts like Cinzel & Alex Brush to load completely
+
       const canvas = await html2canvas(element, {
-        scale: 3, // Ultra HD quality
+        scale: 3, // Ultra-sharp 3x DPI
         useCORS: true,
         backgroundColor: "#FAF8F3",
         logging: false,
+        allowTaint: true,
+        windowWidth: 1123,
+        windowHeight: 794,
+        onclone: (clonedDoc) => {
+          const clonedElem = clonedDoc.getElementById("certificate-element");
+          if (clonedElem) {
+            clonedElem.style.width = "1123px";
+            clonedElem.style.height = "794px";
+            clonedElem.style.maxWidth = "none";
+            clonedElem.style.transform = "none";
+          }
+        },
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -55,7 +69,7 @@ export default function CertificateView() {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST");
       const filename = `Certificate-${(cert?.student_name || "Student").replace(/\s+/g, "_")}.pdf`;
       pdf.save(filename);
     } catch (err) {
@@ -71,11 +85,25 @@ export default function CertificateView() {
     setDownloading(true);
     try {
       const element = certRef.current;
+      await document.fonts.ready;
+
       const canvas = await html2canvas(element, {
         scale: 3,
         useCORS: true,
         backgroundColor: "#FAF8F3",
         logging: false,
+        allowTaint: true,
+        windowWidth: 1123,
+        windowHeight: 794,
+        onclone: (clonedDoc) => {
+          const clonedElem = clonedDoc.getElementById("certificate-element");
+          if (clonedElem) {
+            clonedElem.style.width = "1123px";
+            clonedElem.style.height = "794px";
+            clonedElem.style.maxWidth = "none";
+            clonedElem.style.transform = "none";
+          }
+        },
       });
 
       const link = document.createElement("a");
@@ -194,37 +222,29 @@ export default function CertificateView() {
         style={{ boxSizing: "border-box" }}
       >
         
-        {/* Top-Left Corner Dark Navy & Gold Triangle Swash */}
-        <div
-          className="absolute top-0 left-0 w-44 sm:w-56 md:w-64 h-44 sm:h-56 md:h-64 pointer-events-none z-10"
-          style={{
-            background: "linear-gradient(135deg, #121D33 0%, #16233B 70%, #0A1329 100%)",
-            clipPath: "polygon(0 0, 100% 0, 0 100%)",
-          }}
-        />
-        <div
-          className="absolute top-0 left-0 w-48 sm:w-60 md:w-68 h-48 sm:h-60 md:h-68 pointer-events-none z-10"
-          style={{
-            background: "linear-gradient(135deg, #D4AF37 0%, #C5A059 50%, #8A6D3B 100%)",
-            clipPath: "polygon(96% 0, 100% 0, 0 100%, 0 96%)",
-          }}
-        />
+        {/* Top-Left Corner SVG Swash (Renders 100% accurately in html2canvas) */}
+        <svg
+          className="absolute top-0 left-0 w-36 sm:w-48 md:w-56 h-36 sm:h-48 md:h-56 pointer-events-none z-10"
+          viewBox="0 0 200 200"
+          fill="none"
+        >
+          {/* Main Dark Navy Triangle */}
+          <polygon points="0,0 200,0 0,200" fill="#16233B" />
+          {/* Gold Edge Stripe Line */}
+          <polygon points="188,0 200,0 0,200 0,188" fill="#C5A059" />
+        </svg>
 
-        {/* Bottom-Right Corner Dark Navy & Gold Triangle Swash */}
-        <div
-          className="absolute bottom-0 right-0 w-44 sm:w-56 md:w-64 h-44 sm:h-56 md:h-64 pointer-events-none z-10"
-          style={{
-            background: "linear-gradient(135deg, #121D33 0%, #16233B 70%, #0A1329 100%)",
-            clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 right-0 w-48 sm:w-60 md:w-68 h-48 sm:h-60 md:h-68 pointer-events-none z-10"
-          style={{
-            background: "linear-gradient(135deg, #D4AF37 0%, #C5A059 50%, #8A6D3B 100%)",
-            clipPath: "polygon(100% 0, 100% 4%, 4% 100%, 0 100%)",
-          }}
-        />
+        {/* Bottom-Right Corner SVG Swash (Renders 100% accurately in html2canvas) */}
+        <svg
+          className="absolute bottom-0 right-0 w-36 sm:w-48 md:w-56 h-36 sm:h-48 md:h-56 pointer-events-none z-10"
+          viewBox="0 0 200 200"
+          fill="none"
+        >
+          {/* Main Dark Navy Triangle */}
+          <polygon points="200,0 200,200 0,200" fill="#16233B" />
+          {/* Gold Edge Stripe Line */}
+          <polygon points="200,12 200,0 0,200 12,200" fill="#C5A059" />
+        </svg>
 
         {/* Outer Fine Margin Area */}
         <div className="relative border border-slate-300 p-4 sm:p-6 md:p-8 h-full flex flex-col justify-between z-0">
@@ -241,10 +261,10 @@ export default function CertificateView() {
           {/* Top Wreath & Mortarboard Emblem */}
           <div className="flex flex-col items-center justify-center pt-2 sm:pt-4 relative z-10">
             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-[#C5A059]/60 flex items-center justify-center p-1 relative">
-              {/* Gold Wreath SVG */}
-              <svg className="absolute inset-0 w-full h-full text-[#C5A059]" viewBox="0 0 100 100" fill="currentColor">
-                <path d="M50 12 C 40 12, 25 22, 22 38 C 20 48, 25 60, 32 68 C 36 72, 44 78, 50 82 C 56 78, 64 72, 68 68 C 75 60, 80 48, 78 38 C 75 22, 60 12, 50 12 Z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
-                <circle cx="50" cy="50" r="38" fill="none" stroke="#C5A059" strokeWidth="1" />
+              {/* Gold Circular Ring Accent */}
+              <svg className="absolute inset-0 w-full h-full text-[#C5A059]" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="44" stroke="#C5A059" strokeWidth="1.5" strokeDasharray="3 3" />
+                <circle cx="50" cy="50" r="38" stroke="#C5A059" strokeWidth="1" />
               </svg>
               {/* Graduation Cap Mortarboard Icon */}
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#FAF8F3] border border-[#C5A059] flex items-center justify-center text-[#16233B] shadow-sm relative z-10">
@@ -366,7 +386,6 @@ export default function CertificateView() {
             <div className="flex flex-col items-center justify-center">
               <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full border-2 border-[#C5A059] p-1 flex items-center justify-center relative">
                 <div className="w-full h-full rounded-full border border-dashed border-[#C5A059] p-1.5 flex flex-col items-center justify-center text-center bg-[#FAF8F3]">
-                  {/* Arched Top Text Accent */}
                   <div className="text-[7px] font-bold tracking-[0.2em] text-[#C5A059] uppercase">
                     C O M M I T M E N T
                   </div>
