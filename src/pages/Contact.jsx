@@ -44,15 +44,25 @@ export default function Contact() {
           <div>
             <h3 className="text-xl font-semibold mb-4">OFFICE ADDRESS</h3>
 
-            <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-line">
-              {settings.office_address}
+            <p className="text-gray-700 leading-relaxed text-lg">
+              Ground Floor, 14/1,
+              <br />
+              Balajikrupa 2nd Main Road,
+              <br />
+              Seshadripuram,
+              <br />
+              Bengaluru North,
+              <br />
+              Bengaluru – 560020,
+              <br />
+              Karnataka
             </p>
 
             <a
               href="https://www.google.com/maps?q=Ground%20Floor,%2014/1,%20Balajikrupa%202nd%20Main%20Road,%20Seshadripuram,%20Bangalore%20560020"
               target="_blank"
               rel="noreferrer"
-              className="inline-block mt-6 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition font-medium"
+              className="inline-block mt-6 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition"
             >
               Get Directions
             </a>
