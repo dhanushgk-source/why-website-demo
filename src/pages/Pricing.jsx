@@ -14,9 +14,7 @@ import {
   UserCheck,
   Moon,
   Sun,
-  Sparkles,
   ChevronRight,
-  Zap,
 } from "lucide-react";
 
 // Default fallback matrix matching user's exact specification
@@ -26,11 +24,7 @@ const DEFAULT_TIERS = [
     service_category: "Hospital",
     tier_name: "Tier 1 — Companion",
     day_base: 999.0,
-    day_addl: 250.0,
-    day_ot: 350.0,
     night_base: 1498.5,
-    night_addl: 350.0,
-    night_ot: 450.0,
     badge_note: "Standard Companion",
   },
   {
@@ -38,11 +32,7 @@ const DEFAULT_TIERS = [
     service_category: "Hospital",
     tier_name: "Tier 2 — Trained/Semi-Skilled",
     day_base: 1200.0,
-    day_addl: 250.0,
-    day_ot: 350.0,
     night_base: 1800.0,
-    night_addl: 350.0,
-    night_ot: 450.0,
     badge_note: "During App Launch",
   },
   {
@@ -50,11 +40,7 @@ const DEFAULT_TIERS = [
     service_category: "Hospital",
     tier_name: "Tier 3 — Skilled Nurse",
     day_base: 1400.0,
-    day_addl: 250.0,
-    day_ot: 350.0,
     night_base: 2100.0,
-    night_addl: 350.0,
-    night_ot: 450.0,
     badge_note: "During App Launch",
   },
   {
@@ -62,25 +48,20 @@ const DEFAULT_TIERS = [
     service_category: "Travel",
     tier_name: "Single Tier — Companion",
     day_base: 999.0,
-    day_addl: 250.0,
-    day_ot: 350.0,
     night_base: 1498.5,
-    night_addl: 350.0,
-    night_ot: 450.0,
     badge_note: "Same rates as Hospital Tier 1",
   },
 ];
 
 const TRUST_POINTS = [
   { icon: Tag, title: "Subscription Free Usage", desc: "Pay only when you need assistance. No subscriptions." },
-  { icon: ShieldCheck, title: "No Hidden Charges", desc: "Transparent base, additional & OT rates clearly listed." },
+  { icon: ShieldCheck, title: "No Hidden Charges", desc: "Transparent rates clearly listed for all services." },
   { icon: UserCheck, title: "Verified Professionals", desc: "Every service delivered by a trained, background-checked WHY PRO." },
-  { icon: Clock, title: "Flexible Hourly Extension", desc: "Easily extend your duration from 4h up to full day." },
+  { icon: Clock, title: "Flexible Duration", desc: "Need more time? Extend your booking easily." },
 ];
 
 export default function PricingSection() {
   const [isNight, setIsNight] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("All"); // "All" | "Hospital" | "Travel"
   const [tiers, setTiers] = useState(DEFAULT_TIERS);
   const [whatsappNum, setWhatsappNum] = useState("");
 
@@ -109,17 +90,12 @@ export default function PricingSection() {
   const handleWhatsApp = (tier) => {
     const basePrice = isNight ? tier.night_base : tier.day_base;
     const rateType = isNight ? "Night Rate" : "Day Rate";
-    const message = `Hi! I want to book "${tier.service_category} - ${tier.tier_name}" (${rateType} Base: ₹${basePrice} for first 4 hrs). Please share availability.`;
+    const message = `Hi! I want to book "${tier.service_category} - ${tier.tier_name}" (${rateType}: ₹${basePrice} for first 4 hrs). Please share availability.`;
     const link = whatsappNum
       ? `https://wa.me/${whatsappNum.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`
       : getWhatsAppLink(message);
     window.open(link, "_blank", "noopener,noreferrer");
   };
-
-  const filteredTiers =
-    activeCategory === "All"
-      ? tiers
-      : tiers.filter((t) => (t.service_category || "").toLowerCase() === activeCategory.toLowerCase());
 
   return (
     <>
@@ -144,13 +120,13 @@ export default function PricingSection() {
               Simple, Transparent Pricing
             </h1>
 
-            <p className={`text-sm sm:text-base max-w-2xl mx-auto mb-8 ${isNight ? "text-gray-400" : "text-gray-600"}`}>
-              Clear, itemized pricing for Hospital & Travel Assistance. Base rates cover <strong>first 4 hours</strong>, followed by transparent hourly additional and overtime rates.
+            <p className={`text-sm sm:text-base max-w-xl mx-auto mb-8 ${isNight ? "text-gray-400" : "text-gray-600"}`}>
+              Book only when you need assistance. Pay per service. No monthly commitments.
             </p>
 
             {/* Day / Night Toggle Switch */}
             <div
-              className={`inline-flex items-center gap-3 rounded-full p-1.5 shadow-md border transition-colors duration-500 mb-8 ${
+              className={`inline-flex items-center gap-3 rounded-full p-1.5 shadow-md border transition-colors duration-500 mb-4 ${
                 isNight ? "bg-[#111A2E] border-[#243044]" : "bg-white border-gray-200"
               }`}
             >
@@ -181,39 +157,18 @@ export default function PricingSection() {
                 Night Rate (9 PM - 7 AM)
               </button>
             </div>
-
-            {/* Category Filters */}
-            <div className="flex items-center justify-center gap-2 flex-wrap">
-              {["All", "Hospital", "Travel"].map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition ${
-                    activeCategory === cat
-                      ? "bg-[#16233B] text-[#E8C580] shadow-sm"
-                      : isNight
-                      ? "bg-slate-800/70 text-gray-300 hover:bg-slate-800"
-                      : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
-                  }`}
-                >
-                  {cat === "All" ? "All Services" : `${cat} Assistance`}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Service Tier Cards Container — Auto-Centered Flexbox Layout */}
           <div className="flex flex-wrap items-stretch justify-center gap-6 max-w-6xl mx-auto mb-16">
-            {filteredTiers.map((tier) => {
+            {tiers.map((tier) => {
               const basePrice = isNight ? tier.night_base : tier.day_base;
-              const addlPrice = isNight ? tier.night_addl : tier.day_addl;
-              const otPrice = isNight ? tier.night_ot : tier.day_ot;
               const isHospital = (tier.service_category || "").toLowerCase().includes("hospital");
 
               return (
                 <div
                   key={tier.id || tier.tier_name}
-                  className={`w-full sm:w-[320px] md:w-[340px] flex-grow-0 rounded-3xl shadow-sm border p-6 flex flex-col justify-between relative transition-all duration-500 hover:shadow-xl ${
+                  className={`w-full sm:w-[300px] md:w-[320px] flex-grow-0 rounded-3xl shadow-sm border p-6 flex flex-col justify-between relative transition-all duration-500 hover:shadow-xl ${
                     isNight ? "bg-[#111A2E] border-[#243044]" : "bg-white border-slate-200/90"
                   }`}
                 >
@@ -226,7 +181,7 @@ export default function PricingSection() {
 
                   <div>
                     {/* Header icon & category */}
-                    <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-3 mb-4">
                       <div
                         className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                           isNight ? "bg-[#F2B705]/15 text-[#F2B705]" : "bg-[#0D9488]/10 text-[#0D9488]"
@@ -242,16 +197,16 @@ export default function PricingSection() {
                       </div>
                     </div>
 
-                    {/* Base Rate Box */}
+                    {/* Rate Box */}
                     <div
-                      className={`p-4 rounded-2xl mb-4 border ${
+                      className={`p-5 rounded-2xl mb-6 border text-center ${
                         isNight ? "bg-[#16233B]/60 border-slate-700" : "bg-slate-50 border-slate-200/80"
                       }`}
                     >
-                      <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-                        Base Rate (First 4 Hours)
+                      <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                        {isNight ? "Night Rate" : "Day Rate"} (First 4 Hours)
                       </p>
-                      <div className="flex items-baseline gap-1">
+                      <div className="flex items-baseline justify-center gap-1">
                         <span
                           className={`text-3xl font-black ${
                             isNight ? "text-[#F2B705]" : "text-[#0D9488]"
@@ -262,52 +217,19 @@ export default function PricingSection() {
                         <span className="text-xs text-slate-500 font-semibold">+ GST</span>
                       </div>
                     </div>
-
-                    {/* Hourly Tier Breakdown List */}
-                    <div className="space-y-2.5 mb-6 text-xs">
-                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-100/50 dark:bg-slate-800/40">
-                        <span className="font-semibold text-slate-500 flex items-center gap-1.5">
-                          <Clock className="w-3.5 h-3.5 text-[#C5A059]" />
-                          First 4 Hours (Base)
-                        </span>
-                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
-                          ₹{parseFloat(basePrice).toLocaleString("en-IN")}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-100/50 dark:bg-slate-800/40">
-                        <span className="font-semibold text-slate-500 flex items-center gap-1.5">
-                          <Zap className="w-3.5 h-3.5 text-blue-500" />
-                          Hours 5–8 (Addl)
-                        </span>
-                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
-                          ₹{parseFloat(addlPrice)}/hr
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-100/50 dark:bg-slate-800/40">
-                        <span className="font-semibold text-slate-500 flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                          Hour 9+ (Overtime)
-                        </span>
-                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
-                          ₹{parseFloat(otPrice)}/hr
-                        </span>
-                      </div>
-                    </div>
                   </div>
 
                   {/* CTA Button */}
                   <button
                     type="button"
                     onClick={() => handleWhatsApp(tier)}
-                    className={`w-full py-3 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all ${
+                    className={`w-full py-3.5 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all ${
                       isNight
                         ? "bg-[#F2B705] text-[#1B2A4A] hover:bg-[#D9A404]"
                         : "bg-[#0D9488] text-white hover:bg-[#0B7C72]"
                     }`}
                   >
-                    <span>Book {tier.service_category}</span>
+                    <span>Book Service</span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
