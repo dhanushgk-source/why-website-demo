@@ -299,14 +299,14 @@ export default function CertificateView() {
               has successfully completed all required modules, assessments, and lessons for the professional training course
             </p>
 
-            {/* Course Title Banner */}
+            {/* Course Title Banner — Perfectly Centered Rectangle Box */}
             <div className="mt-3 inline-block">
-              <div className="bg-transparent text-[#16233B] font-bold text-xs sm:text-sm px-6 sm:px-8 py-1.5 border border-[#C5A059] uppercase tracking-[0.15em] flex items-center justify-center gap-3">
-                <span className="h-[1px] w-4 bg-[#C5A059]"></span>
-                <span className="w-1 h-1 rounded-full bg-[#C5A059]"></span>
-                <span>{cert.course_title}</span>
-                <span className="w-1 h-1 rounded-full bg-[#C5A059]"></span>
-                <span className="h-[1px] w-4 bg-[#C5A059]"></span>
+              <div className="bg-transparent text-[#16233B] font-bold text-xs sm:text-sm px-6 sm:px-8 py-2.5 border border-[#C5A059] uppercase tracking-[0.18em] flex items-center justify-center gap-3 leading-none">
+                <span className="h-[1px] w-4 bg-[#C5A059] flex-shrink-0"></span>
+                <span className="w-1 h-1 rounded-full bg-[#C5A059] flex-shrink-0"></span>
+                <span className="leading-none transform translate-y-[-0.5px]">{cert.course_title}</span>
+                <span className="w-1 h-1 rounded-full bg-[#C5A059] flex-shrink-0"></span>
+                <span className="h-[1px] w-4 bg-[#C5A059] flex-shrink-0"></span>
               </div>
             </div>
           </div>
