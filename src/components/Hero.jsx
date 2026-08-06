@@ -1,15 +1,14 @@
 import { useSectionFade } from '../hooks/useSectionFade'
 import { useEffect, useState } from 'react'
 import {
-  PHONE_LINK,
+  useContactInfo,
+  getPhoneLink,
+  getWhatsAppLink,
   ANDROID_APP_LINK,
   IOS_APP_LINK,
-  getWhatsAppLink,
 } from '../config/contact'
 
-// All icons used in this component as plain inline SVG — no icon
-// package dependency, styled via currentColor so Tailwind text-color
-// classes control them directly.
+// All icons used in this component as plain inline SVG
 const Icon = {
   users: (p) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
@@ -110,22 +109,23 @@ const REVEAL_DELAY = 130
 
 export default function Hero() {
   const sectionRef = useSectionFade()
+  const contactInfo = useContactInfo()
   const [started, setStarted] = useState(false)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
 
   const BOOK_OPTIONS = [
     {
       label: 'Call Us',
-      href: PHONE_LINK,
+      href: getPhoneLink(contactInfo.phone_number),
       icon: Icon.phone,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50 group-hover:bg-blue-100',
       borderColor: 'group-hover:border-blue-200',
-      description: 'Talk instantly with our team',
+      description: `Talk directly (${contactInfo.phone_number})`,
     },
     {
       label: 'WhatsApp',
-      href: getWhatsAppLink(),
+      href: getWhatsAppLink("Hi! I want to book a WHY PRO companion.", contactInfo.whatsapp_number),
       icon: Icon.whatsapp,
       color: 'text-green-600',
       bgColor: 'bg-green-50 group-hover:bg-green-100',
@@ -162,7 +162,6 @@ export default function Hero() {
       return
     }
 
-    // FIX 4: Use requestAnimationFrame instead of setTimeout
     requestAnimationFrame(() => {
       setStarted(true)
     })
@@ -293,7 +292,7 @@ export default function Hero() {
               {/* Footer */}
               <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 rounded-b-[28px]">
                 <p className="text-xs text-slate-400 text-center">
-                  ✦ 24/7 support available • All bookings are verified
+                  ✦ 24/7 support available ({contactInfo.phone_number}) • All bookings are verified
                 </p>
               </div>
             </div>
@@ -388,9 +387,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — Image - FIX 1: No animation on LCP image */}
+          {/* RIGHT — Image */}
           <div className="w-full md:w-[46%] lg:w-[48%] relative">
-            {/* Decorative blobs behind the photo */}
             <div className="hidden sm:block absolute -top-6 -right-4 w-28 h-28 rounded-full bg-[#7FC8C0]/30 pointer-events-none" />
             <div className="hidden sm:block absolute top-16 -right-2 w-10 h-10 rounded-full bg-[#F6C89F] pointer-events-none" />
             <div className="hidden sm:block absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-[#0D9488]/10 pointer-events-none" />
@@ -400,10 +398,8 @@ export default function Hero() {
               ))}
             </div>
 
-            {/* Photo card */}
             <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] md:aspect-[4/3] lg:aspect-[5/4] rounded-[2rem] overflow-hidden shadow-2xl shadow-[#1B2A4A]/10 ring-1 ring-black/5">
               <picture>
-                {/* AVIF first — smallest */}
                 <source
                   type="image/avif"
                   srcSet="
@@ -413,7 +409,6 @@ export default function Hero() {
                   "
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
-                {/* WebP fallback, responsive */}
                 <source
                   type="image/webp"
                   srcSet="
@@ -423,7 +418,6 @@ export default function Hero() {
                   "
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
-                {/* FIX 5: Removed absolute positioning for better layout performance */}
                 <img
                   src="/Assests/elder-hero-1024.webp"
                   alt="Elderly companion and senior smiling together at home"

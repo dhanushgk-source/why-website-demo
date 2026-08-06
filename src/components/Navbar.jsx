@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSectionNav } from '../hooks/useSectionNav'
-import { PHONE_LINK, APP_LINK, getWhatsAppLink } from '../config/contact'
+import { useContactInfo, getPhoneLink, getWhatsAppLink, APP_LINK } from '../config/contact'
 
 // SVG Icon Components
 const Icons = {
@@ -33,11 +33,6 @@ const Icons = {
   ),
 }
 
-// Each item is either a same-page section (`section`) which needs to work
-// from any route, a real route (`path`) handled by react-router, or a
-// `dropdown` containing a list of sub-items (each of which is itself a
-// section or path). `tab` is optional — used to switch a tabbed section
-// (e.g. CompanionServices) to the right tab before/while scrolling to it.
 const NAV_ITEMS = [
   {
     label: 'Services',
@@ -52,13 +47,8 @@ const NAV_ITEMS = [
   { label: 'Careers', path: '/Careers' },
 ]
 
-const BOOK_OPTIONS = [
-  { label: 'Book on App', href: APP_LINK || undefined },
-  { label: 'Book via WhatsApp', href: getWhatsAppLink() },
-  { label: 'Book via Call', href: PHONE_LINK },
-].filter((opt) => opt.href) // hides "Book on App" automatically while APP_LINK is empty
-
 export default function Navbar() {
+  const contactInfo = useContactInfo()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -69,6 +59,12 @@ export default function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const isHome = location.pathname === '/'
+
+  const bookOptions = [
+    { label: 'Book on App', href: APP_LINK || undefined },
+    { label: 'Book via WhatsApp', href: getWhatsAppLink("Hi! I want to book a WHY companion service.", contactInfo.whatsapp_number) },
+    { label: 'Book via Call', href: getPhoneLink(contactInfo.phone_number) },
+  ].filter((opt) => opt.href)
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 100)
@@ -94,17 +90,10 @@ export default function Navbar() {
     setMobileServicesOpen(false)
     setMobileBookOpen(false)
 
-    // Switch the tab first so the section renders the right content
-    // before (or as) we scroll to it.
     if (item.tab) {
       window.dispatchEvent(new CustomEvent('why:companion-tab', { detail: { tab: item.tab } }))
     }
     if (item.section) goToSection(item.section)
-  }
-
-  const handleBackHome = () => {
-    setMenuOpen(false)
-    navigate('/')
   }
 
   return (
@@ -130,7 +119,7 @@ export default function Navbar() {
             boxShadow: scrolled ? '0 4px 20px rgba(27,42,74,0.08)' : 'none',
           }}
         >
-          {/* LOGO / BACK — visible on all breakpoints */}
+          {/* LOGO */}
           <div className="flex justify-start items-center gap-3">
             <Link
               to="/"
@@ -226,10 +215,12 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
+
+          {/* DESKTOP: 24/7 support text + Book dropdown */}
           <div className="hidden xl:flex justify-end items-center gap-4">
             <div>
               <a
-                href={PHONE_LINK}
+                href={getPhoneLink(contactInfo.phone_number)}
                 className="flex items-center gap-2 px-5 py-2 rounded-full border shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer"
                 style={{
                   background: '#fff',
@@ -265,7 +256,7 @@ export default function Navbar() {
                   className="min-w-[220px] rounded-xl overflow-hidden shadow-lg"
                   style={{ background: '#F7F3EA', boxShadow: '0 8px 24px rgba(27,42,74,0.15)' }}
                 >
-                  {BOOK_OPTIONS.map((opt) => (
+                  {bookOptions.map((opt) => (
                     <li key={opt.label}>
                       <a
                         href={opt.href}
@@ -351,7 +342,7 @@ export default function Navbar() {
 
           <div className="p-4 flex flex-col items-center gap-2">
             <a
-              href={PHONE_LINK}
+              href={getPhoneLink(contactInfo.phone_number)}
               className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border shadow-sm"
               style={{
                 background: "#fff",
@@ -376,7 +367,7 @@ export default function Navbar() {
 
             {mobileBookOpen && (
               <div className="flex flex-col gap-1.5 pt-1.5 w-full">
-                {BOOK_OPTIONS.map((opt) => (
+                {bookOptions.map((opt) => (
                   <a
                     key={opt.label}
                     href={opt.href}
