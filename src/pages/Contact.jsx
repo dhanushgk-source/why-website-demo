@@ -2,52 +2,57 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { getPublicSiteSettings } from "../services/siteService";
+import { PHONE_DISPLAY, PHONE_TEL, WHATSAPP_NUMBER } from "../config/contact";
 
 export default function Contact() {
   const [settings, setSettings] = useState({
-    phone_number: "+91 98765 43210",
-    whatsapp_number: "+91 98765 43210",
-    support_email: "support@thewhyservices.com",
-    office_address: "123 Care Avenue, Chennai, Tamil Nadu, India",
-    working_hours: "Mon - Sat: 9:00 AM - 7:00 PM",
+    phone_number: PHONE_DISPLAY,
+    whatsapp_number: WHATSAPP_NUMBER,
+    support_email: "support@whyservices.in",
+    office_address: "Ground Floor, 14/1,\nBalajikrupa 2nd Main Road,\nSeshadripuram,\nBengaluru North,\nBengaluru – 560020,\nKarnataka",
+    working_hours: "24/7 Support",
   });
 
   useEffect(() => {
     async function loadSettings() {
       const data = await getPublicSiteSettings();
       if (data) {
-        setSettings(data);
+        setSettings((prev) => ({
+          ...prev,
+          phone_number: data.phone_number || prev.phone_number,
+          whatsapp_number: data.whatsapp_number || prev.whatsapp_number,
+          support_email: data.support_email || prev.support_email,
+          office_address: data.office_address || prev.office_address,
+          working_hours: data.working_hours || prev.working_hours,
+        }));
       }
     }
     loadSettings();
   }, []);
 
-  const cleanWhatsapp = (settings.whatsapp_number || "").replace(/[^0-9]/g, "");
+  const cleanWhatsapp = (settings.whatsapp_number || WHATSAPP_NUMBER).replace(/[^0-9]/g, "");
+  const cleanPhoneTel = (settings.phone_number || PHONE_TEL).replace(/[^0-9+]/g, "");
 
   return (
     <div className="bg-white text-gray-800 min-h-screen">
       <Navbar />
 
       <section className="max-w-4xl mx-auto px-6 md:px-16 py-12 md:py-16">
-        <h2 className="text-4xl font-bold mb-10 text-[#1B2A4A]">Contact Us</h2>
+        <h2 className="text-4xl font-bold mb-10">Contact Us</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-[#1B2A4A]">OFFICE ADDRESS</h3>
+            <h3 className="text-xl font-semibold mb-4">OFFICE ADDRESS</h3>
 
             <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-line">
               {settings.office_address}
             </p>
 
-            <p className="mt-4 text-sm text-slate-500">
-              <strong>Working Hours:</strong> {settings.working_hours}
-            </p>
-
             <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.office_address)}`}
+              href="https://www.google.com/maps?q=Ground%20Floor,%2014/1,%20Balajikrupa%202nd%20Main%20Road,%20Seshadripuram,%20Bangalore%20560020"
               target="_blank"
               rel="noreferrer"
-              className="inline-block mt-6 px-6 py-3 bg-[#1B2A4A] text-white rounded-xl hover:bg-[#0D9488] transition font-semibold shadow-md"
+              className="inline-block mt-6 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition font-medium"
             >
               Get Directions
             </a>
@@ -56,7 +61,7 @@ export default function Contact() {
           <div className="w-full h-[320px] md:h-[400px] rounded-xl overflow-hidden shadow-lg border border-slate-200">
             <iframe
               title="Google Map"
-              src={`https://www.google.com/maps?q=${encodeURIComponent(settings.office_address)}&output=embed`}
+              src="https://www.google.com/maps?q=Ground%20Floor,%2014/1,%20Balajikrupa%202nd%20Main%20Road,%20Seshadripuram,%20Bangalore%20560020&output=embed"
               className="w-full h-full"
               style={{ border: 0 }}
               loading="lazy"
@@ -66,51 +71,45 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
           {/* Phone */}
-          <div className="bg-white rounded-2xl shadow-md p-6 text-center border border-slate-200 hover:shadow-xl transition flex flex-col justify-between">
-            <div>
-              <div className="text-4xl mb-4">📞</div>
-              <h3 className="text-xl font-semibold mb-2 text-[#1B2A4A]">Phone Helpline</h3>
-              <p className="text-gray-600 mb-4 text-sm">Speak directly with our support team.</p>
-            </div>
+          <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
+            <div className="text-4xl mb-4">📞</div>
+            <h3 className="text-xl font-semibold mb-2">Phone</h3>
+            <p className="text-gray-600 mb-4">Speak directly with our support team.</p>
             <a
-              href={`tel:${settings.phone_number}`}
-              className="text-[#0D9488] font-bold text-lg hover:underline mt-2 inline-block"
+              href={`tel:${cleanPhoneTel}`}
+              className="text-[#52B5BD] font-semibold hover:underline"
             >
               {settings.phone_number}
             </a>
           </div>
 
           {/* Email */}
-          <div className="bg-white rounded-2xl shadow-md p-6 text-center border border-slate-200 hover:shadow-xl transition flex flex-col justify-between">
-            <div>
-              <div className="text-4xl mb-4">📧</div>
-              <h3 className="text-xl font-semibold mb-2 text-[#1B2A4A]">Email Support</h3>
-              <p className="text-gray-600 mb-4 text-sm">Send us your questions anytime.</p>
-            </div>
+          <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
+            <div className="text-4xl mb-4">📧</div>
+            <h3 className="text-xl font-semibold mb-2">Email</h3>
+            <p className="text-gray-600 mb-4">Send us your questions anytime.</p>
             <a
               href={`mailto:${settings.support_email}`}
-              className="text-[#0D9488] font-bold text-base hover:underline mt-2 inline-block break-all"
+              className="text-[#52B5BD] font-semibold hover:underline break-all"
             >
               {settings.support_email}
             </a>
           </div>
 
           {/* WhatsApp */}
-          <div className="bg-white rounded-2xl shadow-md p-6 text-center border border-slate-200 hover:shadow-xl transition flex flex-col justify-between">
-            <div>
-              <div className="text-4xl mb-4">💬</div>
-              <h3 className="text-xl font-semibold mb-2 text-[#1B2A4A]">WhatsApp Chat</h3>
-              <p className="text-gray-600 mb-4 text-sm">Instant assistance & direct booking.</p>
-            </div>
+          <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
+            <div className="text-4xl mb-4">💬</div>
+            <h3 className="text-xl font-semibold mb-2">WhatsApp</h3>
+            <p className="text-gray-600 mb-4">Chat with us for instant assistance.</p>
             <a
-              href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20have%20an%20inquiry.`}
+              href={`https://wa.me/${cleanWhatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#22c55e] text-white font-bold px-5 py-2.5 rounded-xl hover:bg-[#16a34a] transition text-sm shadow mt-2"
+              className="text-[#52B5BD] font-semibold hover:underline"
             >
-              Chat on WhatsApp ({settings.whatsapp_number})
+              Chat on WhatsApp
             </a>
           </div>
         </div>
