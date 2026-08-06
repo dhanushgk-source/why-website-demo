@@ -133,7 +133,7 @@ export default function PricingSection() {
             </span>
 
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight">
-              Simple, Minimalistic Pricing
+              Simple, Transparent Pricing
             </h1>
 
             <p className={`text-sm sm:text-base max-w-xl mx-auto mb-8 ${isNight ? "text-gray-400" : "text-gray-600"}`}>
@@ -175,12 +175,12 @@ export default function PricingSection() {
             </div>
           </div>
 
-          {/* Service Tier Cards Container — Simple & Minimalistic Auto-Centered Grid */}
+          {/* Service Tier Cards Container — Clean & Sleek Auto-Centered Grid */}
           <div className="flex flex-wrap items-stretch justify-center gap-6 max-w-6xl mx-auto mb-16">
             {tiers.map((tier) => {
               const basePrice = isNight ? tier.night_base : tier.day_base;
-              const addlPrice = isNight ? tier.night_addl || 250 : tier.day_addl || 250;
-              const otPrice = isNight ? tier.night_ot || 350 : tier.day_ot || 350;
+              const addlPrice = isNight ? tier.night_addl || 350 : tier.day_addl || 250;
+              const otPrice = isNight ? tier.night_ot || 450 : tier.day_ot || 350;
               const isHospital = (tier.service_category || "").toLowerCase().includes("hospital");
 
               return (
@@ -215,41 +215,37 @@ export default function PricingSection() {
                       </div>
                     </div>
 
-                    {/* Rate Box */}
+                    {/* Main Clean Hero Price Statement */}
                     <div
-                      className={`p-4 rounded-2xl mb-4 border text-center ${
+                      className={`p-5 rounded-2xl mb-4 border text-center ${
                         isNight ? "bg-[#16233B]/60 border-slate-700" : "bg-slate-50 border-slate-200/80"
                       }`}
                     >
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                        {isNight ? "Night Rate" : "Day Rate"} (First 4 Hours)
+                      <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                        Service Starts From
                       </p>
                       <div className="flex items-baseline justify-center gap-1">
                         <span
-                          className={`text-3xl font-black ${
+                          className={`text-3.5xl font-black text-3xl ${
                             isNight ? "text-[#F2B705]" : "text-[#0D9488]"
                           }`}
                         >
                           ₹{parseFloat(basePrice).toLocaleString("en-IN")}
                         </span>
-                        <span className="text-xs text-slate-500 font-semibold">+ 18% GST</span>
                       </div>
+                      <p className="text-xs font-semibold text-slate-500 mt-1">
+                        for first 4 hours <span className="text-[10px] opacity-75">(+ 18% GST)</span>
+                      </p>
                     </div>
 
-                    {/* Minimalistic Rate Breakdown Pills */}
-                    <div className="space-y-2 mb-6 text-xs">
-                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-800/50">
-                        <span className="font-medium text-slate-500">Base Rate (1–4 hrs)</span>
-                        <span className="font-extrabold text-slate-900 dark:text-white">₹{parseFloat(basePrice).toLocaleString("en-IN")}</span>
-                      </div>
-                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-800/50">
-                        <span className="font-medium text-slate-500">Additional (hrs 5–8)</span>
-                        <span className="font-extrabold text-slate-900 dark:text-white">₹{parseFloat(addlPrice)}/hr</span>
-                      </div>
-                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-800/50">
-                        <span className="font-medium text-slate-500">Overtime (hrs 9+)</span>
-                        <span className="font-extrabold text-slate-900 dark:text-white">₹{parseFloat(otPrice)}/hr</span>
-                      </div>
+                    {/* Minimal Extension Note */}
+                    <div className="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/40 text-center mb-6">
+                      <p className="text-[11px] text-slate-500 font-medium">
+                        Flexible hourly extensions:
+                      </p>
+                      <p className="text-xs font-bold text-slate-700 dark:text-slate-300 mt-0.5">
+                        Hrs 5–8: ₹{addlPrice}/hr · Hr 9+: ₹{otPrice}/hr
+                      </p>
                     </div>
                   </div>
 
