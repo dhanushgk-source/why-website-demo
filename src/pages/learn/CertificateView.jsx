@@ -37,9 +37,9 @@ export default function CertificateView() {
     const element = certRef.current;
     if (!element) return null;
 
-    // Ensure all web fonts (Cinzel, Alex Brush, Montserrat) are fully loaded in memory
+    // Ensure all web fonts are loaded in memory
     await document.fonts.ready;
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 350));
 
     return await html2canvas(element, {
       scale: 3, // Ultra HD quality
@@ -267,16 +267,16 @@ export default function CertificateView() {
             </div>
 
             {/* Main Organization Title */}
-            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#16233B] tracking-tight mt-3 mb-1 leading-none">
+            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#16233B] tracking-tight mt-3 mb-2 leading-none">
               We Help You
             </h1>
 
-            {/* Gold Ornamental Line with Dot */}
-            <div className="flex items-center justify-center gap-2 text-[#C5A059] mt-3 mb-2">
-              <span className="h-[1.5px] w-20 sm:w-28 bg-[#C5A059]"></span>
-              <span className="w-2 h-2 rounded-full bg-[#C5A059]"></span>
-              <span className="h-[1.5px] w-20 sm:w-28 bg-[#C5A059]"></span>
-            </div>
+            {/* Gold Ornamental SVG Line with Center Dot — Guaranteed Zero Overlay */}
+            <svg className="w-full max-w-[280px] h-[8px] mx-auto my-2" viewBox="0 0 280 8" fill="none">
+              <line x1="0" y1="4" x2="120" y2="4" stroke="#C5A059" strokeWidth="1.5" />
+              <circle cx="140" cy="4" r="3.5" fill="#C5A059" />
+              <line x1="160" y1="4" x2="280" y2="4" stroke="#C5A059" strokeWidth="1.5" />
+            </svg>
           </div>
 
           {/* Recipient Section */}
@@ -285,11 +285,14 @@ export default function CertificateView() {
               THIS IS TO CERTIFY THAT
             </p>
             
-            {/* Student Name — Using Native CSS border-bottom Directly on Heading for 100% Locked Position */}
-            <div className="my-2 inline-block">
-              <h2 className="font-script text-4xl sm:text-6xl md:text-7xl text-[#16233B] font-normal leading-tight px-8 pb-3 border-b-[1.5px] border-[#C5A059]">
+            {/* Student Name & SVG Underline Line — 100% Vector Positioning Below Text */}
+            <div className="my-2 flex flex-col items-center">
+              <h2 className="font-script text-4xl sm:text-6xl md:text-7xl text-[#16233B] font-normal leading-tight px-6">
                 {cert.student_name}
               </h2>
+              <svg className="w-full max-w-[340px] h-[3px] mx-auto mt-2" viewBox="0 0 340 3" fill="none">
+                <line x1="0" y1="1.5" x2="340" y2="1.5" stroke="#C5A059" strokeWidth="2" />
+              </svg>
             </div>
 
             <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed mt-2">
@@ -325,7 +328,10 @@ export default function CertificateView() {
                 </div>
                 <div className="flex flex-col">
                   <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">DATE ISSUED</p>
-                  <p className="text-xs font-bold text-slate-900 mt-0.5 pb-1 border-b-[1.5px] border-[#C5A059] inline-block">{issueDate}</p>
+                  <p className="text-xs font-bold text-slate-900 mt-0.5">{issueDate}</p>
+                  <svg className="w-12 h-[2px] mt-1.5" viewBox="0 0 48 2" fill="none">
+                    <line x1="0" y1="1" x2="48" y2="1" stroke="#C5A059" strokeWidth="2" />
+                  </svg>
                 </div>
               </div>
 
@@ -341,16 +347,22 @@ export default function CertificateView() {
                 </div>
                 <div className="flex flex-col">
                   <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">CERTIFICATE CODE</p>
-                  <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight mt-0.5 pb-1 border-b-[1.5px] border-[#C5A059] inline-block">{cert.certificate_number}</p>
+                  <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight mt-0.5">{cert.certificate_number}</p>
+                  <svg className="w-12 h-[2px] mt-1.5" viewBox="0 0 48 2" fill="none">
+                    <line x1="0" y1="1" x2="48" y2="1" stroke="#C5A059" strokeWidth="2" />
+                  </svg>
                 </div>
               </div>
             </div>
 
-            {/* Signature Area */}
+            {/* Signature Area — Explicit SVG Line Below Cursive Text */}
             <div className="flex flex-col items-center text-center min-w-[170px]">
-              <p className="font-script text-2xl sm:text-3xl text-[#16233B] font-normal px-4 pb-2 border-b border-slate-400 w-full text-center">
+              <p className="font-script text-2xl sm:text-3xl text-[#16233B] font-normal px-4 pb-1">
                 We Help You Board
               </p>
+              <svg className="w-full max-w-[170px] h-[2px] mt-1" viewBox="0 0 170 2" fill="none">
+                <line x1="0" y1="1" x2="170" y2="1" stroke="#94A3B8" strokeWidth="1.5" />
+              </svg>
               <p className="text-[9px] sm:text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] mt-2">
                 AUTHORIZED SIGNATURE
               </p>
