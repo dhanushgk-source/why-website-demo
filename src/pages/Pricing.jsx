@@ -17,24 +17,24 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-// Default fallback matrix matching user's exact specification
+// Default fallback matrix matching updated title specification
 const DEFAULT_TIERS = [
   {
     id: "hosp-t1",
     service_category: "Hospital",
-    tier_name: "Tier 1 — Companion",
+    tier_name: "Standard Companion Care",
     day_base: 999.0,
     day_addl: 250.0,
     day_ot: 350.0,
     night_base: 1498.5,
     night_addl: 350.0,
     night_ot: 450.0,
-    badge_note: "Standard Companion",
+    badge_note: "Companion Support",
   },
   {
     id: "hosp-t2",
     service_category: "Hospital",
-    tier_name: "Tier 2 — Trained/Semi-Skilled",
+    tier_name: "Trained Companion Care",
     day_base: 1200.0,
     day_addl: 250.0,
     day_ot: 350.0,
@@ -46,7 +46,7 @@ const DEFAULT_TIERS = [
   {
     id: "hosp-t3",
     service_category: "Hospital",
-    tier_name: "Tier 3 — Skilled Nurse",
+    tier_name: "Skilled Nurse Care",
     day_base: 1400.0,
     day_addl: 250.0,
     day_ot: 350.0,
@@ -58,14 +58,14 @@ const DEFAULT_TIERS = [
   {
     id: "trav-t1",
     service_category: "Travel",
-    tier_name: "Single Tier — Companion",
+    tier_name: "Travel Companion Care",
     day_base: 999.0,
     day_addl: 250.0,
     day_ot: 350.0,
     night_base: 1498.5,
     night_addl: 350.0,
     night_ot: 450.0,
-    badge_note: "Same rates as Hospital Tier 1",
+    badge_note: "Full Journey Escort",
   },
 ];
 
