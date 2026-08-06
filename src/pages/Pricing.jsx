@@ -8,7 +8,6 @@ import {
   Gift,
   Building2,
   Car,
-  Check,
   Clock,
   Tag,
   ShieldCheck,
@@ -16,7 +15,6 @@ import {
   Moon,
   Sun,
   Sparkles,
-  Info,
   ChevronRight,
   Zap,
 } from "lucide-react";
@@ -131,7 +129,7 @@ export default function PricingSection() {
         }`}
       >
         <div className="max-w-7xl mx-auto">
-          {/* Top Pill Header */}
+          {/* Top Header */}
           <div className="text-center mb-10 sm:mb-12">
             <span
               className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide mb-5 transition-colors duration-500 ${
@@ -143,7 +141,7 @@ export default function PricingSection() {
             </span>
 
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight">
-              Transparent Tiered Pricing
+              Simple, Transparent Pricing
             </h1>
 
             <p className={`text-sm sm:text-base max-w-2xl mx-auto mb-8 ${isNight ? "text-gray-400" : "text-gray-600"}`}>
@@ -204,8 +202,8 @@ export default function PricingSection() {
             </div>
           </div>
 
-          {/* Service Tier Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {/* Service Tier Cards Container — Auto-Centered Flexbox Layout */}
+          <div className="flex flex-wrap items-stretch justify-center gap-6 max-w-6xl mx-auto mb-16">
             {filteredTiers.map((tier) => {
               const basePrice = isNight ? tier.night_base : tier.day_base;
               const addlPrice = isNight ? tier.night_addl : tier.day_addl;
@@ -215,7 +213,7 @@ export default function PricingSection() {
               return (
                 <div
                   key={tier.id || tier.tier_name}
-                  className={`rounded-3xl shadow-sm border p-6 flex flex-col justify-between relative transition-all duration-500 hover:shadow-xl ${
+                  className={`w-full sm:w-[320px] md:w-[340px] flex-grow-0 rounded-3xl shadow-sm border p-6 flex flex-col justify-between relative transition-all duration-500 hover:shadow-xl ${
                     isNight ? "bg-[#111A2E] border-[#243044]" : "bg-white border-slate-200/90"
                   }`}
                 >
@@ -315,67 +313,6 @@ export default function PricingSection() {
                 </div>
               );
             })}
-          </div>
-
-          {/* Full Itemized Pricing Matrix Table */}
-          <div className="mb-16">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold tracking-tight">Complete Service Rates Matrix Table</h2>
-              <p className="text-xs text-slate-500 mt-1">Full transparent comparison across all tiers and hourly brackets</p>
-            </div>
-
-            <div
-              className={`rounded-3xl border shadow-lg overflow-x-auto ${
-                isNight ? "bg-[#111A2E] border-[#243044]" : "bg-white border-slate-200"
-              }`}
-            >
-              <table className="w-full text-left border-collapse text-xs sm:text-sm">
-                <thead>
-                  <tr
-                    className={`border-b ${
-                      isNight ? "bg-[#16233B] border-slate-700 text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
-                    }`}
-                  >
-                    <th className="p-4 font-extrabold">Service</th>
-                    <th className="p-4 font-extrabold">Tier</th>
-                    <th className="p-4 font-extrabold text-emerald-600 dark:text-emerald-400">☀️ Day Base (1-4h)</th>
-                    <th className="p-4 font-extrabold text-emerald-600 dark:text-emerald-400">☀️ Day Addl (5-8h)</th>
-                    <th className="p-4 font-extrabold text-emerald-600 dark:text-emerald-400">☀️ Day OT (9+h)</th>
-                    <th className="p-4 font-extrabold text-amber-500">🌙 Night Base (1-4h)</th>
-                    <th className="p-4 font-extrabold text-amber-500">🌙 Night Addl (5-8h)</th>
-                    <th className="p-4 font-extrabold text-amber-500">🌙 Night OT (9+h)</th>
-                    <th className="p-4 font-extrabold">Note</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-                  {tiers.map((t) => (
-                    <tr
-                      key={t.id || t.tier_name}
-                      className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition`}
-                    >
-                      <td className="p-4 font-bold text-[#C5A059]">{t.service_category}</td>
-                      <td className="p-4 font-extrabold">{t.tier_name}</td>
-                      <td className="p-4 font-black text-emerald-600 dark:text-emerald-400">₹{parseFloat(t.day_base).toLocaleString("en-IN")}</td>
-                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.day_addl)}/hr</td>
-                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.day_ot)}/hr</td>
-
-                      <td className="p-4 font-black text-amber-500">₹{parseFloat(t.night_base).toLocaleString("en-IN")}</td>
-                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.night_addl)}/hr</td>
-                      <td className="p-4 font-semibold text-slate-600 dark:text-slate-400">₹{parseFloat(t.night_ot)}/hr</td>
-                      <td className="p-4">
-                        {t.badge_note ? (
-                          <span className="inline-block bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/30 text-[11px] px-2.5 py-0.5 rounded-full font-bold">
-                            {t.badge_note}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
           </div>
 
           {/* Trust points strip */}
