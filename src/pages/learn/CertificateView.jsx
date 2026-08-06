@@ -33,31 +33,41 @@ export default function CertificateView() {
     load();
   }, [certificateId]);
 
+  const captureCanvas = async () => {
+    const element = certRef.current;
+    if (!element) return null;
+
+    // Ensure all web fonts (Cinzel, Alex Brush, Montserrat) are fully loaded in memory
+    await document.fonts.ready;
+    // Brief delay to allow font layout baselines to lock in
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    return await html2canvas(element, {
+      scale: 3, // Ultra HD quality
+      useCORS: true,
+      backgroundColor: "#FAF8F3",
+      logging: false,
+      allowTaint: true,
+      windowWidth: 1123,
+      windowHeight: 794,
+      onclone: (clonedDoc) => {
+        const clonedElem = clonedDoc.getElementById("certificate-element");
+        if (clonedElem) {
+          clonedElem.style.width = "1123px";
+          clonedElem.style.height = "794px";
+          clonedElem.style.maxWidth = "none";
+          clonedElem.style.transform = "none";
+        }
+      },
+    });
+  };
+
   const handleDownloadPDF = async () => {
     if (!certRef.current || downloading) return;
     setDownloading(true);
     try {
-      const element = certRef.current;
-      await document.fonts.ready; // Wait for fonts like Cinzel & Alex Brush to load completely
-
-      const canvas = await html2canvas(element, {
-        scale: 3, // Ultra-sharp 3x DPI
-        useCORS: true,
-        backgroundColor: "#FAF8F3",
-        logging: false,
-        allowTaint: true,
-        windowWidth: 1123,
-        windowHeight: 794,
-        onclone: (clonedDoc) => {
-          const clonedElem = clonedDoc.getElementById("certificate-element");
-          if (clonedElem) {
-            clonedElem.style.width = "1123px";
-            clonedElem.style.height = "794px";
-            clonedElem.style.maxWidth = "none";
-            clonedElem.style.transform = "none";
-          }
-        },
-      });
+      const canvas = await captureCanvas();
+      if (!canvas) return;
 
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
@@ -84,27 +94,8 @@ export default function CertificateView() {
     if (!certRef.current || downloading) return;
     setDownloading(true);
     try {
-      const element = certRef.current;
-      await document.fonts.ready;
-
-      const canvas = await html2canvas(element, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: "#FAF8F3",
-        logging: false,
-        allowTaint: true,
-        windowWidth: 1123,
-        windowHeight: 794,
-        onclone: (clonedDoc) => {
-          const clonedElem = clonedDoc.getElementById("certificate-element");
-          if (clonedElem) {
-            clonedElem.style.width = "1123px";
-            clonedElem.style.height = "794px";
-            clonedElem.style.maxWidth = "none";
-            clonedElem.style.transform = "none";
-          }
-        },
-      });
+      const canvas = await captureCanvas();
+      if (!canvas) return;
 
       const link = document.createElement("a");
       link.download = `Certificate-${(cert?.student_name || "Student").replace(/\s+/g, "_")}.png`;
@@ -222,7 +213,7 @@ export default function CertificateView() {
         style={{ boxSizing: "border-box" }}
       >
         
-        {/* Top-Left Corner SVG Swash (Renders 100% accurately in html2canvas) */}
+        {/* Top-Left Corner SVG Swash */}
         <svg
           className="absolute top-0 left-0 w-36 sm:w-48 md:w-56 h-36 sm:h-48 md:h-56 pointer-events-none z-10"
           viewBox="0 0 200 200"
@@ -234,7 +225,7 @@ export default function CertificateView() {
           <polygon points="188,0 200,0 0,200 0,188" fill="#C5A059" />
         </svg>
 
-        {/* Bottom-Right Corner SVG Swash (Renders 100% accurately in html2canvas) */}
+        {/* Bottom-Right Corner SVG Swash */}
         <svg
           className="absolute bottom-0 right-0 w-36 sm:w-48 md:w-56 h-36 sm:h-48 md:h-56 pointer-events-none z-10"
           viewBox="0 0 200 200"
@@ -259,7 +250,7 @@ export default function CertificateView() {
           <div className="absolute bottom-4 right-4 w-7 h-7 border-b-[1.5px] border-r-[1.5px] border-[#C5A059] pointer-events-none"></div>
 
           {/* Top Wreath & Mortarboard Emblem */}
-          <div className="flex flex-col items-center justify-center pt-2 sm:pt-4 relative z-10">
+          <div className="flex flex-col items-center justify-center pt-2 sm:pt-3 relative z-10">
             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-[#C5A059]/60 flex items-center justify-center p-1 relative">
               {/* Gold Circular Ring Accent */}
               <svg className="absolute inset-0 w-full h-full text-[#C5A059]" viewBox="0 0 100 100" fill="none">
@@ -275,8 +266,8 @@ export default function CertificateView() {
             </div>
           </div>
 
-          {/* Subtitle Header */}
-          <div className="text-center my-1 relative z-10">
+          {/* Subtitle Header & Main Title */}
+          <div className="text-center flex flex-col items-center my-1 relative z-10">
             <div className="flex items-center justify-center gap-3 text-slate-600 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.25em]">
               <span className="h-[1px] w-12 sm:w-16 bg-[#C5A059]/70"></span>
               <span className="flex items-center gap-1.5">
@@ -288,30 +279,30 @@ export default function CertificateView() {
             </div>
 
             {/* Main Organization Title */}
-            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#16233B] tracking-tight mt-2 mb-1">
+            <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold text-[#16233B] tracking-tight mt-2 mb-2 leading-none">
               We Help You
             </h1>
 
-            {/* Gold Ornamental Line with Dot */}
-            <div className="flex items-center justify-center gap-2 text-[#C5A059] my-1">
-              <span className="h-[1px] w-20 sm:w-28 bg-[#C5A059]/80"></span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059]"></span>
-              <span className="h-[1px] w-20 sm:w-28 bg-[#C5A059]/80"></span>
+            {/* Gold Ornamental Line with Dot — Clean Explicit Block Flex Box */}
+            <div className="flex items-center justify-center gap-2 text-[#C5A059] mt-2 mb-1">
+              <span className="h-[1.5px] w-20 sm:w-28 bg-[#C5A059]"></span>
+              <span className="w-2 h-2 rounded-full bg-[#C5A059]"></span>
+              <span className="h-[1.5px] w-20 sm:w-28 bg-[#C5A059]"></span>
             </div>
           </div>
 
           {/* Recipient Section */}
-          <div className="text-center my-2 relative z-10">
+          <div className="text-center flex flex-col items-center my-2 relative z-10">
             <p className="text-slate-500 text-[11px] sm:text-xs uppercase font-semibold tracking-[0.2em] mb-1">
               THIS IS TO CERTIFY THAT
             </p>
             
-            {/* Student Name */}
-            <div className="my-1 inline-block relative px-8">
+            {/* Student Name & Underline — Explicit Flex Column Structure */}
+            <div className="my-2 flex flex-col items-center px-8">
               <h2 className="font-script text-4xl sm:text-6xl md:text-7xl text-[#16233B] font-normal leading-tight">
                 {cert.student_name}
               </h2>
-              <div className="h-[1px] w-full bg-[#C5A059]/80 mt-1"></div>
+              <div className="w-full min-w-[200px] h-[1.5px] bg-[#C5A059] mt-2"></div>
             </div>
 
             <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed mt-2">
@@ -345,10 +336,10 @@ export default function CertificateView() {
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                   </svg>
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">DATE ISSUED</p>
-                  <p className="text-xs font-bold text-slate-900">{issueDate}</p>
-                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-0.5"></div>
+                  <p className="text-xs font-bold text-slate-900 mt-0.5">{issueDate}</p>
+                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-1"></div>
                 </div>
               </div>
 
@@ -362,24 +353,23 @@ export default function CertificateView() {
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                   </svg>
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold tracking-wider">CERTIFICATE CODE</p>
-                  <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight">{cert.certificate_number}</p>
-                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-0.5"></div>
+                  <p className="text-[11px] font-mono font-bold text-slate-900 tracking-tight mt-0.5">{cert.certificate_number}</p>
+                  <div className="h-[1.5px] w-12 bg-[#C5A059] mt-1"></div>
                 </div>
               </div>
             </div>
 
-            {/* Signature Area */}
-            <div className="text-center flex flex-col items-center">
-              <div className="inline-block text-center min-w-[160px]">
-                <p className="font-script text-2xl sm:text-3xl text-[#16233B] font-normal mb-0.5 border-b border-slate-400 pb-0.5 px-4">
-                  We Help You Board
-                </p>
-                <p className="text-[9px] sm:text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] mt-1">
-                  AUTHORIZED SIGNATURE
-                </p>
-              </div>
+            {/* Signature Area — Explicit Flex Column Structure */}
+            <div className="flex flex-col items-center text-center min-w-[170px]">
+              <p className="font-script text-2xl sm:text-3xl text-[#16233B] font-normal px-4 pb-1 leading-normal">
+                We Help You Board
+              </p>
+              <div className="w-full h-[1.5px] bg-slate-400 mt-1"></div>
+              <p className="text-[9px] sm:text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] mt-2">
+                AUTHORIZED SIGNATURE
+              </p>
             </div>
 
             {/* Right Circular Seal */}
