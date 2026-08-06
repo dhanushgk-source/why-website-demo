@@ -302,21 +302,19 @@ function ServiceCard({ card, index }) {
     )
 }
 
-// Card pager: 1 card at a time on mobile, 2 cards side-by-side on tablet
-// & desktop. Arrows/swipe/keys advance by however many cards are visible.
+// Card pager: 1 card at a time on mobile and tablet (<1024px), 2 cards on desktop (>=1024px).
 function CardPager({ cards, tabKey }) {
     const [page, setPage] = useState(0)
-    // Cards shown at once: 1 on mobile (<640px), 2 on tablet & desktop (>=640px).
+    // Show 1 card in mobile & tab view (<1024px), 2 cards on large desktop (>=1024px)
     const [cardsPerView, setCardsPerView] = useState(() =>
-        typeof window !== 'undefined' && window.innerWidth >= 640 ? 2 : 1
+        typeof window !== 'undefined' && window.innerWidth >= 1024 ? 2 : 1
     )
     const touchStartX = useRef(null)
 
-    // Track viewport so the pager switches between 1-at-a-time and
-    // 2-at-a-time as the window is resized (not just on first render).
+    // Track viewport so tablet shows only 1 card
     useEffect(() => {
         function handleResize() {
-            setCardsPerView(window.innerWidth >= 640 ? 2 : 1)
+            setCardsPerView(window.innerWidth >= 1024 ? 2 : 1)
         }
         window.addEventListener('resize', handleResize)
         return () => window.removeEventListener('resize', handleResize)
@@ -412,8 +410,8 @@ function CardPager({ cards, tabKey }) {
                 </button>
 
                 <div className="flex-1 min-w-0">
-                    {/* Mobile: one card */}
-                    <div className="block sm:hidden">
+                    {/* Mobile & Tablet (<1024px): one card */}
+                    <div className="block lg:hidden">
                         <ServiceCard
                             key={`${tabKey}-${cards[page].title}`}
                             card={cards[page]}
@@ -421,8 +419,8 @@ function CardPager({ cards, tabKey }) {
                         />
                     </div>
 
-                    {/* Tablet & Desktop: two cards side by side, equal height */}
-                    <div className="hidden sm:grid grid-cols-2 gap-8 items-stretch">
+                    {/* Large Desktop (>=1024px): two cards side by side */}
+                    <div className="hidden lg:grid grid-cols-2 gap-8 items-stretch">
                         <ServiceCard
                             key={`${tabKey}-${page}-left`}
                             card={cards[page]}
@@ -683,7 +681,7 @@ export default function CompanionServices() {
                         <span className="w-10 h-px bg-[#E0B98A]" />
                     </div>
 
-                    <p className="text-lg max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "#6a7f96" }}>
+                    <p className="text-xs sm:text-sm md:text-base max-w-xl mx-auto mb-8 leading-relaxed text-slate-500">
                         {active.subtext}
                     </p>
                 </div>
