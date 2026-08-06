@@ -1,10 +1,12 @@
-import { FaWhatsapp } from 'react-icons/fa'
-import { getWhatsAppLink } from '../config/contact'
+import { FaWhatsapp } from 'react-icons/fa';
+import { useContactInfo, getWhatsAppLink } from '../config/contact';
 
 export default function WhatsAppFloat() {
+  const contactInfo = useContactInfo();
+
   const handleClick = () => {
-    window.open(getWhatsAppLink(), '_blank', 'noopener,noreferrer')
-  }
+    window.open(getWhatsAppLink("Hi! I would like to book a WHY companion service.", contactInfo.whatsapp_number), '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <button
@@ -28,5 +30,5 @@ export default function WhatsAppFloat() {
 
       <FaWhatsapp className="text-[26px] sm:text-[30px]" />
     </button>
-  )
+  );
 }

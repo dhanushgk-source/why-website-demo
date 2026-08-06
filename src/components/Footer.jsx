@@ -1,14 +1,9 @@
 import { Link } from "react-router-dom";
-import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE, WHATSAPP_NUMBER } from "../config/contact";
+import { useContactInfo, getWhatsAppLink, getPhoneLink, LOCATIONS, LOCATIONS_NOTE } from "../config/contact";
 import { useSectionNav } from "../hooks/useSectionNav";
 
-// Both "Hospital Assistance" and "Travel Companionship" now live in the same
-// merged section (CompanionServices.jsx) behind a toggle, so they share one
-// scroll target — `tab` tells that section which toggle state to switch to.
 const COMPANION_SECTION_ID = 'Hospital-companion-section';
 
-// "Safety & Trust" now has its own route (/trust-safety) instead of an
-// in-page section, so it's intentionally left out of scrollIds below.
 const scrollIds = {
   'How it Works': 'WHY-Works-section',
   'Hospital Assistance': COMPANION_SECTION_ID,
@@ -20,7 +15,6 @@ const companionTabs = {
   'Travel Assistance': 'travel',
 };
 
-// Routes for the Company column links that aren't in-page scroll targets.
 const companyRoutes = {
   'About Us': '/about',
   'Safety & Trust': '/trust and safety',
@@ -29,6 +23,7 @@ const companyRoutes = {
 
 export default function Footer() {
   const goToSection = useSectionNav();
+  const contactInfo = useContactInfo();
 
   const handleSectionClick = (label) => {
     const tab = companionTabs[label];
@@ -43,12 +38,10 @@ export default function Footer() {
       id="footer-section"
       className="text-white pt-20 pb-8"
       style={{
-  background: "linear-gradient(180deg, #0D1B2A 0%, #132B45 55%, #0A1623 100%)",
-}}
+        background: "linear-gradient(180deg, #0D1B2A 0%, #132B45 55%, #0A1623 100%)",
+      }}
     >
-
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-
         {/* Logo & About */}
         <div>
           <img src="/Assests/WHY_logo.png" alt="WHY Logo" className="w-40 mb-6" />
@@ -58,23 +51,22 @@ export default function Footer() {
           </p>
 
           <div className="space-y-5 text-white/70 text-base">
-
             {/* Phone / 24x7 Support */}
-            <a href={PHONE_LINK} className="group flex items-center gap-4 cursor-pointer transition">
+            <a href={getPhoneLink(contactInfo.phone_number)} className="group flex items-center gap-4 cursor-pointer transition">
               <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
                 <span className="text-xl transition duration-300 group-hover:text-[#6ED3C8]">
                   <img src="/Assests/icons/phone.svg" width="24" height="24" className="white-icon" alt="" />
                 </span>
               </div>
               <span className="transition duration-300 group-hover:text-[#6ED3C8]">
-                {PHONE_DISPLAY}
-                <span className="block text-xs text-white/50">24/7 Customer Support</span>
+                {contactInfo.phone_number}
+                <span className="block text-xs text-white/50">{contactInfo.working_hours || "24/7 Customer Support"}</span>
               </span>
             </a>
 
             {/* WhatsApp */}
             <a
-              href={getWhatsAppLink()}
+              href={getWhatsAppLink("Hi! I need assistance.", contactInfo.whatsapp_number)}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-4 cursor-pointer transition"
@@ -86,7 +78,7 @@ export default function Footer() {
               </div>
               <span className="transition duration-300 group-hover:text-[#6ED3C8]">
                 Book via WhatsApp                
-              <span className="block text-xs text-white/50">{WHATSAPP_NUMBER}</span>
+                <span className="block text-xs text-white/50">{contactInfo.whatsapp_number}</span>
               </span>
             </a>
 
@@ -98,7 +90,7 @@ export default function Footer() {
                 </span>
               </div>
               <span className="transition duration-300 text-sm group-hover:text-[#6ED3C8]">
-                techadmin@thewhyservices.com
+                {contactInfo.support_email}
               </span>
             </div>
 
@@ -114,7 +106,6 @@ export default function Footer() {
                 <span className="block text-xs text-white/50">{LOCATIONS_NOTE}</span>
               </span>
             </div>
-
           </div>
         </div>
 
@@ -174,7 +165,7 @@ export default function Footer() {
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
               <a
-                href={getWhatsAppLink()}
+                href={getWhatsAppLink("Hi! I need help from support.", contactInfo.whatsapp_number)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#6ED3C8] transition"
@@ -220,13 +211,11 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-
       </div>
 
       {/* Bottom */}
       <div className="border-t border-white/15 mt-14 pt-6">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-
           <p className="text-white/60 text-sm text-center md:text-left">
             © 2026 WHY – We Help You. All rights reserved.
             Made with{' '}
@@ -252,10 +241,8 @@ export default function Footer() {
               <i className="fab fa-linkedin-in"></i>
             </a>
           </div>
-
         </div>
       </div>
-
     </footer>
-  )
+  );
 }

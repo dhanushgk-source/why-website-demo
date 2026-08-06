@@ -1,26 +1,76 @@
-// Central place for all contact details so every component stays in sync.
-// Update here once and it propagates everywhere it's used.
+import { useState, useEffect } from "react";
+import { getPublicSiteSettings } from "../services/siteService";
 
-export const PHONE_DISPLAY = '+91 90365 99439';
-export const PHONE_TEL = '+919036599439'; // used in tel: links
-export const WHATSAPP_NUMBER = '919090254343'; // used in wa.me links (no + or spaces)
+// Default fallbacks
+export const DEFAULT_PHONE_DISPLAY = "+91 90365 99439";
+export const DEFAULT_WHATSAPP_NUMBER = "919090254343";
 export const APP_LINK = "";
 export const ANDROID_APP_LINK = "";
 export const IOS_APP_LINK = "";
+export const DEFAULT_WHATSAPP_MESSAGE = "Hi! I would like to inquire about WHY companion services.";
 
-export const WHATSAPP_LINK = "";
-export const DEFAULT_WHATSAPP_MESSAGE =
-  "Hi";
+let cachedSettings = {
+  phone_number: DEFAULT_PHONE_DISPLAY,
+  whatsapp_number: DEFAULT_WHATSAPP_NUMBER,
+  support_email: "support@whyservices.in",
+  office_address: "Ground Floor, 14/1, Balajikrupa 2nd Main Road, Seshadripuram, Bengaluru North, Bengaluru – 560020, Karnataka",
+  working_hours: "24/7 Support",
+};
 
-export function getWhatsAppLink(message = DEFAULT_WHATSAPP_MESSAGE) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+let listeners = [];
+
+export async function fetchContactDetails() {
+  try {
+    const data = await getPublicSiteSettings();
+    if (data) {
+      cachedSettings = {
+        phone_number: data.phone_number || cachedSettings.phone_number,
+        whatsapp_number: data.whatsapp_number || cachedSettings.whatsapp_number,
+        support_email: data.support_email || cachedSettings.support_email,
+        office_address: data.office_address || cachedSettings.office_address,
+        working_hours: data.working_hours || cachedSettings.working_hours,
+      };
+      listeners.forEach((fn) => fn(cachedSettings));
+    }
+  } catch (err) {
+    console.error("Error fetching contact settings:", err);
+  }
+  return cachedSettings;
 }
 
+// Initial fetch on app import
+fetchContactDetails();
+
+export function useContactInfo() {
+  const [info, setInfo] = useState(cachedSettings);
+
+  useEffect(() => {
+    fetchContactDetails().then(setInfo);
+    listeners.push(setInfo);
+    return () => {
+      listeners = listeners.filter((fn) => fn !== setInfo);
+    };
+  }, []);
+
+  return info;
+}
+
+// Static exports for backwards compatibility
+export const PHONE_DISPLAY = DEFAULT_PHONE_DISPLAY;
+export const PHONE_TEL = `+${DEFAULT_PHONE_DISPLAY.replace(/[^0-9]/g, "")}`;
+export const WHATSAPP_NUMBER = DEFAULT_WHATSAPP_NUMBER;
 export const PHONE_LINK = `tel:${PHONE_TEL}`;
 
-// WHY currently operates only in Bengaluru.
-export const LOCATIONS = ['Bengaluru'];
-export const LOCATIONS_NOTE = ' coming soon.';
+export function getWhatsAppLink(message = DEFAULT_WHATSAPP_MESSAGE, overrideNum = null) {
+  const num = (overrideNum || cachedSettings.whatsapp_number || DEFAULT_WHATSAPP_NUMBER).replace(/[^0-9]/g, "");
+  return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
+}
 
-// Support is available around the clock, on the same number as WhatsApp.
-export const SUPPORT_HOURS = '24/7 Support';
+export function getPhoneLink(overridePhone = null) {
+  const num = (overridePhone || cachedSettings.phone_number || DEFAULT_PHONE_DISPLAY).replace(/[^0-9+]/g, "");
+  return `tel:${num}`;
+}
+
+export const LOCATIONS = ["Bengaluru"];
+export const LOCATIONS_NOTE = " coming soon.";
+export const SUPPORT_HOURS = "24/7 Support";

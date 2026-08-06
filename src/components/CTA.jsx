@@ -1,8 +1,9 @@
-import { useSectionFade } from '../hooks/useSectionFade'
-import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink } from '../config/contact'
+import { useSectionFade } from '../hooks/useSectionFade';
+import { useContactInfo, getPhoneLink, getWhatsAppLink } from '../config/contact';
 
 export default function CTA() {
-  const sectionRef = useSectionFade()
+  const sectionRef = useSectionFade();
+  const contactInfo = useContactInfo();
 
   return (
     <section
@@ -33,34 +34,7 @@ export default function CTA() {
         ))}
       </div>
 
-      {/* Decorative leaf branch - top left */}
-      <svg
-        className="hidden lg:block absolute -top-6 left-0 w-56 h-56 text-white opacity-20 pointer-events-none"
-        viewBox="0 0 200 200"
-        fill="none"
-      >
-        <path d="M20 10 C 60 40, 90 70, 130 130" stroke="currentColor" strokeWidth="2" />
-        <ellipse cx="50" cy="35" rx="18" ry="10" fill="currentColor" transform="rotate(-35 50 35)" />
-        <ellipse cx="80" cy="65" rx="20" ry="11" fill="currentColor" transform="rotate(-30 80 65)" />
-        <ellipse cx="105" cy="95" rx="18" ry="10" fill="currentColor" transform="rotate(-25 105 95)" />
-        <ellipse cx="125" cy="125" rx="16" ry="9" fill="currentColor" transform="rotate(-20 125 125)" />
-      </svg>
-
-      {/* Decorative leaf branch - bottom right */}
-      <svg
-        className="hidden lg:block absolute -bottom-8 right-0 w-56 h-64 text-white opacity-20 pointer-events-none"
-        viewBox="0 0 200 220"
-        fill="none"
-      >
-        <path d="M190 210 C 160 160, 140 120, 100 60" stroke="currentColor" strokeWidth="2" />
-        <ellipse cx="170" cy="180" rx="18" ry="10" fill="currentColor" transform="rotate(35 170 180)" />
-        <ellipse cx="145" cy="150" rx="20" ry="11" fill="currentColor" transform="rotate(30 145 150)" />
-        <ellipse cx="120" cy="110" rx="18" ry="10" fill="currentColor" transform="rotate(25 120 110)" />
-        <ellipse cx="105" cy="75" rx="16" ry="9" fill="currentColor" transform="rotate(20 105 75)" />
-      </svg>
-
       <div className="relative max-w-5xl mx-auto z-10">
-
         {/* Badge pill */}
         <span className="fade-inner inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold mb-8 bg-white/15 backdrop-blur-sm border border-white/25 text-white">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -87,18 +61,8 @@ export default function CTA() {
 
         {/* Buttons */}
         <div className="fade-inner flex flex-wrap justify-center items-center gap-6">
-        {/*
-          <button
-            className="flex items-center gap-3 px-8 py-4 rounded-full font-semibold shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl"
-            style={{ background: '#ffffff', color: '#2F4A7D' }}
-          >
-            <img src="/Assests/icons/download.svg" width="20" alt="" style={{ filter: 'invert(24%) sepia(23%) saturate(1200%) hue-rotate(190deg)' }} />
-            Download the App
-          </button>
-        */}
-
           <a
-            href={PHONE_LINK}
+            href={getWhatsAppLink("Hi! I would like to contact WHY Support.", contactInfo.whatsapp_number)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20"
@@ -106,25 +70,17 @@ export default function CTA() {
             <img src="/Assests/icons/msg.svg" className="white-icon" width="20" alt="" />
             Contact WHY Support
           </a>
-        {/* 
-          <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/25 text-white font-semibold transition duration-300 hover:scale-105 hover:bg-white/20">
-            <img src="/Assests/icons/user_Plus.svg" className="white-icon" width="20" alt="" />
-            Join Our WHY PRO Team
-          </button>
-        */}
-
         </div>
 
         {/* Subtext */}
         <div className="fade-inner mt-6 text-white/70 text-sm">
           Available on Android and iOS · 24/7 Support:{' '}
-          <a href={PHONE_LINK} className="text-white font-semibold hover:underline">
-            {PHONE_DISPLAY}
+          <a href={getPhoneLink(contactInfo.phone_number)} className="text-white font-semibold hover:underline">
+            {contactInfo.phone_number}
           </a>{' '}
-          · Launching Soon in  Bengaluru  and Chennai
+          · Launching Soon in Bengaluru and Chennai
         </div>
-
       </div>
     </section>
-  )
+  );
 }

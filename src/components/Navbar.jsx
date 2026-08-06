@@ -130,9 +130,8 @@ export default function Navbar() {
             boxShadow: scrolled ? '0 4px 20px rgba(27,42,74,0.08)' : 'none',
           }}
         >
-          {/* LOGO / BACK — visible on all breakpoints (mobile, tablet, laptop, desktop) */}
+          {/* LOGO / BACK — visible on all breakpoints */}
           <div className="flex justify-start items-center gap-3">
-           
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
@@ -227,18 +226,6 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-
-          {/* MOBILE CENTER BRAND */}
-          <div className="flex xl:hidden justify-center">
-            <span
-              className="font-display font-bold text-xl tracking-wide"
-              style={{ color: '#1B2A4A' }}
-            >
-              WHY
-            </span>
-          </div>
-
-          {/* DESKTOP: 24/7 support text + Book dropdown */}
           <div className="hidden xl:flex justify-end items-center gap-4">
             <div>
               <a
