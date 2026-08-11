@@ -79,7 +79,11 @@ export default function LearnLogin() {
     } catch (err) {
       console.error("Google login error:", err);
       if (err.code === "auth/popup-closed-by-user") {
-        setError("Sign-in popup was closed. Please try again.");
+        setError("Sign-in popup was closed before completing. Please try again.");
+      } else if (err.code === "auth/configuration-not-found") {
+        setError("Google Sign-In is not enabled yet in your Firebase Console. Please go to Firebase Console > Authentication > Sign-in method and enable Google.");
+      } else if (err.code === "auth/unauthorized-domain") {
+        setError("This domain is not authorized in Firebase. Please add your domain (e.g. localhost) in Firebase Console > Authentication > Settings > Authorized domains.");
       } else {
         const msg =
           err.response?.data?.message || err.message || "Google sign in failed.";

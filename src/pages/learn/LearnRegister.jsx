@@ -93,7 +93,11 @@ export default function LearnRegister() {
     } catch (err) {
       console.error("Google sign up error:", err);
       if (err.code === "auth/popup-closed-by-user") {
-        setApiError("Sign-up popup was closed. Please try again.");
+        setApiError("Sign-up popup was closed before completing. Please try again.");
+      } else if (err.code === "auth/configuration-not-found") {
+        setApiError("Google Sign-In is not enabled yet in your Firebase Console. Please go to Firebase Console > Authentication > Sign-in method and enable Google.");
+      } else if (err.code === "auth/unauthorized-domain") {
+        setApiError("This domain is not authorized in Firebase. Please add your domain in Firebase Console > Authentication > Settings > Authorized domains.");
       } else {
         setApiError(err.response?.data?.message || err.message || "Google sign-up failed.");
       }
