@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import {
   loginUser,
   registerUser,
+  firebaseGoogleAuth,
   getCurrentUser,
 } from "../services/authService";
 
@@ -16,6 +17,15 @@ export const AuthProvider = ({ children }) => {
     const { token, user } = response.data;
     localStorage.setItem("token", token);
     setUser(user);
+    return response.data;
+  };
+
+  const loginWithFirebase = async (firebaseData) => {
+    const response = await firebaseGoogleAuth(firebaseData);
+    if (response.data?.token) {
+      localStorage.setItem("token", response.data.token);
+      setUser(response.data.user);
+    }
     return response.data;
   };
 
@@ -45,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => { loadUser(); }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, loading, login, loginWithFirebase, register, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );

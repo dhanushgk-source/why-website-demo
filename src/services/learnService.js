@@ -5,11 +5,22 @@
 
 import API from "./api";
 
+// ---- student auth methods -----------------------------------------------
+export const firebaseAuth = (data) => API.post("/auth/firebase", data);
+export const registerStudent = (data) => API.post("/auth/register-student", data);
+export const loginStudent = (data) => API.post("/auth/login", data);
+
 // ---- student-facing data (all require a logged-in user) ------------------
 
 // -> { success, isStudent, trainings: [{ id, title, description, coverImage,
 //        totalLessons, completedLessons, resumeLessonId }] }
 export const getMyTrainings = () => API.get("/me/trainings");
+
+// -> { success, catalog: [{ id, title, description, category, duration, coverImage, totalLessons, isEnrolled, isRequested, enrollmentStatus }] }
+export const getCourseCatalog = () => API.get("/me/catalog");
+
+// -> { success, message }
+export const requestCourseEnrollment = (trainingId) => API.post(`/me/courses/${trainingId}/request`);
 
 // -> { success, courseId, title, modules: [{ id, title, lessons: [
 //        { id, title, type: 'video'|'pdf'|'ppt'|'notes', durationMinutes, status }
