@@ -4,6 +4,7 @@ import { getPublicSiteSettings } from "../services/siteService";
 // Default fallbacks
 export const DEFAULT_PHONE_DISPLAY = "+91 90365 99439";
 export const DEFAULT_WHATSAPP_NUMBER = "919090254343";
+export const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbCzkTQEquiLs2wYHC2H";
 export const APP_LINK = "";
 export const ANDROID_APP_LINK = "";
 export const IOS_APP_LINK = "";

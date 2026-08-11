@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSectionNav } from '../hooks/useSectionNav'
-import { useContactInfo, getPhoneLink, getWhatsAppLink, APP_LINK } from '../config/contact'
+import { useContactInfo, getPhoneLink, getWhatsAppLink, APP_LINK, WHATSAPP_CHANNEL_URL } from '../config/contact'
 
 // SVG Icon Components
 const Icons = {
@@ -216,12 +216,12 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* DESKTOP: 24/7 support text + Book dropdown */}
-          <div className="hidden xl:flex justify-end items-center gap-4">
+          {/* DESKTOP: 24/7 support text + WhatsApp Channel + Book dropdown */}
+          <div className="hidden xl:flex justify-end items-center gap-3">
             <div>
               <a
                 href={getPhoneLink(contactInfo.phone_number)}
-                className="flex items-center gap-2 px-5 py-2 rounded-full border shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer"
+                className="flex items-center gap-2 px-4 py-2 rounded-full border shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer"
                 style={{
                   background: '#fff',
                   borderColor: '#52B5BD',
@@ -229,8 +229,23 @@ export default function Navbar() {
                 }}
                 aria-label="Call us 24/7"
               >
-                <Icons.Headset className="h-5 w-5 text-[#52B5BD]" />
-                <span className="font-semibold text-sm">24/7 Support</span>
+                <Icons.Headset className="h-4 w-4 text-[#52B5BD]" />
+                <span className="font-semibold text-xs">24/7 Support</span>
+              </a>
+            </div>
+
+            {/* WhatsApp Channel Icon */}
+            <div>
+              <a
+                href={WHATSAPP_CHANNEL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#25D366] text-white shadow-sm hover:shadow-md hover:scale-105 hover:bg-[#20bd5a] transition-all duration-300 cursor-pointer"
+                title="Follow the WHY Services channel on WhatsApp"
+                aria-label="Follow the WHY Services channel on WhatsApp"
+              >
+                <i className="fab fa-whatsapp text-base"></i>
+                <span className="font-semibold text-xs">Channel</span>
               </a>
             </div>
 
@@ -354,6 +369,18 @@ export default function Navbar() {
               <span className="font-semibold text-sm sm:text-base">
                 24/7 Support
               </span>
+            </a>
+
+            <a
+              href={WHATSAPP_CHANNEL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-full shadow-sm text-white font-semibold text-sm transition-all"
+              style={{ background: "#25D366" }}
+            >
+              <i className="fab fa-whatsapp text-lg"></i>
+              <span>Follow WhatsApp Channel</span>
             </a>
 
             <button

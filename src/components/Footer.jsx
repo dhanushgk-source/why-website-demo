@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContactInfo, getWhatsAppLink, getPhoneLink, LOCATIONS, LOCATIONS_NOTE } from "../config/contact";
+import { useContactInfo, getWhatsAppLink, getPhoneLink, LOCATIONS, LOCATIONS_NOTE, WHATSAPP_CHANNEL_URL } from "../config/contact";
 import { useSectionNav } from "../hooks/useSectionNav";
 
 const COMPANION_SECTION_ID = 'Hospital-companion-section';
@@ -165,6 +165,17 @@ export default function Footer() {
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
               <a
+                href={WHATSAPP_CHANNEL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#6ED3C8] transition"
+              >
+                Follow WhatsApp Channel
+              </a>
+            </li>
+            <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
+              <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
+              <a
                 href={getWhatsAppLink("Hi! I need help from support.", contactInfo.whatsapp_number)}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -224,6 +235,12 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-5">
+            <a href={WHATSAPP_CHANNEL_URL} target="_blank" rel="noopener noreferrer"
+              title="Follow the WHY Services channel on WhatsApp"
+              aria-label="Follow the WHY Services channel on WhatsApp"
+              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#25D366] hover:scale-110 cursor-pointer">
+              <i className="fab fa-whatsapp"></i>
+            </a>
             <a href="https://www.facebook.com/share/1Dij6aGamA/" target="_blank" rel="noopener noreferrer"
               className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-facebook-f"></i>

@@ -1,5 +1,5 @@
 import { useSectionFade } from '../hooks/useSectionFade';
-import { useContactInfo, getPhoneLink, getWhatsAppLink } from '../config/contact';
+import { useContactInfo, getPhoneLink, getWhatsAppLink, WHATSAPP_CHANNEL_URL } from '../config/contact';
 
 export default function CTA() {
   const sectionRef = useSectionFade();
@@ -60,7 +60,7 @@ export default function CTA() {
         </div>
 
         {/* Buttons */}
-        <div className="fade-inner flex flex-wrap justify-center items-center gap-6">
+        <div className="fade-inner flex flex-wrap justify-center items-center gap-4 sm:gap-6">
           <a
             href={getWhatsAppLink("Hi! I would like to contact WHY Support.", contactInfo.whatsapp_number)}
             target="_blank"
@@ -69,6 +69,16 @@ export default function CTA() {
           >
             <img src="/Assests/icons/msg.svg" className="white-icon" width="20" alt="" />
             Contact WHY Support
+          </a>
+
+          <a
+            href={WHATSAPP_CHANNEL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-8 py-4 rounded-full bg-[#25D366] text-white font-semibold shadow-lg transition duration-300 hover:scale-105 hover:bg-[#20bd5a]"
+          >
+            <i className="fab fa-whatsapp text-xl"></i>
+            Follow WhatsApp Channel
           </a>
         </div>
 
