@@ -69,13 +69,11 @@ export default function LearnLogin() {
         return;
       }
 
-      if (res?.pendingApproval) {
-        setIsPending(true);
-        setError(
-          res.message ||
-            "Your Google account has been registered and is awaiting administrator verification."
-        );
-      }
+      setIsPending(true);
+      setError(
+        res?.message ||
+          "Your Google account has been registered and is awaiting administrator verification."
+      );
     } catch (err) {
       console.error("Google login error:", err);
       if (err.code === "auth/popup-closed-by-user") {
