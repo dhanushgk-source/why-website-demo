@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { X, Sparkles, ArrowRight } from "lucide-react";
+import { X } from "lucide-react";
 import { getAdvertisements } from "../services/advertisementService";
 import "../styles/advertisement.css";
 
@@ -17,7 +17,6 @@ function getShownAdIds() {
 function markAdAsShown(id) {
   try {
     const shown = getShownAdIds();
-
     if (!shown.includes(id)) {
       sessionStorage.setItem(
         SHOWN_ADS_KEY,
@@ -30,8 +29,7 @@ function markAdAsShown(id) {
 }
 
 // Preloads a single image and resolves once it's actually loaded in the
-// browser cache. Resolves (doesn't reject) even on error so one broken
-// image url can't block anything downstream.
+// browser cache.
 function preloadImage(url) {
   return new Promise((resolve) => {
     if (!url) {
@@ -51,8 +49,6 @@ export default function AdvertisementPopup() {
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
-  // Tracks which ad image_urls have finished preloading, so we only
-  // render an <img> once its src is actually cache-ready.
   const [readyUrls, setReadyUrls] = useState(() => new Set());
 
   const ad = ads[index] || null;
@@ -62,8 +58,6 @@ export default function AdvertisementPopup() {
     loadAdvertisements();
   }, []);
 
-  // Once the current ad's image is ready, start preloading the *next*
-  // one in the background so it's ready by the time the user advances.
   useEffect(() => {
     const next = ads[index + 1];
     if (next?.image_url) {
@@ -75,7 +69,8 @@ export default function AdvertisementPopup() {
     }
   }, [index, ads]);
 
-  function handleClose() {
+  function handleClose(e) {
+    if (e) e.stopPropagation();
     setClosing(true);
 
     if (ad) {
@@ -84,9 +79,7 @@ export default function AdvertisementPopup() {
 
     setTimeout(() => {
       setClosing(false);
-
       if (index < ads.length - 1) {
-        // Show the next unseen ad in the list
         setIndex((prev) => prev + 1);
       } else {
         setOpen(false);
@@ -100,7 +93,6 @@ export default function AdvertisementPopup() {
     } else {
       document.body.style.overflow = "";
     }
-
     return () => {
       document.body.style.overflow = "";
     };
@@ -112,11 +104,10 @@ export default function AdvertisementPopup() {
       const shownIds = getShownAdIds();
 
       const unseen = result.filter(
-        (item) => !shownIds.includes(item.id)
+        (item) => !shownIds.includes(item.id) && item.image_url
       );
 
       if (unseen.length > 0) {
-        // Only block on the FIRST ad's image so the popup appears quickly.
         const first = unseen[0];
         const { ok } = await preloadImage(first.image_url);
 
@@ -124,7 +115,7 @@ export default function AdvertisementPopup() {
           setReadyUrls((prev) => new Set(prev).add(first.image_url));
         }
 
-        setAds(unseen); // Backend already returns priority order
+        setAds(unseen);
         setIndex(0);
         setOpen(true);
       }
@@ -135,8 +126,15 @@ export default function AdvertisementPopup() {
     }
   }
 
-  // Don't render the popup at all until we have an ad AND its image is ready.
   if (loading || !open || !ad || !adReady) return null;
+
+  const ImageContent = (
+    <img
+      src={ad.image_url}
+      alt={ad.title || "Advertisement"}
+      className="ad-image-pure"
+    />
+  );
 
   return (
     <div
@@ -145,47 +143,31 @@ export default function AdvertisementPopup() {
     >
       <div
         key={ad.id}
-        className={`ad-frame ${closing ? "ad-frame--closing" : ""}`}
+        className={`ad-frame-pure ${closing ? "ad-frame-pure--closing" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="ad-close" onClick={handleClose} aria-label="Close">
+        <button
+          className="ad-close-btn"
+          onClick={handleClose}
+          aria-label="Close Advertisement"
+        >
           <X size={20} />
         </button>
 
-        <div className="ad-popup">
-          <div className="ad-media">
-            <img src={ad.image_url} alt={ad.title} className="ad-image" />
-            <span className="ad-badge">
-              <Sparkles size={13} />
-              {ad.badge || "Special Offer"}
-            </span>
-          </div>
-
-          <div className="ad-content">
-            <h2>{ad.title}</h2>
-
-            {ad.subtitle && <h4>{ad.subtitle}</h4>}
-
-            <p>{ad.description}</p>
-
-            <p className="ad-disclaimer">
-              Note: WHY provides trained human companions only.
-              Transportation (cab, auto, metro, bus, or personal vehicle) is
-              arranged by the customer.
-            </p>
-
-            {ad.button_link && (
-              <a
-                href={ad.button_link}
-                target="_blank"
-                rel="noreferrer"
-                className="ad-button"
-              >
-                <span>{ad.button_text || "Learn More"}</span>
-                <ArrowRight size={18} className="ad-button-icon" />
-              </a>
-            )}
-          </div>
+        <div className="ad-image-container">
+          {ad.button_link ? (
+            <a
+              href={ad.button_link}
+              target="_blank"
+              rel="noreferrer"
+              className="ad-link-wrapper"
+              title={ad.title || "Click to open link"}
+            >
+              {ImageContent}
+            </a>
+          ) : (
+            ImageContent
+          )}
         </div>
       </div>
     </div>
