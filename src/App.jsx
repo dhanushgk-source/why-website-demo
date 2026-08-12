@@ -207,6 +207,9 @@ function AppLayout() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/trust-and-safety" element={<TrustAndSafety />} />
+            <Route path="/trust and safety" element={<TrustAndSafety />} />
+            <Route path="/trust%20and%20safety" element={<TrustAndSafety />} />
+            <Route path="/safety" element={<TrustAndSafety />} />
             <Route path="/about" element={<About />} />
             
             {/* Legal Pages - Lazy Loaded */}

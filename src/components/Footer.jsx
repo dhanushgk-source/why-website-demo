@@ -17,7 +17,7 @@ const companionTabs = {
 
 const companyRoutes = {
   'About Us': '/about',
-  'Safety & Trust': '/trust and safety',
+  'Safety & Trust': '/trust-and-safety',
   'Careers': '/careers',
 };
 
@@ -44,7 +44,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo & About */}
         <div>
-          <img src="/Assests/WHY_logo.png" alt="WHY Logo" className="w-40 mb-6" />
+          <img
+            src="/Assests/WHY_logo.png"
+            alt="WHY Logo"
+            className="w-40 mb-6"
+            onError={(e) => {
+              e.currentTarget.src = "/WHY_logo.png";
+            }}
+          />
 
           <p className="text-base text-white/70 leading-relaxed mb-6">
             Connecting people with verified and trusted WHY PROs for compassionate care and assistance. Because every moment deserves to be shared.

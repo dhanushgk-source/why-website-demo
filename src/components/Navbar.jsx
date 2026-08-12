@@ -42,9 +42,9 @@ const NAV_ITEMS = [
     ],
   },
   { label: 'Pricing', path: '/pricing' },
-  { label: 'Safety', path: '/trust and safety' },
+  { label: 'Trust & Safety', path: '/trust-and-safety' },
   { label: 'About', path: '/about' },
-  { label: 'Careers', path: '/Careers' },
+  { label: 'Careers', path: '/careers' },
 ]
 
 export default function Navbar() {
@@ -58,7 +58,6 @@ export default function Navbar() {
 
   const location = useLocation()
   const navigate = useNavigate()
-  const isHome = location.pathname === '/'
 
   const bookOptions = [
     { label: 'Book on App', href: APP_LINK || undefined },
@@ -81,6 +80,13 @@ export default function Navbar() {
     }
   }, [])
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMenuOpen(false)
+    setMobileServicesOpen(false)
+    setMobileBookOpen(false)
+  }, [location.pathname])
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
   }
@@ -96,15 +102,18 @@ export default function Navbar() {
     if (item.section) goToSection(item.section)
   }
 
+  const isItemActive = (item) => {
+    if (!item.path) return false
+    return location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path))
+  }
+
   return (
     <>
       {/* NAVBAR */}
       <header className="fixed top-0 left-0 w-full z-[9999]">
         <nav
           className={`
-            relative
-            grid grid-cols-3 items-center
-            gap-x-4
+            relative flex items-center justify-between
             px-6 lg:px-12 h-20
             transition-all duration-500 ease-in-out
             ${visible
@@ -113,111 +122,117 @@ export default function Navbar() {
             }
           `}
           style={{
-            background: scrolled ? '#F7F3EA' : 'rgba(247, 243, 234, 0.8)',
-            backdropFilter: scrolled ? 'none' : 'blur(12px)',
-            WebkitBackdropFilter: scrolled ? 'none' : 'blur(12px)',
-            boxShadow: scrolled ? '0 4px 20px rgba(27,42,74,0.08)' : 'none',
+            background: scrolled ? '#F7F3EA' : 'rgba(247, 243, 234, 0.95)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            boxShadow: scrolled ? '0 4px 20px rgba(27,42,74,0.08)' : '0 2px 10px rgba(27,42,74,0.04)',
           }}
         >
           {/* LOGO */}
-          <div className="flex justify-start items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
-              className={isHome ? 'block' : 'hidden sm:block'}
+              className="flex items-center cursor-pointer"
+              title="WHY Services — Return to Home"
             >
               <img
                 src="/Assests/WHY_logo.png"
                 alt="WHY Logo"
-                className="h-14 transition duration-300 hover:scale-105"
+                className="h-12 md:h-14 w-auto object-contain transition duration-300 hover:scale-105"
+                onError={(e) => {
+                  e.currentTarget.src = "/WHY_logo.png"
+                }}
               />
             </Link>
           </div>
 
           {/* DESKTOP MENU */}
-          <ul className="hidden xl:flex justify-center gap-8 font-medium">
-            {NAV_ITEMS.map((item) => (
-              <li
-                key={item.label}
-                className="relative group"
-                style={{ color: '#1B2A4A' }}
-              >
-                {item.dropdown ? (
-                  <>
-                    <button
-                      className="flex items-center gap-1 transition-colors duration-300 whitespace-nowrap"
+          <ul className="hidden xl:flex items-center justify-center gap-8 font-medium">
+            {NAV_ITEMS.map((item) => {
+              const active = isItemActive(item)
+              return (
+                <li
+                  key={item.label}
+                  className="relative group"
+                  style={{ color: active ? '#52B5BD' : '#1B2A4A' }}
+                >
+                  {item.dropdown ? (
+                    <>
+                      <button
+                        className="flex items-center gap-1 transition-colors duration-300 whitespace-nowrap"
+                        onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = active ? '#52B5BD' : '')}
+                      >
+                        {item.label}
+                        <Icons.ChevronDown className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" />
+                      </button>
+
+                      {/* DROPDOWN PANEL */}
+                      <div
+                        className="
+                          absolute left-1/2 -translate-x-1/2 top-full pt-3
+                          opacity-0 invisible translate-y-2
+                          group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                          transition-all duration-200
+                        "
+                      >
+                        <ul
+                          className="min-w-[220px] rounded-xl overflow-hidden shadow-lg border border-[#0D1B3E]/5"
+                          style={{ background: '#F7F3EA', boxShadow: '0 8px 24px rgba(27,42,74,0.15)' }}
+                        >
+                          {item.dropdown.map((sub) => (
+                            <li key={sub.label}>
+                              <button
+                                onClick={() => handleNavClick(sub)}
+                                className="w-full text-left px-5 py-3 text-sm whitespace-nowrap transition-colors duration-200 hover:bg-[#52B5BD]/10 hover:text-[#52B5BD]"
+                                style={{ color: '#1B2A4A' }}
+                              >
+                                {sub.label}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </>
+                  ) : item.path ? (
+                    <Link
+                      to={item.path}
+                      className="transition-colors duration-300 whitespace-nowrap block"
                       onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = active ? '#52B5BD' : '')}
                     >
                       {item.label}
-                      <Icons.ChevronDown className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" />
-                    </button>
-
-                    {/* DROPDOWN PANEL */}
-                    <div
-                      className="
-                        absolute left-1/2 -translate-x-1/2 top-full pt-3
-                        opacity-0 invisible translate-y-2
-                        group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
-                        transition-all duration-200
-                      "
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => handleNavClick(item)}
+                      className="transition-colors duration-300 whitespace-nowrap block"
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = active ? '#52B5BD' : '')}
                     >
-                      <ul
-                        className="min-w-[220px] rounded-xl overflow-hidden shadow-lg"
-                        style={{ background: '#F7F3EA', boxShadow: '0 8px 24px rgba(27,42,74,0.15)' }}
-                      >
-                        {item.dropdown.map((sub) => (
-                          <li key={sub.label}>
-                            <button
-                              onClick={() => handleNavClick(sub)}
-                              className="w-full text-left px-5 py-3 text-sm whitespace-nowrap transition-colors duration-200 hover:bg-[#52B5BD]/10"
-                              style={{ color: '#1B2A4A' }}
-                            >
-                              {sub.label}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </>
-                ) : item.path ? (
-                  <Link
-                    to={item.path}
-                    className="transition-colors duration-300 whitespace-nowrap"
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <button
-                    onClick={() => handleNavClick(item)}
-                    className="transition-colors duration-300 whitespace-nowrap"
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-                  >
-                    {item.label}
-                  </button>
-                )}
+                      {item.label}
+                    </button>
+                  )}
 
-                <span
-                  className="
-                    absolute left-0 -bottom-1
-                    h-[2px] w-full
-                    scale-x-0
-                    origin-left
-                    transition-transform
-                    duration-300
-                    group-hover:scale-x-100
-                  "
-                  style={{ background: '#52B5BD' }}
-                />
-              </li>
-            ))}
+                  <span
+                    className={`
+                      absolute left-0 -bottom-1
+                      h-[2px] w-full
+                      origin-left
+                      transition-transform
+                      duration-300
+                      ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}
+                    `}
+                    style={{ background: '#52B5BD' }}
+                  />
+                </li>
+              )
+            })}
           </ul>
 
           {/* DESKTOP: 24/7 support text + WhatsApp Channel + Book dropdown */}
-          <div className="hidden xl:flex justify-end items-center gap-3">
+          <div className="hidden xl:flex items-center justify-end gap-3 flex-shrink-0">
             <div>
               <a
                 href={getPhoneLink(contactInfo.phone_number)}
@@ -251,7 +266,7 @@ export default function Navbar() {
 
             <div className="relative group">
               <button
-                className="flex items-center gap-2 px-8 py-3 rounded-full text-white shadow-md hover:scale-105 transition whitespace-nowrap"
+                className="flex items-center gap-2 px-7 py-2.5 rounded-full text-white shadow-md hover:scale-105 transition whitespace-nowrap font-medium text-sm cursor-pointer"
                 style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
               >
                 Book Now
@@ -268,7 +283,7 @@ export default function Navbar() {
                 "
               >
                 <ul
-                  className="min-w-[220px] rounded-xl overflow-hidden shadow-lg"
+                  className="min-w-[220px] rounded-xl overflow-hidden shadow-lg border border-[#0D1B3E]/5"
                   style={{ background: '#F7F3EA', boxShadow: '0 8px 24px rgba(27,42,74,0.15)' }}
                 >
                   {bookOptions.map((opt) => (
@@ -277,7 +292,7 @@ export default function Navbar() {
                         href={opt.href}
                         target={opt.label === 'Book via Call' ? undefined : '_blank'}
                         rel={opt.label === 'Book via Call' ? undefined : 'noopener noreferrer'}
-                        className="block px-5 py-3 text-sm whitespace-nowrap transition-colors duration-200 hover:bg-[#52B5BD]/10"
+                        className="block px-5 py-3 text-sm whitespace-nowrap transition-colors duration-200 hover:bg-[#52B5BD]/10 hover:text-[#52B5BD]"
                         style={{ color: '#1B2A4A' }}
                       >
                         {opt.label}
@@ -295,7 +310,7 @@ export default function Navbar() {
             onClick={toggleMenu}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
-            className="xl:hidden absolute right-6 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full cursor-pointer hover:bg-[#52B5BD]/10 transition-colors"
+            className="xl:hidden flex h-10 w-10 items-center justify-center rounded-full cursor-pointer hover:bg-[#52B5BD]/10 transition-colors"
             style={{ color: '#1B2A4A' }}
           >
             {menuOpen ? (
@@ -317,45 +332,55 @@ export default function Navbar() {
           style={{ background: '#F7F3EA' }}
         >
           <ul className="text-center font-medium" style={{ color: '#1B2A4A' }}>
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label} className="border-b border-[#F2C89F]/40">
-                {item.dropdown ? (
-                  <div>
-                    <button
-                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 text-sm"
+            {NAV_ITEMS.map((item) => {
+              const active = isItemActive(item)
+              return (
+                <li key={item.label} className="border-b border-[#F2C89F]/40">
+                  {item.dropdown ? (
+                    <div>
+                      <button
+                        onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                        className="w-full flex items-center justify-center gap-2 py-3 text-sm"
+                      >
+                        {item.label}
+                        <Icons.ChevronDown className={`h-3 w-3 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      {mobileServicesOpen && (
+                        <div style={{ background: 'rgba(82,181,189,0.08)' }}>
+                          {item.dropdown.map((sub) => (
+                            <button
+                              key={sub.label}
+                              onClick={() => handleNavClick(sub)}
+                              className="block w-full py-2.5 text-sm"
+                            >
+                              {sub.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : item.path ? (
+                    <Link
+                      to={item.path}
+                      onClick={() => setMenuOpen(false)}
+                      className={`block py-3 text-sm transition-colors ${active ? 'text-[#52B5BD] font-bold' : ''}`}
                     >
                       {item.label}
-                      <Icons.ChevronDown className={`h-3 w-3 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => handleNavClick(item)}
+                      className="block w-full py-3 text-sm"
+                    >
+                      {item.label}
                     </button>
-                    {mobileServicesOpen && (
-                      <div style={{ background: 'rgba(82,181,189,0.08)' }}>
-                        {item.dropdown.map((sub) => (
-                          <button
-                            key={sub.label}
-                            onClick={() => handleNavClick(sub)}
-                            className="block w-full py-2 text-sm"
-                          >
-                            {sub.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : item.path ? (
-                  <Link to={item.path} onClick={() => setMenuOpen(false)} className="block py-2.5 text-sm">
-                    {item.label}
-                  </Link>
-                ) : (
-                  <button onClick={() => handleNavClick(item)} className="block w-full py-2.5 text-sm">
-                    {item.label}
-                  </button>
-                )}
-              </li>
-            ))}
+                  )}
+                </li>
+              )
+            })}
           </ul>
 
-          <div className="p-4 flex flex-col items-center gap-2">
+          <div className="p-4 flex flex-col items-center gap-2.5">
             <a
               href={getPhoneLink(contactInfo.phone_number)}
               className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border shadow-sm"
@@ -385,7 +410,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileBookOpen(!mobileBookOpen)}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full text-white"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full text-white font-medium text-sm cursor-pointer"
               style={{ background: 'linear-gradient(135deg, #52B5BD, #2F4A7D)' }}
             >
               Book Now
