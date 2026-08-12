@@ -273,9 +273,9 @@ export default function About() {
     }
   }, [])
 
-  const teamFilters = ['All', ...Array.from(new Set(team.map((m) => m.department).filter(Boolean)))]
+  const teamFilters = ['All', ...Array.from(new Set(team.map((m) => (m.department || '').trim()).filter(Boolean)))]
 
-  const filteredTeam = teamFilter === 'All' ? team : team.filter((m) => m.department === teamFilter)
+  const filteredTeam = teamFilter === 'All' ? team : team.filter((m) => (m.department || '').trim() === teamFilter)
 
   return (
     <div className="bg-[#F7F3EA]">
