@@ -7,7 +7,7 @@ export default function TermsPro() {
       <section className="py-14 sm:py-20 text-center px-6">
         <div className="max-w-4xl mx-auto">
           <span className="inline-block text-xs uppercase tracking-widest font-bold text-[#52B5BD] bg-[#52B5BD]/10 px-3.5 py-1.5 rounded-full mb-3">
-            WHY Services India Private Limited
+            WHY Services India Private Limited 
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1B2A4A] tracking-tight mb-3">
             WHY Pro Agreement
