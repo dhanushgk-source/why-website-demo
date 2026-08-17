@@ -154,39 +154,37 @@ export default function Navbar() {
               return (
                 <li
                   key={item.label}
-                  className="relative group"
-                  style={{ color: active ? '#52B5BD' : '#1B2A4A' }}
+                  className="relative group py-2"
                 >
                   {item.dropdown ? (
                     <>
                       <button
-                        className="flex items-center gap-1 transition-colors duration-300 whitespace-nowrap"
-                        onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = active ? '#52B5BD' : '')}
+                        className={`flex items-center gap-1.5 transition-colors duration-200 whitespace-nowrap outline-none focus:outline-none cursor-pointer ${
+                          active ? 'text-[#52B5BD] font-bold' : 'text-[#1B2A4A] hover:text-[#52B5BD]'
+                        }`}
                       >
                         {item.label}
-                        <Icons.ChevronDown className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" />
+                        <Icons.ChevronDown className="h-3 w-3 transition-transform duration-200 group-hover:rotate-180 opacity-70" />
                       </button>
 
                       {/* DROPDOWN PANEL */}
                       <div
                         className="
-                          absolute left-1/2 -translate-x-1/2 top-full pt-3
+                          absolute left-1/2 -translate-x-1/2 top-full pt-2
                           opacity-0 invisible translate-y-2
                           group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
-                          transition-all duration-200
+                          transition-all duration-200 z-50
                         "
                       >
                         <ul
-                          className="min-w-[220px] rounded-xl overflow-hidden shadow-lg border border-[#0D1B3E]/5"
-                          style={{ background: '#F7F3EA', boxShadow: '0 8px 24px rgba(27,42,74,0.15)' }}
+                          className="min-w-[220px] rounded-xl overflow-hidden shadow-xl border border-slate-200/60"
+                          style={{ background: '#F7F3EA', boxShadow: '0 10px 28px rgba(27,42,74,0.12)' }}
                         >
                           {item.dropdown.map((sub) => (
                             <li key={sub.label}>
                               <button
                                 onClick={() => handleNavClick(sub)}
-                                className="w-full text-left px-5 py-3 text-sm whitespace-nowrap transition-colors duration-200 hover:bg-[#52B5BD]/10 hover:text-[#52B5BD]"
-                                style={{ color: '#1B2A4A' }}
+                                className="w-full text-left px-5 py-3 text-sm whitespace-nowrap transition-colors duration-150 hover:bg-[#52B5BD]/10 hover:text-[#52B5BD] text-[#1B2A4A] outline-none focus:outline-none cursor-pointer"
                               >
                                 {sub.label}
                               </button>
@@ -198,34 +196,36 @@ export default function Navbar() {
                   ) : item.path ? (
                     <Link
                       to={item.path}
-                      className="transition-colors duration-300 whitespace-nowrap block"
-                      onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = active ? '#52B5BD' : '')}
+                      onClick={(e) => {
+                        e.currentTarget.blur()
+                        setMenuOpen(false)
+                      }}
+                      className={`transition-colors duration-200 whitespace-nowrap block outline-none focus:outline-none select-none ${
+                        active ? 'text-[#52B5BD] font-bold' : 'text-[#1B2A4A] hover:text-[#52B5BD]'
+                      }`}
                     >
                       {item.label}
                     </Link>
                   ) : (
                     <button
-                      onClick={() => handleNavClick(item)}
-                      className="transition-colors duration-300 whitespace-nowrap block"
-                      onMouseEnter={(e) => (e.currentTarget.style.color = '#52B5BD')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = active ? '#52B5BD' : '')}
+                      onClick={(e) => {
+                        e.currentTarget.blur()
+                        handleNavClick(item)
+                      }}
+                      className={`transition-colors duration-200 whitespace-nowrap block outline-none focus:outline-none cursor-pointer select-none ${
+                        active ? 'text-[#52B5BD] font-bold' : 'text-[#1B2A4A] hover:text-[#52B5BD]'
+                      }`}
                     >
                       {item.label}
                     </button>
                   )}
 
-                  <span
-                    className={`
-                      absolute left-0 -bottom-1
-                      h-[2px] w-full
-                      origin-left
-                      transition-transform
-                      duration-300
-                      ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}
-                    `}
-                    style={{ background: '#52B5BD' }}
-                  />
+                  {/* Active Page Indicator: Only rendered for the active page */}
+                  {active && (
+                    <span
+                      className="absolute left-0 bottom-0 h-[2.5px] w-full rounded-full bg-[#52B5BD] pointer-events-none"
+                    />
+                  )}
                 </li>
               )
             })}

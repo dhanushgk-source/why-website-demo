@@ -229,13 +229,12 @@ function ServiceCard({ card, index }) {
     const ref = useRef(null)
 
     useEffect(() => {
-        setVisible(false)
         const el = ref.current
         if (!el) return
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => setVisible(true), index * 120)
+                    setVisible(true)
                     observer.disconnect()
                 }
             },
@@ -251,51 +250,55 @@ function ServiceCard({ card, index }) {
             ref={ref}
             style={{
                 opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(32px)',
-                transition: 'opacity 0.55s ease, transform 0.55s ease',
-                borderTop: `4px solid ${card.accentBar}`,
+                transform: visible ? 'translateY(0)' : 'translateY(20px)',
+                transition: 'opacity 0.4s ease, transform 0.4s ease',
             }}
-            className="relative bg-white rounded-3xl p-9 shadow-md hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 flex flex-col gap-5 text-left h-full"
+            className="relative bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col text-left h-full"
         >
-            {/* Icon badge */}
-            <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                style={{ background: card.iconBg }}
-            >
-                <CardIcon name={card.icon} color={card.iconColor} />
+            {/* Header: Icon & Title */}
+            <div className="flex items-center gap-3.5 mb-3">
+                <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: card.iconBg }}
+                >
+                    <CardIcon name={card.icon} color={card.iconColor} />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold leading-tight" style={{ color: "#1B2A4A" }}>
+                    {card.title}
+                </h3>
             </div>
 
-            <div>
-                <h3 className="text-lg font-bold mb-1" style={{ color: "#1a2a3a" }}>{card.title}</h3>
-                {card.desc && (
-                    <p className="text-sm leading-relaxed" style={{ color: "#8a9ab0" }}>{card.desc}</p>
-                )}
-            </div>
+            {/* Description */}
+            {card.desc && (
+                <p className="text-xs sm:text-sm leading-relaxed mb-4 text-slate-600">
+                    {card.desc}
+                </p>
+            )}
 
-            <ul className="space-y-4 mt-2">
+            {/* Points list */}
+            <ul className="space-y-2.5 mb-4 flex-1">
                 {card.points.map((point, i) => (
                     <li
                         key={i}
-                        className="flex items-start gap-4"
-                        style={{ color: "#3a4a5a" }}
+                        className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 leading-snug"
                     >
-                        <div
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 mt-0.5"
-                            style={{ background: card.accentBar }}
+                        <span
+                            className="w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5"
+                            style={{ background: card.iconBg, color: card.iconColor }}
                         >
                             ✓
-                        </div>
-
-                        <span className="flex-1 text-left text-[15px] leading-7">
+                        </span>
+                        <span className="flex-1">
                             {point}
                         </span>
                     </li>
                 ))}
             </ul>
 
-            <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${card.iconBg}` }}>
-                <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: card.iconColor }}>
-                    SUPPORTED BY YOUR WHY PRO
+            {/* Compact Footer */}
+            <div className="mt-auto pt-3 border-t border-slate-100">
+                <span className="text-[11px] font-semibold tracking-wider uppercase" style={{ color: card.iconColor }}>
+                    Supported by your WHY PRO
                 </span>
             </div>
         </div>
@@ -385,9 +388,7 @@ function CardPager({ cards, tabKey }) {
 
     return (
         <div
-            // Wider container so paired cards get real horizontal room
-            // instead of feeling squeezed.
-            className="max-w-6xl mx-auto text-left"
+            className="max-w-5xl mx-auto text-left px-2 sm:px-4"
             tabIndex={0}
             onKeyDown={handleKeyDown}
             onTouchStart={handleTouchStart}
@@ -401,7 +402,7 @@ function CardPager({ cards, tabKey }) {
                     type="button"
                     onClick={() => goTo(-1)}
                     aria-label="Previous card"
-                    className="hidden sm:flex items-center justify-center w-11 h-11 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex-shrink-0"
+                    className="hidden sm:flex items-center justify-center w-10 h-10 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 flex-shrink-0 cursor-pointer border border-slate-100"
                     style={{ color: "#2F4A7D" }}
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -420,7 +421,7 @@ function CardPager({ cards, tabKey }) {
                     </div>
 
                     {/* Large Desktop (>=1024px): two cards side by side */}
-                    <div className="hidden lg:grid grid-cols-2 gap-8 items-stretch">
+                    <div className="hidden lg:grid grid-cols-2 gap-6 items-stretch">
                         <ServiceCard
                             key={`${tabKey}-${page}-left`}
                             card={cards[page]}
@@ -442,7 +443,7 @@ function CardPager({ cards, tabKey }) {
                     type="button"
                     onClick={() => goTo(1)}
                     aria-label="Next card"
-                    className="hidden sm:flex items-center justify-center w-11 h-11 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex-shrink-0"
+                    className="hidden sm:flex items-center justify-center w-10 h-10 my-auto rounded-full bg-white shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 flex-shrink-0 cursor-pointer border border-slate-100"
                     style={{ color: "#2F4A7D" }}
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
