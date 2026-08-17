@@ -150,7 +150,6 @@ export default function Navbar() {
           {/* DESKTOP MENU */}
           <ul className="hidden xl:flex items-center justify-center gap-8 font-medium">
             {NAV_ITEMS.map((item) => {
-              const active = isItemActive(item)
               return (
                 <li
                   key={item.label}
@@ -159,9 +158,7 @@ export default function Navbar() {
                   {item.dropdown ? (
                     <>
                       <button
-                        className={`flex items-center gap-1.5 transition-colors duration-200 whitespace-nowrap outline-none focus:outline-none cursor-pointer ${
-                          active ? 'text-[#52B5BD] font-bold' : 'text-[#1B2A4A] hover:text-[#52B5BD]'
-                        }`}
+                        className="flex items-center gap-1.5 transition-colors duration-200 whitespace-nowrap outline-none focus:outline-none cursor-pointer text-[#1B2A4A] hover:text-[#52B5BD]"
                       >
                         {item.label}
                         <Icons.ChevronDown className="h-3 w-3 transition-transform duration-200 group-hover:rotate-180 opacity-70" />
@@ -200,9 +197,7 @@ export default function Navbar() {
                         e.currentTarget.blur()
                         setMenuOpen(false)
                       }}
-                      className={`transition-colors duration-200 whitespace-nowrap block outline-none focus:outline-none select-none ${
-                        active ? 'text-[#52B5BD] font-bold' : 'text-[#1B2A4A] hover:text-[#52B5BD]'
-                      }`}
+                      className="transition-colors duration-200 whitespace-nowrap block outline-none focus:outline-none select-none text-[#1B2A4A] hover:text-[#52B5BD]"
                     >
                       {item.label}
                     </Link>
@@ -212,20 +207,25 @@ export default function Navbar() {
                         e.currentTarget.blur()
                         handleNavClick(item)
                       }}
-                      className={`transition-colors duration-200 whitespace-nowrap block outline-none focus:outline-none cursor-pointer select-none ${
-                        active ? 'text-[#52B5BD] font-bold' : 'text-[#1B2A4A] hover:text-[#52B5BD]'
-                      }`}
+                      className="transition-colors duration-200 whitespace-nowrap block outline-none focus:outline-none cursor-pointer select-none text-[#1B2A4A] hover:text-[#52B5BD]"
                     >
                       {item.label}
                     </button>
                   )}
 
-                  {/* Active Page Indicator: Only rendered for the active page */}
-                  {active && (
-                    <span
-                      className="absolute left-0 bottom-0 h-[2.5px] w-full rounded-full bg-[#52B5BD] pointer-events-none"
-                    />
-                  )}
+                  {/* Underline on hover only */}
+                  <span
+                    className="
+                      absolute left-0 bottom-0
+                      h-[2.5px] w-full rounded-full
+                      bg-[#52B5BD]
+                      origin-left
+                      scale-x-0 group-hover:scale-x-100
+                      opacity-0 group-hover:opacity-100
+                      transition-all duration-200
+                      pointer-events-none
+                    "
+                  />
                 </li>
               )
             })}
@@ -363,7 +363,7 @@ export default function Navbar() {
                     <Link
                       to={item.path}
                       onClick={() => setMenuOpen(false)}
-                      className={`block py-3 text-sm transition-colors ${active ? 'text-[#52B5BD] font-bold' : ''}`}
+                      className="block py-3 text-sm transition-colors text-[#1B2A4A] hover:text-[#52B5BD]"
                     >
                       {item.label}
                     </Link>
