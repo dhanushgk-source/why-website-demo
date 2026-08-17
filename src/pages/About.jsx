@@ -108,7 +108,7 @@ function TeamAvatar({ member, className }) {
 
 function TeamCard({ member, onOpen }) {
   return (
-    <div className="group">
+    <div className="group flex flex-col h-full">
       {/* Photo, with view-profile icon */}
       <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 shadow-md bg-white">
         <TeamAvatar member={member} className="w-full h-full text-4xl" />
@@ -117,7 +117,7 @@ function TeamCard({ member, onOpen }) {
           type="button"
           onClick={() => onOpen(member)}
           aria-label={`View ${member.name}'s full profile`}
-          className="absolute bottom-2.5 right-2.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110 active:scale-95"
+          className="absolute bottom-2.5 right-2.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110 active:scale-95 cursor-pointer"
           style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(4px)' }}
         >
           <Info className="w-[18px] h-[18px]" style={{ color: '#1B2A4A' }} strokeWidth={2.25} />
@@ -128,19 +128,26 @@ function TeamCard({ member, onOpen }) {
       <p className="font-display font-bold text-base" style={{ color: '#1B2A4A' }}>
         {member.name}
       </p>
-      <p className="text-sm mt-0.5" style={{ color: '#5a6b83' }}>
+      <p className="text-sm font-medium mt-0.5" style={{ color: '#5a6b83' }}>
         {member.designation}
       </p>
 
+      {/* Short Role Summary Field */}
+      {member.role_info && (
+        <p className="text-xs leading-snug mt-1.5 line-clamp-2" style={{ color: '#64748b' }}>
+          {member.role_info}
+        </p>
+      )}
+
       {member.department && (
-        <p className="text-xs mt-1" style={{ color: '#8a9ab0' }}>
+        <p className="text-xs mt-auto pt-2" style={{ color: '#8a9ab0' }}>
           {member.department}
         </p>
       )}
 
       {member.location && (
         <p
-          className="text-xs flex items-center gap-1 mt-1"
+          className="text-xs flex items-center gap-1 mt-0.5"
           style={{ color: '#8a9ab0' }}
         >
           <MapPin className="w-3 h-3" />
@@ -199,6 +206,17 @@ function TeamProfileModal({ member, onClose }) {
           <p className="text-sm mt-1" style={{ color: '#F2711F' }}>
             {member.designation}
           </p>
+
+          {/* Short Role Summary Highlight */}
+          {member.role_info && (
+            <div
+              className="mt-3 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium leading-relaxed max-w-md mx-auto"
+              style={{ background: 'rgba(82, 181, 189, 0.12)', color: '#1F5E64', border: '1px solid rgba(82, 181, 189, 0.25)' }}
+            >
+              {member.role_info}
+            </div>
+          )}
+
           <div className="flex flex-wrap justify-center gap-2 mt-3">
             {member.department && (
               <span
