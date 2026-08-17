@@ -234,7 +234,7 @@ export default function PricingSection() {
                         </span>
                       </div>
                       <p className="text-xs font-semibold text-slate-500 mt-1">
-                        for first 4 hours <span className="text-[10px] opacity-75">(+ 18% GST)</span>
+                        for first 2 hours <span className="text-[10px] opacity-75">(+ 18% GST)</span>
                       </p>
                     </div>
 
