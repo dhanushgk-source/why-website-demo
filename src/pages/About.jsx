@@ -183,19 +183,19 @@ function TeamProfileModal({ member, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-      style={{ background: 'rgba(27,42,74,0.55)', backdropFilter: 'blur(3px)' }}
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6"
+      style={{ background: 'rgba(27,42,74,0.72)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl bg-white shadow-2xl animate-[modalIn_0.18s_ease-out]">
+      <div className="relative w-full max-w-lg max-h-[88vh] overflow-y-auto rounded-3xl bg-white shadow-2xl animate-[modalIn_0.18s_ease-out] border border-white/20 my-auto">
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:bg-black/5 z-10"
+          className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:bg-black/10 active:scale-95 z-20 cursor-pointer shadow-sm"
           style={{ background: '#F7F3EA' }}
         >
-          <X className="w-[18px] h-[18px]" style={{ color: '#1B2A4A' }} />
+          <X className="w-[18px] h-[18px]" style={{ color: '#1B2A4A' }} strokeWidth={2.5} />
         </button>
 
         <div className="pt-8 px-7 pb-3 flex flex-col items-center text-center">
