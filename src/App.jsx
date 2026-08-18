@@ -183,6 +183,11 @@ function AppLayout() {
     pathname.startsWith("/wa/") ||
     pathname.startsWith("/whatsapp/") ||
     [
+      "/tc",
+      "/tc-pro",
+      "/cp",
+      "/cp-pro",
+      "/cp-user",
       "/tc-wa",
       "/tc-pro-wa",
       "/cp-wa",
@@ -204,8 +209,6 @@ function AppLayout() {
     "/privacy-policy-pro",
     "/terms-user",
     "/terms-pro",
-    "/cp-pro",
-    "/cp-user",
   ].includes(pathname);
 
   useEffect(() => {
@@ -238,41 +241,29 @@ function AppLayout() {
             <Route path="/privacy-policy-pro" element={<PrivacyPolicyPro />} />
             <Route path="/terms-user" element={<TermsUser />} />
             <Route path="/terms-pro" element={<TermsPro />} />
-            <Route path="/cp-pro" element={<CancellationPolicyPro />} />
-            <Route path="/cp-user" element={<CancellationPolicyUser />} />
 
-            {/* Ultra-Short Standalone WhatsApp Legal Pages (No Navbar, No Footer) */}
-            {/* 1. Customer Terms */}
-            <Route path="/wa/terms" element={<TermsCustomerWhatsApp />} />
-            <Route path="/wa/tc" element={<TermsCustomerWhatsApp />} />
-            <Route path="/wa/terms-user" element={<TermsCustomerWhatsApp />} />
-            <Route path="/tc-wa" element={<TermsCustomerWhatsApp />} />
+            {/* Simple Standalone Legal Pages for WhatsApp / Direct Sharing (No Navbar, No Footer) */}
+            {/* 1. Customer Terms: /tc */}
+            <Route path="/tc" element={<TermsCustomerWhatsApp />} />
+            <Route path="/tc-user" element={<TermsCustomerWhatsApp />} />
             <Route path="/terms-customer-whatsapp" element={<TermsCustomerWhatsApp />} />
             <Route path="/terms-user-whatsapp" element={<TermsCustomerWhatsApp />} />
             <Route path="/whatsapp/terms-customer" element={<TermsCustomerWhatsApp />} />
 
-            {/* 2. PRO Terms */}
-            <Route path="/wa/pro-terms" element={<TermsProWhatsApp />} />
-            <Route path="/wa/terms-pro" element={<TermsProWhatsApp />} />
-            <Route path="/wa/pro-tc" element={<TermsProWhatsApp />} />
-            <Route path="/tc-pro-wa" element={<TermsProWhatsApp />} />
+            {/* 2. PRO Terms: /tc-pro */}
+            <Route path="/tc-pro" element={<TermsProWhatsApp />} />
             <Route path="/terms-pro-whatsapp" element={<TermsProWhatsApp />} />
             <Route path="/whatsapp/terms-pro" element={<TermsProWhatsApp />} />
 
-            {/* 3. Customer Cancellation Policy */}
-            <Route path="/wa/cancel" element={<CancellationPolicyCustomerWhatsApp />} />
-            <Route path="/wa/cp" element={<CancellationPolicyCustomerWhatsApp />} />
-            <Route path="/wa/cp-user" element={<CancellationPolicyCustomerWhatsApp />} />
-            <Route path="/cp-wa" element={<CancellationPolicyCustomerWhatsApp />} />
+            {/* 3. Customer Cancellation: /cp */}
+            <Route path="/cp" element={<CancellationPolicyCustomerWhatsApp />} />
+            <Route path="/cp-user" element={<CancellationPolicyCustomerWhatsApp />} />
             <Route path="/cancellation-policy-customer-whatsapp" element={<CancellationPolicyCustomerWhatsApp />} />
             <Route path="/cancellation-policy-user-whatsapp" element={<CancellationPolicyCustomerWhatsApp />} />
             <Route path="/whatsapp/cancellation-policy-customer" element={<CancellationPolicyCustomerWhatsApp />} />
 
-            {/* 4. PRO Cancellation Policy */}
-            <Route path="/wa/pro-cancel" element={<CancellationPolicyProWhatsApp />} />
-            <Route path="/wa/pro-cp" element={<CancellationPolicyProWhatsApp />} />
-            <Route path="/wa/cp-pro" element={<CancellationPolicyProWhatsApp />} />
-            <Route path="/cp-pro-wa" element={<CancellationPolicyProWhatsApp />} />
+            {/* 4. PRO Cancellation: /cp-pro */}
+            <Route path="/cp-pro" element={<CancellationPolicyProWhatsApp />} />
             <Route path="/cancellation-policy-pro-whatsapp" element={<CancellationPolicyProWhatsApp />} />
             <Route path="/whatsapp/cancellation-policy-pro" element={<CancellationPolicyProWhatsApp />} />
 
