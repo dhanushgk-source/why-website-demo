@@ -175,6 +175,8 @@ function AppLayout() {
   const isCareerOrAdmin =
     pathname.startsWith("/careers") || pathname.startsWith("/admin");
 
+  const isLearn = pathname.startsWith("/learn");
+
   const isWhatsAppTerms =
     pathname.startsWith("/whatsapp/") ||
     [
