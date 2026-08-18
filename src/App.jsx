@@ -38,6 +38,8 @@ const CancellationPolicyPro = lazy(() => import("./pages/Cancellationpolicypro")
 const CancellationPolicyUser = lazy(() => import("./pages/Cancellationpolicyuser"));
 const TermsCustomerWhatsApp = lazy(() => import("./pages/TermsCustomerWhatsApp"));
 const TermsProWhatsApp = lazy(() => import("./pages/TermsProWhatsApp"));
+const CancellationPolicyCustomerWhatsApp = lazy(() => import("./pages/CancellationPolicyCustomerWhatsApp"));
+const CancellationPolicyProWhatsApp = lazy(() => import("./pages/CancellationPolicyProWhatsApp"));
 
 // Lazy load Careers pages
 const CareersLanding = lazy(() => import("./pages/careers/CareersLanding"));
@@ -183,6 +185,9 @@ function AppLayout() {
       "/terms-customer-whatsapp",
       "/terms-pro-whatsapp",
       "/terms-user-whatsapp",
+      "/cancellation-policy-customer-whatsapp",
+      "/cancellation-policy-user-whatsapp",
+      "/cancellation-policy-pro-whatsapp",
     ].includes(pathname);
 
   const hideGlobalLayout =
@@ -237,6 +242,11 @@ function AppLayout() {
             <Route path="/terms-pro-whatsapp" element={<TermsProWhatsApp />} />
             <Route path="/whatsapp/terms-customer" element={<TermsCustomerWhatsApp />} />
             <Route path="/whatsapp/terms-pro" element={<TermsProWhatsApp />} />
+            <Route path="/cancellation-policy-customer-whatsapp" element={<CancellationPolicyCustomerWhatsApp />} />
+            <Route path="/cancellation-policy-user-whatsapp" element={<CancellationPolicyCustomerWhatsApp />} />
+            <Route path="/cancellation-policy-pro-whatsapp" element={<CancellationPolicyProWhatsApp />} />
+            <Route path="/whatsapp/cancellation-policy-customer" element={<CancellationPolicyCustomerWhatsApp />} />
+            <Route path="/whatsapp/cancellation-policy-pro" element={<CancellationPolicyProWhatsApp />} />
 
             {/* Home - Eager */}
             <Route path="/" element={<Home />} />
