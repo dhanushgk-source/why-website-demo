@@ -36,6 +36,8 @@ const TermsUser = lazy(() => import("./pages/TermsUser"));
 const TermsPro = lazy(() => import("./pages/TermsPro"));
 const CancellationPolicyPro = lazy(() => import("./pages/Cancellationpolicypro"));
 const CancellationPolicyUser = lazy(() => import("./pages/Cancellationpolicyuser"));
+const TermsCustomerWhatsApp = lazy(() => import("./pages/TermsCustomerWhatsApp"));
+const TermsProWhatsApp = lazy(() => import("./pages/TermsProWhatsApp"));
 
 // Lazy load Careers pages
 const CareersLanding = lazy(() => import("./pages/careers/CareersLanding"));
@@ -173,10 +175,16 @@ function AppLayout() {
   const isCareerOrAdmin =
     pathname.startsWith("/careers") || pathname.startsWith("/admin");
 
-  const isLearn = pathname.startsWith("/learn");
+  const isWhatsAppTerms =
+    pathname.startsWith("/whatsapp/") ||
+    [
+      "/terms-customer-whatsapp",
+      "/terms-pro-whatsapp",
+      "/terms-user-whatsapp",
+    ].includes(pathname);
 
   const hideGlobalLayout =
-    ["/contact", "/faq"].includes(pathname) || isLearn;
+    ["/contact", "/faq"].includes(pathname) || isLearn || isWhatsAppTerms;
 
   const hideFooterOnly = [
     "/data-deletion",
@@ -220,6 +228,13 @@ function AppLayout() {
             <Route path="/terms-pro" element={<TermsPro />} />
             <Route path="/cp-pro" element={<CancellationPolicyPro />} />
             <Route path="/cp-user" element={<CancellationPolicyUser />} />
+
+            {/* Standalone WhatsApp Legal Pages (No Navbar, No Footer) */}
+            <Route path="/terms-customer-whatsapp" element={<TermsCustomerWhatsApp />} />
+            <Route path="/terms-user-whatsapp" element={<TermsCustomerWhatsApp />} />
+            <Route path="/terms-pro-whatsapp" element={<TermsProWhatsApp />} />
+            <Route path="/whatsapp/terms-customer" element={<TermsCustomerWhatsApp />} />
+            <Route path="/whatsapp/terms-pro" element={<TermsProWhatsApp />} />
 
             {/* Home - Eager */}
             <Route path="/" element={<Home />} />
