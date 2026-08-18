@@ -180,8 +180,13 @@ function AppLayout() {
   const isLearn = pathname.startsWith("/learn");
 
   const isWhatsAppTerms =
+    pathname.startsWith("/wa/") ||
     pathname.startsWith("/whatsapp/") ||
     [
+      "/tc-wa",
+      "/tc-pro-wa",
+      "/cp-wa",
+      "/cp-pro-wa",
       "/terms-customer-whatsapp",
       "/terms-pro-whatsapp",
       "/terms-user-whatsapp",
@@ -236,16 +241,39 @@ function AppLayout() {
             <Route path="/cp-pro" element={<CancellationPolicyPro />} />
             <Route path="/cp-user" element={<CancellationPolicyUser />} />
 
-            {/* Standalone WhatsApp Legal Pages (No Navbar, No Footer) */}
+            {/* Ultra-Short Standalone WhatsApp Legal Pages (No Navbar, No Footer) */}
+            {/* 1. Customer Terms */}
+            <Route path="/wa/terms" element={<TermsCustomerWhatsApp />} />
+            <Route path="/wa/tc" element={<TermsCustomerWhatsApp />} />
+            <Route path="/wa/terms-user" element={<TermsCustomerWhatsApp />} />
+            <Route path="/tc-wa" element={<TermsCustomerWhatsApp />} />
             <Route path="/terms-customer-whatsapp" element={<TermsCustomerWhatsApp />} />
             <Route path="/terms-user-whatsapp" element={<TermsCustomerWhatsApp />} />
-            <Route path="/terms-pro-whatsapp" element={<TermsProWhatsApp />} />
             <Route path="/whatsapp/terms-customer" element={<TermsCustomerWhatsApp />} />
+
+            {/* 2. PRO Terms */}
+            <Route path="/wa/pro-terms" element={<TermsProWhatsApp />} />
+            <Route path="/wa/terms-pro" element={<TermsProWhatsApp />} />
+            <Route path="/wa/pro-tc" element={<TermsProWhatsApp />} />
+            <Route path="/tc-pro-wa" element={<TermsProWhatsApp />} />
+            <Route path="/terms-pro-whatsapp" element={<TermsProWhatsApp />} />
             <Route path="/whatsapp/terms-pro" element={<TermsProWhatsApp />} />
+
+            {/* 3. Customer Cancellation Policy */}
+            <Route path="/wa/cancel" element={<CancellationPolicyCustomerWhatsApp />} />
+            <Route path="/wa/cp" element={<CancellationPolicyCustomerWhatsApp />} />
+            <Route path="/wa/cp-user" element={<CancellationPolicyCustomerWhatsApp />} />
+            <Route path="/cp-wa" element={<CancellationPolicyCustomerWhatsApp />} />
             <Route path="/cancellation-policy-customer-whatsapp" element={<CancellationPolicyCustomerWhatsApp />} />
             <Route path="/cancellation-policy-user-whatsapp" element={<CancellationPolicyCustomerWhatsApp />} />
-            <Route path="/cancellation-policy-pro-whatsapp" element={<CancellationPolicyProWhatsApp />} />
             <Route path="/whatsapp/cancellation-policy-customer" element={<CancellationPolicyCustomerWhatsApp />} />
+
+            {/* 4. PRO Cancellation Policy */}
+            <Route path="/wa/pro-cancel" element={<CancellationPolicyProWhatsApp />} />
+            <Route path="/wa/pro-cp" element={<CancellationPolicyProWhatsApp />} />
+            <Route path="/wa/cp-pro" element={<CancellationPolicyProWhatsApp />} />
+            <Route path="/cp-pro-wa" element={<CancellationPolicyProWhatsApp />} />
+            <Route path="/cancellation-policy-pro-whatsapp" element={<CancellationPolicyProWhatsApp />} />
             <Route path="/whatsapp/cancellation-policy-pro" element={<CancellationPolicyProWhatsApp />} />
 
             {/* Home - Eager */}
