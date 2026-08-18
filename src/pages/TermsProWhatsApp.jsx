@@ -1,25 +1,6 @@
 export default function TermsProWhatsApp() {
   return (
     <div className="bg-[#F7F3EA]/50 min-h-screen text-slate-700 font-sans antialiased">
-      {/* WhatsApp Header Bar */}
-      <header className="bg-white border-b border-slate-200/80 sticky top-0 z-50 px-4 py-3.5 shadow-sm">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <img
-              src="/Assests/WHY_logo.png"
-              alt="WHY Logo"
-              className="h-9 w-auto object-contain"
-              onError={(e) => {
-                e.currentTarget.src = "/WHY_logo.png";
-              }}
-            />
-          </div>
-          <span className="text-[11px] sm:text-xs font-semibold px-2.5 py-1 rounded-full bg-[#2F4A7D]/10 text-[#2F4A7D]">
-            PRO Agreement
-          </span>
-        </div>
-      </header>
-
       {/* Hero Header */}
       <section className="py-10 sm:py-14 text-center px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
