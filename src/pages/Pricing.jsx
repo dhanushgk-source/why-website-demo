@@ -158,7 +158,7 @@ export default function PricingSection() {
                 }`}
               >
                 <Sun className="w-4 h-4" strokeWidth={2.2} />
-                Day Rate (7 AM - 9 PM)
+                Day Rate (8 AM - 8 PM)
               </button>
               <button
                 type="button"
@@ -170,7 +170,7 @@ export default function PricingSection() {
                 }`}
               >
                 <Moon className="w-4 h-4" strokeWidth={2.2} />
-                Night Rate (9 PM - 7 AM)
+                Night Rate (8 PM - 8 AM)
               </button>
             </div>
           </div>
