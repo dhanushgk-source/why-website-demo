@@ -3,12 +3,9 @@ import { getLessonVideoUrl } from "../../services/learnService";
 function formatYouTubeEmbedUrl(url) {
   if (!url) return "";
   let clean = url.trim();
-  if (clean.includes("youtube.com/embed/")) {
-    return clean;
-  }
-  const match = clean.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const match = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   if (match && match[1]) {
-    return `https://www.youtube.com/embed/${match[1]}?autoplay=0&rel=0&modestbranding=1`;
+    return `https://www.youtube-nocookie.com/embed/${match[1]}?autoplay=0&rel=0&modestbranding=1`;
   }
   return clean;
 }
