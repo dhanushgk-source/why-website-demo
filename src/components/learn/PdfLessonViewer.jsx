@@ -35,7 +35,7 @@ export default function PdfLessonViewer({
   fileId,
   initialPage,
   onProgress, // (page, numPages) => void
-  watermarkLabel,
+  watermarkLabel = "WHY · We Help You",
 }) {
   const canvasRef = useRef(null);
   const pdfDocRef = useRef(null);

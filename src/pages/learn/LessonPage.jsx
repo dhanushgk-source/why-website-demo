@@ -135,7 +135,7 @@ export default function LessonPage() {
           fileId={lesson.pdfFileId}
           initialPage={progress?.lastPage || 1}
           onProgress={handlePdfProgress}
-          watermarkLabel={user?.email}
+          watermarkLabel="WHY · We Help You"
         />
       )}
 
