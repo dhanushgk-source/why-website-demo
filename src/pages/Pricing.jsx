@@ -113,7 +113,7 @@ export default function PricingSection() {
   const handleWhatsApp = (tier) => {
     const basePrice = isNight ? tier.night_base : tier.day_base;
     const rateType = isNight ? "Night Rate" : "Day Rate";
-    const message = `Hi! I want to book "${tier.service_category} - ${tier.tier_name}" (${rateType}: ₹${basePrice} + 18% GST for first 2 hrs). Please share availability.`;
+    const message = `Hello! Can I get more info on this?`;
     const link = whatsappNum
       ? `https://wa.me/${whatsappNum.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`
       : getWhatsAppLink(message);

@@ -8,7 +8,7 @@ export const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbCzkTQEqu
 export const APP_LINK = "";
 export const ANDROID_APP_LINK = "";
 export const IOS_APP_LINK = "";
-export const DEFAULT_WHATSAPP_MESSAGE = "Hi! I would like to inquire about WHY companion services.";
+export const DEFAULT_WHATSAPP_MESSAGE = "Hello! Can I get more info on this?";
 
 let cachedSettings = {
   phone_number: DEFAULT_PHONE_DISPLAY,
