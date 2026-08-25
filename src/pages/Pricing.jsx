@@ -78,12 +78,14 @@ const TRUST_POINTS = [
 
 export default function PricingSection() {
   const [isNight, setIsNight] = useState(false);
-  const [tiers, setTiers] = useState(DEFAULT_TIERS);
+  const [tiers, setTiers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [whatsappNum, setWhatsappNum] = useState("");
 
   useEffect(() => {
     async function loadData() {
       try {
+        setLoading(true);
         const [fetchedTiers, settings] = await Promise.all([
           getPublicPricingPlans(),
           getPublicSiteSettings(),
@@ -95,9 +97,14 @@ export default function PricingSection() {
 
         if (fetchedTiers && fetchedTiers.length > 0) {
           setTiers(fetchedTiers);
+        } else {
+          setTiers(DEFAULT_TIERS);
         }
       } catch (err) {
-        console.error("Error loading dynamic service matrix:", err);
+        console.error("Error loading dynamic service matrix from backend:", err);
+        setTiers(DEFAULT_TIERS);
+      } finally {
+        setLoading(false);
       }
     }
     loadData();
@@ -106,7 +113,7 @@ export default function PricingSection() {
   const handleWhatsApp = (tier) => {
     const basePrice = isNight ? tier.night_base : tier.day_base;
     const rateType = isNight ? "Night Rate" : "Day Rate";
-    const message = `Hi! I want to book "${tier.service_category} - ${tier.tier_name}" (${rateType}: ₹${basePrice} for first 4 hrs). Please share availability.`;
+    const message = `Hi! I want to book "${tier.service_category} - ${tier.tier_name}" (${rateType}: ₹${basePrice} + 18% GST for first 2 hrs). Please share availability.`;
     const link = whatsappNum
       ? `https://wa.me/${whatsappNum.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`
       : getWhatsAppLink(message);
@@ -177,7 +184,16 @@ export default function PricingSection() {
 
           {/* Service Tier Cards Container — Clean & Sleek Auto-Centered Grid */}
           <div className="flex flex-wrap items-stretch justify-center gap-6 max-w-6xl mx-auto mb-16">
-            {tiers.map((tier) => {
+            {loading ? (
+              <div className="py-16 text-center text-slate-500 font-semibold animate-pulse">
+                Loading pricing plans from server...
+              </div>
+            ) : tiers.length === 0 ? (
+              <div className="py-16 text-center text-slate-500 font-semibold">
+                No active pricing plans found.
+              </div>
+            ) : (
+              tiers.map((tier) => {
               const basePrice = isNight ? tier.night_base : tier.day_base;
               const addlPrice = isNight ? tier.night_addl || 350 : tier.day_addl || 250;
               const otPrice = isNight ? tier.night_ot || 450 : tier.day_ot || 350;
@@ -224,27 +240,48 @@ export default function PricingSection() {
                       <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
                         Service Starts From
                       </p>
-                      <div className="flex items-baseline justify-center gap-1">
+                      <div className="flex items-baseline justify-center gap-1.5 flex-wrap">
                         <span
-                          className={`text-3.5xl font-black text-3xl ${
+                          className={`font-black text-2xl sm:text-3xl ${
                             isNight ? "text-[#F2B705]" : "text-[#0D9488]"
                           }`}
                         >
                           ₹{parseFloat(basePrice).toLocaleString("en-IN")}
                         </span>
+                        <span
+                          className={`font-black text-lg sm:text-xl ${
+                            isNight ? "text-[#F2B705]" : "text-[#0D9488]"
+                          }`}
+                        >
+                          + 18% GST
+                        </span>
                       </div>
                       <p className="text-xs font-semibold text-slate-500 mt-1">
-                        for first 2 hours <span className="text-[10px] opacity-75">(+ 18% GST)</span>
+                        for first 2 hours
                       </p>
                     </div>
 
-                    {/* Minimal Extension Note */}
-                    <div className="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/40 text-center mb-6">
-                      <p className="text-[11px] text-slate-500 font-medium">
-                        Flexible hourly extensions:
+                    {/* Highlighted Extension Note */}
+                    <div
+                      className={`p-3.5 rounded-2xl text-center mb-6 border transition-all ${
+                        isNight
+                          ? "bg-[#182640] border-[#2A3B5C]"
+                          : "bg-teal-50/80 border-teal-200/90"
+                      }`}
+                    >
+                      <p
+                        className={`text-xs font-bold uppercase tracking-wider mb-1 ${
+                          isNight ? "text-[#F2B705]" : "text-[#0D9488]"
+                        }`}
+                      >
+                        Flexible Hourly Extensions
                       </p>
-                      <p className="text-xs font-bold text-slate-700 dark:text-slate-300 mt-0.5">
-                        Hrs 5–8: ₹{addlPrice}/hr · Hr 9+: ₹{otPrice}/hr
+                      <p
+                        className={`text-xs sm:text-sm font-extrabold ${
+                          isNight ? "text-white" : "text-[#1B2A4A]"
+                        }`}
+                      >
+                        Hrs 5–8: ₹{parseFloat(addlPrice).toLocaleString("en-IN")}/hr <span className="opacity-40 font-normal mx-1">·</span> Hr 9+: ₹{parseFloat(otPrice).toLocaleString("en-IN")}/hr
                       </p>
                     </div>
                   </div>
@@ -264,7 +301,7 @@ export default function PricingSection() {
                   </button>
                 </div>
               );
-            })}
+            }))}
           </div>
 
           {/* Trust points strip */}
