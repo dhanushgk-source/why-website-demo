@@ -713,5 +713,5 @@ body {
   display: flex;
   flex-shrink: 0;
   min-width: 100%;
-  animation: marquee 28s linear infinite;
+  animation: marquee 45s linear infinite;
 }

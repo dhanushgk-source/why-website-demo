@@ -10,7 +10,7 @@ export default function AnnouncementBar() {
                   Special Offer
                 </span>
                 <span>
-                  <strong>PRE Booking Opens from 19th August</strong> — PRE Book and get{" "}
+                  <span>PRE Booking Opens from 19th August</span> - PRE Book and get{" "}
                   <span className="text-[#F2C89F] font-bold underline decoration-wavy underline-offset-2">
                     25% OFF!
                   </span>
