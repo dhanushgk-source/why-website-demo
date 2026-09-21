@@ -3,9 +3,9 @@ import axios from "axios";
 // Every service file in this project calls paths like "/jobs", "/admin/jobs",
 // "/auth/login" etc. assuming the API's /api prefix is already part of the
 // base URL. VITE_API_BASE_URL should therefore be set to just the backend's
-// origin (e.g. "https://why-website-backend.onrender.com"), NOT including
+// origin (e.g. "https://why-backend-demo.vercel.app"), NOT including
 // "/api" — this is where that prefix gets added, once, for every request.
-const rawBase = import.meta.env.VITE_API_BASE_URL || "";
+const rawBase = import.meta.env.VITE_API_BASE_URL || "https://why-backend-demo.vercel.app";
 const API = axios.create({
   baseURL: `${rawBase.replace(/\/+$/, "")}/api`,
 });

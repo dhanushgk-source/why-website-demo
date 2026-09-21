@@ -9,13 +9,13 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCR9e6Xl79gK7Tk0ETn15kPkWCXmA-rzyY",
-  authDomain: "why-lms.firebaseapp.com",
-  projectId: "why-lms",
-  storageBucket: "why-lms.firebasestorage.app",
-  messagingSenderId: "798472072086",
-  appId: "1:798472072086:web:0819d15bec53b3061f0bb7",
-  measurementId: "G-WXRHPKN3K8",
+  apiKey: "AIzaSyDNTLgdwScHs2-n6WVUHSzrhEppb-soEm8",
+  authDomain: "why-services.firebaseapp.com",
+  projectId: "why-services",
+  storageBucket: "why-services.firebasestorage.app",
+  messagingSenderId: "645805111869",
+  appId: "1:645805111869:web:3c6a59976dc3e57ce08854",
+  measurementId: "G-EDJSXKB9R0"
 };
 
 // Initialize Firebase

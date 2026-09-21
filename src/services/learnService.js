@@ -50,7 +50,7 @@ export const updateMyLessonProgress = (lessonId, data) =>
 // short-lived-token scheme to lessonAssetRoutes.js, which is a backend change
 // beyond this pass.
 
-const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "https://why-backend-demo.vercel.app").replace(/\/+$/, "");
 
 export const getLessonPdfUrl = (fileId) => `${API_ORIGIN}/api/lessons/pdf/${fileId}`;
 export const getLessonPptUrl = (fileId) => `${API_ORIGIN}/api/lessons/ppt/${fileId}`;

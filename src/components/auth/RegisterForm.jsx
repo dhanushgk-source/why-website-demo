@@ -7,7 +7,12 @@ export default function RegisterForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/careers";
+  const from =
+    location.state?.redirectTo ||
+    (typeof location.state?.from === "string"
+      ? location.state.from
+      : location.state?.from?.pathname) ||
+    "/careers/jobs";
 
   const [form, setForm] = useState({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
   const [showPassword, setShowPassword] = useState(false);

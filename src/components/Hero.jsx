@@ -423,7 +423,7 @@ export default function Hero() {
                   alt="Elderly companion and senior smiling together at home"
                   className="block w-full h-full object-cover"
                   loading="eager"
-                  fetchPriority="high"
+                  fetchpriority="high"
                   decoding="async"
                   width="1024"
                   height="820"

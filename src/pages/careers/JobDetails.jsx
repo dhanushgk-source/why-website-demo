@@ -31,7 +31,7 @@ export default function JobDetails() {
 
   const handleApply = async () => {
     if (!isAuthenticated) {
-      navigate("/careers/login");
+      navigate("/careers/login", { state: { redirectTo: `/careers/jobs/${id}` } });
       return;
     }
     if (!resume) {
@@ -180,7 +180,7 @@ export default function JobDetails() {
                 {!isAuthenticated && (
                   <p className="text-xs text-gray-400 text-center mt-3">
                     You'll need to{" "}
-                    <Link to="/careers/login" className="text-[#52B5BD] font-medium hover:underline">
+                    <Link to="/careers/login" state={{ redirectTo: `/careers/jobs/${id}` }} className="text-[#52B5BD] font-medium hover:underline">
                       sign in
                     </Link>{" "}
                     to apply.

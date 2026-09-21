@@ -382,7 +382,7 @@ export default function WhatIsWhy() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .card-hidden {
           opacity: 0;
           transform: translateY(40px);

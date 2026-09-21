@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContactInfo, getWhatsAppLink, getPhoneLink, LOCATIONS, LOCATIONS_NOTE, WHATSAPP_CHANNEL_URL } from "../config/contact";
+import { useContactInfo, getWhatsAppLink, getPhoneLink, WHATSAPP_CHANNEL_URL, GOOGLE_MAPS_LINK } from "../config/contact";
 import { useSectionNav } from "../hooks/useSectionNav";
 
 const COMPANION_SECTION_ID = 'Hospital-companion-section';
@@ -8,6 +8,7 @@ const scrollIds = {
   'How it Works': 'WHY-Works-section',
   'Hospital Assistance': COMPANION_SECTION_ID,
   'Travel Assistance': COMPANION_SECTION_ID,
+  'Testimonials & Stories': 'customer-feedback-section',
 };
 
 const companionTabs = {
@@ -15,11 +16,13 @@ const companionTabs = {
   'Travel Assistance': 'travel',
 };
 
-const companyRoutes = {
-  'About Us': '/about',
-  'Safety & Trust': '/trust-and-safety',
-  'Careers': '/careers',
-};
+const companyLinks = [
+  { label: 'About Us', path: '/about' },
+  { label: 'Trust & Safety', path: '/trust-and-safety' },
+  { label: 'Careers', path: '/careers' },
+  { label: 'Testimonials & Stories', isScroll: true },
+  { label: 'WHY Newsletter', path: '/newsletter' },
+];
 
 export default function Footer() {
   const goToSection = useSectionNav();
@@ -30,7 +33,8 @@ export default function Footer() {
     if (tab) {
       window.dispatchEvent(new CustomEvent('why:companion-tab', { detail: { tab } }));
     }
-    goToSection(scrollIds[label]);
+    const targetId = scrollIds[label] || 'customer-feedback-section';
+    goToSection(targetId);
   };
 
   return (
@@ -54,18 +58,16 @@ export default function Footer() {
           />
 
           <p className="text-base text-white/70 leading-relaxed mb-6">
-            Connecting people with verified and trusted WHY PROs for compassionate care and assistance. Because every moment deserves to be shared.
+            Connecting people with verified and trusted WHY PROs for dependable companionship and assistance. Because no one should have to navigate important moments alone.
           </p>
 
-          <div className="space-y-5 text-white/70 text-base">
+          <div className="space-y-4 text-white/70 text-sm">
             {/* Phone / 24x7 Support */}
-            <a href={getPhoneLink(contactInfo.phone_number)} className="group flex items-center gap-4 cursor-pointer transition">
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
-                <span className="text-xl transition duration-300 group-hover:text-[#6ED3C8]">
-                  <img src="/Assests/icons/phone.svg" width="24" height="24" className="white-icon" alt="" />
-                </span>
+            <a href={getPhoneLink(contactInfo.phone_number)} className="group flex items-center gap-3 cursor-pointer transition">
+              <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
+                <img src="/Assests/icons/phone.svg" width="20" height="20" className="white-icon" alt="" />
               </div>
-              <span className="transition duration-300 group-hover:text-[#6ED3C8]">
+              <span className="transition duration-300 group-hover:text-[#6ED3C8] text-sm">
                 {contactInfo.phone_number}
                 <span className="block text-xs text-white/50">{contactInfo.working_hours || "24/7 Customer Support"}</span>
               </span>
@@ -73,46 +75,49 @@ export default function Footer() {
 
             {/* WhatsApp */}
             <a
-              href={getWhatsAppLink("Hi! I need assistance.", contactInfo.whatsapp_number)}
+              href={getWhatsAppLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-4 cursor-pointer transition"
+              className="group flex items-center gap-3 cursor-pointer transition"
             >
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
-                <span className="text-xl transition duration-300 group-hover:text-[#6ED3C8]">
-                  <img src="/Assests/icons/msg.svg" width="24" height="24" className="white-icon" alt="" />
-                </span>
+              <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
+                <img src="/Assests/icons/msg.svg" width="20" height="20" className="white-icon" alt="" />
               </div>
-              <span className="transition duration-300 group-hover:text-[#6ED3C8]">
-                Book via WhatsApp                
+              <span className="transition duration-300 group-hover:text-[#6ED3C8] text-sm">
+                Book via WhatsApp
                 <span className="block text-xs text-white/50">{contactInfo.whatsapp_number}</span>
               </span>
             </a>
 
             {/* Email */}
-            <div className="group flex items-center gap-4 cursor-pointer transition">
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
-                <span className="text-xl transition duration-300 group-hover:text-[#6ED3C8]">
-                  <img src="/Assests/icons/mail.svg" width="24" height="24" className="white-icon" alt="" />
-                </span>
+            <a
+              href={`mailto:${contactInfo.support_email || 'info@thewhyservices.com'}`}
+              className="group flex items-center gap-3 cursor-pointer transition"
+            >
+              <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
+                <img src="/Assests/icons/mail.svg" width="20" height="20" className="white-icon" alt="" />
               </div>
-              <span className="transition duration-300 text-sm group-hover:text-[#6ED3C8]">
-                {contactInfo.support_email}
+              <span className="transition duration-300 group-hover:text-[#6ED3C8] text-sm">
+                {contactInfo.support_email || 'info@thewhyservices.com'}
               </span>
-            </div>
+            </a>
 
             {/* Location */}
-            <div className="group flex items-center gap-4 cursor-pointer transition">
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25">
-                <span className="text-xl transition duration-300 group-hover:text-[#6ED3C8]">
-                  <img src="/Assests/icons/location.svg" width="24" height="24" className="white-icon" alt="" />
-                </span>
+            <a
+              href={GOOGLE_MAPS_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-start gap-3 cursor-pointer transition"
+            >
+              <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 transition duration-300 group-hover:bg-[#52B5BD]/25 mt-0.5">
+                <img src="/Assests/icons/location.svg" width="20" height="20" className="white-icon" alt="" />
               </div>
-              <span className="transition duration-300 group-hover:text-[#6ED3C8]">
-                {LOCATIONS.join(', ')}
-                <span className="block text-xs text-white/50">{LOCATIONS_NOTE}</span>
+              <span className="transition duration-300 group-hover:text-[#6ED3C8] text-sm leading-snug">
+                <strong className="block text-white font-semibold text-sm whitespace-nowrap mb-0.5">WHY Services India Private Limited</strong>
+                1st Floor, No. 14/1, Balaji Krupa, 2nd Main Road,<br />
+                Seshadripuram, Bengaluru – 560020
               </span>
-            </div>
+            </a>
           </div>
         </div>
 
@@ -123,16 +128,12 @@ export default function Footer() {
             {['Hospital Assistance', 'Travel Assistance'].map((s) => (
               <li key={s} className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
-                {scrollIds[s] ? (
-                  <button
-                    onClick={() => handleSectionClick(s)}
-                    className="hover:text-[#6ED3C8] transition text-left"
-                  >
-                    {s}
-                  </button>
-                ) : (
-                  <span>{s}</span>
-                )}
+                <button
+                  onClick={() => handleSectionClick(s)}
+                  className="hover:text-[#6ED3C8] transition text-left"
+                >
+                  {s}
+                </button>
               </li>
             ))}
           </ul>
@@ -142,22 +143,22 @@ export default function Footer() {
         <div>
           <h4 className="text-xl font-semibold mb-6">Company</h4>
           <ul className="space-y-4 text-white/70 text-base">
-            {['About Us', 'How it Works', 'Safety & Trust', 'Careers'].map((s) => (
-              <li key={s} className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
+            {companyLinks.map((item) => (
+              <li key={item.label} className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
                 <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
-                {scrollIds[s] ? (
+                {item.isScroll ? (
                   <button
-                    onClick={() => handleSectionClick(s)}
+                    onClick={() => handleSectionClick(item.label)}
                     className="hover:text-[#6ED3C8] transition text-left"
                   >
-                    {s}
+                    {item.label}
                   </button>
                 ) : (
                   <Link
-                    to={companyRoutes[s] || '/'}
+                    to={item.path}
                     className="hover:text-[#6ED3C8] transition"
                   >
-                    {s}
+                    {item.label}
                   </Link>
                 )}
               </li>
@@ -183,7 +184,7 @@ export default function Footer() {
             <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
               <a
-                href={getWhatsAppLink("Hi! I need help from support.", contactInfo.whatsapp_number)}
+                href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#6ED3C8] transition"
@@ -227,6 +228,10 @@ export default function Footer() {
               <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
               <Link to="/data-deletion" className="hover:text-[#6ED3C8] transition">Data Deletion Policy</Link>
             </li>
+            <li className="flex items-start gap-3 hover:text-[#6ED3C8] transition">
+              <span className="mt-2 w-2 h-2 rounded-full bg-[#52B5BD]"></span>
+              <Link to="/cookie-notice" className="hover:text-[#6ED3C8] transition">Cookie Notice & Policy</Link>
+            </li>
           </ul>
         </div>
       </div>
@@ -241,28 +246,37 @@ export default function Footer() {
             for everyone.
           </p>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3">
             <a href={WHATSAPP_CHANNEL_URL} target="_blank" rel="noopener noreferrer"
               title="Follow the WHY Services channel on WhatsApp"
               aria-label="Follow the WHY Services channel on WhatsApp"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#25D366] hover:scale-110 cursor-pointer">
+              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-whatsapp"></i>
             </a>
             <a href="https://www.facebook.com/share/1Dij6aGamA/" target="_blank" rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
+              title="Facebook"
+              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-facebook-f"></i>
             </a>
             <a href="https://x.com/thewhyservices" target="_blank" rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
+              title="X / Twitter"
+              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-x-twitter"></i>
             </a>
             <a href="https://www.instagram.com/why.services?igsh=czR0eDViMnhtN2dw" target="_blank" rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
+              title="Instagram"
+              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-instagram"></i>
             </a>
             <a href="https://www.linkedin.com/company/why-companion-services/" target="_blank" rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
+              title="LinkedIn"
+              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
               <i className="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://youtube.com/@whyservicesofficial?si=34EsY37BgjsC1TZB" target="_blank" rel="noopener noreferrer"
+              title="YouTube"
+              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base transition-all duration-300 hover:bg-[#52B5BD] hover:scale-110 cursor-pointer">
+              <i className="fab fa-youtube"></i>
             </a>
           </div>
         </div>

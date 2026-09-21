@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { getPublicSiteSettings } from "../services/siteService";
-import { PHONE_DISPLAY, PHONE_TEL, WHATSAPP_NUMBER } from "../config/contact";
+import { PHONE_DISPLAY, PHONE_TEL, WHATSAPP_NUMBER, GOOGLE_MAPS_LINK, getWhatsAppLink } from "../config/contact";
+import { Phone, Mail, MessageSquare, MapPin, Navigation, Clock, ShieldCheck } from "lucide-react";
 
 export default function Contact() {
   const [settings, setSettings] = useState({
     phone_number: PHONE_DISPLAY,
     whatsapp_number: WHATSAPP_NUMBER,
-    support_email: "support@whyservices.in",
-    office_address: "Ground Floor, 14/1,\nBalajikrupa 2nd Main Road,\nSeshadripuram,\nBengaluru North,\nBengaluru – 560020,\nKarnataka",
-    working_hours: "24/7 Support",
+    support_email: "info@thewhyservices.com",
+    office_address: "WHY Services India Private Limited, 1st Floor, No. 14/1, Balaji Krupa, 2nd Main Road, Seshadripuram, Bengaluru – 560020",
+    working_hours: "24/7 Customer Support",
   });
 
   useEffect(() => {
+    document.title = "Contact Us | WHY - Your Trusted Companion";
     async function loadSettings() {
       const data = await getPublicSiteSettings();
       if (data) {
@@ -30,97 +32,145 @@ export default function Contact() {
     loadSettings();
   }, []);
 
-  const cleanWhatsapp = (settings.whatsapp_number || WHATSAPP_NUMBER).replace(/[^0-9]/g, "");
   const cleanPhoneTel = (settings.phone_number || PHONE_TEL).replace(/[^0-9+]/g, "");
 
   return (
-    <div className="bg-white text-gray-800 min-h-screen">
+    <div className="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
       <Navbar />
 
-      <section className="max-w-4xl mx-auto px-6 md:px-16 py-12 md:py-16">
-        <h2 className="text-4xl font-bold mb-10">Contact Us</h2>
+      {/* Header Banner */}
+      <section className="bg-gradient-to-r from-[#0B132B] via-[#132B45] to-[#0D1B2A] text-white py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#52B5BD]/20 text-[#6ED3C8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#52B5BD]/30">
+            <ShieldCheck size={14} /> Official Support & Operations
+          </span>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
+            Contact WHY Services
+          </h1>
+          <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto font-medium">
+            Reach out to our Bengaluru operations desk for hospital navigation assistance, senior travel companion support, or general inquiries.
+          </p>
+        </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
-          <div>
-            <h3 className="text-xl font-semibold mb-4">OFFICE ADDRESS</h3>
+      {/* Main Content Section */}
+      <section className="max-w-6xl mx-auto px-6 py-12 md:py-16 flex-1 w-full">
+        {/* Office Address & Map Card */}
+        <div className="bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-slate-200/80 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 text-[#52B5BD] text-xs font-extrabold uppercase tracking-widest">
+                <MapPin size={16} /> Head Office Address
+              </div>
 
-            <p className="text-gray-700 leading-relaxed text-lg">
-              Ground Floor, 14/1,
-              <br />
-              Balajikrupa 2nd Main Road,
-              <br />
-              Seshadripuram,
-              <br />
-              Bengaluru North,
-              <br />
-              Bengaluru – 560020,
-              <br />
-              Karnataka
-            </p>
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">
+                  WHY Services India Private Limited
+                </h2>
+                <div className="text-slate-600 text-base leading-relaxed space-y-1">
+                  <p className="font-semibold text-slate-700">1st Floor, No. 14/1, Balaji Krupa, 2nd Main Road,</p>
+                  <p>Seshadripuram, Bengaluru – 560020</p>
+                  <p className="text-sm text-slate-500 pt-1">Karnataka, India</p>
+                </div>
+              </div>
 
-            <a
-              href="https://www.google.com/maps?q=Ground%20Floor,%2014/1,%20Balajikrupa%202nd%20Main%20Road,%20Seshadripuram,%20Bangalore%20560020"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-block mt-6 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition"
-            >
-              Get Directions
-            </a>
-          </div>
+              <div className="flex items-center gap-3 text-xs text-slate-500 pt-2 border-t border-slate-100">
+                <Clock size={15} className="text-[#52B5BD]" />
+                <span>Working Hours: <strong className="text-slate-700">{settings.working_hours}</strong></span>
+              </div>
 
-          <div className="w-full h-[320px] md:h-[400px] rounded-xl overflow-hidden shadow-lg border border-slate-200">
-            <iframe
-              title="Google Map"
-              src="https://www.google.com/maps?q=Ground%20Floor,%2014/1,%20Balajikrupa%202nd%20Main%20Road,%20Seshadripuram,%20Bangalore%20560020&output=embed"
-              className="w-full h-full"
-              style={{ border: 0 }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+              <div>
+                <a
+                  href={GOOGLE_MAPS_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-[#0B132B] hover:bg-[#132B45] text-white rounded-xl font-bold text-sm transition-all shadow-md hover:shadow-lg"
+                >
+                  <Navigation size={16} color="#52B5BD" /> Get Map Directions
+                </a>
+              </div>
+            </div>
+
+            {/* Google Map Embedded Frame */}
+            <div className="lg:col-span-6 w-full h-[280px] md:h-[340px] rounded-2xl overflow-hidden shadow-inner border border-slate-200">
+              <iframe
+                title="WHY Services India Private Limited Google Maps Location"
+                src="https://maps.google.com/maps?q=WHY%20SERVICES%20INDIA%20PRIVATE%20LIMITED%2C%201st%20Floor%2C%2014%2F1%2C%202nd%20Main%20Rd%2C%20Seshadripuram%2C%20Bengaluru%2C%20Karnataka%20560020&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                className="w-full h-full"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-          {/* Phone */}
-          <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
-            <div className="text-4xl mb-4">📞</div>
-            <h3 className="text-xl font-semibold mb-2">Phone</h3>
-            <p className="text-gray-600 mb-4">Speak directly with our support team.</p>
-            <a
-              href={`tel:${cleanPhoneTel}`}
-              className="text-[#52B5BD] font-semibold hover:underline"
-            >
-              {settings.phone_number}
-            </a>
+        {/* Contact Method Cards (Clean Corporate Grid - NO Emojis) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Phone Card */}
+          <div className="bg-white rounded-2xl p-7 text-center border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div className="w-14 h-14 bg-slate-100 group-hover:bg-[#52B5BD]/15 rounded-2xl flex items-center justify-center text-[#0B132B] group-hover:text-[#52B5BD] mx-auto mb-5 transition-all">
+                <Phone size={26} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-1.5">Direct Phone</h3>
+              <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+                Speak directly with our Bengaluru support desk.
+              </p>
+            </div>
+            <div>
+              <a
+                href={`tel:${cleanPhoneTel}`}
+                className="inline-block w-full py-2.5 px-4 bg-slate-100 hover:bg-[#52B5BD] hover:text-[#0B132B] text-[#0B132B] font-extrabold rounded-xl text-sm transition-all"
+              >
+                {settings.phone_number}
+              </a>
+            </div>
           </div>
 
-          {/* Email */}
-          <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
-            <div className="text-4xl mb-4">📧</div>
-            <h3 className="text-xl font-semibold mb-2">Email</h3>
-            <p className="text-gray-600 mb-4">Send us your questions anytime.</p>
-            <a
-              href={`mailto:${settings.support_email}`}
-              className="text-[#52B5BD] font-semibold hover:underline break-all"
-            >
-              {settings.support_email}
-            </a>
+          {/* Email Card */}
+          <div className="bg-white rounded-2xl p-7 text-center border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div className="w-14 h-14 bg-slate-100 group-hover:bg-[#52B5BD]/15 rounded-2xl flex items-center justify-center text-[#0B132B] group-hover:text-[#52B5BD] mx-auto mb-5 transition-all">
+                <Mail size={26} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-1.5">Official Email</h3>
+              <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+                Send your queries & requests anytime.
+              </p>
+            </div>
+            <div>
+              <a
+                href={`mailto:${settings.support_email}`}
+                className="inline-block w-full py-2.5 px-4 bg-slate-100 hover:bg-[#52B5BD] hover:text-[#0B132B] text-[#0B132B] font-extrabold rounded-xl text-xs md:text-sm transition-all break-all"
+              >
+                {settings.support_email}
+              </a>
+            </div>
           </div>
 
-          {/* WhatsApp */}
-          <div className="bg-white rounded-2xl shadow-md p-6 text-center border hover:shadow-xl transition">
-            <div className="text-4xl mb-4">💬</div>
-            <h3 className="text-xl font-semibold mb-2">WhatsApp</h3>
-            <p className="text-gray-600 mb-4">Chat with us for instant assistance.</p>
-            <a
-              href={`https://wa.me/${cleanWhatsapp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#52B5BD] font-semibold hover:underline"
-            >
-              Chat on WhatsApp
-            </a>
+          {/* WhatsApp Card */}
+          <div className="bg-white rounded-2xl p-7 text-center border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div className="w-14 h-14 bg-slate-100 group-hover:bg-[#52B5BD]/15 rounded-2xl flex items-center justify-center text-[#0B132B] group-hover:text-[#52B5BD] mx-auto mb-5 transition-all">
+                <MessageSquare size={26} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-1.5">Book via WhatsApp</h3>
+              <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+                Instant assistance from trained WHY PROs.
+              </p>
+            </div>
+            <div>
+              <a
+                href={getWhatsAppLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block w-full py-2.5 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold rounded-xl text-sm transition-all shadow-sm"
+              >
+                Book via WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </section>

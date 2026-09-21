@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function CareerCTA() {
   const navigate = useNavigate();
@@ -33,12 +33,12 @@ export default function CareerCTA() {
           >
             Browse Jobs
           </button>
-          <a
-            href="mailto:techadmin@thewhyservices.com?subject=Careers%20Enquiry"
+          <Link
+            to="/contact"
             className="border border-white/30 hover:border-white/70 text-white/80 hover:text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-300 inline-block"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
 
         {/* Micro trust line */}

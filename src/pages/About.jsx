@@ -14,8 +14,9 @@ import {
   X,
 } from 'lucide-react'
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from '../config/contact'
+import MeetOurPROs from '../components/MeetOurPROs'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://why-website-backend.onrender.com/api'
+const API_BASE = import.meta.env.VITE_API_URL || 'https://why-backend-demo.vercel.app/api'
 
 const VALUES = [
   {
@@ -442,6 +443,9 @@ export default function About() {
       {selectedMember && (
         <TeamProfileModal member={selectedMember} onClose={() => setSelectedMember(null)} />
       )}
+
+      {/* ================= MEET OUR PROs ================= */}
+      <MeetOurPROs />
 
       {/* ================= VALUES ================= */}
       <Section id="about-values" className="py-14 lg:py-20">

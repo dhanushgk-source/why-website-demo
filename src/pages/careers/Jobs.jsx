@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import {
   MapPin,
   Clock3,
@@ -18,6 +19,8 @@ const typeColors = {
 };
 
 export default function Jobs() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +49,14 @@ export default function Jobs() {
       </div>
     );
   }
+
+  const handleViewDetails = (jobId) => {
+    if (!isAuthenticated) {
+      navigate("/careers/login", { state: { redirectTo: `/careers/jobs/${jobId}` } });
+    } else {
+      navigate(`/careers/jobs/${jobId}`);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#f0f9fa] to-white">
@@ -131,9 +142,9 @@ export default function Jobs() {
                     )}
                   </div>
 
-                  <Link
-                    to={`/careers/jobs/${job.id}`}
-                    className="inline-flex items-center gap-2 shrink-0 bg-[#2F4A7D] hover:bg-[#52B5BD] text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:shadow-lg"
+                  <button
+                    onClick={() => handleViewDetails(job.id)}
+                    className="inline-flex items-center gap-2 shrink-0 bg-[#2F4A7D] hover:bg-[#52B5BD] text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:shadow-lg cursor-pointer"
                   >
                     View Details
 
@@ -141,7 +152,7 @@ export default function Jobs() {
                       size={18}
                       className="group-hover:translate-x-1 transition-transform"
                     />
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}

@@ -12,6 +12,7 @@ import CareerNavbar from "./components/CareerNavbar";
 import Footer from "./components/Footer";
 import CookieBanner from "./components/CookieBanner";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import { BlogThemeProvider } from "./contexts/BlogThemeContext";
 
 // Home Sections (eager - above the fold)
 import Hero from "./components/Hero";
@@ -22,9 +23,14 @@ import CompanionServices from "./components/CompanionServices";
 import HowWhyWorks from "./components/HowWhyWorks";
 import CTA from "./components/CTA";
 import AdvertisementPopup from "./components/AdvertisementPopup";
+import CustomerFeedback from "./components/CustomerFeedback";
 
 // Lazy load all pages
 const Contact = lazy(() => import("./pages/Contact"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./components/BlogPost"));
+const Newsletter = lazy(() => import("./pages/Newsletter"));
+const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const About = lazy(() => import("./pages/About"));
 const Pricing = lazy(() => import("./pages/Pricing"));
@@ -32,6 +38,7 @@ const TrustAndSafety = lazy(() => import("./pages/TrustAndSafety"));
 const DataDeletion = lazy(() => import("./pages/DataDeletion"));
 const PrivacyPolicyUser = lazy(() => import("./pages/PrivacyPolicyUser"));
 const PrivacyPolicyPro = lazy(() => import("./pages/PrivacyPolicyPro"));
+const CookieNotice = lazy(() => import("./pages/CookieNotice"));
 const TermsUser = lazy(() => import("./pages/TermsUser"));
 const TermsPro = lazy(() => import("./pages/TermsPro"));
 const CancellationPolicyPro = lazy(() => import("./pages/Cancellationpolicypro"));
@@ -156,6 +163,7 @@ function Home() {
       <CompanionServices />
       <HowWhyWorks />
       <LazyWorldMap />
+      <CustomerFeedback variant="light" />
       <CTA />
     </>
   );
@@ -209,6 +217,8 @@ function AppLayout() {
     "/privacy-policy-pro",
     "/terms-user",
     "/terms-pro",
+    "/cookie-notice",
+    "/cookie-policy",
   ].includes(pathname);
 
   useEffect(() => {
@@ -230,6 +240,10 @@ function AppLayout() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/trust-and-safety" element={<TrustAndSafety />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/newsletter" element={<Newsletter />} />
+            <Route path="/unsubscribe" element={<Unsubscribe />} />
             <Route path="/trust and safety" element={<TrustAndSafety />} />
             <Route path="/trust%20and%20safety" element={<TrustAndSafety />} />
             <Route path="/safety" element={<TrustAndSafety />} />
@@ -239,6 +253,8 @@ function AppLayout() {
             <Route path="/data-deletion" element={<DataDeletion />} />
             <Route path="/privacy-policy-user" element={<PrivacyPolicyUser />} />
             <Route path="/privacy-policy-pro" element={<PrivacyPolicyPro />} />
+            <Route path="/cookie-notice" element={<CookieNotice />} />
+            <Route path="/cookie-policy" element={<CookieNotice />} />
             <Route path="/terms-user" element={<TermsUser />} />
             <Route path="/terms-pro" element={<TermsPro />} />
 
@@ -384,5 +400,9 @@ function AppLayout() {
 }
 
 export default function App() {
-  return <AppLayout />;
+  return (
+    <BlogThemeProvider>
+      <AppLayout />
+    </BlogThemeProvider>
+  );
 }

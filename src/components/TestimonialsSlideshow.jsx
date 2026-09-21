@@ -53,8 +53,37 @@ const TESTIMONIALS = [
   },
 ]
 
-function avatarUrl(seed) {
-  return `https://api.dicebear.com/7.x/personas/svg?seed=${encodeURIComponent(seed)}&backgroundColor=F2C89F,BFE3DF,F7F3EA&radius=50`
+function getInitials(name) {
+  if (!name || typeof name !== 'string') return 'C'
+  const cleanName = name.trim().replace(/[^a-zA-Z0-9\s]/g, '')
+  const words = cleanName.split(/\s+/).filter(Boolean)
+  if (words.length === 0) return 'C'
+  if (words.length === 1) return words[0][0].toUpperCase()
+  return (words[0][0] + words[1][0]).toUpperCase()
+}
+
+function InitialsAvatar({ name, photoUrl, className = '', fontSize = 'text-sm' }) {
+  const initials = getInitials(name)
+  const hasRealPhoto = Boolean(photoUrl && typeof photoUrl === 'string' && photoUrl.trim() !== '' && !photoUrl.includes('dicebear') && !photoUrl.includes('personas'))
+
+  if (hasRealPhoto) {
+    return (
+      <img
+        src={photoUrl}
+        alt={name || 'Customer'}
+        className={className}
+      />
+    )
+  }
+
+  return (
+    <div
+      className={`${className} flex items-center justify-center font-bold font-sans select-none ${fontSize} bg-[#1B2A4A] text-[#52B5BD]`}
+      aria-label={name || 'Customer avatar'}
+    >
+      {initials}
+    </div>
+  )
 }
 
 function Stars({ count = 5, className = 'w-4 h-4' }) {
@@ -181,13 +210,14 @@ export default function TestimonialsSlideshow() {
 
               <div className="relative mt-10 flex items-center gap-4">
                 <div className="relative w-16 h-16 flex-shrink-0">
-                  <img
-                    src={avatarUrl(featured.seed)}
-                    alt={featured.name}
-                    className="w-16 h-16 rounded-full object-cover shadow-md ring-4 ring-[#F7F3EA]"
+                  <InitialsAvatar
+                    name={featured.name}
+                    photoUrl={featured.photo_url}
+                    fontSize="text-xl"
+                    className="w-16 h-16 rounded-full shadow-md ring-4 ring-[#F7F3EA]"
                   />
-                  <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#0D9488] flex items-center justify-center ring-2 ring-white">
-                    <BadgeCheck className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+                  <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#0D9488] flex items-center justify-center ring-2 ring-white shadow-sm">
+                    <BadgeCheck className="w-3.5 h-3.5 text-white" strokeWidth={2.5} fill="none" />
                   </span>
                 </div>
                 <div>
@@ -215,10 +245,11 @@ export default function TestimonialsSlideshow() {
                     </p>
                   </div>
                   <div className="mt-5 flex items-center gap-3">
-                    <img
-                      src={avatarUrl(t.seed)}
-                      alt={t.name}
-                      className="w-10 h-10 rounded-full object-cover shadow-sm"
+                    <InitialsAvatar
+                      name={t.name}
+                      photoUrl={t.photo_url}
+                      fontSize="text-xs"
+                      className="w-10 h-10 rounded-full shadow-sm flex-shrink-0"
                     />
                     <div>
                       <p className="font-semibold text-sm" style={{ color: '#1B2A4A' }}>{t.name}</p>
