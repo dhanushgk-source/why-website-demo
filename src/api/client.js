@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://why-backend-demo.vercel.app/api";
+const API_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || "https://why-website-backend.onrender.com/api";
 
 const client = axios.create({
   baseURL: API_URL,

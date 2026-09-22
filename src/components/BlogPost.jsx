@@ -8,10 +8,7 @@ import CustomerFeedback from '../components/CustomerFeedback'
 import { useBlogTheme } from '../contexts/BlogThemeContext'
 import { InArticleCard, SidebarWidget, CompactCTA } from './promotional/EditorialAd'
 
-const API_BASE = typeof window !== 'undefined' &&
-  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? (import.meta?.env?.VITE_API_URL || 'http://localhost:5000/api')
-  : (import.meta?.env?.VITE_API_URL || 'https://why-backend-demo.vercel.app/api')
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || import.meta?.env?.VITE_API_URL || 'https://why-website-backend.onrender.com/api';
 
 function formatDate(d) {
   if (!d) return ''

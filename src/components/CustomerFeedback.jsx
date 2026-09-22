@@ -3,7 +3,7 @@ import { Star, Quote, ChevronLeft, ChevronRight, BadgeCheck, MessageSquarePlus, 
 import { useSectionFade } from '../hooks/useSectionFade'
 import axios from 'axios'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://why-backend-demo.vercel.app/api'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://why-website-backend.onrender.com/api';
 
 const DEFAULT_GOOGLE_REVIEW_URL = "https://www.google.com/search?q=WHY+SERVICES+INDIA+PRIVATE+LIMITED#lrd=0x3bae1768b32b2e83:0x3c1de72d6ced074b,1,,,,";
 
@@ -142,7 +142,7 @@ function getCandidateApiUrls() {
   const urls = []
   if (isLocal) urls.push('http://localhost:5000/api')
   if (configured) urls.push(configured)
-  urls.push('https://why-backend-demo.vercel.app/api')
+  urls.push('https://why-website-backend.onrender.com/api')
 
   return [...new Set(urls)]
 }
