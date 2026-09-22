@@ -419,11 +419,16 @@ export default function CustomerFeedback({ variant = "dark" }) {
                     <Stars count={featured.rating || 5} className="w-5 h-5" />
                     {featured.source === 'google' || featured.google_review_id ? (
                       <a
-                        href={featured.review_url || featured.google_review_url || "https://www.google.com/maps/search/?api=1&query=WHY+Services+Bengaluru"}
+                        href={
+                          featured.review_url ||
+                          featured.google_review_url ||
+                          (typeof featured.google_review_id === 'string' && featured.google_review_id.startsWith('http') ? featured.google_review_id : null) ||
+                          "https://www.google.com/maps/search/?api=1&query=WHY+Services+Bengaluru"
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#4285F4]/15 text-[#4285F4] hover:bg-[#4285F4]/25 hover:scale-105 transition-all duration-200 border border-[#4285F4]/30 flex items-center gap-1.5 cursor-pointer no-underline group/glink"
-                        title="Click to view Google Review"
+                        title="Click to view authentic Google Review"
                       >
                         <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
                           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
