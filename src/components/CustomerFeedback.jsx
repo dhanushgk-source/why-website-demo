@@ -240,6 +240,9 @@ export default function CustomerFeedback({ variant = "dark" }) {
   }, [])
 
   const count = testimonials.length
+  const averageRating = count > 0
+    ? (testimonials.reduce((sum, item) => sum + Number(item.rating || 5), 0) / count).toFixed(1)
+    : '5.0'
 
   const goTo = (index) => {
     setActive(((index % count) + count) % count)
@@ -371,20 +374,20 @@ export default function CustomerFeedback({ variant = "dark" }) {
           </p>
 
           {/* Action Bar: Aggregate Rating & "Share Your Experience" Button */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <div className={`flex items-center gap-2.5 px-6 py-3 rounded-full shadow-lg border ${
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <div className={`flex items-center gap-2 sm:gap-2.5 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow-lg border max-w-full ${
               isLight
                 ? 'bg-white border-slate-200 text-[#1B2A4A]'
                 : 'bg-[#131F37] border-slate-700/60 text-white'
             }`}>
-              <Stars count={5} className="w-4 h-4" />
-              <span className="font-bold text-sm">4.9 / 5.0</span>
-              <span className={`text-xs font-medium ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Verified Client Rating</span>
+              <Stars count={Math.round(Number(averageRating))} className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="font-bold text-xs sm:text-sm whitespace-nowrap">{averageRating} / 5.0</span>
+              <span className={`text-[11px] sm:text-xs font-medium whitespace-nowrap ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Verified Client Rating</span>
             </div>
 
             <button
               onClick={() => setModalOpen(true)}
-              className="flex items-center gap-2.5 px-7 py-3 rounded-full text-white font-bold text-sm shadow-xl hover:shadow-cyan-500/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+              className="flex items-center gap-2.5 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-white font-bold text-xs sm:text-sm shadow-xl hover:shadow-cyan-500/20 hover:scale-105 transition-all duration-300 cursor-pointer whitespace-nowrap"
               style={{ background: isLight ? 'linear-gradient(135deg, #52B5BD, #2F4A7D)' : 'linear-gradient(135deg, #00D2B8, #52B5BD)' }}
             >
               <MessageSquarePlus className="w-4 h-4" />
