@@ -16,7 +16,7 @@ import {
 import { PHONE_DISPLAY, PHONE_LINK, getWhatsAppLink, LOCATIONS, LOCATIONS_NOTE } from '../config/contact'
 import MeetOurPROs from '../components/MeetOurPROs'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://why-website-backend.onrender.com/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://why-backend-demo.vercel.app/api'
 
 const VALUES = [
   {

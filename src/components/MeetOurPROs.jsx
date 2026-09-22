@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ShieldCheck, MapPin, Info, X, Star, Languages, Award, Briefcase, CheckCircle } from 'lucide-react'
 import { useSectionFade } from '../hooks/useSectionFade'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://why-website-backend.onrender.com/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://why-backend-demo.vercel.app/api'
 
 function Section({ children, className = '', id }) {
   const ref = useSectionFade()
