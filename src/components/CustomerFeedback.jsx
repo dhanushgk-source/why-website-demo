@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Star, Quote, ChevronLeft, ChevronRight, BadgeCheck, MessageSquarePlus, X, Send, CheckCircle2 } from 'lucide-react'
+import { Star, Quote, ChevronLeft, ChevronRight, BadgeCheck, MessageSquarePlus, X, Send, CheckCircle2, ExternalLink } from 'lucide-react'
 import { useSectionFade } from '../hooks/useSectionFade'
 import axios from 'axios'
 
@@ -70,19 +70,31 @@ function getInitials(name) {
   const words = cleanName.split(/\s+/).filter(Boolean)
   if (words.length === 0) return 'C'
   if (words.length === 1) return words[0][0].toUpperCase()
-  return (words[0][0] + words[1][0]).toUpperCase()
+  return (words[0][0] + words[words.length - 1][0]).toUpperCase()
 }
 
 function InitialsAvatar({ name, photoUrl, className = '', isLight = false, fontSize = 'text-sm' }) {
+  const [imgError, setImgError] = useState(false)
   const initials = getInitials(name)
-  const hasRealPhoto = Boolean(photoUrl && typeof photoUrl === 'string' && photoUrl.trim() !== '' && !photoUrl.includes('dicebear') && !photoUrl.includes('personas'))
 
-  if (hasRealPhoto) {
+  const isValidPhoto = Boolean(
+    !imgError &&
+    photoUrl &&
+    typeof photoUrl === 'string' &&
+    photoUrl.trim() !== '' &&
+    !photoUrl.includes('dicebear') &&
+    !photoUrl.includes('personas') &&
+    !photoUrl.includes('undefined') &&
+    (photoUrl.startsWith('http://') || photoUrl.startsWith('https://') || photoUrl.startsWith('data:'))
+  )
+
+  if (isValidPhoto) {
     return (
       <img
         src={photoUrl}
         alt={name || 'Customer'}
-        className={className}
+        className={`${className} object-cover`}
+        onError={() => setImgError(true)}
       />
     )
   }
@@ -143,11 +155,9 @@ async function postWithFallback(endpoint, payload) {
       return res.data
     } catch (err) {
       lastError = err
-      // If 404 or Network Error, continue to next candidate URL
       if (err.response?.status === 404 || !err.response) {
         continue
       }
-      // If 400 bad request, throw immediately (validation error)
       throw err
     }
   }
@@ -285,7 +295,7 @@ export default function CustomerFeedback({ variant = "dark" }) {
       const msg =
         err.response?.data?.message ||
         (err.response?.status === 404
-          ? 'Backend endpoint /api/testimonials was not found. Please ensure local backend is running (npm run dev in why-website-backend).'
+          ? 'Backend endpoint /api/testimonials was not found.'
           : 'Network error connecting to backend. Please check your backend server.')
       setFormError(msg)
     } finally {
@@ -311,7 +321,7 @@ export default function CustomerFeedback({ variant = "dark" }) {
     <section
       ref={sectionRef}
       id="feedback-section"
-      className={`relative py-20 lg:py-28 overflow-hidden ${isLight ? 'bg-[#F7F3EA]' : 'bg-[#0B132B]'}`}
+      className={`relative py-16 sm:py-20 lg:py-28 overflow-hidden ${isLight ? 'bg-[#F7F3EA]' : 'bg-[#0B132B]'}`}
       style={!isLight ? { background: 'linear-gradient(180deg, #0B132B 0%, #0F172A 100%)' } : {}}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -329,10 +339,10 @@ export default function CustomerFeedback({ variant = "dark" }) {
         </>
       )}
 
-      <div className="relative max-w-[1440px] mx-auto px-6 lg:px-12 z-10">
+      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 z-10">
 
         {/* Header Section */}
-        <div className="text-center mb-12 lg:mb-16">
+        <div className="text-center mb-10 lg:mb-16">
           <div className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold mb-4 shadow-md ${
             isLight
               ? 'bg-white text-[#2F4A7D] border border-[#52B5BD]/20 shadow-sm'
@@ -385,11 +395,11 @@ export default function CustomerFeedback({ variant = "dark" }) {
             onTouchEnd={onTouchEnd}
           >
 
-            {/* Featured Main Card */}
-            <div className="lg:col-span-3 relative">
+            {/* Featured Main Card (Full width on Mobile, 3 cols on Desktop) */}
+            <div className="lg:col-span-3 relative flex flex-col justify-between">
               <div
                 key={featured.id || active}
-                className={`relative rounded-[2rem] p-8 sm:p-10 lg:p-12 h-full flex flex-col justify-between overflow-hidden border ${
+                className={`relative rounded-[2rem] p-6 sm:p-10 lg:p-12 h-full flex flex-col justify-between overflow-hidden border ${
                   isLight
                     ? 'bg-white shadow-xl border-slate-100'
                     : 'bg-[#131F37] shadow-2xl border-slate-700/60'
@@ -397,7 +407,7 @@ export default function CustomerFeedback({ variant = "dark" }) {
               >
                 {/* Watermark quote glyph */}
                 <Quote
-                  className={`absolute -top-4 -right-2 w-44 h-44 pointer-events-none ${
+                  className={`absolute -top-4 -right-2 w-36 h-36 sm:w-44 sm:h-44 pointer-events-none ${
                     isLight ? 'text-[#52B5BD]/[0.08]' : 'text-[#52B5BD]/[0.06]'
                   }`}
                   fill="currentColor"
@@ -408,15 +418,22 @@ export default function CustomerFeedback({ variant = "dark" }) {
                   <div className="flex items-center justify-between gap-4 mb-6">
                     <Stars count={featured.rating || 5} className="w-5 h-5" />
                     {featured.source === 'google' || featured.google_review_id ? (
-                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#4285F4]/15 text-[#4285F4] border border-[#4285F4]/30 flex items-center gap-1.5">
+                      <a
+                        href={featured.review_url || featured.google_review_url || "https://www.google.com/maps/search/?api=1&query=WHY+Services+Bengaluru"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#4285F4]/15 text-[#4285F4] hover:bg-[#4285F4]/25 hover:scale-105 transition-all duration-200 border border-[#4285F4]/30 flex items-center gap-1.5 cursor-pointer no-underline group/glink"
+                        title="Click to view Google Review"
+                      >
                         <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
                           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                           <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                           <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
                           <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                         </svg>
-                        Google Review
-                      </span>
+                        <span>Google Review</span>
+                        <ExternalLink className="w-3 h-3 opacity-70 group-hover/glink:opacity-100" />
+                      </a>
                     ) : (
                       featured.service_type && (
                         <span className={`px-3.5 py-1.5 rounded-full text-xs font-bold ${
@@ -430,46 +447,93 @@ export default function CustomerFeedback({ variant = "dark" }) {
                     )}
                   </div>
 
-                  <p className={`mt-2 text-lg sm:text-xl md:text-2xl leading-relaxed font-sans font-normal tracking-normal ${
+                  <p className={`mt-2 text-base sm:text-xl md:text-2xl leading-relaxed font-sans font-normal tracking-normal ${
                     isLight ? 'text-[#1B2A4A]' : 'text-slate-100'
                   }`}>
                     “{featured.feedback_text}”
                   </p>
                 </div>
 
-                <div className={`relative mt-8 flex items-center gap-4 pt-6 border-t ${
+                <div className={`relative mt-6 sm:mt-8 flex items-center justify-between gap-4 pt-6 border-t ${
                   isLight ? 'border-slate-100' : 'border-slate-700/60'
                 }`}>
-                  <div className="relative w-14 h-14 flex-shrink-0">
-                    <InitialsAvatar
-                      name={featured.name}
-                      photoUrl={featured.profile_photo_url || featured.photo_url || featured.avatar_url}
-                      isLight={isLight}
-                      fontSize="text-lg"
-                      className={`w-14 h-14 rounded-full shadow-md ring-4 ${
-                        isLight ? 'ring-[#F7F3EA]' : 'ring-[#182642]'
+                  <div className="flex items-center gap-4">
+                    <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0">
+                      <InitialsAvatar
+                        name={featured.name}
+                        photoUrl={featured.profile_photo_url || featured.photo_url || featured.avatar_url}
+                        isLight={isLight}
+                        fontSize="text-base sm:text-lg"
+                        className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-md ring-4 ${
+                          isLight ? 'ring-[#F7F3EA]' : 'ring-[#182642]'
+                        }`}
+                      />
+                      <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#10B981] flex items-center justify-center ring-2 ${
+                        isLight ? 'ring-white' : 'ring-[#131F37]'
+                      }`} title="Verified Customer">
+                        <BadgeCheck className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+                      </span>
+                    </div>
+                    <div>
+                      <p className={`font-bold text-base sm:text-lg font-sans ${isLight ? 'text-[#1B2A4A]' : 'text-white'}`}>
+                        {featured.name}
+                      </p>
+                      <p className={`text-xs sm:text-sm font-medium ${isLight ? 'text-slate-500' : 'text-[#52B5BD]'}`}>
+                        {featured.role_or_title || (featured.source === 'google' || featured.google_review_id ? 'Google Reviewer' : 'Valued Client')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* MOBILE ONLY: Slider Dots & Arrow Controls directly underneath single card */}
+              <div className="flex lg:hidden items-center justify-between px-2 pt-4">
+                <div className="flex items-center gap-1.5">
+                  {testimonials.map((t, i) => (
+                    <button
+                      key={t.id || i}
+                      onClick={() => goTo(i)}
+                      aria-label={`Go to testimonial ${i + 1}`}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        i === active
+                          ? 'w-7 bg-[#52B5BD]'
+                          : isLight
+                          ? 'w-2 bg-[#1B2A4A]/20 hover:bg-[#1B2A4A]/40'
+                          : 'w-2 bg-slate-600 hover:bg-slate-400'
                       }`}
                     />
-                    <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#10B981] flex items-center justify-center ring-2 ${
-                      isLight ? 'ring-white' : 'ring-[#131F37]'
-                    }`} title="Verified Customer">
-                      <BadgeCheck className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
-                    </span>
-                  </div>
-                  <div>
-                    <p className={`font-bold text-base sm:text-lg font-sans ${isLight ? 'text-[#1B2A4A]' : 'text-white'}`}>
-                      {featured.name}
-                    </p>
-                    <p className={`text-xs sm:text-sm font-medium ${isLight ? 'text-slate-500' : 'text-[#52B5BD]'}`}>
-                      {featured.role_or_title || 'Valued Client'}
-                    </p>
-                  </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={prev}
+                    aria-label="Previous testimonial"
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 cursor-pointer ${
+                      isLight
+                        ? 'bg-white shadow-sm hover:bg-[#52B5BD] hover:text-white text-[#1B2A4A] border border-slate-200/60'
+                        : 'bg-[#182642] border border-slate-700/60 shadow-md hover:bg-[#52B5BD] hover:text-white text-slate-200'
+                    }`}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={next}
+                    aria-label="Next testimonial"
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 cursor-pointer ${
+                      isLight
+                        ? 'bg-white shadow-sm hover:bg-[#52B5BD] hover:text-white text-[#1B2A4A] border border-slate-200/60'
+                        : 'bg-[#182642] border border-slate-700/60 shadow-md hover:bg-[#52B5BD] hover:text-white text-slate-200'
+                    }`}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Preview Side List + Navigation Controls */}
-            <div className="lg:col-span-2 flex flex-col gap-5">
+            {/* DESKTOP ONLY: Preview Side List + Controls (hidden on mobile, flex on desktop) */}
+            <div className="hidden lg:flex lg:col-span-2 flex-col gap-5">
               {previewIndexes.map((idx) => {
                 const item = testimonials[idx]
                 if (!item) return null
@@ -486,9 +550,21 @@ export default function CustomerFeedback({ variant = "dark" }) {
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <Stars count={item.rating || 5} className="w-3.5 h-3.5" />
-                        <span className="text-[11px] font-bold text-[#52B5BD]">
-                          {item.service_type || 'Care Service'}
-                        </span>
+                        {item.source === 'google' || item.google_review_id ? (
+                          <span className="text-[11px] font-bold text-[#4285F4] flex items-center gap-1">
+                            <svg className="w-3 h-3" viewBox="0 0 24 24">
+                              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                              <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
+                              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                            </svg>
+                            Google Review
+                          </span>
+                        ) : (
+                          <span className="text-[11px] font-bold text-[#52B5BD]">
+                            {item.service_type || 'Care Service'}
+                          </span>
+                        )}
                       </div>
                       <p className={`text-sm leading-relaxed font-sans line-clamp-2 font-normal ${
                         isLight ? 'text-slate-600' : 'text-slate-300'
@@ -500,7 +576,7 @@ export default function CustomerFeedback({ variant = "dark" }) {
                     <div className="mt-4 flex items-center gap-3">
                       <InitialsAvatar
                         name={item.name}
-                        photoUrl={item.photo_url || item.avatar_url}
+                        photoUrl={item.profile_photo_url || item.photo_url || item.avatar_url}
                         isLight={isLight}
                         fontSize="text-xs"
                         className={`w-9 h-9 rounded-full shadow-sm flex-shrink-0 ${!isLight ? 'ring-2 ring-slate-700' : ''}`}
@@ -509,7 +585,7 @@ export default function CustomerFeedback({ variant = "dark" }) {
                         <p className={`font-bold text-xs font-sans ${isLight ? 'text-[#1B2A4A]' : 'text-white'}`}>
                           {item.name}
                         </p>
-                        <p className="text-[11px] text-slate-400 font-medium">{item.role_or_title || 'Client'}</p>
+                        <p className="text-[11px] text-slate-400 font-medium">{item.role_or_title || (item.source === 'google' || item.google_review_id ? 'Google Reviewer' : 'Client')}</p>
                       </div>
                       <span className="ml-auto text-[#52B5BD] opacity-0 group-hover:opacity-100 transition-opacity">
                         <ChevronRight className="w-4 h-4" />
@@ -519,7 +595,7 @@ export default function CustomerFeedback({ variant = "dark" }) {
                 )
               })}
 
-              {/* Slider Dots & Arrow Controls */}
+              {/* Desktop Slider Controls */}
               <div className="flex items-center justify-between px-2 pt-2">
                 <div className="flex items-center gap-2">
                   {testimonials.map((t, i) => (
