@@ -5,6 +5,8 @@ import axios from 'axios'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'https://why-backend-demo.vercel.app/api'
 
+const DEFAULT_GOOGLE_REVIEW_URL = "https://www.google.com/search?q=WHY+SERVICES+INDIA+PRIVATE+LIMITED#lrd=0x3bae1768b32b2e83:0x3c1de72d6ced074b,1,,,,";
+
 // Initial seed testimonials used as fallback if backend DB is empty
 const INITIAL_TESTIMONIALS = [
   {
@@ -16,7 +18,7 @@ const INITIAL_TESTIMONIALS = [
       'A very practical and much-needed initiative. Professional, kind, and handles elder assistance with the patience it actually requires.',
     rating: 5,
     source: 'google',
-    review_url: 'https://www.google.com/search?q=WHY+SERVICES+INDIA+PRIVATE+LIMITED',
+    review_url: DEFAULT_GOOGLE_REVIEW_URL,
     created_at: new Date().toISOString(),
   },
   {
@@ -28,7 +30,7 @@ const INITIAL_TESTIMONIALS = [
       "This is a very helpful program for people. Love the idea and initiative, it's something new and needed.",
     rating: 5,
     source: 'google',
-    review_url: 'https://www.google.com/search?q=WHY+SERVICES+INDIA+PRIVATE+LIMITED',
+    review_url: DEFAULT_GOOGLE_REVIEW_URL,
     created_at: new Date().toISOString(),
   },
   {
@@ -40,7 +42,7 @@ const INITIAL_TESTIMONIALS = [
       "Excellent service from WHY – We Help You. Their background-verified WHY PRO was caring, professional, and supportive during my family's hospital visit.",
     rating: 5,
     source: 'google',
-    review_url: 'https://www.google.com/search?q=WHY+SERVICES+INDIA+PRIVATE+LIMITED',
+    review_url: DEFAULT_GOOGLE_REVIEW_URL,
     created_at: new Date().toISOString(),
   },
   {
@@ -51,7 +53,7 @@ const INITIAL_TESTIMONIALS = [
     feedback_text: 'Good servic3',
     rating: 5,
     source: 'google',
-    review_url: 'https://www.google.com/search?q=WHY+SERVICES+INDIA+PRIVATE+LIMITED',
+    review_url: DEFAULT_GOOGLE_REVIEW_URL,
     created_at: new Date().toISOString(),
   },
   {
@@ -63,7 +65,7 @@ const INITIAL_TESTIMONIALS = [
       'Why Services is a thoughtful initiative that addresses a real need by providing reliable assistance, especially for families managing elder care.',
     rating: 5,
     source: 'google',
-    review_url: 'https://www.google.com/search?q=WHY+SERVICES+INDIA+PRIVATE+LIMITED',
+    review_url: DEFAULT_GOOGLE_REVIEW_URL,
     created_at: new Date().toISOString(),
   },
 ]
@@ -427,7 +429,7 @@ export default function CustomerFeedback({ variant = "dark" }) {
                           featured.review_url ||
                           featured.google_review_url ||
                           (typeof featured.google_review_id === 'string' && featured.google_review_id.startsWith('http') ? featured.google_review_id : null) ||
-                          "https://www.google.com/maps/search/?api=1&query=WHY+Services+Bengaluru"
+                          DEFAULT_GOOGLE_REVIEW_URL
                         }
                         target="_blank"
                         rel="noopener noreferrer"
